@@ -11,13 +11,13 @@ public class Codebook {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	String id;
+	private String id;
 	
 	@Column(name = "medication")
-	ArrayList<String> medications = new ArrayList<String>();
+	private ArrayList<String> medications = new ArrayList<String>();
 	
 	@Column(name = "diagnosis")
-	ArrayList<String> diagnosis = new ArrayList<String>();
+	private ArrayList<String> diagnosis = new ArrayList<String>();
 	
 	public Codebook() {
 		

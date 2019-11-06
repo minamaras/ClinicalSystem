@@ -12,19 +12,19 @@ public class ClinicalCentreAdmin {
 	private long id;
 	
 	@Column(name = "firstName", nullable = false)
-	String firstName;
+	private String firstName;
 	
 	@Column(name = "lastName", nullable = false)
-	String lastName;
+	private String lastName;
 	
 	@Column(name = "username", nullable = false)
-	String username;
+	private String username;
 	
 	@Column(name = "password", nullable = false)
-	String password;
+	private String password;
 	
 	@Column(name = "email", nullable = false)
-	String email;
+	private String email;
 	
 	public ClinicalCentreAdmin() {
 		

@@ -14,38 +14,37 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Nurse {
-	
+public class Nurse {	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
 	@Column(name = "firstName", nullable = false)
-	String firstName;
+	private String firstName;
 	
 	@Column(name = "lastName", nullable = false)
-	String lastName;
+	private String lastName;
 	
 	@Column(name = "username", nullable = false)
-	String username;
+	private String username;
 	
 	@Column(name = "password", nullable = false)
-	String password;
+	private String password;
 	
 	@Column(name = "email", nullable = false)
-	String email;
+	private String email;
 
 	
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	Clinic clinic;
+	private Clinic clinic;
 
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	ArrayList<Recipe> unathenticatedRecipes = new ArrayList<Recipe>();
+	private ArrayList<Recipe> unathenticatedRecipes = new ArrayList<Recipe>();
 	
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	ArrayList<Recipe> athenticatedRecipes = new ArrayList<Recipe>();
+	private ArrayList<Recipe> athenticatedRecipes = new ArrayList<Recipe>();
 
 	public Nurse() {
 		
