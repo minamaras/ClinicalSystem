@@ -20,33 +20,33 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Patient {
-	
-	
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "username", nullable = false)
 	private String username;
-	
+
 	@Column(name = "password" , nullable = false)
 	private String password;
-	
+
 	@Column(name = "lastname" , nullable = false)
 	private String lastname;
-	
+
 	@Column(name = "firstname" , nullable = false)
 	private String firstname;
-	
+
 	@Column(name = "email" , nullable = false)
 	private String email;
-	
+
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointment = new HashSet<Appointment>();
-	
+
 	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
-	
+
 	@ManyToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "has", joinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
 	private Set<Doctor> doctors = new HashSet<Doctor>();
@@ -106,8 +106,8 @@ public class Patient {
 	public void setMedicalRecord(MedicalRecord medicalRecord) {
 		this.medicalRecord = medicalRecord;
 	}
-	
-	
-		
-	
+
+
+
+
 }

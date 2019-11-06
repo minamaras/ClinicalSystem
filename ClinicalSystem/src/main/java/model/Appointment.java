@@ -12,29 +12,29 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Appointment {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "date" , nullable = false)
 	private String date;
-	
+
 	@Column(name = "time", nullable = false )
 	private String time;
-	
+
 	@Column(name = "type", nullable = false)
 	private String type;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
-		
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Doctor doctor;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Appointment appointment;
-	
+
 	@Column(name = "hasHappend", nullable = false)
 	private boolean hasHappend;
 
@@ -118,7 +118,8 @@ public class Appointment {
 	public void setHasHappend(boolean hasHappend) {
 		this.hasHappend = hasHappend;
 	}
-	
-	
-	
+
+
+
+
 }
