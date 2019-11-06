@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 public class Clinic {
 	
@@ -41,6 +42,9 @@ public class Clinic {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private ArrayList<Patient> patients = new ArrayList<Patient>();
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private BusinessReport report;
+	
 	public Clinic() {
 		
 	}
@@ -70,6 +74,14 @@ public class Clinic {
 		this.doctors = doctors;
 		this.nurses = nurses;
 		this.patients = patients;
+	}
+
+	public BusinessReport getReport() {
+		return report;
+	}
+
+	public void setReport(BusinessReport report) {
+		this.report = report;
 	}
 
 	public String getId() {
