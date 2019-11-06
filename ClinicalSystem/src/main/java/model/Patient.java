@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -42,6 +44,9 @@ public class Patient {
 	
 	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Doctor doctor;
 
 	public Long getId() {
 		return id;
@@ -89,22 +94,6 @@ public class Patient {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Set<Appointment> getAppointment() {
-		return oldAppointment;
-	}
-
-	public void setOldAppointment(Set<Appointment> Appointment) {
-		this.oldAppointment = oldAppointment;
-	}
-
-	public Set<Appointment> getCurrentAppointment() {
-		return currentAppointment;
-	}
-
-	public void setCurrentAppointment(Set<Appointment> currentAppointment) {
-		this.currentAppointment = currentAppointment;
 	}
 
 	public MedicalRecord getMedicalRecord() {

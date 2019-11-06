@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -41,7 +42,7 @@ public class Doctor {
 	@Column(name = "username", nullable = false)
 	private String username;
 	
-	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY )
+	@ManyToMany(mappedBy = "doctor", fetch = FetchType.LAZY )
 	private Set<Patient> patients = new HashSet<Patient>();
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
