@@ -46,6 +46,7 @@ public class Doctor {
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
+	
 
 	public Doctor() {
 		super();
