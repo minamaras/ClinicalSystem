@@ -12,28 +12,48 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Appointment {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "date" , nullable = false)
 	private String date;
-	
+
 	@Column(name = "time", nullable = false )
 	private String time;
-	
+
 	@Column(name = "type", nullable = false)
 	private String type;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
-		
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Doctor doctor;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Appointment appointment;
+
 	@Column(name = "hasHappend", nullable = false)
 	private boolean hasHappend;
+
+	public Appointment() {
+		super();
+	}
+
+	public Appointment(int id, String date, String time, String type, Patient patient, Doctor doctor,
+			Appointment appointment, boolean hasHappend) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.time = time;
+		this.type = type;
+		this.patient = patient;
+		this.doctor = doctor;
+		this.appointment = appointment;
+		this.hasHappend = hasHappend;
+	}
 
 	public int getId() {
 		return id;
@@ -83,6 +103,14 @@ public class Appointment {
 		this.doctor = doctor;
 	}
 
+	public Appointment getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
+	}
+
 	public boolean isHasHappend() {
 		return hasHappend;
 	}
@@ -90,8 +118,8 @@ public class Appointment {
 	public void setHasHappend(boolean hasHappend) {
 		this.hasHappend = hasHappend;
 	}
-	
-	
-	
-	
+
+
+
+
 }

@@ -11,37 +11,42 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
 public class Patient {
-	
-	
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "username", nullable = false)
 	private String username;
-	
+
 	@Column(name = "password" , nullable = false)
 	private String password;
-	
+
 	@Column(name = "lastname" , nullable = false)
 	private String lastname;
-	
+
 	@Column(name = "firstname" , nullable = false)
 	private String firstname;
-	
+
 	@Column(name = "email" , nullable = false)
 	private String email;
-	
+
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointment = new HashSet<Appointment>();
-	
+
 	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Doctor doctor;
 
 	public Long getId() {
 		return id;
@@ -91,22 +96,6 @@ public class Patient {
 		this.email = email;
 	}
 
-	public Set<Appointment> getAppointment() {
-		return appointment;
-	}
-
-	public void setAppointment(Set<Appointment> Appointment) {
-		this.appointment = Appointment;
-	}
-
-	public Set<Appointment> getCurrentAppointment() {
-		return appointment;
-	}
-
-	public void setCurrentAppointment(Set<Appointment> currentAppointment) {
-		this.appointment = currentAppointment;
-	}
-
 	public MedicalRecord getMedicalRecord() {
 		return medicalRecord;
 	}
@@ -114,8 +103,8 @@ public class Patient {
 	public void setMedicalRecord(MedicalRecord medicalRecord) {
 		this.medicalRecord = medicalRecord;
 	}
-	
-	
-		
-	
+
+
+
+
 }
