@@ -92,19 +92,19 @@ public class Patient {
 	}
 
 	public Set<Appointment> getAppointment() {
-		return oldAppointment;
+		return appointment;
 	}
 
-	public void setOldAppointment(Set<Appointment> Appointment) {
-		this.oldAppointment = oldAppointment;
+	public void setAppointment(Set<Appointment> Appointment) {
+		this.appointment = Appointment;
 	}
 
 	public Set<Appointment> getCurrentAppointment() {
-		return currentAppointment;
+		return appointment;
 	}
 
 	public void setCurrentAppointment(Set<Appointment> currentAppointment) {
-		this.currentAppointment = currentAppointment;
+		this.appointment = currentAppointment;
 	}
 
 	public MedicalRecord getMedicalRecord() {
