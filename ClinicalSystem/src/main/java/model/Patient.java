@@ -38,13 +38,84 @@ public class Patient {
 	private String email;
 	
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<OldAppointment> oldAppointment = new HashSet<OldAppointment>();
-	
-	@OneToOne(mappedBy ="patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<CurrentAppointment> currentAppointment = new HashSet<CurrentAppointment>();
+	private Set<Appointment> appointment = new HashSet<Appointment>();
 	
 	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Set<Appointment> getAppointment() {
+		return oldAppointment;
+	}
+
+	public void setOldAppointment(Set<Appointment> Appointment) {
+		this.oldAppointment = oldAppointment;
+	}
+
+	public Set<Appointment> getCurrentAppointment() {
+		return currentAppointment;
+	}
+
+	public void setCurrentAppointment(Set<Appointment> currentAppointment) {
+		this.currentAppointment = currentAppointment;
+	}
+
+	public MedicalRecord getMedicalRecord() {
+		return medicalRecord;
+	}
+
+	public void setMedicalRecord(MedicalRecord medicalRecord) {
+		this.medicalRecord = medicalRecord;
+	}
+	
+	
 		
 	
 }
