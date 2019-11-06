@@ -20,7 +20,7 @@ public class OR {
 	
 	@OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Appointment appoitnment= new Appointment();
-
+	
 	public OR() {
 		super();
 	}
