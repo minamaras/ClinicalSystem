@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Patient {
@@ -21,11 +22,29 @@ public class Patient {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Appointment> oldAppointment = new HashSet<Appointment>();
+	@Column(name = "username", nullable = false)
+	private String username;
 	
-	@OneToMany(mappedBy ="patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Appointment> currentAppointment = new HashSet<Appointment>();
+	@Column(name = "password" , nullable = false)
+	private String password;
+	
+	@Column(name = "lastname" , nullable = false)
+	private String lastname;
+	
+	@Column(name = "firstname" , nullable = false)
+	private String firstname;
+	
+	@Column(name = "email" , nullable = false)
+	private String email;
+	
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<OldAppointment> oldAppointment = new HashSet<OldAppointment>();
+	
+	@OneToOne(mappedBy ="patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<CurrentAppointment> currentAppointment = new HashSet<CurrentAppointment>();
+	
+	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private MedicalRecord medicalRecord;
 		
 	
 }
