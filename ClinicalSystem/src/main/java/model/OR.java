@@ -19,5 +19,51 @@ public class OR {
 	private String name;
 	
 	@OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Appointment currentAppoitnment= new Appointment();
+	private Appointment appoitnment= new Appointment();
+	
+	public OR() {
+		super();
+	}
+
+	public OR(int number, boolean isReserved, String name, Appointment appoitnment) {
+		super();
+		this.number = number;
+		this.isReserved = isReserved;
+		this.name = name;
+		this.appoitnment = appoitnment;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public boolean isReserved() {
+		return isReserved;
+	}
+
+	public void setReserved(boolean isReserved) {
+		this.isReserved = isReserved;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Appointment getAppoitnment() {
+		return appoitnment;
+	}
+
+	public void setAppoitnment(Appointment appoitnment) {
+		this.appoitnment = appoitnment;
+	}
+	
+	
 }
