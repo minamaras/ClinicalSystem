@@ -16,32 +16,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Doctor {
+public class Doctor extends User {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name = "firstName", nullable = false)
-	private String firstName;
-	
-	@Column(name = "lastName", nullable = false)
-	private String lastName;
-	
-	@Column(name = "password", nullable = false)
-	private String password;
-	
-	@Column(name = "email", nullable = false)
-	private String email;
 	
 	@Column(name = "specialization", nullable = false)
 	private String specialization;
 	
 	@Column(name = "rating", nullable = false)
 	private String rating;
-	
-	@Column(name = "username", nullable = false)
-	private String username;
 	
 	@ManyToMany(mappedBy = "doctor", fetch = FetchType.LAZY )
 	private Set<Patient> patients = new HashSet<Patient>();
@@ -60,72 +42,22 @@ public class Doctor {
 		super();
 	}
 
-	public Doctor(String firstName, String lastName, String password, String email, String specialization,
-			String username, Set<Patient> patients, Clinic clinic) {
+	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic,
+			MedicalRecord medicalRecord, Calendar calendar) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		this.email = email;
-		this.specialization = specialization;
-		this.username = username;
-		this.patients = patients;
-		this.clinic = clinic;
-	}
-
-	public Doctor(Long id, String firstName, String lastName, String password, String email, String specialization,
-			String rating, String username, Set<Patient> patients, Clinic clinic) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		this.email = email;
 		this.specialization = specialization;
 		this.rating = rating;
-		this.username = username;
 		this.patients = patients;
 		this.clinic = clinic;
-	}
-	
-	public Long getId() {
-		return id;
+		this.medicalRecord = medicalRecord;
+		this.calendar = calendar;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public Doctor(String specialization, Clinic clinic, Calendar calendar) {
+		super();
+		this.specialization = specialization;
+		this.clinic = clinic;
+		this.calendar = calendar;
 	}
 
 	public String getSpecialization() {
@@ -144,14 +76,6 @@ public class Doctor {
 		this.rating = rating;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public Set<Patient> getPatients() {
 		return patients;
 	}
@@ -167,17 +91,20 @@ public class Doctor {
 	public void setClinic(Clinic clinic) {
 		this.clinic = clinic;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
+	public MedicalRecord getMedicalRecord() {
+		return medicalRecord;
+	}
+
+	public void setMedicalRecord(MedicalRecord medicalRecord) {
+		this.medicalRecord = medicalRecord;
+	}
+
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}	
 }
