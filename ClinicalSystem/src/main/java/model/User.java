@@ -38,6 +38,7 @@ public class User {
 
 	public User() {
 		super();
+		
 	}
 
 	public User(Long id, Role role, String name, String lastname, String email, String password) {

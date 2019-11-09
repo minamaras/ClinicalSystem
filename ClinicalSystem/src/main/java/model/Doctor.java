@@ -40,6 +40,7 @@ public class Doctor extends User {
 
 	public Doctor() {
 		super();
+		this.setRole(Role.DOCTOR);
 	}
 
 	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic,
@@ -51,6 +52,7 @@ public class Doctor extends User {
 		this.clinic = clinic;
 		this.medicalRecord = medicalRecord;
 		this.calendar = calendar;
+		this.setRole(Role.DOCTOR);
 	}
 
 	public Doctor(String specialization, Clinic clinic, Calendar calendar) {
@@ -58,6 +60,7 @@ public class Doctor extends User {
 		this.specialization = specialization;
 		this.clinic = clinic;
 		this.calendar = calendar;
+		this.setRole(Role.DOCTOR);
 	}
 
 	public String getSpecialization() {

@@ -14,13 +14,16 @@ public class ClinicAdmin extends User {
 	@OneToMany(mappedBy = "clinicadmin", fetch = FetchType.LAZY)
 	private String clinics;
 
+
 	public ClinicAdmin(String clinics) {
 		super();
+		this.setRole(Role.CLINICADMIN);
 		this.clinics = clinics;
 	}
 
 	public ClinicAdmin() {
 		super();
+		this.setRole(Role.CLINICADMIN);
 	}
 
 	public String getClinics() {
