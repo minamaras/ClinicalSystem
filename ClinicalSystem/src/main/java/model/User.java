@@ -27,6 +27,9 @@ public class User {
 	@Column(name="name",columnDefinition="VARCHAR(40)")
 	private String name;
 	
+	@Column(name="username",columnDefinition="VARCHAR(40)")
+	private String username;
+	
 	@Column(name="lastname",columnDefinition="VARCHAR(40)")
 	private String lastname;
 	
@@ -41,7 +44,7 @@ public class User {
 		
 	}
 
-	public User(Long id, Role role, String name, String lastname, String email, String password) {
+	public User(Long id, Role role, String name, String lastname, String email, String password,String username) {
 		super();
 		Id = id;
 		this.role = role;
@@ -49,6 +52,15 @@ public class User {
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
+		this.username = username;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public Long getId() {
