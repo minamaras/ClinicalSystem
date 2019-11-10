@@ -1,4 +1,4 @@
-package model;
+package com.example.ClinicalSystem.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

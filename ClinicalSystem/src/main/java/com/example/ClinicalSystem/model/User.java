@@ -1,4 +1,4 @@
-package model;
+package com.example.ClinicalSystem.model;
 
 import static javax.persistence.InheritanceType.JOINED;
 
