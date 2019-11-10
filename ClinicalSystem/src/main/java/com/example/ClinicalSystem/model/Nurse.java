@@ -21,7 +21,8 @@ public class Nurse extends User {
 	private ArrayList<Recipe> athenticatedRecipes = new ArrayList<Recipe>();
 
 	public Nurse() {
-		
+		super();
+		this.setRole(Role.NURSE);
 	}
 
 	public Nurse(Clinic clinic, ArrayList<Recipe> unathenticatedRecipes, ArrayList<Recipe> athenticatedRecipes) {
@@ -29,12 +30,14 @@ public class Nurse extends User {
 		this.clinic = clinic;
 		this.unathenticatedRecipes = unathenticatedRecipes;
 		this.athenticatedRecipes = athenticatedRecipes;
+		this.setRole(Role.NURSE);
 	}
 
 	public Nurse(ArrayList<Recipe> unathenticatedRecipes, ArrayList<Recipe> athenticatedRecipes) {
 		super();
 		this.unathenticatedRecipes = unathenticatedRecipes;
 		this.athenticatedRecipes = athenticatedRecipes;
+		this.setRole(Role.NURSE);
 	}
 
 	public Clinic getClinic() {

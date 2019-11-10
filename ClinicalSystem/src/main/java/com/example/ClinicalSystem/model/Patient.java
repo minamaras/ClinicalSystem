@@ -31,10 +31,13 @@ public class Patient extends User {
 		this.appointment = appointment;
 		this.medicalRecord = medicalRecord;
 		this.doctors = doctors;
+		this.setRole(Role.PATIENT);
+
 	}
 
 	public Patient() {
 		super();
+		this.setRole(Role.PATIENT);
 	}
 
 	public Set<Appointment> getAppointment() {

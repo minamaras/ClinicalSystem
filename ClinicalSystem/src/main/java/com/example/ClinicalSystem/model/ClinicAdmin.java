@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.model;
 
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -12,11 +13,13 @@ public class ClinicAdmin extends User {
 
 	public ClinicAdmin(String clinics) {
 		super();
+		this.setRole(Role.CLINICADMIN);
 		this.clinics = clinics;
 	}
 
 	public ClinicAdmin() {
 		super();
+		this.setRole(Role.CLINICADMIN);
 	}
 
 	public String getClinics() {
