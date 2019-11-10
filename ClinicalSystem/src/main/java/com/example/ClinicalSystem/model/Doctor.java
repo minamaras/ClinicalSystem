@@ -7,12 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -41,6 +37,7 @@ public class Doctor extends User {
 	public Doctor() {
 		super();
 		this.setRole(Role.DOCTOR);
+
 	}
 
 	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic,
@@ -53,6 +50,7 @@ public class Doctor extends User {
 		this.medicalRecord = medicalRecord;
 		this.calendar = calendar;
 		this.setRole(Role.DOCTOR);
+
 	}
 
 	public Doctor(String specialization, Clinic clinic, Calendar calendar) {

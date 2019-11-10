@@ -20,10 +20,10 @@ import com.example.ClinicalSystem.service.DoctorService;
 @RestController
 @RequestMapping(value = "api/doctors")
 public class DoctorController {
-	
+
 	@Autowired
 	private DoctorService doctorService;
-	
+
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
 
@@ -37,17 +37,17 @@ public class DoctorController {
 
 		return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
 	}
-	
+
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
-		
+
 		Doctor doctor = new Doctor();
 		doctor.setId(doctorDTO.getId());
 		doctor.setName(doctorDTO.getFirstName());
 		doctor.setLastname(doctorDTO.getLastName());
 		doctor.setEmail(doctorDTO.getEmail());
 		doctor.setClinic(doctorDTO.getClinic());
-		
+
 		doctor = doctorService.save(doctor);
 		return new ResponseEntity<>(new DoctorDTO(doctor), HttpStatus.CREATED);
 	}

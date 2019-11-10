@@ -29,7 +29,7 @@ public class User {
 	
 	@Column(name="username",columnDefinition="VARCHAR(40)")
 	private String username;
-	
+  
 	@Column(name="lastname",columnDefinition="VARCHAR(40)")
 	private String lastname;
 	
@@ -41,6 +41,9 @@ public class User {
 
 	public User() {
 		super();
+	}
+
+	public User(Long id, Role role, String name, String lastname, String email, String password) {
 		
 	}
 
