@@ -1,7 +1,7 @@
-package DTO;
+package com.example.ClinicalSystem.DTO;
 
-import model.Clinic;
-import model.Doctor;
+import com.example.ClinicalSystem.model.Clinic;
+import com.example.ClinicalSystem.model.Doctor;
 
 public class DoctorDTO {
 	

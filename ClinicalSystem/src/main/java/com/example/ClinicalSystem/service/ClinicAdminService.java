@@ -1,14 +1,14 @@
-package service;
+package com.example.ClinicalSystem.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import model.ClinicAdmin;
-import model.Doctor;
-import repository.ClinicAdminRepository;
-import repository.DoctorRepository;
+import com.example.ClinicalSystem.model.ClinicAdmin;
+import com.example.ClinicalSystem.model.Doctor;
+import com.example.ClinicalSystem.repository.ClinicAdminRepository;
+import com.example.ClinicalSystem.repository.DoctorRepository;
 
 @Service
 public class ClinicAdminService {

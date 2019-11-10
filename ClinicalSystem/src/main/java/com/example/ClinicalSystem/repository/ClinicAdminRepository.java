@@ -1,8 +1,8 @@
-package repository;
+package com.example.ClinicalSystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import model.ClinicAdmin;
+import com.example.ClinicalSystem.model.ClinicAdmin;
 
 public interface ClinicAdminRepository extends JpaRepository<ClinicAdmin, Long>{
 	

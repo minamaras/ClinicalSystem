@@ -1,4 +1,4 @@
-package controller;
+package com.example.ClinicalSystem.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import DTO.DoctorDTO;
-import model.Doctor;
-import service.DoctorService;
+import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.model.Doctor;
+import com.example.ClinicalSystem.service.DoctorService;
 
 @RestController
 @RequestMapping(value = "api/doctors")

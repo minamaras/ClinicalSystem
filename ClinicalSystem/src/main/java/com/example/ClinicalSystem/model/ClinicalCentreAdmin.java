@@ -1,4 +1,4 @@
-package model;
+package com.example.ClinicalSystem.model;
 
 
 public class ClinicalCentreAdmin extends User {
