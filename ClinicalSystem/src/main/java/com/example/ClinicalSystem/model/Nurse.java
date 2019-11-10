@@ -3,13 +3,8 @@ package com.example.ClinicalSystem.model;
 import java.util.ArrayList;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -26,10 +21,8 @@ public class Nurse extends User {
 	private ArrayList<Recipe> athenticatedRecipes = new ArrayList<Recipe>();
 
 	public Nurse() {
-		
 		super();
 		this.setRole(Role.NURSE);
-		
 	}
 
 	public Nurse(Clinic clinic, ArrayList<Recipe> unathenticatedRecipes, ArrayList<Recipe> athenticatedRecipes) {
