@@ -1,13 +1,13 @@
-package service;
+package com.example.ClinicalSystem.service;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import model.Patient;
-import model.User;
-import repository.PatientRepository;
-import repository.UserRepository;
+import com.example.ClinicalSystem.model.Patient;
+import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.repository.PatientRepository;
+import com.example.ClinicalSystem.repository.UserRepository;
 
 public class PatientService {
 	

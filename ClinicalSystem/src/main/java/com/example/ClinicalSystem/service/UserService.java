@@ -1,9 +1,9 @@
-package service;
+package com.example.ClinicalSystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import model.User;
-import repository.UserRepository;
+import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.repository.UserRepository;
 
 public class UserService {
 	

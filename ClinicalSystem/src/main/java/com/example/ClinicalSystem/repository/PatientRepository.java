@@ -1,11 +1,11 @@
-package repository;
+package com.example.ClinicalSystem.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import model.Patient;
-import model.User;
+import com.example.ClinicalSystem.model.Patient;
+import com.example.ClinicalSystem.model.User;
 
 public interface PatientRepository extends JpaRepository<Patient, Long>  {
 	

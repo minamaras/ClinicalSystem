@@ -1,6 +1,6 @@
-package dto;
+package com.example.ClinicalSystem.dto;
 
-public class UserDTO {
+public class PatientDTO {
 	
 	private Long Id;
 	private String name;
@@ -10,13 +10,12 @@ public class UserDTO {
 	private String role;
 	private String username;
 	
-
-	public UserDTO() {
 	
+	public PatientDTO() {
 	}
 
 
-	public UserDTO(Long id, String name, String lastname, String email, String password, String role, String username) {
+	public PatientDTO(Long id, String name, String lastname, String email, String password, String role,String username) {
 		super();
 		Id = id;
 		this.name = name;
