@@ -1,4 +1,4 @@
-package com.example.ClinicalSystem.dto;
+package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Doctor;
