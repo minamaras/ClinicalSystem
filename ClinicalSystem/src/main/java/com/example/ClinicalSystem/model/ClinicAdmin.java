@@ -6,7 +6,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class ClinicAdmin extends User {
-
+/*
 	@OneToMany(mappedBy = "clinicadmin", fetch = FetchType.LAZY)
 	private String clinics;
 
@@ -31,6 +31,6 @@ public class ClinicAdmin extends User {
 
 
 
-
+*/
 
 }

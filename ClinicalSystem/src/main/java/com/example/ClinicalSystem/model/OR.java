@@ -1,37 +1,45 @@
 package com.example.ClinicalSystem.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class OR {
 
+	@javax.persistence.Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Long Id;
+
 	@Column(name = "number", nullable = false)
 	private int number;
 	
-	@Column(name = "isreserved", nullable = false)
+	@Column(name = "isReserved", nullable = false)
 	private boolean isReserved;
 	
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
+
 	@OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Appointment appoitnment= new Appointment();
-	
+	private Set<Appointment> appointments = new HashSet<Appointment>();
+
 	public OR() {
 		super();
 	}
 
-	public OR(int number, boolean isReserved, String name, Appointment appoitnment) {
+	public OR(Long id, int number, boolean isReserved, String name) {
 		super();
+		this.Id = id;
 		this.number = number;
 		this.isReserved = isReserved;
 		this.name = name;
-		this.appoitnment = appoitnment;
 	}
+
+	public Long getId() { return Id; }
+
+	public void setId(Long id) { this.Id = id; }
 
 	public int getNumber() {
 		return number;
@@ -57,12 +65,12 @@ public class OR {
 		this.name = name;
 	}
 
-	public Appointment getAppoitnment() {
-		return appoitnment;
+	public Set<Appointment> getAppointments() {
+		return appointments;
 	}
 
-	public void setAppoitnment(Appointment appoitnment) {
-		this.appoitnment = appoitnment;
+	public void setAppointment(Set<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 	
 	

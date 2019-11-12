@@ -1,16 +1,12 @@
 package com.example.ClinicalSystem.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
+@Entity
 public class Clinic {
 	
 	@Id
@@ -33,13 +29,13 @@ public class Clinic {
 	private String price;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+	private Set<Doctor> doctors = new HashSet<Doctor>();
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private ArrayList<Nurse> nurses = new ArrayList<Nurse>();
+	private Set<Nurse> nurses = new HashSet<Nurse>();
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private ArrayList<Patient> patients = new ArrayList<Patient>();
+	private Set<Patient> patients = new HashSet<Patient>();
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private BusinessReport report;
@@ -56,24 +52,10 @@ public class Clinic {
 		this.description = description;
 		this.freeAppointment = freeAppointment;
 		this.price = price;
-		this.doctors = new ArrayList<Doctor>();
-		this.nurses = new ArrayList<Nurse>();
-		this.patients = new ArrayList<Patient>();
+
 	}
 
-	public Clinic(String id, String name, String adress, String description, String freeAppointment, String price,
-			ArrayList<Doctor> doctors, ArrayList<Nurse> nurses, ArrayList<Patient> patients) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.adress = adress;
-		this.description = description;
-		this.freeAppointment = freeAppointment;
-		this.price = price;
-		this.doctors = doctors;
-		this.nurses = nurses;
-		this.patients = patients;
-	}
+
 
 	public BusinessReport getReport() {
 		return report;
@@ -131,27 +113,27 @@ public class Clinic {
 		this.price = price;
 	}
 
-	public ArrayList<Doctor> getDoctors() {
+	public Set<Doctor> getDoctors() {
 		return doctors;
 	}
 
-	public void setDoctors(ArrayList<Doctor> doctors) {
+	public void setDoctors(Set<Doctor> doctors) {
 		this.doctors = doctors;
 	}
 
-	public ArrayList<Nurse> getNurses() {
+	public Set<Nurse> getNurses() {
 		return nurses;
 	}
 
-	public void setNurses(ArrayList<Nurse> nurses) {
+	public void setNurses(Set<Nurse> nurses) {
 		this.nurses = nurses;
 	}
 
-	public ArrayList<Patient> getPatients() {
+	public Set<Patient> getPatients() {
 		return patients;
 	}
 
-	public void setPatients(ArrayList<Patient> patients) {
+	public void setPatients(Set<Patient> patients) {
 		this.patients = patients;
 	}
 	

@@ -3,13 +3,7 @@ package com.example.ClinicalSystem.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Doctor extends User {
@@ -21,16 +15,17 @@ public class Doctor extends User {
 	@Column(name = "rating", nullable = false)
 	private String rating;
 	
-	@ManyToMany(mappedBy = "doctor", fetch = FetchType.LAZY )
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
 	private Set<Patient> patients = new HashSet<Patient>();
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Clinic clinic;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private MedicalRecord medicalRecord;
+	@ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<MedicalRecord> medicalRecords = new HashSet<MedicalRecord>();
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calendar calendar;
 	
 
@@ -40,14 +35,12 @@ public class Doctor extends User {
 
 	}
 
-	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic,
-			MedicalRecord medicalRecord, Calendar calendar) {
+	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic, Calendar calendar) {
 		super();
 		this.specialization = specialization;
 		this.rating = rating;
 		this.patients = patients;
 		this.clinic = clinic;
-		this.medicalRecord = medicalRecord;
 		this.calendar = calendar;
 		this.setRole(Role.DOCTOR);
 
@@ -93,12 +86,12 @@ public class Doctor extends User {
 		this.clinic = clinic;
 	}
 
-	public MedicalRecord getMedicalRecord() {
-		return medicalRecord;
+	public Set<MedicalRecord> getMedicalRecord() {
+		return medicalRecords;
 	}
 
-	public void setMedicalRecord(MedicalRecord medicalRecord) {
-		this.medicalRecord = medicalRecord;
+	public void setMedicalRecord(Set<MedicalRecord> medicalRecords) {
+		this.medicalRecords = medicalRecords;
 	}
 
 	public Calendar getCalendar() {

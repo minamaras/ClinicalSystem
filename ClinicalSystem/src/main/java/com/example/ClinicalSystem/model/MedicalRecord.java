@@ -2,15 +2,7 @@ package com.example.ClinicalSystem.model;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class MedicalRecord {
@@ -25,7 +17,8 @@ public class MedicalRecord {
 	@Column(name = "medicalhistory", nullable = false)
 	private String medicalHistory;
 	
-	@OneToMany(mappedBy = "medicalrecord" ,fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	@JoinTable(name = "medicalrecord_doctor", joinColumns = @JoinColumn(name = "medicalrecord_id"), inverseJoinColumns = @JoinColumn(name = "doctor_id"))
 	private Set<Doctor> doctors;
 
 	public int getId() {
