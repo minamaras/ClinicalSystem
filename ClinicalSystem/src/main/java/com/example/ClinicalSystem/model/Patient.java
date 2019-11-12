@@ -22,7 +22,7 @@ public class Patient extends User {
 	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
 
-	@ManyToMany(mappedBy = "doctors")
+	@ManyToMany(mappedBy = "patients")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
 	public Patient(Set<Appointment> appointment, MedicalRecord medicalRecord, Set<Doctor> doctors) {

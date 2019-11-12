@@ -15,7 +15,7 @@ public class Doctor extends User {
 	@Column(name = "rating", nullable = false)
 	private String rating;
 
-	@ManyToMany()
+	@ManyToMany
 	@JoinTable(name = "doctor-patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
 	
