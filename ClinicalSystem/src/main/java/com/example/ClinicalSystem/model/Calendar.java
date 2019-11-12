@@ -1,26 +1,23 @@
 package com.example.ClinicalSystem.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
+@Entity
 public class Calendar {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String id;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Doctor doctor;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+	@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Appointment> appointments = new HashSet<Appointment>();
 
 	public Calendar() {
 		
@@ -30,7 +27,7 @@ public class Calendar {
 		super();
 		this.id = id;
 		this.doctor = doctor;
-		this.appointments = new ArrayList<Appointment>();
+		this.appointments = new HashSet<Appointment>();
 	}
 
 	public String getId() {
@@ -49,11 +46,11 @@ public class Calendar {
 		this.doctor = doctor;
 	}
 
-	public ArrayList<Appointment> getAppointments() {
+	public Set<Appointment> getAppointments() {
 		return appointments;
 	}
 
-	public void setAppointments(ArrayList<Appointment> appointments) {
+	public void setAppointments(Set<Appointment> appointments) {
 		this.appointments = appointments;
 	}
 	

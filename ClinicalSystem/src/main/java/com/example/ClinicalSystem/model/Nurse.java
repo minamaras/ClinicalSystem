@@ -1,6 +1,8 @@
 package com.example.ClinicalSystem.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,17 +17,17 @@ public class Nurse extends User {
 	private Clinic clinic;
 
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private ArrayList<Recipe> unathenticatedRecipes = new ArrayList<Recipe>();
+	private Set<Nurse> unathenticatedRecipes = new HashSet<Nurse>();
 	
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private ArrayList<Recipe> athenticatedRecipes = new ArrayList<Recipe>();
+	private Set<Recipe> athenticatedRecipes = new HashSet<Recipe>();
 
 	public Nurse() {
 		super();
 		this.setRole(Role.NURSE);
 	}
 
-	public Nurse(Clinic clinic, ArrayList<Recipe> unathenticatedRecipes, ArrayList<Recipe> athenticatedRecipes) {
+	public Nurse(Clinic clinic, Set<Nurse> unathenticatedRecipes, Set<Recipe> athenticatedRecipes) {
 		super();
 		this.clinic = clinic;
 		this.unathenticatedRecipes = unathenticatedRecipes;
@@ -33,7 +35,7 @@ public class Nurse extends User {
 		this.setRole(Role.NURSE);
 	}
 
-	public Nurse(ArrayList<Recipe> unathenticatedRecipes, ArrayList<Recipe> athenticatedRecipes) {
+	public Nurse(Set<Nurse> unathenticatedRecipes, Set<Recipe> athenticatedRecipes) {
 		super();
 		this.unathenticatedRecipes = unathenticatedRecipes;
 		this.athenticatedRecipes = athenticatedRecipes;
@@ -48,19 +50,19 @@ public class Nurse extends User {
 		this.clinic = clinic;
 	}
 
-	public ArrayList<Recipe> getUnathenticatedRecipes() {
+	public Set<Nurse> getUnathenticatedRecipes() {
 		return unathenticatedRecipes;
 	}
 
-	public void setUnathenticatedRecipes(ArrayList<Recipe> unathenticatedRecipes) {
+	public void setUnathenticatedRecipes(Set<Nurse> unathenticatedRecipes) {
 		this.unathenticatedRecipes = unathenticatedRecipes;
 	}
 
-	public ArrayList<Recipe> getAthenticatedRecipes() {
+	public Set<Recipe> getAthenticatedRecipes() {
 		return athenticatedRecipes;
 	}
 
-	public void setAthenticatedRecipes(ArrayList<Recipe> athenticatedRecipes) {
+	public void setAthenticatedRecipes(Set<Recipe> athenticatedRecipes) {
 		this.athenticatedRecipes = athenticatedRecipes;
 	}
 }

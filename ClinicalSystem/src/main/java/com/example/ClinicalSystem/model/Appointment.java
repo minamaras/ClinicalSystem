@@ -39,7 +39,7 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Appointment appointment;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Calendar calendar;
 
 	@Column(name = "hasHappend", nullable = false)

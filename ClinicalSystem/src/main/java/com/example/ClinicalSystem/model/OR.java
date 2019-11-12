@@ -1,13 +1,14 @@
 package com.example.ClinicalSystem.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class OR {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
 	@Column(name = "number", nullable = false)
 	private int number;
@@ -19,18 +20,18 @@ public class OR {
 	private String name;
 	
 	@OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Appointment appoitnment= new Appointment();
+	private Set<Appointment> appointment;
 	
 	public OR() {
 		super();
 	}
 
-	public OR(int number, boolean isReserved, String name, Appointment appoitnment) {
+	public OR(int number, boolean isReserved, String name, Set<Appointment> appointment) {
 		super();
 		this.number = number;
 		this.isReserved = isReserved;
 		this.name = name;
-		this.appoitnment = appoitnment;
+		this.appointment = appointment;
 	}
 
 	public int getNumber() {
@@ -57,12 +58,12 @@ public class OR {
 		this.name = name;
 	}
 
-	public Appointment getAppoitnment() {
-		return appoitnment;
+	public Set<Appointment> getAppointment() {
+		return appointment;
 	}
 
-	public void setAppoitnment(Appointment appoitnment) {
-		this.appoitnment = appoitnment;
+	public void setAppointment(Set<Appointment> appointment) {
+		this.appointment = appointment;
 	}
 	
 	
