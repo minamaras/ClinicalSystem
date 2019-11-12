@@ -6,17 +6,17 @@ import javax.persistence.*;
 
 @Entity
 public class MedicalRecord {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
-	
+
 	@Column(name = "medicalhistory", nullable = false)
 	private String medicalHistory;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	@JoinTable(name = "medicalrecord_doctor", joinColumns = @JoinColumn(name = "medicalrecord_id"), inverseJoinColumns = @JoinColumn(name = "doctor_id"))
 	private Set<Doctor> doctors;
@@ -44,8 +44,8 @@ public class MedicalRecord {
 	public void setMedicalHistory(String medicalHistory) {
 		this.medicalHistory = medicalHistory;
 	}
-	
-	
+
+
 
 
 }

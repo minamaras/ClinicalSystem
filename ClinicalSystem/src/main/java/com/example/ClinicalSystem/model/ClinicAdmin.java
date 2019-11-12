@@ -1,19 +1,20 @@
 package com.example.ClinicalSystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class ClinicAdmin extends User {
-/*
-	@OneToMany(mappedBy = "clinicadmin", fetch = FetchType.LAZY)
-	private String clinics;
 
-	public ClinicAdmin(String clinics) {
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Clinic clinic;
+
+	public ClinicAdmin(Clinic clinic) {
 		super();
 		this.setRole(Role.CLINICADMIN);
-		this.clinics = clinics;
+		this.clinic = clinic;
 	}
 
 	public ClinicAdmin() {
@@ -21,12 +22,12 @@ public class ClinicAdmin extends User {
 		this.setRole(Role.CLINICADMIN);
 	}
 
-	public String getClinics() {
-		return clinics;
+	public Clinic getClinic() {
+		return clinic;
 	}
 
-	public void setClinics(String clinics) {
-		this.clinics = clinics;
+	public void setClinics(Clinic clinic) {
+		this.clinic = clinic;
 	}
 
 

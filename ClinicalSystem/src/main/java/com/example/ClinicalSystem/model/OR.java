@@ -14,10 +14,10 @@ public class OR {
 
 	@Column(name = "number", nullable = false)
 	private int number;
-	
+
 	@Column(name = "isReserved", nullable = false)
 	private boolean isReserved;
-	
+
 	@Column(name = "name", nullable = false)
 	private String name;
 
@@ -72,6 +72,6 @@ public class OR {
 	public void setAppointment(Set<Appointment> appointments) {
 		this.appointments = appointments;
 	}
-	
-	
+
+
 }

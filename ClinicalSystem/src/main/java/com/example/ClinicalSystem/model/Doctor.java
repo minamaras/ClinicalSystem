@@ -7,27 +7,27 @@ import javax.persistence.*;
 
 @Entity
 public class Doctor extends User {
-	
-	
+
+
 	@Column(name = "specialization", nullable = false)
 	private String specialization;
-	
+
 	@Column(name = "rating", nullable = false)
 	private String rating;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
 	private Set<Patient> patients = new HashSet<Patient>();
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Clinic clinic;
-	
+
 	@ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<MedicalRecord> medicalRecords = new HashSet<MedicalRecord>();
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calendar calendar;
-	
+
 
 	public Doctor() {
 		super();
@@ -100,5 +100,5 @@ public class Doctor extends User {
 
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
-	}	
+	}
 }
