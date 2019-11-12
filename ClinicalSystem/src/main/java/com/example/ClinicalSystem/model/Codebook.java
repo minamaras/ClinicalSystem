@@ -1,6 +1,8 @@
 package com.example.ClinicalSystem.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -11,34 +13,34 @@ public class Codebook {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String id;
+	private Long id;
 	
 	@Column(name = "medication")
 	private ArrayList<String> medications = new ArrayList<String>();
 	
 	@Column(name = "diagnosis")
-	private ArrayList<String> diagnosis = new ArrayList<String>();
+	private Set<String> diagnosis = new HashSet<String>();
 	
 	public Codebook() {
 		
 	}
 
-	public Codebook(String id) {
+	public Codebook(Long id) {
 		this.id = id;
 	}
 
-	public Codebook(String id, ArrayList<String> medications, ArrayList<String> diagnosis) {
+	public Codebook(Long id, ArrayList<String> medications, Set<String> diagnosis) {
 		super();
 		this.id = id;
 		this.medications = medications;
 		this.diagnosis = diagnosis;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -50,11 +52,11 @@ public class Codebook {
 		this.medications = medications;
 	}
 
-	public ArrayList<String> getDiagnosis() {
+	public Set<String> getDiagnosis() {
 		return diagnosis;
 	}
 
-	public void setDiagnosis(ArrayList<String> diagnosis) {
+	public void setDiagnosis(Set<String> diagnosis) {
 		this.diagnosis = diagnosis;
 	}
 	

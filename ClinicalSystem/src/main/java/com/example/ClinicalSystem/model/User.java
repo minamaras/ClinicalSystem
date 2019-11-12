@@ -10,15 +10,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.Table;
 
 @Entity
 @Inheritance(strategy=JOINED)
+@Table(name="users")
 public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
-	private Long Id;
+	@Column(name = "id")
+	private Long id;
 	
 	@Column(name = "role", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -49,7 +51,7 @@ public class User {
 
 	public User(Long id, Role role, String name, String lastname, String email, String password,String username) {
 		super();
-		Id = id;
+		this.id = id;
 		this.role = role;
 		this.name = name;
 		this.lastname = lastname;
@@ -67,11 +69,11 @@ public class User {
 	}
 
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public Role getRole() {

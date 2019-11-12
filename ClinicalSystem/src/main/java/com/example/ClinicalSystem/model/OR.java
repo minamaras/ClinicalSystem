@@ -1,14 +1,24 @@
 package com.example.ClinicalSystem.model;
 
-import javax.persistence.*;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 @Entity
+@Table(name="OpRoom")
 public class OR {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Column(name = "number", nullable = false)
 	private int number;
@@ -32,6 +42,15 @@ public class OR {
 		this.isReserved = isReserved;
 		this.name = name;
 		this.appointment = appointment;
+	}
+
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public int getNumber() {

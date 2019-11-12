@@ -17,30 +17,20 @@ public class Nurse extends User {
 	private Clinic clinic;
 
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Nurse> unathenticatedRecipes = new HashSet<Nurse>();
-	
-	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Recipe> athenticatedRecipes = new HashSet<Recipe>();
+	private Set<Recipe> recipes = new HashSet<Recipe>();
+
 
 	public Nurse() {
 		super();
 		this.setRole(Role.NURSE);
 	}
 
-	public Nurse(Clinic clinic, Set<Nurse> unathenticatedRecipes, Set<Recipe> athenticatedRecipes) {
+	public Nurse(Clinic clinic) {
 		super();
 		this.clinic = clinic;
-		this.unathenticatedRecipes = unathenticatedRecipes;
-		this.athenticatedRecipes = athenticatedRecipes;
 		this.setRole(Role.NURSE);
 	}
 
-	public Nurse(Set<Nurse> unathenticatedRecipes, Set<Recipe> athenticatedRecipes) {
-		super();
-		this.unathenticatedRecipes = unathenticatedRecipes;
-		this.athenticatedRecipes = athenticatedRecipes;
-		this.setRole(Role.NURSE);
-	}
 
 	public Clinic getClinic() {
 		return clinic;
@@ -50,21 +40,17 @@ public class Nurse extends User {
 		this.clinic = clinic;
 	}
 
-	public Set<Nurse> getUnathenticatedRecipes() {
-		return unathenticatedRecipes;
+	public Set<Recipe> getRecipes() {
+		return recipes;
 	}
 
-	public void setUnathenticatedRecipes(Set<Nurse> unathenticatedRecipes) {
-		this.unathenticatedRecipes = unathenticatedRecipes;
+	public void setRecipes(Set<Recipe> recipes) {
+		this.recipes = recipes;
 	}
 
-	public Set<Recipe> getAthenticatedRecipes() {
-		return athenticatedRecipes;
-	}
+	
 
-	public void setAthenticatedRecipes(Set<Recipe> athenticatedRecipes) {
-		this.athenticatedRecipes = athenticatedRecipes;
-	}
+
 }
 
 

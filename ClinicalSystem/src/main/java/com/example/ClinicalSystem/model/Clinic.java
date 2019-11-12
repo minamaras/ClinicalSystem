@@ -11,7 +11,7 @@ public class Clinic {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+	private Long id;
 	
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -47,7 +47,7 @@ public class Clinic {
 		
 	}
 	
-	public Clinic(String id, String name, String adress, String description, String freeAppointment, String price) {
+	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -60,7 +60,7 @@ public class Clinic {
 		this.patients = new HashSet<Patient>();
 	}
 
-	public Clinic(String id, String name, String adress, String description, String freeAppointment, String price,
+	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price,
 				  HashSet<Doctor> doctors, HashSet<Nurse> nurses, HashSet<Patient> patients) {
 		super();
 		this.id = id;
@@ -82,11 +82,11 @@ public class Clinic {
 		this.report = report;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
