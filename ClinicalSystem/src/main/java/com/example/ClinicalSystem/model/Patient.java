@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.print.Doc;
 
 @Entity
 public class Patient extends User {
@@ -28,8 +29,7 @@ public class Patient extends User {
 	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
 
-	@ManyToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "has", joinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
+	@ManyToMany(mappedBy = "patients")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
 	public Patient(Set<Appointment> appointment, MedicalRecord medicalRecord, Set<Doctor> doctors) {

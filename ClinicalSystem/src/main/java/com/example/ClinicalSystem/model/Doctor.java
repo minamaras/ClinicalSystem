@@ -3,17 +3,7 @@ package com.example.ClinicalSystem.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Doctor extends User {
@@ -25,7 +15,8 @@ public class Doctor extends User {
 	@Column(name = "rating", nullable = false)
 	private String rating;
 	
-	@ManyToMany(mappedBy = "doctor", fetch = FetchType.LAZY )
+	@ManyToMany
+	@JoinTable(name = "doctor-patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -7,15 +7,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
 public class ClinicAdmin extends User {
 
 	@OneToMany(mappedBy = "clinicadmin", fetch = FetchType.LAZY)
-	private String clinics;
+	private Set<Clinic> clinics;
 
 
-	public ClinicAdmin(String clinics) {
+	public ClinicAdmin(Set<Clinic> clinics) {
 		super();
 		this.setRole(Role.CLINICADMIN);
 		this.clinics = clinics;
@@ -26,11 +27,11 @@ public class ClinicAdmin extends User {
 		this.setRole(Role.CLINICADMIN);
 	}
 
-	public String getClinics() {
+	public Set<Clinic> getClinics() {
 		return clinics;
 	}
 
-	public void setClinics(String clinics) {
+	public void setClinics(Set<Clinic> clinics) {
 		this.clinics = clinics;
 	}
 	
