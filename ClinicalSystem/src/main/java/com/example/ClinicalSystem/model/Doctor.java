@@ -3,35 +3,42 @@ package com.example.ClinicalSystem.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Doctor extends User {
-	
-	
+
+
 	@Column(name = "specialization", nullable = false)
 	private String specialization;
-	
+
 	@Column(name = "rating", nullable = false)
 	private String rating;
-	
+
 	@ManyToMany
 	@JoinTable(name = "doctor-patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private MedicalRecord medicalRecord;
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Calendar calendar;
-	
+
 
 	public Doctor() {
 		super();
 		this.setRole(Role.DOCTOR);
+
 	}
 
 	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic,
@@ -44,6 +51,7 @@ public class Doctor extends User {
 		this.medicalRecord = medicalRecord;
 		this.calendar = calendar;
 		this.setRole(Role.DOCTOR);
+
 	}
 
 	public Doctor(String specialization, Clinic clinic, Calendar calendar) {
@@ -100,5 +108,5 @@ public class Doctor extends User {
 
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
-	}	
+	}
 }

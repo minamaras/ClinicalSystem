@@ -4,46 +4,53 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Clinic {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
-	
+
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "adress", nullable = false)
 	private String adress;
-	
+
 	@Column(name = "description", nullable = false)
 	private String description;
-	
+
 	@Column(name = "freeAppointment")
 	private String freeAppointment;
-	
+
 	@Column(name = "price", nullable = false)
 	private String price;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Doctor> doctors = new HashSet<Doctor>();
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Nurse> nurses = new HashSet<Nurse>();
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Patient> patients = new HashSet<Patient>();
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private BusinessReport report;
-	
+
 	public Clinic() {
-		
+
 	}
-	
+
 	public Clinic(String id, String name, String adress, String description, String freeAppointment, String price) {
 		super();
 		this.id = id;
@@ -147,7 +154,7 @@ public class Clinic {
 	public void setPatients(Set<Patient> patients) {
 		this.patients = patients;
 	}
-	
-	
+
+
 
 }
