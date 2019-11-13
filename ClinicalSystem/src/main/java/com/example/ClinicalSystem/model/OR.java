@@ -30,7 +30,7 @@ public class OR {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointment = new HashSet<Appointment>();
 	
 	public OR() {
