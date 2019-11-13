@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -30,7 +31,7 @@ public class OR {
 	private String name;
 	
 	@OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Appointment> appointment;
+	private Set<Appointment> appointment = new HashSet<Appointment>();
 	
 	public OR() {
 		super();
