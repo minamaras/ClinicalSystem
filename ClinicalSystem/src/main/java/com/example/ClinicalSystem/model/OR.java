@@ -31,7 +31,7 @@ public class OR {
 	private String name;
 
 	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Appointment> appointment = new HashSet<Appointment>();
+	private Set<Appointment> appointments = new HashSet<Appointment>();
 
 	public OR() {
 		super();
@@ -39,7 +39,7 @@ public class OR {
 
 	public OR(Long id, int number, boolean isReserved, String name) {
 		super();
-		this.Id = id;
+		this.id = id;
 		this.number = number;
 		this.isReserved = isReserved;
 		this.name = name;

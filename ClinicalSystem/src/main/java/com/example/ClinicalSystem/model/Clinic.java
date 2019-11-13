@@ -55,7 +55,8 @@ public class Clinic {
 		this.description = description;
 		this.freeAppointment = freeAppointment;
 		this.price = price;
-
+	}
+	
 	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price,
 				  HashSet<Doctor> doctors, HashSet<Nurse> nurses, HashSet<Patient> patients) {
 		super();

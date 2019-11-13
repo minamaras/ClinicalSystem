@@ -3,10 +3,12 @@ package com.example.ClinicalSystem.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.model.ClinicalCentreAdmin;
 import com.example.ClinicalSystem.repository.ClinicalCentreAdminRepository;
 
+@Service
 public class ClinicalCentreAdminService {
 
 	@Autowired

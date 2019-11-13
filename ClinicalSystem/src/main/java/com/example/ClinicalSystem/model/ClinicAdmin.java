@@ -32,6 +32,6 @@ public class ClinicAdmin extends User {
 
 
 
-*/
+
 
 }
