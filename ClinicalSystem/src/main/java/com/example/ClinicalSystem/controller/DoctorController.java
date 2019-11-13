@@ -37,7 +37,7 @@ public class DoctorController {
 		return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
 	}
 	
-	@PostMapping(consumes = "application/json")
+	@PostMapping(value = "/add", consumes = "application/json")
 	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
 		
 		Doctor doctor = new Doctor();
