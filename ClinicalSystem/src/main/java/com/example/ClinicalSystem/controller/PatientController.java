@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ClinicalSystem.dto.PatientDTO;
-import com.example.ClinicalSystem.dto.UserDTO;
+import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.DTO.UserDTO;
 import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.PatientService;

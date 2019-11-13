@@ -1,4 +1,4 @@
-package com.example.ClinicalSystem.dto;
+package com.example.ClinicalSystem.DTO;
 
 public class UserDTO {
 	

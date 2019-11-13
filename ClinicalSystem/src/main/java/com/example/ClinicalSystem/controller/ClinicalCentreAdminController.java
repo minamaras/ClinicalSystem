@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ClinicalSystem.dto.ClinicalCentreAdminDTO;
+import com.example.ClinicalSystem.DTO.ClinicalCentreAdminDTO;
 import com.example.ClinicalSystem.model.ClinicalCentreAdmin;
 import com.example.ClinicalSystem.service.ClinicalCentreAdminService;
 

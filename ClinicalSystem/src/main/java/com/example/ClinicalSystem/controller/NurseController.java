@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ClinicalSystem.dto.NurseDTO;
+import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.model.Nurse;
 import com.example.ClinicalSystem.service.NurseService;
 
