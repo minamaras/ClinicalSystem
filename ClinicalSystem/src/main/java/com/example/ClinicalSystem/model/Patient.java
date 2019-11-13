@@ -22,8 +22,11 @@ public class Patient extends User {
 	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
 
-	@ManyToMany(mappedBy = "patients", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "patients")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
+
+	@OneToMany(mappedBy = "patient",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Recipe> recipes = new HashSet<Recipe>();
 
 	public Patient(Set<Appointment> appointment, MedicalRecord medicalRecord, Set<Doctor> doctors) {
 		super();

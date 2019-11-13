@@ -11,7 +11,7 @@ public class Calendar {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String id;
+	private Long id;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Doctor doctor;
@@ -23,18 +23,18 @@ public class Calendar {
 		super();
 	}
 
-	public Calendar(String id, Doctor doctor) {
+	public Calendar(Long id, Doctor doctor) {
 		super();
 		this.id = id;
 		this.doctor = doctor;
 
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

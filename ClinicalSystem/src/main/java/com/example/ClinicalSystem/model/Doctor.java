@@ -15,8 +15,8 @@ public class Doctor extends User {
 	@Column(name = "rating", nullable = false)
 	private String rating;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
+	@ManyToMany
+	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

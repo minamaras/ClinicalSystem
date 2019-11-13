@@ -1,16 +1,25 @@
 package com.example.ClinicalSystem.model;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 @Entity
+@Table(name="OpRoom")
 public class OR {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
-	private Long Id;
+	private Long id;
 
 	@Column(name = "number", nullable = false)
 	private int number;
@@ -21,9 +30,8 @@ public class OR {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-
-	@OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Appointment> appointments = new HashSet<Appointment>();
+	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Appointment> appointment = new HashSet<Appointment>();
 
 	public OR() {
 		super();
@@ -37,9 +45,14 @@ public class OR {
 		this.name = name;
 	}
 
-	public Long getId() { return Id; }
 
-	public void setId(Long id) { this.Id = id; }
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public int getNumber() {
 		return number;

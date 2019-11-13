@@ -14,7 +14,7 @@ public class BusinessReport {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String id;
+	private Long id;
 	
 	@Column(name = "rating" , nullable = false)
 	private int rating;
@@ -28,7 +28,7 @@ public class BusinessReport {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
 	
-	public BusinessReport(String id, int rating, String doctorrating, String income, Clinic clinic) {
+	public BusinessReport(Long id, int rating, String doctorrating, String income, Clinic clinic) {
 		super();
 		this.id = id;
 		this.rating = rating;
@@ -41,11 +41,11 @@ public class BusinessReport {
 		super();
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
