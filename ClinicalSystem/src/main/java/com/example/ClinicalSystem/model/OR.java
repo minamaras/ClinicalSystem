@@ -24,7 +24,7 @@ public class OR {
 	@Column(name = "number", nullable = false)
 	private int number;
 
-	@Column(name = "isReserved", nullable = false)
+	@Column(name = "isreserved", nullable = false)
 	private boolean isReserved;
 
 	@Column(name = "name", nullable = false)

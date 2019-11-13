@@ -9,6 +9,6 @@ import com.example.ClinicalSystem.model.Nurse;
 @Repository
 public interface NurseRepository extends JpaRepository<Nurse, Long> {
 
-	
+
 	Nurse save(Nurse nurse);
 }

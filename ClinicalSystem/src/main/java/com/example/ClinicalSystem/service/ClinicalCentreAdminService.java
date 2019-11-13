@@ -14,6 +14,7 @@ public class ClinicalCentreAdminService {
 	@Autowired
 	private ClinicalCentreAdminRepository clinicalCentreAdminRepository;
 	
+	
 	public List<ClinicalCentreAdmin> findAll(){
 		return clinicalCentreAdminRepository.findAll();
 	}
