@@ -26,7 +26,7 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	public User login(@RequestBody UserDTO user) {
 		
-		User u = userService.findByUsername(user.getUsername());
+		User u = userService.findByEmail(user.getEmail());
 		if(u == null) {
 			
 			return null;

@@ -8,7 +8,6 @@ public class UserDTO {
 	private String email;
 	private String password;
 	private String role;
-	private String username;
 	
 
 	public UserDTO() {
@@ -16,26 +15,16 @@ public class UserDTO {
 	}
 
 
-	public UserDTO(Long id, String name, String lastname, String email, String password, String role, String username) {
+	public UserDTO(Long id, String name, String lastname, String email, String password, String role) {
 		super();
-		Id = id;
+		this.Id = id;
 		this.name = name;
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
 		this.role = role;
-		this.username = username;
 	}
 
-
-	public String getUsername() {
-		return username;
-	}
-
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 
 	public Long getId() {
@@ -104,4 +93,3 @@ public class UserDTO {
 	
 
 }
-
