@@ -22,10 +22,6 @@ public class ClinicAdminService {
 		return clinicAdminRepository.findAll();
 	}
 	
-	public ClinicAdmin save(ClinicAdmin ca) {
-		return clinicAdminRepository.save(ca);
-	}
-	
 	public Doctor addDoctor(Doctor d) {
 		return doctorRepository.save(d);
 	}
