@@ -26,7 +26,7 @@ public class Patient extends User {
 
 	@ManyToMany(mappedBy = "patients")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
-	
+
 	@OneToMany(mappedBy = "patient",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Recipe> recipes = new HashSet<Recipe>();
 	
@@ -74,7 +74,7 @@ public class Patient extends User {
 		this.doctors = doctors;
 	}
 
-	
+
 
 
 

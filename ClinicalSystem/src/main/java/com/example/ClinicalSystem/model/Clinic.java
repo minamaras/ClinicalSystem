@@ -55,11 +55,8 @@ public class Clinic {
 		this.description = description;
 		this.freeAppointment = freeAppointment;
 		this.price = price;
-		this.doctors = new HashSet<Doctor>();
-		this.nurses = new HashSet<Nurse>();
-		this.patients = new HashSet<Patient>();
 	}
-
+	
 	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price,
 				  HashSet<Doctor> doctors, HashSet<Nurse> nurses, HashSet<Patient> patients) {
 		super();
@@ -73,6 +70,8 @@ public class Clinic {
 		this.nurses = nurses;
 		this.patients = patients;
 	}
+
+
 
 	public BusinessReport getReport() {
 		return report;
@@ -150,7 +149,7 @@ public class Clinic {
 		return patients;
 	}
 
-	public void setPatients(HashSet<Patient> patients) {
+	public void setPatients(Set<Patient> patients) {
 		this.patients = patients;
 	}
 

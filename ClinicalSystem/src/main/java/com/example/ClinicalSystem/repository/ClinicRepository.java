@@ -1,14 +1,13 @@
 package com.example.ClinicalSystem.repository;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.ClinicalSystem.model.Nurse;
+import com.example.ClinicalSystem.model.Clinic;
 
 @Repository
-public interface NurseRepository extends JpaRepository<Nurse, Long> {
-
-
-	Nurse save(Nurse nurse);
+public interface ClinicRepository extends JpaRepository<Clinic, Long> {
+	
+	Clinic save(Clinic clinic);
+	
 }

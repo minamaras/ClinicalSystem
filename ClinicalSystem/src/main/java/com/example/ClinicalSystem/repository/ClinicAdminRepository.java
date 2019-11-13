@@ -11,5 +11,6 @@ public interface ClinicAdminRepository extends JpaRepository<ClinicAdmin, Long>{
 
 
 	ClinicAdmin findByEmail(String email);
+	ClinicAdmin save(ClinicAdmin clinicAdmin);
 
 }

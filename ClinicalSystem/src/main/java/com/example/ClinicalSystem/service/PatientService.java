@@ -18,11 +18,6 @@ public class PatientService {
 	
 	@Autowired
 	private UserRepository userRepository;
-		
-	public User findUserByUsername(String username) {
-		
-		return userRepository.findByUsernameIgnoreCase(username);
-	}
 	
 	
 	public User findUserByEmail(String email) {
@@ -35,11 +30,7 @@ public class PatientService {
 		
 		return patientRepository.findByEmail(email);
 	}
-	
-	public Patient findPatientByUsername(String username) {
-		
-		return patientRepository.findByUsernameIgnoreCase(username);
-	}
+
 	
 	public Patient savePatient(Patient patient) {
 		

@@ -23,13 +23,7 @@ public class PatientController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/register")
 	public ResponseEntity<Patient> register(@RequestBody UserDTO user) {
-		
-		User u = patientService.findUserByUsername(user.getName()); 
-			
-			if(u != null) {
-				
-				return null;
-			}
+
 			
 			User uEmail = patientService.findUserByEmail(user.getEmail());
 			
@@ -42,7 +36,6 @@ public class PatientController {
 			Patient p = new Patient();
 			p.setName(user.getName());
 			p.setLastname(user.getLastname());
-			p.setUsername(user.getUsername());
 			p.setPassword(user.getPassword());
 			p.setEmail(user.getEmail());
 			

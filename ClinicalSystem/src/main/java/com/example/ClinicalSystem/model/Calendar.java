@@ -20,14 +20,14 @@ public class Calendar {
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
 	public Calendar() {
-
+		super();
 	}
 
 	public Calendar(Long id, Doctor doctor) {
 		super();
 		this.id = id;
 		this.doctor = doctor;
-		this.appointments = new HashSet<Appointment>();
+
 	}
 
 	public Long getId() {
