@@ -36,11 +36,10 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private OR or;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Appointment appointment;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Calendar calendar;
+	
 
 	@Column(name = "hasHappend", nullable = false)
 	private boolean hasHappend;
@@ -50,7 +49,7 @@ public class Appointment {
 	}
 
 	public Appointment(Long id, String date, String time, String type, Patient patient, Doctor doctor,
-			Appointment appointment, boolean hasHappend) {
+			 boolean hasHappend) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -58,7 +57,6 @@ public class Appointment {
 		this.type = type;
 		this.patient = patient;
 		this.doctor = doctor;
-		this.appointment = appointment;
 		this.hasHappend = hasHappend;
 	}
 
@@ -110,13 +108,7 @@ public class Appointment {
 		this.doctor = doctor;
 	}
 
-	public Appointment getAppointment() {
-		return appointment;
-	}
 
-	public void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
-	}
 
 	public boolean isHasHappend() {
 		return hasHappend;
