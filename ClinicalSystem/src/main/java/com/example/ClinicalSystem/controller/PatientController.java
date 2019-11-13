@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,20 +22,20 @@ public class PatientController {
 	private PatientService patientService;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/register")
-	public String register(@RequestBody UserDTO user) {
+	public ResponseEntity<Patient> register(@RequestBody UserDTO user) {
 		
 		User u = patientService.findUserByUsername(user.getName()); 
 			
 			if(u != null) {
 				
-				return "Username is already taken.";
+				return null;
 			}
 			
 			User uEmail = patientService.findUserByEmail(user.getEmail());
 			
 			if(uEmail != null) {
 				
-				return "Email is already taken.";
+				return null;
 			}
 		
 			
@@ -46,7 +47,7 @@ public class PatientController {
 			p.setEmail(user.getEmail());
 			
 			patientService.savePatient(p);
-			return "";
+			return new ResponseEntity<>(p,HttpStatus.CREATED);
 	}
 	
 

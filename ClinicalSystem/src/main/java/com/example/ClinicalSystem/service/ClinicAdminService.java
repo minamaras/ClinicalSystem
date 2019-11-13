@@ -16,6 +16,8 @@ public class ClinicAdminService {
 
 	@Autowired
 	ClinicAdminRepository clinicAdminRepository;
+	
+	@Autowired
 	DoctorRepository doctorRepository;
 
 	public List<ClinicAdmin> findAll() {
