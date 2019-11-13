@@ -16,7 +16,7 @@ public class Appointment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Column(name = "date" , nullable = false)
 	private String date;
@@ -32,11 +32,11 @@ public class Appointment {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Doctor doctor;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private OR or;
-	
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Calendar calendar;
 
 	@Column(name = "hasHappend", nullable = false)
@@ -46,7 +46,7 @@ public class Appointment {
 		super();
 	}
 
-	public Appointment(int id, String date, String time, String type, Patient patient, Doctor doctor,
+	public Appointment(Long id, String date, String time, String type, Patient patient, Doctor doctor,
 			Appointment appointment, boolean hasHappend) {
 		super();
 		this.id = id;
@@ -58,11 +58,11 @@ public class Appointment {
 		this.hasHappend = hasHappend;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

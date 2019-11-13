@@ -4,21 +4,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Clinic {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+	private Long id;
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -47,11 +40,14 @@ public class Clinic {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private BusinessReport report;
 
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private ClinicAdmin clinicAdmin;
+
 	public Clinic() {
 
 	}
 
-	public Clinic(String id, String name, String adress, String description, String freeAppointment, String price) {
+	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -59,10 +55,13 @@ public class Clinic {
 		this.description = description;
 		this.freeAppointment = freeAppointment;
 		this.price = price;
+		this.doctors = new HashSet<Doctor>();
+		this.nurses = new HashSet<Nurse>();
+		this.patients = new HashSet<Patient>();
 	}
 
-	public Clinic(String id, String name, String adress, String description, String freeAppointment, String price,
-			Set<Doctor> doctors, Set<Nurse> nurses, Set<Patient> patients) {
+	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price,
+				  HashSet<Doctor> doctors, HashSet<Nurse> nurses, HashSet<Patient> patients) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -83,11 +82,11 @@ public class Clinic {
 		this.report = report;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -151,7 +150,7 @@ public class Clinic {
 		return patients;
 	}
 
-	public void setPatients(Set<Patient> patients) {
+	public void setPatients(HashSet<Patient> patients) {
 		this.patients = patients;
 	}
 

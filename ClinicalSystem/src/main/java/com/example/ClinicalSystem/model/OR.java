@@ -1,12 +1,19 @@
 package com.example.ClinicalSystem.model;
 
-import com.sun.javafx.beans.IDProperty;
-
-import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 @Entity
+@Table(name="OpRoom")
 public class OR {
 
 	@Id
@@ -15,26 +22,35 @@ public class OR {
 
 	@Column(name = "number", nullable = false)
 	private int number;
-	
+
 	@Column(name = "isreserved", nullable = false)
 	private boolean isReserved;
-	
+
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Appointment> appointments = new HashSet<Appointment>();
-	
+	private Set<Appointment> appointment;
+
 	public OR() {
 		super();
 	}
 
-	public OR(int number, boolean isReserved, String name, Set<Appointment> appointments) {
+	public OR(int number, boolean isReserved, String name, Set<Appointment> appointment) {
 		super();
 		this.number = number;
 		this.isReserved = isReserved;
 		this.name = name;
-		this.appointments = appointments;
+		this.appointment = appointment;
+	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public int getNumber() {
@@ -61,13 +77,13 @@ public class OR {
 		this.name = name;
 	}
 
-	public Set<Appointment> getAppointnments() {
-		return appointments;
+	public Set<Appointment> getAppointment() {
+		return appointment;
 	}
 
-	public void setAppointnments( Set<Appointment> appointments) {
-		this.appointments = appointments;
+	public void setAppointment(Set<Appointment> appointment) {
+		this.appointment = appointment;
 	}
-	
-	
+
+
 }

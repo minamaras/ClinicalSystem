@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,29 +10,36 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class Recipe {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	String id;
+	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	Doctor doctor;
+	private Doctor doctor;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	Nurse nurse;
+	private Nurse nurse;
 	
-	@ManyToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	Patient patient;
+	@Column(name = "isAuthenthicated")
+	private boolean autentifikovan;
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Patient patient;
+	
+	
 	
 	@Column(name = "content")
-	String content;
+	private String content;
 
 	public Recipe() {
 		
 	}
 	
-	public Recipe(String id, Doctor doctor, Nurse nurse, Patient patient, String content) {
+	public Recipe(Long id, Doctor doctor, Nurse nurse, Patient patient, String content) {
 		super();
 		this.id = id;
 		this.doctor = doctor;
@@ -40,11 +48,11 @@ public class Recipe {
 		this.content = content;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

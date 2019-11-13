@@ -3,13 +3,7 @@ package com.example.ClinicalSystem.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Doctor extends User {
@@ -22,14 +16,14 @@ public class Doctor extends User {
 	private String rating;
 
 	@ManyToMany
-	@JoinTable(name = "doctor-patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
+	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private MedicalRecord medicalRecord;
+	@ManyToMany(mappedBy = "doctors", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<MedicalRecord> medicalRecord;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Calendar calendar;
@@ -42,7 +36,7 @@ public class Doctor extends User {
 	}
 
 	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic,
-			MedicalRecord medicalRecord, Calendar calendar) {
+			Set<MedicalRecord> medicalRecord, Calendar calendar) {
 		super();
 		this.specialization = specialization;
 		this.rating = rating;
@@ -94,11 +88,11 @@ public class Doctor extends User {
 		this.clinic = clinic;
 	}
 
-	public MedicalRecord getMedicalRecord() {
+	public Set<MedicalRecord> getMedicalRecord() {
 		return medicalRecord;
 	}
 
-	public void setMedicalRecord(MedicalRecord medicalRecord) {
+	public void setMedicalRecord(Set<MedicalRecord> medicalRecord) {
 		this.medicalRecord = medicalRecord;
 	}
 
