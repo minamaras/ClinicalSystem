@@ -36,8 +36,6 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private OR or;
 
-	//@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	//private Appointment appointment;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Calendar calendar;
