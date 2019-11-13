@@ -8,14 +8,13 @@ public class PatientDTO {
 	private String email;
 	private String password;
 	private String role;
-	private String username;
 	
 	
 	public PatientDTO() {
 	}
 
 
-	public PatientDTO(Long id, String name, String lastname, String email, String password, String role,String username) {
+	public PatientDTO(Long id, String name, String lastname, String email, String password, String role) {
 		super();
 		Id = id;
 		this.name = name;
@@ -23,17 +22,7 @@ public class PatientDTO {
 		this.email = email;
 		this.password = password;
 		this.role = role;
-		this.username = username;
-	}
 
-
-	public String getUsername() {
-		return username;
-	}
-
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 

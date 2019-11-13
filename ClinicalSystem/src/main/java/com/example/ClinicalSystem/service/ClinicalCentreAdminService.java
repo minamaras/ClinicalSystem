@@ -40,4 +40,5 @@ public class ClinicalCentreAdminService {
 		return clinicRepository.save(clinic);
 	}
 	
+	
 }

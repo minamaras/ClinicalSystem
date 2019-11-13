@@ -19,10 +19,7 @@ public class UserService {
 		return userRepository.findByEmail(email);
 	}
 	
-	public User findByUsername(String username) {
-		
-		return userRepository.findByUsernameIgnoreCase(username);
-	}
+
 	
 	public User save(User user) {
 		

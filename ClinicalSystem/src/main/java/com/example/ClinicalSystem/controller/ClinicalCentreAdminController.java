@@ -107,7 +107,6 @@ public class ClinicalCentreAdminController {
 		c.setDescription(clinic.getDescription());
 		c.setFreeAppointment(clinic.getFreeAppointment());
 		c.setPrice(clinic.getPrice());
-		c.setReport(clinic.getReport());
 		
 		ccaService.addClinic(c);
 	 return new ResponseEntity<>(c,HttpStatus.CREATED);
