@@ -29,9 +29,9 @@ public class ClinicAdmin extends User {
 	public void setClinics(Clinic clinic) {
 		this.clinic = clinic;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 }

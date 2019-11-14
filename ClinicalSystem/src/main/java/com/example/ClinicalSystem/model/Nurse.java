@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Nurse extends User {	
+public class Nurse extends User {
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
@@ -48,9 +48,7 @@ public class Nurse extends User {
 		this.recipes = recipes;
 	}
 
-	
+
 
 
 }
-
-

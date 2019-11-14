@@ -12,18 +12,28 @@ import com.example.ClinicalSystem.repository.DoctorRepository;
 
 @Service
 public class ClinicAdminService {
-	
-	
+
+
 	@Autowired
 	ClinicAdminRepository clinicAdminRepository;
+
+	@Autowired
 	DoctorRepository doctorRepository;
-	
+
 	public List<ClinicAdmin> findAll() {
 		return clinicAdminRepository.findAll();
 	}
-	
+
+	public ClinicAdmin save(ClinicAdmin ca) {
+		return clinicAdminRepository.save(ca);
+	}
+
 	public Doctor addDoctor(Doctor d) {
 		return doctorRepository.save(d);
+	}
+
+	public ClinicAdmin findByEmail(String email) {
+		return clinicAdminRepository.findByEmail(email);
 	}
 
 }

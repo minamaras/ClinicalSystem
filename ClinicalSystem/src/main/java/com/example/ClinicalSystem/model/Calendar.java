@@ -8,26 +8,26 @@ import javax.persistence.*;
 
 @Entity
 public class Calendar {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Doctor doctor;
-	
+
 	@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
 	public Calendar() {
-		
+		super();
 	}
-	
+
 	public Calendar(Long id, Doctor doctor) {
 		super();
 		this.id = id;
 		this.doctor = doctor;
-		this.appointments = new HashSet<Appointment>();
+
 	}
 
 	public Long getId() {
@@ -53,5 +53,5 @@ public class Calendar {
 	public void setAppointments(Set<Appointment> appointments) {
 		this.appointments = appointments;
 	}
-	
+
 }

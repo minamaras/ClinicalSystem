@@ -17,35 +17,35 @@ import javax.persistence.Table;
 @Table(name="OpRoom")
 public class OR {
 
-	@Id
+	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "number", nullable = false)
 	private int number;
-	
+
 	@Column(name = "isreserved", nullable = false)
 	private boolean isReserved;
-	
+
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Appointment> appointment = new HashSet<Appointment>();
-	
+	private Set<Appointment> appointments = new HashSet<Appointment>();
+
 	public OR() {
 		super();
 	}
 
-	public OR(int number, boolean isReserved, String name, Set<Appointment> appointment) {
+	public OR(Long id, int number, boolean isReserved, String name) {
 		super();
+		this.id = id;
 		this.number = number;
 		this.isReserved = isReserved;
 		this.name = name;
-		this.appointment = appointment;
 	}
 
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -78,13 +78,13 @@ public class OR {
 		this.name = name;
 	}
 
-	public Set<Appointment> getAppointment() {
-		return appointment;
+	public Set<Appointment> getAppointments() {
+		return appointments;
 	}
 
-	public void setAppointment(Set<Appointment> appointment) {
-		this.appointment = appointment;
+	public void setAppointment(Set<Appointment> appointments) {
+		this.appointments = appointments;
 	}
-	
-	
+
+
 }
