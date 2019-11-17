@@ -46,6 +46,16 @@ public class Clinic {
 	public Clinic() {
 
 	}
+	
+	public Clinic(Long id, String name, String adress, String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.adress = adress;
+		this.description = description;
+		this.freeAppointment = "";
+		this.price = "";
+	}
 
 	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price) {
 		super();
