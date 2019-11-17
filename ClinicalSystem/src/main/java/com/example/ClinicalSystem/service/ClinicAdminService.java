@@ -16,7 +16,7 @@ public class ClinicAdminService {
 
 	@Autowired
 	ClinicAdminRepository clinicAdminRepository;
-	
+
 	@Autowired
 	DoctorRepository doctorRepository;
 
@@ -31,7 +31,7 @@ public class ClinicAdminService {
 	public Doctor addDoctor(Doctor d) {
 		return doctorRepository.save(d);
 	}
-	
+
 	public ClinicAdmin findByEmail(String email) {
 		return clinicAdminRepository.findByEmail(email);
 	}

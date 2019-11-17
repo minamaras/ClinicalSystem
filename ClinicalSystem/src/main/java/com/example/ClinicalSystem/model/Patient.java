@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -28,6 +29,15 @@ public class Patient extends User {
 
 	@OneToMany(mappedBy = "patient",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Recipe> recipes = new HashSet<Recipe>();
+
+	@Column(name = "approved")
+	private boolean approved  = false;
+
+	@Column(name = "active")
+	private boolean active = false;
+
+	@Column(name = "active")
+	private boolean active = false;
 
 	public Patient(Set<Appointment> appointment, MedicalRecord medicalRecord, Set<Doctor> doctors) {
 		super();
