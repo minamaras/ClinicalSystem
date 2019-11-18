@@ -32,27 +32,29 @@ public class Doctor extends User {
 	public Doctor() {
 		super();
 		this.setRole(Role.DOCTOR);
+		this.setRating("0");
 
 	}
 
-	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic, Calendar calendar) {
+	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords) {
 		super();
 		this.specialization = specialization;
 		this.rating = rating;
 		this.patients = patients;
 		this.clinic = clinic;
 		this.calendar = calendar;
+		this.medicalRecords = medicalRecords;
 		this.setRole(Role.DOCTOR);
 
 	}
 
-	public Doctor(String specialization, Clinic clinic, Calendar calendar) {
+	/*public Doctor(String specialization, Clinic clinic, Calendar calendar) {
 		super();
 		this.specialization = specialization;
 		this.clinic = clinic;
 		this.calendar = calendar;
 		this.setRole(Role.DOCTOR);
-	}
+	}*/
 
 	public String getSpecialization() {
 		return specialization;

@@ -4,79 +4,90 @@ import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Doctor;
 
 public class DoctorDTO {
-	
-	private Long id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String rating;
-	private Clinic clinic;
-	
-	public DoctorDTO() {
-		super();
-	}
-	
-	public DoctorDTO(Doctor doctor) {
-		
-		this(doctor.getId(), doctor.getName(), doctor.getLastname(), doctor.getRating(), doctor.getClinic(), doctor.getEmail());
-	}
-	
-	public DoctorDTO(Long id, String firstName, String lastName, String rating, Clinic clinic, String email) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.rating = rating;
-		this.clinic = clinic;
-		this.email = email;
-	}
 
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    private Long Id;
+    private String name;
+    private String lastname;
+    private String email;
+    private String password;
+    private String role;
+    private String specialization;
+    private String rating;
 
-	public String getRating() {
-		return rating;
-	}
+    public DoctorDTO() {}
 
-	public void setRating(String rating) {
-		this.rating = rating;
-	}
+    public DoctorDTO(Long id, String name, String lastname, String email, String password, String role, String specialization, String rating) {
+        Id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.specialization = specialization;
+        this.rating = rating;
+    }
 
-	public Clinic getClinic() {
-		return clinic;
-	}
+    public Long getId() {
+        return Id;
+    }
 
-	public void setClinic(Clinic clinic) {
-		this.clinic = clinic;
-	}
+    public void setId(Long id) {
+        Id = id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	
-	
-	
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 }
