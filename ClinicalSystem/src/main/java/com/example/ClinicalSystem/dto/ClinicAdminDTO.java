@@ -3,7 +3,7 @@ package com.example.ClinicalSystem.DTO;
 public class ClinicAdminDTO {
 	
 	private Long id;
-	private String firstName;
+	private String name;
 	private String lastName;
 	private String email;
 	private String password;
@@ -15,7 +15,7 @@ public class ClinicAdminDTO {
 	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password) {
 		super();
 		this.id = id;
-		this.firstName = firstName;
+		this.name = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
@@ -29,12 +29,12 @@ public class ClinicAdminDTO {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.name = firstName;
 	}
 
 	public String getLastName() {

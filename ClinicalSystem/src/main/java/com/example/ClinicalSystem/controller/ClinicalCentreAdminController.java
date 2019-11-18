@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
+import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.DTO.ClinicalCentreAdminDTO;
 import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.ClinicalCentreAdmin;
-import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.ClinicAdminService;
 import com.example.ClinicalSystem.service.ClinicalCentreAdminService;
@@ -28,9 +28,13 @@ import com.example.ClinicalSystem.service.UserService;
 @RequestMapping(value = "api/clinicalcentreadmins")
 public class ClinicalCentreAdminController {
 
+
+
 	@Autowired
 	private ClinicalCentreAdminService ccaService;
+	@Autowired
 	private ClinicAdminService clinicAdminService;
+	@Autowired
 	private UserService userService;
 	
 	@GetMapping(value = "/all")
@@ -50,8 +54,8 @@ public class ClinicalCentreAdminController {
 		
 		ClinicalCentreAdmin ccAdmin = new ClinicalCentreAdmin();
 		ccAdmin.setId(ccAdminDTO.getId());
-		ccAdmin.setName(ccAdminDTO.getFirstName());
-		ccAdmin.setLastname(ccAdminDTO.getLastName());
+		ccAdmin.setName(ccAdminDTO.getName());
+		ccAdmin.setLastname(ccAdminDTO.getLastname());
 		ccAdmin.setEmail(ccAdminDTO.getEmail());
 		
 		ccAdmin = ccaService.save(ccAdmin);
@@ -69,8 +73,8 @@ public class ClinicalCentreAdminController {
 		
 		ClinicalCentreAdmin ccAdmin = new ClinicalCentreAdmin();
 		ccAdmin.setEmail(ccAdminDTO.getEmail());
-		ccAdmin.setName(ccAdminDTO.getFirstName());
-		ccAdmin.setLastname(ccAdminDTO.getLastName());
+		ccAdmin.setName(ccAdminDTO.getName());
+		ccAdmin.setLastname(ccAdminDTO.getLastname());
 		ccAdmin.setPassword(ccAdminDTO.getPassword());
 		
 		ccaService.save(ccAdmin);
@@ -79,17 +83,17 @@ public class ClinicalCentreAdminController {
 	}
 	
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/addclinicadmin")
+	@RequestMapping(method = RequestMethod.POST, value = "/addclinicaladmin")
 	public ResponseEntity<ClinicAdmin> addClinicAdmin(@RequestBody ClinicAdminDTO clinicAdminDTO) {
 		
 		User u = userService.findByEmail(clinicAdminDTO.getEmail());
 		if (u != null) {
-			return null;
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		ClinicAdmin clinicAdmin = new ClinicAdmin();
 		clinicAdmin.setEmail(clinicAdminDTO.getEmail());
-		clinicAdmin.setName(clinicAdminDTO.getFirstName());
+		clinicAdmin.setName(clinicAdminDTO.getName());
 		clinicAdmin.setLastname(clinicAdmin.getLastname());
 		clinicAdmin.setPassword(clinicAdminDTO.getPassword());
 		
@@ -99,12 +103,12 @@ public class ClinicalCentreAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/addclinic")
-	public ResponseEntity<Clinic> addClinic(@RequestBody Clinic clinic) {
+	public ResponseEntity<Clinic> addClinic(@RequestBody ClinicDTO clinicDTO) {
 		
 		Clinic c = new Clinic();
-		c.setName(clinic.getName());
-		c.setAdress(clinic.getAdress());
-		c.setDescription(clinic.getDescription());
+		c.setName(clinicDTO.getName());
+		c.setAdress(clinicDTO.getAdress());
+		c.setDescription(clinicDTO.getDescription());
 		//c.setFreeAppointment(clinic.getFreeAppointment());
 		//c.setPrice(clinic.getPrice());
 		

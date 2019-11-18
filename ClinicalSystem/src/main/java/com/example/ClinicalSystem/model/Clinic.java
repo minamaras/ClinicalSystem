@@ -25,7 +25,7 @@ public class Clinic {
 	@Column(name = "freeAppointment")
 	private String freeAppointment;
 
-	@Column(name = "price", nullable = false)
+	@Column(name = "price")
 	private String price;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

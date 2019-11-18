@@ -17,7 +17,11 @@ public class ClinicalCentreAdminService {
 
 	@Autowired
 	private ClinicalCentreAdminRepository clinicalCentreAdminRepository;
+
+	@Autowired
 	private ClinicAdminRepository clinicAdminRepository;
+
+	@Autowired
 	private ClinicRepository clinicRepository;
 	
 	public List<ClinicalCentreAdmin> findAll(){
