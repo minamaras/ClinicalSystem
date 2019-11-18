@@ -20,7 +20,11 @@ public class ClinicAdminController {
 
 	@Autowired
 	private ClinicAdminService clinicAdminService;
+
+	@Autowired
 	private DoctorService doctorService;
+
+	@Autowired
 	private UserService userService;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/saveDoctor")
