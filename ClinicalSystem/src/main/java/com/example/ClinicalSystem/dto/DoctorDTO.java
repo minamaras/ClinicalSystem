@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Doctor;
+import com.example.ClinicalSystem.model.Role;
 
 public class DoctorDTO {
 
@@ -10,13 +11,19 @@ public class DoctorDTO {
     private String lastname;
     private String email;
     private String password;
-    private String role;
+    private Role role;
     private String specialization;
     private String rating;
 
-    public DoctorDTO() {}
+    public DoctorDTO() {
 
-    public DoctorDTO(Long id, String name, String lastname, String email, String password, String role, String specialization, String rating) {
+    }
+
+    public DoctorDTO(Doctor d) {
+        this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getRating());
+    }
+
+    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, String rating) {
         Id = id;
         this.name = name;
         this.lastname = lastname;
@@ -67,11 +74,11 @@ public class DoctorDTO {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

@@ -13,7 +13,7 @@ import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.service.ClinicAdminService;
 import com.example.ClinicalSystem.service.DoctorService;
 
-
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping(value = "api/clinicadmin")
 public class ClinicAdminController {
