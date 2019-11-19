@@ -8,45 +8,45 @@ import javax.persistence.*;
 
 @Entity
 public class Clinic {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "adress", nullable = false)
 	private String adress;
-	
+
 	@Column(name = "description", nullable = false)
 	private String description;
-	
+
 	@Column(name = "freeAppointment")
 	private String freeAppointment;
-	
+
 	@Column(name = "price", nullable = false)
 	private String price;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Doctor> doctors = new HashSet<Doctor>();
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Nurse> nurses = new HashSet<Nurse>();
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Patient> patients = new HashSet<Patient>();
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private BusinessReport report;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private ClinicAdmin clinicAdmin;
-	
+
 	public Clinic() {
-		
+
 	}
-	
+
 	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price) {
 		super();
 		this.id = id;
@@ -55,11 +55,8 @@ public class Clinic {
 		this.description = description;
 		this.freeAppointment = freeAppointment;
 		this.price = price;
-		this.doctors = new HashSet<Doctor>();
-		this.nurses = new HashSet<Nurse>();
-		this.patients = new HashSet<Patient>();
 	}
-
+	
 	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price,
 				  HashSet<Doctor> doctors, HashSet<Nurse> nurses, HashSet<Patient> patients) {
 		super();
@@ -73,6 +70,8 @@ public class Clinic {
 		this.nurses = nurses;
 		this.patients = patients;
 	}
+
+
 
 	public BusinessReport getReport() {
 		return report;
@@ -150,10 +149,10 @@ public class Clinic {
 		return patients;
 	}
 
-	public void setPatients(HashSet<Patient> patients) {
+	public void setPatients(Set<Patient> patients) {
 		this.patients = patients;
 	}
-	
-	
+
+
 
 }

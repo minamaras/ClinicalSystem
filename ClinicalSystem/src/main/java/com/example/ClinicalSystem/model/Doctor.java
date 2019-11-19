@@ -7,54 +7,54 @@ import javax.persistence.*;
 
 @Entity
 public class Doctor extends User {
-	
-	
+
+
 	@Column(name = "specialization", nullable = false)
 	private String specialization;
-	
+
 	@Column(name = "rating", nullable = false)
 	private String rating;
 
 	@ManyToMany
 	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
-	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Clinic clinic;
-	
-	@ManyToMany(mappedBy = "doctors", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<MedicalRecord> medicalRecord;
-	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<MedicalRecord> medicalRecords = new HashSet<MedicalRecord>();
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calendar calendar;
-	
+
 
 	public Doctor() {
 		super();
 		this.setRole(Role.DOCTOR);
+		this.setRating("0");
 
 	}
 
-	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic,
-			Set<MedicalRecord> medicalRecord, Calendar calendar) {
+	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords) {
 		super();
 		this.specialization = specialization;
 		this.rating = rating;
 		this.patients = patients;
 		this.clinic = clinic;
-		this.medicalRecord = medicalRecord;
 		this.calendar = calendar;
+		this.medicalRecords = medicalRecords;
 		this.setRole(Role.DOCTOR);
 
 	}
 
-	public Doctor(String specialization, Clinic clinic, Calendar calendar) {
+	/*public Doctor(String specialization, Clinic clinic, Calendar calendar) {
 		super();
 		this.specialization = specialization;
 		this.clinic = clinic;
 		this.calendar = calendar;
 		this.setRole(Role.DOCTOR);
-	}
+	}*/
 
 	public String getSpecialization() {
 		return specialization;
@@ -89,11 +89,11 @@ public class Doctor extends User {
 	}
 
 	public Set<MedicalRecord> getMedicalRecord() {
-		return medicalRecord;
+		return medicalRecords;
 	}
 
-	public void setMedicalRecord(Set<MedicalRecord> medicalRecord) {
-		this.medicalRecord = medicalRecord;
+	public void setMedicalRecord(Set<MedicalRecord> medicalRecords) {
+		this.medicalRecords = medicalRecords;
 	}
 
 	public Calendar getCalendar() {
@@ -102,5 +102,5 @@ public class Doctor extends User {
 
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
-	}	
+	}
 }

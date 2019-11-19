@@ -12,8 +12,8 @@ import com.example.ClinicalSystem.repository.DoctorRepository;
 public class DoctorService {
 	
 	@Autowired
-	DoctorRepository doctorRepository;
-	
+	private DoctorRepository doctorRepository;
+
 	public List<Doctor> findAll() {
 		return doctorRepository.findAll();
 	}

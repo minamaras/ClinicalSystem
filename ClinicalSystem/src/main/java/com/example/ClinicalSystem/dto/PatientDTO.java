@@ -1,6 +1,6 @@
 package com.example.ClinicalSystem.DTO;
 
-public class UserDTO {
+public class PatientDTO {
 	
 	private Long Id;
 	private String name;
@@ -9,22 +9,21 @@ public class UserDTO {
 	private String password;
 	private String role;
 	
-
-	public UserDTO() {
 	
+	public PatientDTO() {
 	}
 
 
-	public UserDTO(Long id, String name, String lastname, String email, String password, String role) {
+	public PatientDTO(Long id, String name, String lastname, String email, String password, String role) {
 		super();
-		this.Id = id;
+		Id = id;
 		this.name = name;
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
 		this.role = role;
-	}
 
+	}
 
 
 	public Long getId() {

@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.print.Doc;
 
 @Entity
 public class Patient extends User {
@@ -25,16 +26,16 @@ public class Patient extends User {
 
 	@ManyToMany(mappedBy = "patients")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
-	
+
 	@OneToMany(mappedBy = "patient",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Recipe> recipes = new HashSet<Recipe>();
-	
+
 	@Column(name = "approved")
-	private boolean approved = false;
+	private boolean approved  = false;
 
 	@Column(name = "active")
 	private boolean active = false;
-	
+
 	public Patient(Set<Appointment> appointment, MedicalRecord medicalRecord, Set<Doctor> doctors) {
 		super();
 		this.appointment = appointment;
@@ -73,7 +74,7 @@ public class Patient extends User {
 		this.doctors = doctors;
 	}
 
-	
+
 
 
 
