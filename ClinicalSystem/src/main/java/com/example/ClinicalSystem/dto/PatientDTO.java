@@ -1,5 +1,7 @@
 package com.example.ClinicalSystem.DTO;
 
+import com.example.ClinicalSystem.model.Patient;
+
 public class PatientDTO {
 	
 	private Long Id;
@@ -9,19 +11,20 @@ public class PatientDTO {
 	private String password;
 	private String role;
 	
-	
+	public PatientDTO(Patient p) {
+		this(p.getId(), p.getName(), p.getLastname(), p.getEmail(), p.getPassword());
+	}
 	public PatientDTO() {
 	}
 
 
-	public PatientDTO(Long id, String name, String lastname, String email, String password, String role) {
+	public PatientDTO(Long id, String name, String lastname, String email, String password) {
 		super();
 		Id = id;
 		this.name = name;
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
-		this.role = role;
 
 	}
 
