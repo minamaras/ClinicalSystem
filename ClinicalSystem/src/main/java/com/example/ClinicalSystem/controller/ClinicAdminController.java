@@ -30,12 +30,12 @@ public class ClinicAdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/saveDoctor")
 	public ResponseEntity<Doctor> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
 
-		/*User uEmail = userService.findByEmail(doctorDTO.getEmail());
+		User uEmail = userService.findByEmail(doctorDTO.getEmail());
 
 		if(uEmail != null) {
 
-			return null;
-		}*/
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 
 		Doctor doctor = new Doctor();
 		doctor.setName(doctorDTO.getName());
