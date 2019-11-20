@@ -5,8 +5,8 @@ import com.example.ClinicalSystem.model.ClinicalCentreAdmin;
 public class ClinicalCentreAdminDTO {
 	
 	private Long id;
-	private String firstName;
-	private String lastName;
+	private String name;
+	private String lastname;
 	private String email;
 	private String password;
 	
@@ -16,8 +16,8 @@ public class ClinicalCentreAdminDTO {
 	
 	public ClinicalCentreAdminDTO(ClinicalCentreAdmin ccaDTO) {
 		this.id = ccaDTO.getId();
-		this.firstName = ccaDTO.getName();
-		this.lastName = ccaDTO.getLastname();
+		this.name = ccaDTO.getName();
+		this.lastname = ccaDTO.getLastname();
 		this.email = ccaDTO.getEmail();
 		this.password = ccaDTO.getPassword();
 	}
@@ -25,8 +25,8 @@ public class ClinicalCentreAdminDTO {
 	
 	public ClinicalCentreAdminDTO(Long id, String firstName, String lastName, String email, String password) {
 		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.name = firstName;
+		this.lastname = lastName;
 		this.email = email;
 		this.password = password;
 		
@@ -40,20 +40,20 @@ public class ClinicalCentreAdminDTO {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.name = firstName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getLastname() {
+		return lastname;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastname(String lastName) {
+		this.lastname = lastName;
 	}
 
 	public String getEmail() {
