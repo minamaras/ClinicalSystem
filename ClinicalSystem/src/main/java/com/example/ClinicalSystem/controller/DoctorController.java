@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.service.DoctorService;
-
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping(value = "api/doctors")
