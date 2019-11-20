@@ -43,6 +43,7 @@ public class ClinicalCentreAdminService {
 	public Clinic addClinic(Clinic clinic) {
 		return clinicRepository.save(clinic);
 	}
-	
+
+	public List<Clinic> findAllClinics() { return clinicRepository.findAll(); }
 	
 }
