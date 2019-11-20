@@ -43,6 +43,7 @@ public class ClinicAdminController {
 		doctor.setEmail(doctorDTO.getEmail());
 		doctor.setSpecialization(doctorDTO.getSpecialization());
 		doctor.setRating(doctorDTO.getRating());
+		doctor.setPassword(doctorDTO.getPassword());
 
 		doctorService.save(doctor);
 		return new ResponseEntity<>(doctor, HttpStatus.CREATED);
