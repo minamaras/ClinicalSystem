@@ -16,6 +16,7 @@ public class DoctorDTO {
     private String rating;
 
     public DoctorDTO() {
+    	this.role = role.DOCTOR;
 
     }
 
@@ -29,7 +30,7 @@ public class DoctorDTO {
         this.lastname = lastname;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.role = role.DOCTOR;
         this.specialization = specialization;
         this.rating = rating;
     }

@@ -22,29 +22,14 @@ public class ClinicAdminController {
 	private ClinicAdminService clinicAdminService;
 
 	@Autowired
-	private DoctorService doctorService;
-
-	@Autowired
-	private UserService userService;
-
+	private DoctorController doctorController;
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/saveDoctor")
-	public ResponseEntity<Doctor> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
-
-		/*User uEmail = userService.findByEmail(doctorDTO.getEmail());
-
-		if(uEmail != null) {
-
-			return null;
-		}*/
-
-		Doctor doctor = new Doctor();
-		doctor.setName(doctorDTO.getName());
-		doctor.setLastname(doctorDTO.getLastname());
-		doctor.setEmail(doctorDTO.getEmail());
-		doctor.setSpecialization(doctorDTO.getSpecialization());
-		doctor.setRating(doctorDTO.getRating());
-
-		doctorService.save(doctor);
-		return new ResponseEntity<>(doctor, HttpStatus.CREATED);
+	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
+		
+		doctorController.saveDoctor(doctorDTO);
+		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
 	}
+
+	
 }

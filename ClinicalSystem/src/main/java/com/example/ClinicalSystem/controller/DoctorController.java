@@ -35,6 +35,13 @@ public class DoctorController {
 
 		return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
 	}
+	
+	//@RequestMapping(method = RequestMethod.POST, value = "/saveDoctor")
+	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
+
+		doctorService.save(doctorDTO);
+		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
+	}
 
 
 }
