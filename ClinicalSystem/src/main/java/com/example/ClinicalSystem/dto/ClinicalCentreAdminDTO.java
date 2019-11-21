@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.ClinicalCentreAdmin;
+import com.example.ClinicalSystem.model.Role;
 
 public class ClinicalCentreAdminDTO {
 	
@@ -9,9 +10,12 @@ public class ClinicalCentreAdminDTO {
 	private String lastname;
 	private String email;
 	private String password;
+	private Role role;
 	
 	public ClinicalCentreAdminDTO() {
 		super();
+		this.role = role.CLINICALCENTREADMIN;
+		
 	}
 	
 	public ClinicalCentreAdminDTO(ClinicalCentreAdmin ccaDTO) {

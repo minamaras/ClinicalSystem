@@ -17,12 +17,13 @@ public class ClinicalCentreAdminService {
 
 	@Autowired
 	private ClinicalCentreAdminRepository clinicalCentreAdminRepository;
-
+	
 	@Autowired
-	private ClinicAdminRepository clinicAdminRepository;
-
+	private ClinicAdminService caService;
+	
 	@Autowired
-	private ClinicRepository clinicRepository;
+	private ClinicService clinicService;
+
 	
 	public List<ClinicalCentreAdmin> findAll(){
 		return clinicalCentreAdminRepository.findAll();
@@ -37,13 +38,13 @@ public class ClinicalCentreAdminService {
 	}
 	
 	public ClinicAdmin addClinicAdmin(ClinicAdmin cs) {
-		return clinicAdminRepository.save(cs);
+		return caService.save(cs);
 	}
 	
 	public Clinic addClinic(Clinic clinic) {
-		return clinicRepository.save(clinic);
+		return clinicService.addClinic(clinic);
 	}
 
-	public List<Clinic> findAllClinics() { return clinicRepository.findAll(); }
+	public List<Clinic> findAllClinics() { return clinicService.findAllClinics(); }
 	
 }
