@@ -28,10 +28,6 @@ public class ClinicalCentreAdminController {
 
 	@Autowired
 	private ClinicalCentreAdminService ccaService;
-	@Autowired
-	private ClinicAdminService clinicAdminService;
-	@Autowired
-	private UserService userService;
 
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<ClinicalCentreAdminDTO>> getAllccAdmins(){
@@ -45,58 +41,13 @@ public class ClinicalCentreAdminController {
 
 	}
 
-	@PostMapping(consumes = "application/json")
-	public ResponseEntity<ClinicalCentreAdminDTO> saveccAdmin(@RequestBody ClinicalCentreAdminDTO ccAdminDTO){
-
-		ClinicalCentreAdmin ccAdmin = new ClinicalCentreAdmin();
-		ccAdmin.setId(ccAdminDTO.getId());
-		ccAdmin.setName(ccAdminDTO.getName());
-		ccAdmin.setLastname(ccAdminDTO.getLastname());
-		ccAdmin.setEmail(ccAdminDTO.getEmail());
-
-		ccAdmin = ccaService.save(ccAdmin);
-		return new ResponseEntity<>(new ClinicalCentreAdminDTO(ccAdmin), HttpStatus.CREATED);
-	}
-
-
 	@RequestMapping(method = RequestMethod.POST, value = "/addccadmin")
-	public ResponseEntity<ClinicalCentreAdmin> addccAdmin(@RequestBody ClinicalCentreAdminDTO ccAdminDTO) {
-
-		User u = userService.findByEmail(ccAdminDTO.getEmail());
-		if (u != null) {
-			return null;
-		}
-
-		ClinicalCentreAdmin ccAdmin = new ClinicalCentreAdmin();
-		ccAdmin.setEmail(ccAdminDTO.getEmail());
-		ccAdmin.setName(ccAdminDTO.getName());
-		ccAdmin.setLastname(ccAdminDTO.getLastname());
-		ccAdmin.setPassword(ccAdminDTO.getPassword());
-
-		ccaService.save(ccAdmin);
-	 return new ResponseEntity<>(ccAdmin,HttpStatus.CREATED);
+	public ResponseEntity<ClinicalCentreAdminDTO> addccAdmin(@RequestBody ClinicalCentreAdminDTO ccAdminDTO) {
+		ccaService.save(ccAdminDTO);
+		return new ResponseEntity<>(ccAdminDTO,HttpStatus.CREATED);
 
 	}
 
-
-	@RequestMapping(method = RequestMethod.POST, value = "/addclinicaladmin")
-	public ResponseEntity<ClinicAdmin> addClinicAdmin(@RequestBody ClinicAdminDTO clinicAdminDTO) {
-
-		User u = userService.findByEmail(clinicAdminDTO.getEmail());
-		if (u != null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		ClinicAdmin clinicAdmin = new ClinicAdmin();
-		clinicAdmin.setEmail(clinicAdminDTO.getEmail());
-		clinicAdmin.setName(clinicAdminDTO.getName());
-		clinicAdmin.setLastname(clinicAdminDTO.getLastname());
-		clinicAdmin.setPassword(clinicAdminDTO.getPassword());
-
-		clinicAdminService.save(clinicAdmin);
-	 return new ResponseEntity<>(clinicAdmin,HttpStatus.CREATED);
-
-	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/addclinic")
 	public ResponseEntity<Clinic> addClinic(@RequestBody ClinicDTO clinicDTO) {
