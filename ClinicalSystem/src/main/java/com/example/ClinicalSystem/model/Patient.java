@@ -30,9 +30,6 @@ public class Patient extends User {
 	@OneToMany(mappedBy = "patient",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Recipe> recipes = new HashSet<Recipe>();
 
-	@Column(name = "approved")
-	private boolean approved  = false;
-
 	@Column(name = "active")
 	private boolean active = false;
 
@@ -73,6 +70,22 @@ public class Patient extends User {
 
 	public void setDoctors(Set<Doctor> doctors) {
 		this.doctors = doctors;
+	}
+
+	public Set<Recipe> getRecipes() {
+		return recipes;
+	}
+
+	public void setRecipes(Set<Recipe> recipes) {
+		this.recipes = recipes;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 
