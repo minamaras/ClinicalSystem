@@ -42,9 +42,9 @@ public class UserService {
 	}
 
 
-	public boolean existsInDB(PatientDTO patientDTO) {
+	public boolean existsInDB(UserDTO userDTO) {
 
-		User u = userRepository.findByEmail(patientDTO.getEmail());
+		User u = userRepository.findByEmail(userDTO.getEmail());
 		boolean exists = false;
 
 		if (u != null) {
