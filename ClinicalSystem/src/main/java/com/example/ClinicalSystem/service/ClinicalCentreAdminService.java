@@ -18,27 +18,32 @@ public class ClinicalCentreAdminService {
 	@Autowired
 	private ClinicalCentreAdminRepository clinicalCentreAdminRepository;
 
+	@Autowired
 	private ClinicAdminRepository clinicAdminRepository;
 
+	@Autowired
 	private ClinicRepository clinicRepository;
-	
+
 	public List<ClinicalCentreAdmin> findAll(){
 		return clinicalCentreAdminRepository.findAll();
 	}
-	
+
 	public ClinicalCentreAdmin save(ClinicalCentreAdmin clinicalCentreAdmin) {
 		return clinicalCentreAdminRepository.save(clinicalCentreAdmin);
 	}
-	
+
 	public ClinicalCentreAdmin findByEmail(String email) {
 		return clinicalCentreAdminRepository.findByEmail(email);
 	}
-	
+
 	public ClinicAdmin addClinicAdmin(ClinicAdmin cs) {
 		return clinicAdminRepository.save(cs);
 	}
-	
+
 	public Clinic addClinic(Clinic clinic) {
 		return clinicRepository.save(clinic);
 	}
+
+	public List<Clinic> findAllClinics() { return clinicRepository.findAll(); }
+
 }

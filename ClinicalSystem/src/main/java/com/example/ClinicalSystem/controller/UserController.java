@@ -41,9 +41,9 @@ public class UserController {
 	}
 	
 		
-	 @RequestMapping(method = RequestMethod.GET, value = "/login")
+	 /*@RequestMapping(method = RequestMethod.GET, value = "/login")
 	    public void redirect(HttpServletResponse response) throws IOException{
-	        response.sendRedirect("http://localhost:8080/login.html");
-	    }
+	        response.sendRedirect("http://localhost:8081/login.html");
+	    }*/
 
 }

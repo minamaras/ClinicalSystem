@@ -25,7 +25,7 @@ public class Clinic {
 	@Column(name = "freeAppointment")
 	private String freeAppointment;
 
-	@Column(name = "price", nullable = false)
+	@Column(name = "price")
 	private String price;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -45,6 +45,16 @@ public class Clinic {
 
 	public Clinic() {
 
+	}
+	
+	public Clinic(Long id, String name, String adress, String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.adress = adress;
+		this.description = description;
+		this.freeAppointment = "";
+		this.price = "";
 	}
 
 	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price) {

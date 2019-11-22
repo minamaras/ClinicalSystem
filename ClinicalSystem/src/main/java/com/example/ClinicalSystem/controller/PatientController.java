@@ -10,38 +10,37 @@ import com.example.ClinicalSystem.DTO.UserDTO;
 import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.PatientService;
-
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping(value = "api/patients")
 public class PatientController {
-	
+
 	@Autowired
 	private PatientService patientService;
-	
+
 	@RequestMapping(method = RequestMethod.POST, value = "/register")
 	public ResponseEntity<Patient> register(@RequestBody UserDTO user) {
 
-			
+
 			User uEmail = patientService.findUserByEmail(user.getEmail());
-			
+
 			if(uEmail != null) {
-				
+
 				return null;
 			}
-		
-			
+
+
 			Patient p = new Patient();
 			p.setName(user.getName());
 			p.setLastname(user.getLastname());
 			p.setPassword(user.getPassword());
 			p.setEmail(user.getEmail());
-			
+
 			patientService.savePatient(p);
 			return new ResponseEntity<>(p,HttpStatus.CREATED);
 	}
-	
 
-	
+
+
 
 }

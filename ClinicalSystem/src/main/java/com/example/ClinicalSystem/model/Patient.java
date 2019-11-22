@@ -36,6 +36,7 @@ public class Patient extends User {
 	@Column(name = "active")
 	private boolean active = false;
 
+
 	public Patient(Set<Appointment> appointment, MedicalRecord medicalRecord, Set<Doctor> doctors) {
 		super();
 		this.appointment = appointment;
