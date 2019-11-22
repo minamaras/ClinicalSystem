@@ -24,20 +24,20 @@ public class UserService {
 	public boolean loginUser(UserDTO user) {
 
 		User u = modelMapper.map(user,User.class);
-		boolean pronadjen = false;
+		boolean isFound = false;
 
 		if(userRepository.findByEmail(u.getEmail()) == null){
 
-			pronadjen = false;
+			isFound = false;
 		}
 
 		else if (userRepository.findByEmail(u.getEmail()) ==  userRepository.findByPassword(u.getPassword())){
 
-			pronadjen = true;
+			isFound = true;
 
 		}
 
-		return  pronadjen;
+		return  isFound;
 	}
 	
 
