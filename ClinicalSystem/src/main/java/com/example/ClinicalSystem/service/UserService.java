@@ -1,6 +1,9 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.DTO.PatientDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
+import com.example.ClinicalSystem.model.Patient;
+import com.example.ClinicalSystem.model.Role;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,45 +15,44 @@ import com.example.ClinicalSystem.repository.UserRepository;
 
 @Service
 public class UserService {
-	
-		
+
+
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
-	
+
+
 	public boolean loginUser(UserDTO user) {
 
-		User u = modelMapper.map(user,User.class);
+		User u = modelMapper.map(user, User.class);
 		boolean isFound = false;
 
-		if(userRepository.findByEmail(u.getEmail()) == null){
+		if (userRepository.findByEmail(u.getEmail()) == null) {
 
 			isFound = false;
-		}
-
-		else if (userRepository.findByEmail(u.getEmail()) ==  userRepository.findByPassword(u.getPassword())){
+		} else if (userRepository.findByEmail(u.getEmail()) == userRepository.findByPassword(u.getPassword())) {
 
 			isFound = true;
 
 		}
 
-		return  isFound;
+		return isFound;
 	}
-	
 
-	
-	public User save(User user) {
-		
-		return userRepository.save(user);
-	}
-	
-	public User findbyPassword(String password) {
-		
-		return userRepository.findByPassword(password);
-		
+
+	public boolean existsInDB(PatientDTO patientDTO) {
+
+		User u = userRepository.findByEmail(patientDTO.getEmail());
+		boolean exists = false;
+
+		if (u != null) {
+
+			exists = true;
+		}
+
+		return exists;
 	}
 
 }
