@@ -26,16 +26,6 @@ public class ClinicAdminController {
 
 	@Autowired
 	private ClinicAdminService clinicAdminService;
-
-	@Autowired
-	private DoctorController doctorController;
-	
-	@RequestMapping(method = RequestMethod.POST, value = "/saveDoctor")
-	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
-		
-		doctorController.saveDoctor(doctorDTO);
-		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
-	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/addclinicadmin")
 	public ResponseEntity<ClinicAdminDTO> addClinicAdmin(@RequestBody ClinicAdminDTO clinicAdminDTO) {

@@ -49,10 +49,6 @@ public class ClinicAdminService {
 		return clinicAdminRepository.save(clinicAdmin);
 	}
 
-	public Doctor addDoctor(Doctor d) {
-		return doctorRepository.save(d);
-	}
-
 	public ClinicAdmin findByEmail(String email) {
 		return clinicAdminRepository.findByEmail(email);
 	}

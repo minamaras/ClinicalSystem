@@ -31,13 +31,9 @@ public class ClinicalCentreAdminController {
 
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<ClinicalCentreAdminDTO>> getAllccAdmins(){
-		List<ClinicalCentreAdmin> ccAdmins = ccaService.findAll();
+		List<ClinicalCentreAdminDTO> ccas = ccaService.findAll();
 
-		List<ClinicalCentreAdminDTO> ccAdminsDTO = new ArrayList<>();
-		for(ClinicalCentreAdmin cca : ccAdmins) {
-			ccAdminsDTO.add(new ClinicalCentreAdminDTO(cca));
-		}
-		return new ResponseEntity<>(ccAdminsDTO, HttpStatus.OK);
+		return new ResponseEntity<>(ccas, HttpStatus.OK);
 
 	}
 

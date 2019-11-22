@@ -1,12 +1,15 @@
 package com.example.ClinicalSystem.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.Role;
 import com.example.ClinicalSystem.repository.DoctorRepository;
@@ -20,11 +23,19 @@ public class DoctorService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public List<Doctor> findAll() {
-		return doctorRepository.findAll();
+	public List<DoctorDTO> findAll() {
+		
+		List<Doctor> doctors = doctorRepository.findAll();
+
+		List<DoctorDTO> doctorsDTO = new ArrayList<>();
+		for (Doctor d : doctors) {
+			doctorsDTO.add(new DoctorDTO(d));
+		}
+		
+		return doctorsDTO;
 	}
 	
-	public Doctor save(DoctorDTO doctorDto) {
+	public Doctor saveDoctor(DoctorDTO doctorDto) {
 		
 		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
 		
