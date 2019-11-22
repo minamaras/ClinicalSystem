@@ -23,7 +23,7 @@ public class DoctorController {
 	@Autowired
 	private DoctorService doctorService;
 
-	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
+	@RequestMapping(method = RequestMethod.GET, value = "/allDoctors")
 	public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
 
 		List<DoctorDTO> doctors = doctorService.findAll();
