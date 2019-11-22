@@ -33,7 +33,7 @@ public class PatientService {
 
 			Patient p = modelMapper.map(patientDTO,Patient.class);
 			patientRepository.save(p);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.CREATED);
 		}
 
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
