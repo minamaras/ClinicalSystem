@@ -19,25 +19,9 @@ public class PatientController {
 	private PatientService patientService;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/register")
-	public ResponseEntity<Patient> register(@RequestBody UserDTO user) {
+	public ResponseEntity<?> register(@RequestBody PatientDTO patientDTO) {
 
-
-			User uEmail = patientService.findUserByEmail(user.getEmail());
-
-			if(uEmail != null) {
-
-				return null;
-			}
-
-
-			Patient p = new Patient();
-			p.setName(user.getName());
-			p.setLastname(user.getLastname());
-			p.setPassword(user.getPassword());
-			p.setEmail(user.getEmail());
-
-			patientService.savePatient(p);
-			return new ResponseEntity<>(p,HttpStatus.CREATED);
+			return  patientService.register(patientDTO);
 	}
 
 
