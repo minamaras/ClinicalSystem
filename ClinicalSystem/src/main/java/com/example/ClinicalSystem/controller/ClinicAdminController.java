@@ -8,7 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.service.ClinicAdminService;
 import com.example.ClinicalSystem.service.DoctorService;
@@ -29,6 +31,14 @@ public class ClinicAdminController {
 		
 		doctorController.saveDoctor(doctorDTO);
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/addclinicadmin")
+	public ResponseEntity<ClinicAdminDTO> addClinicAdmin(@RequestBody ClinicAdminDTO clinicAdminDTO) {
+
+		clinicAdminService.save(clinicAdminDTO);
+		return new ResponseEntity<>(clinicAdminDTO, HttpStatus.CREATED);
+
 	}
 
 	

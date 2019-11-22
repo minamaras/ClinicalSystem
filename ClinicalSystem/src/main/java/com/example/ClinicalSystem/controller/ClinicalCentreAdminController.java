@@ -49,25 +49,6 @@ public class ClinicalCentreAdminController {
 	}
 
 
-	@RequestMapping(method = RequestMethod.POST, value = "/addclinicaladmin")
-	public ResponseEntity<ClinicAdmin> addClinicAdmin(@RequestBody ClinicAdminDTO clinicAdminDTO) {
-
-		User u = userService.findByEmail(clinicAdminDTO.getEmail());
-		if (u != null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		ClinicAdmin clinicAdmin = new ClinicAdmin();
-		clinicAdmin.setEmail(clinicAdminDTO.getEmail());
-		clinicAdmin.setName(clinicAdminDTO.getName());
-		clinicAdmin.setLastname(clinicAdminDTO.getLastname());
-		clinicAdmin.setPassword(clinicAdminDTO.getPassword());
-
-		clinicAdminService.save(clinicAdmin);
-	 return new ResponseEntity<>(clinicAdmin,HttpStatus.CREATED);
-
-	}
-
 	@RequestMapping(method = RequestMethod.POST, value = "/addclinic")
 	public ResponseEntity<Clinic> addClinic(@RequestBody ClinicDTO clinicDTO) {
 
