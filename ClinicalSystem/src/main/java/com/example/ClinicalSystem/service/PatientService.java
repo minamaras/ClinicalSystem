@@ -3,6 +3,7 @@ package com.example.ClinicalSystem.service;
 import java.util.Optional;
 
 import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.DTO.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,8 @@ public class PatientService {
 
 	public ResponseEntity<?> register(PatientDTO patientDTO) {
 
-		boolean exists = userService.existsInDB(patientDTO);
+		UserDTO userDTO = modelMapper.map(patientDTO,UserDTO.class);
+		boolean exists = userService.existsInDB(userDTO);
 		if(!exists){
 
 			Patient p = modelMapper.map(patientDTO,Patient.class);
