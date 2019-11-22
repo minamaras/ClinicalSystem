@@ -33,7 +33,7 @@ public class ClinicService {
 
 	public List<ClinicDTO> findAllClinics() { 
 		
-		List<Clinic> clinics = clinicRepo.findAllClinics();
+		List<Clinic> clinics = clinicRepo.findAll();
 
 		List<ClinicDTO> clinicsDTO = new ArrayList<>();
 		for (Clinic c : clinics) {
