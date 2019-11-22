@@ -22,6 +22,9 @@ public class UserService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private PatientService patientService;
 
 
 	public boolean loginUser(UserDTO user) {
@@ -32,14 +35,23 @@ public class UserService {
 		if (userRepository.findByEmail(u.getEmail()) == null) {
 
 			isFound = false;
+			
 		} else if (userRepository.findByEmail(u.getEmail()) == userRepository.findByPassword(u.getPassword())) {
 
-			isFound = true;
-
-		}
-
-		return isFound;
+			if(user.getRole() == Role.PATIENT) {
+				
+					Patient p = patientService.findPatient(user.getEmail());
+					
+					if(p.isActive()) {isFound = true;} 
+					else {isFound = false;}		
+			}
+			
+		  else {isFound = true;}
+	
 	}
+		
+	 return isFound;
+}
 
 
 	public boolean existsInDB(UserDTO userDTO) {
