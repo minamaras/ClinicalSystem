@@ -27,18 +27,22 @@ public class PatientService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public ResponseEntity<?> register(PatientDTO patientDTO) {
+	public boolean register(PatientDTO patientDTO) {
 
 		UserDTO userDTO = modelMapper.map(patientDTO,UserDTO.class);
 		boolean exists = userService.existsInDB(userDTO);
+		boolean registered = false;
+
 		if(!exists){
 
 			Patient p = modelMapper.map(patientDTO,Patient.class);
 			patientRepository.save(p);
-			return new ResponseEntity<>(HttpStatus.CREATED);
+			registered = true;
+			return  registered;
 		}
 
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		registered = false;
+		return  registered;
 	}
 
 	
