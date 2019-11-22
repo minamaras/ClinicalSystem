@@ -34,7 +34,14 @@ public class DoctorController {
 	@RequestMapping(method = RequestMethod.POST, value = "/saveDoctor")
 	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
 		
-		doctorService.saveDoctor(doctorDTO);
+		Doctor d = doctorService.saveDoctor(doctorDTO);
+		
+		if( d == null) {
+			
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
 	}
 
