@@ -2,7 +2,11 @@ package com.example.ClinicalSystem.service;
 
 import java.util.Optional;
 
+import com.example.ClinicalSystem.DTO.PatientDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.model.Patient;
@@ -17,18 +21,22 @@ public class PatientService {
 	private PatientRepository patientRepository;
 	
 	@Autowired
-	private UserRepository userRepository;
-	
-	
-	public User findUserByEmail(String email) {
-		
-		return userRepository.findByEmail(email);
-	}
-	
-	
-	public Patient findPatientByEmail(String email) {
-		
-		return patientRepository.findByEmail(email);
+	private UserService userService;
+
+	@Autowired
+	private ModelMapper modelMapper;
+
+	public ResponseEntity<?> register(PatientDTO patientDTO) {
+
+		boolean exists = userService.existsInDB(patientDTO);
+		if(!exists){
+
+			Patient p = modelMapper.map(patientDTO,Patient.class);
+			patientRepository.save(p);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	
