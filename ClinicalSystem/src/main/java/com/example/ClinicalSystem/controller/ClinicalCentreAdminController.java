@@ -48,48 +48,4 @@ public class ClinicalCentreAdminController {
 
 	}
 
-
-	@RequestMapping(method = RequestMethod.POST, value = "/addclinic")
-	public ResponseEntity<Clinic> addClinic(@RequestBody ClinicDTO clinicDTO) {
-
-		Clinic c = new Clinic();
-		c.setName(clinicDTO.getName());
-		c.setAdress(clinicDTO.getAdress());
-		c.setDescription(clinicDTO.getDescription());
-		//c.setFreeAppointment(clinic.getFreeAppointment());
-		//c.setPrice(clinic.getPrice());
-
-		ccaService.addClinic(c);
-	 return new ResponseEntity<>(c,HttpStatus.CREATED);
-
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/allclinics")
-	public ResponseEntity<List<ClinicDTO>> getAllClinics() {
-
-		List<Clinic> clinics = ccaService.findAllClinics();
-
-		// convert students to DTOs
-		List<ClinicDTO> clinicsDTO = new ArrayList<>();
-		for (Clinic c : clinics) {
-			clinicsDTO.add(new ClinicDTO(c));
-		}
-
-		return new ResponseEntity<>(clinicsDTO, HttpStatus.OK);
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/allclinicadmins")
-	public ResponseEntity<List<ClinicAdminDTO>> getAllClinicAdmins() {
-
-		List<ClinicAdmin> clinicAdmins = clinicAdminService.findAll();
-
-		// convert students to DTOs
-		List<ClinicAdminDTO> clinicAdminsDTO = new ArrayList<>();
-		for (ClinicAdmin ca : clinicAdmins) {
-			clinicAdminsDTO.add(new ClinicAdminDTO(ca));
-		}
-
-		return new ResponseEntity<>(clinicAdminsDTO, HttpStatus.OK);
-	}
-
 }
