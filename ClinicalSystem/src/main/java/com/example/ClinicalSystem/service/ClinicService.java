@@ -24,16 +24,12 @@ public class ClinicService {
 		
 		Clinic clinic =  modelMapper.map(clinicDto, Clinic.class);
 		
-		clinic.setAdress(clinicDto.getAdress());
-		clinic.setDescription(clinicDto.getDescription());
-		clinic.setName(clinicDto.getName());
-		
 		return clinicRepo.save(clinic);
 	}
 
 	public List<ClinicDTO> findAllClinics() { 
 		
-		List<Clinic> clinics = clinicRepo.findAllClinics();
+		List<Clinic> clinics = clinicRepo.findAll();
 
 		List<ClinicDTO> clinicsDTO = new ArrayList<>();
 		for (Clinic c : clinics) {
