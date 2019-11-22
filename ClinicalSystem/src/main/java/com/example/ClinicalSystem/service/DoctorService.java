@@ -7,9 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.model.Clinic;
+import com.example.ClinicalSystem.DTO.UserDTO;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.Role;
 import com.example.ClinicalSystem.repository.DoctorRepository;
@@ -22,6 +21,9 @@ public class DoctorService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private UserService userService;
 
 	public List<DoctorDTO> findAll() {
 		
@@ -36,6 +38,11 @@ public class DoctorService {
 	}
 	
 	public Doctor saveDoctor(DoctorDTO doctorDto) {
+		
+		UserDTO userDto = modelMapper.map(doctorDto, UserDTO.class);
+		if(userService.existsInDB(userDto)) {
+			return null;
+		}
 		
 		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
 		
