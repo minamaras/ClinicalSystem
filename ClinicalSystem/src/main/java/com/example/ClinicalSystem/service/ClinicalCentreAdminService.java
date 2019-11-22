@@ -17,12 +17,6 @@ public class ClinicalCentreAdminService {
 
 	@Autowired
 	private ClinicalCentreAdminRepository clinicalCentreAdminRepository;
-	
-	@Autowired
-	private ClinicAdminService caService;
-	
-	@Autowired
-	private ClinicService clinicService;
 
 	
 	public List<ClinicalCentreAdmin> findAll(){
@@ -37,14 +31,5 @@ public class ClinicalCentreAdminService {
 		return clinicalCentreAdminRepository.findByEmail(email);
 	}
 	
-	public ClinicAdmin addClinicAdmin(ClinicAdmin cs) {
-		return caService.save(cs);
-	}
-	
-	public Clinic addClinic(Clinic clinic) {
-		return clinicService.addClinic(clinic);
-	}
-
-	public List<Clinic> findAllClinics() { return clinicService.findAllClinics(); }
 	
 }
