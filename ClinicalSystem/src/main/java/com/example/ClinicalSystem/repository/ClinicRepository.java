@@ -11,6 +11,6 @@ import com.example.ClinicalSystem.model.Clinic;
 public interface ClinicRepository extends JpaRepository<Clinic, Long> {
 	
 	Clinic save(Clinic clinic);
-	List<Clinic> findAllClinics();
+	List<Clinic> findAll();
 	
 }
