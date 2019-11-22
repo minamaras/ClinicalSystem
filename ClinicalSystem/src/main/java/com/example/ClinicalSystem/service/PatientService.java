@@ -3,6 +3,7 @@ package com.example.ClinicalSystem.service;
 import java.util.Optional;
 
 import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.model.Patient;
+import com.example.ClinicalSystem.model.PatientRequest;
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.repository.PatientRepository;
 import com.example.ClinicalSystem.repository.UserRepository;
@@ -23,25 +25,26 @@ public class PatientService {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PatientRequestService patientRequestService;
 
 	@Autowired
 	private ModelMapper modelMapper;
 
 	public boolean register(PatientDTO patientDTO) {
 
-		UserDTO userDTO = modelMapper.map(patientDTO,UserDTO.class);
-		boolean exists = userService.existsInDB(userDTO);
+		UserDTO userDTO = modelMapper.map(patientDTO,UserDTO.class);		
+		boolean existsInUsers = userService.existsInDB(userDTO);
 		boolean registered = false;
 
-		if(!exists){
+		if(!existsInUsers){
 
-			Patient p = modelMapper.map(patientDTO,Patient.class);
-			patientRepository.save(p);
-			registered = true;
+			PatientRequestDTO patientRequestDTO = modelMapper.map(patientDTO,PatientRequestDTO.class);
+			registered = patientRequestService.AddPatientRequest(patientRequestDTO);			
 			return  registered;
 		}
 
-		registered = false;
 		return  registered;
 	}
 
@@ -49,6 +52,12 @@ public class PatientService {
 	public Patient savePatient(Patient patient) {
 		
 		return patientRepository.save(patient);
+	}
+	
+	public Patient findPatient(String email) {
+		
+		return 	patientRepository.findByEmail(email);
+		
 	}
 
 }
