@@ -43,8 +43,10 @@ public class UserService {
 
 
 	public boolean existsInDB(UserDTO userDTO) {
-
-		User u = userRepository.findByEmail(userDTO.getEmail());
+		
+		User user = modelMapper.map(userDTO,User.class);
+		
+		User u = userRepository.findByEmail(user.getEmail());
 		boolean exists = false;
 
 		if (u != null) {

@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Patient;
+import com.example.ClinicalSystem.model.Role;
 
 public class PatientDTO {
 	
@@ -9,12 +10,13 @@ public class PatientDTO {
 	private String lastname;
 	private String email;
 	private String password;
-	private String role;
+	private Role role = Role.PATIENT;
 	
 	public PatientDTO(Patient p) {
 		this(p.getId(), p.getName(), p.getLastname(), p.getEmail(), p.getPassword());
 	}
 	public PatientDTO() {
+		
 	}
 
 
@@ -79,12 +81,12 @@ public class PatientDTO {
 	}
 
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 	

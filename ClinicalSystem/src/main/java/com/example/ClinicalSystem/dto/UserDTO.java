@@ -1,5 +1,7 @@
 package com.example.ClinicalSystem.DTO;
 
+import com.example.ClinicalSystem.model.Role;
+
 public class UserDTO {
 	
 	private Long Id;
@@ -7,7 +9,7 @@ public class UserDTO {
 	private String lastname;
 	private String email;
 	private String password;
-	private String role;
+	private Role role;
 	
 
 	public UserDTO() {
@@ -15,7 +17,7 @@ public class UserDTO {
 	}
 
 
-	public UserDTO(Long id, String name, String lastname, String email, String password, String role) {
+	public UserDTO(Long id, String name, String lastname, String email, String password, Role role) {
 		super();
 		this.Id = id;
 		this.name = name;
@@ -77,12 +79,12 @@ public class UserDTO {
 	}
 
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 	
