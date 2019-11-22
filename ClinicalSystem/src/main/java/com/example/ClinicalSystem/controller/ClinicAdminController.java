@@ -13,6 +13,8 @@ import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.service.ClinicAdminService;
 import com.example.ClinicalSystem.service.DoctorService;
 
+import javax.validation.Valid;
+
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping(value = "api/clinicadmin")
@@ -28,7 +30,7 @@ public class ClinicAdminController {
 	private UserService userService;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/saveDoctor")
-	public ResponseEntity<Doctor> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
+	public ResponseEntity<Doctor> saveDoctor(@RequestBody @Valid  DoctorDTO doctorDTO) {
 
 		/*User uEmail = userService.findByEmail(doctorDTO.getEmail());
 

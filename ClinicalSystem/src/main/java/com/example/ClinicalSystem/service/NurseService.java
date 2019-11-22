@@ -17,11 +17,9 @@ public class NurseService {
 	
 	public List<Nurse> findAll(){
 		return nurseRepository.findAll();
-	
 	}
 	
 	public Nurse save(Nurse nurse) {
 		return nurseRepository.save(nurse);
 	}
-	
 }

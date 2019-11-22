@@ -21,5 +21,4 @@ public class DoctorService {
 	public Doctor save(Doctor doctor) {
         return doctorRepository.save(doctor);
     }
-
 }

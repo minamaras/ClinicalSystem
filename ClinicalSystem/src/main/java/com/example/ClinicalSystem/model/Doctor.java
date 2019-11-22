@@ -1,18 +1,22 @@
 package com.example.ClinicalSystem.model;
 
+import com.example.ClinicalSystem.common.db.DbColumnConstants;
+import com.example.ClinicalSystem.common.db.DbTableConstants;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = DbTableConstants.DOCTOR)
 public class Doctor extends User {
 
 
 	@Column(name = "specialization", nullable = false)
 	private String specialization;
 
-	@Column(name = "rating", nullable = false)
+	@Column(name = DbColumnConstants.RATING, nullable = false)
 	private String rating;
 
 	@ManyToMany

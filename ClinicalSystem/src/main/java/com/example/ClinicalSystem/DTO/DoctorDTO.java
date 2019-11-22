@@ -4,9 +4,15 @@ import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.Role;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class DoctorDTO {
 
     private Long Id;
+
+    @NotNull
+    @NotEmpty
     private String name;
     private String lastname;
     private String email;

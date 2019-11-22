@@ -17,7 +17,9 @@ public class ClinicalCentreAdminService {
 
 	@Autowired
 	private ClinicalCentreAdminRepository clinicalCentreAdminRepository;
+
 	private ClinicAdminRepository clinicAdminRepository;
+
 	private ClinicRepository clinicRepository;
 	
 	public List<ClinicalCentreAdmin> findAll(){
@@ -39,6 +41,4 @@ public class ClinicalCentreAdminService {
 	public Clinic addClinic(Clinic clinic) {
 		return clinicRepository.save(clinic);
 	}
-	
-	
 }
