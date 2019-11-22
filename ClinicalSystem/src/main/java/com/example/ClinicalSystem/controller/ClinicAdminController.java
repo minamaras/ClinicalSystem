@@ -2,6 +2,10 @@ package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,6 +43,14 @@ public class ClinicAdminController {
 		clinicAdminService.save(clinicAdminDTO);
 		return new ResponseEntity<>(clinicAdminDTO, HttpStatus.CREATED);
 
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/allclinicadmins")
+	public ResponseEntity<List<ClinicAdminDTO>> getAllClinicAdmins() {
+
+		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.findAll();
+
+		return new ResponseEntity<>(clinicAdmins, HttpStatus.OK);
 	}
 
 	
