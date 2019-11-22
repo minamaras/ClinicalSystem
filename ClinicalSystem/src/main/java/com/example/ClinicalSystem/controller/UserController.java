@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.DTO.UserDTO;
@@ -22,22 +24,14 @@ public class UserController {
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
-	public User login(@RequestBody UserDTO user) {
-		
-		User u = userService.findByEmail(user.getEmail());
-		if(u == null) {
-			
-			return null;
-			
+	public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+
+		boolean isloggedin = userService.loginUser(userDTO);
+		if(isloggedin) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
-		boolean postoji = false;
-		User uPass = userService.findbyPassword(user.getPassword());
-		if( u == uPass) {
-			
-			postoji = true;
-		}
-		return u;
 	}
 	
 		
