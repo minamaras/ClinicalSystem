@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.service.DoctorService;
@@ -22,18 +23,12 @@ public class DoctorController {
 	@Autowired
 	private DoctorService doctorService;
 
-	@GetMapping(value = "/all")
+	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
 	public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
 
-		List<Doctor> doctors = doctorService.findAll();
+		List<DoctorDTO> doctors = doctorService.findAll();
 
-		// convert students to DTOs
-		List<DoctorDTO> doctorsDTO = new ArrayList<>();
-		for (Doctor d : doctors) {
-			doctorsDTO.add(new DoctorDTO(d));
-		}
-
-		return new ResponseEntity<>(doctorsDTO, HttpStatus.OK);
+		return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/saveDoctor")
