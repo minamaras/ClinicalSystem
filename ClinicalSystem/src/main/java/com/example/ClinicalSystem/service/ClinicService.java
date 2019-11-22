@@ -24,10 +24,6 @@ public class ClinicService {
 		
 		Clinic clinic =  modelMapper.map(clinicDto, Clinic.class);
 		
-		clinic.setAdress(clinicDto.getAdress());
-		clinic.setDescription(clinicDto.getDescription());
-		clinic.setName(clinicDto.getName());
-		
 		return clinicRepo.save(clinic);
 	}
 

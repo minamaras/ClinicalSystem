@@ -46,14 +46,6 @@ public class DoctorService {
 		
 		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
 		
-		doctor.setName(doctorDto.getName());
-		doctor.setLastname(doctorDto.getLastname());
-		doctor.setEmail(doctorDto.getEmail());
-		doctor.setPassword(doctorDto.getPassword());
-		doctor.setSpecialization(doctorDto.getSpecialization());
-		doctor.setRating(doctorDto.getRating());
-		doctor.setRole(Role.DOCTOR);
-		
         return doctorRepository.save(doctor);
     }
 

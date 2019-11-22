@@ -38,11 +38,6 @@ public class ClinicalCentreAdminService {
 	public ClinicalCentreAdmin save(ClinicalCentreAdminDTO clinicalCentreAdminDto) {
 		
 		ClinicalCentreAdmin ccAdmin = modelMapper.map(clinicalCentreAdminDto, ClinicalCentreAdmin.class);
-	
-		ccAdmin.setId(clinicalCentreAdminDto.getId());
-		ccAdmin.setName(clinicalCentreAdminDto.getName());
-		ccAdmin.setLastname(clinicalCentreAdminDto.getLastname());
-		ccAdmin.setEmail(clinicalCentreAdminDto.getEmail());
 		
 		return clinicalCentreAdminRepository.save(ccAdmin);
 	}

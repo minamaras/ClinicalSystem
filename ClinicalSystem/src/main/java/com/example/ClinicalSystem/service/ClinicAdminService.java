@@ -40,12 +40,6 @@ public class ClinicAdminService {
 		
 		ClinicAdmin clinicAdmin = modelMapper.map(clinicAdminDto, ClinicAdmin.class);
 		
-		clinicAdmin.setName(clinicAdminDto.getName());
-		clinicAdmin.setLastname(clinicAdminDto.getLastname());
-		clinicAdmin.setEmail(clinicAdminDto.getEmail());
-		clinicAdmin.setPassword(clinicAdminDto.getPassword());
-		clinicAdmin.setRole(Role.CLINICADMIN);
-		
 		return clinicAdminRepository.save(clinicAdmin);
 	}
 
