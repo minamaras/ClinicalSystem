@@ -21,7 +21,7 @@ public class UserService {
 	private ModelMapper modelMapper;
 	
 	
-	public ResponseEntity<UserDTO> loginUser(UserDTO user) {
+	public boolean loginUser(UserDTO user) {
 
 		User u = modelMapper.map(user,User.class);
 		boolean pronadjen = false;
@@ -37,15 +37,7 @@ public class UserService {
 
 		}
 
-		if(pronadjen){
-
-			return  new ResponseEntity<UserDTO>(HttpStatus.OK);
-		}else {
-
-			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-
+		return  pronadjen;
 	}
 	
 
