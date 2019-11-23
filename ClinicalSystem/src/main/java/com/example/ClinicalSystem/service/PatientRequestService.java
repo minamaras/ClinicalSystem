@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.service.interfaces.PatientRequestServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -7,7 +8,7 @@ import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.model.PatientRequest;
 import com.example.ClinicalSystem.repository.PatientRequestRepository;
 
-public class PatientRequestService {
+public class PatientRequestService implements PatientRequestServiceInterface {
 	
 	@Autowired
 	PatientRequestRepository patientRequestRepository;
