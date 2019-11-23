@@ -16,6 +16,7 @@ import com.example.ClinicalSystem.model.PatientRequest;
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.repository.PatientRepository;
 import com.example.ClinicalSystem.repository.UserRepository;
+import com.example.ClinicalSystem.service.PatientRequestService;
 
 @Service
 public class PatientService {
