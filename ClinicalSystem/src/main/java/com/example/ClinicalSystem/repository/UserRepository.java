@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long>  {
 	User findByEmail(String email);
 	User save(User user);
 	User findByPassword(String password);
+	User findByUsername(String username);
+	List<User> findAll();
 	
 	
 	
