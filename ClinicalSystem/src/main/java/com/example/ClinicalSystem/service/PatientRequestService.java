@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.model.PatientRequest;
 import com.example.ClinicalSystem.repository.PatientRequestRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PatientRequestService {
 	
 	@Autowired
