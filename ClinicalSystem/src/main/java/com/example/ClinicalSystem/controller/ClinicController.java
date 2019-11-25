@@ -28,7 +28,7 @@ public class ClinicController {
 	@Autowired
 	ModelMapper modelMapper;
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/addClinic")
+	@RequestMapping(method = RequestMethod.POST, value = "/addclinic")
 	public ResponseEntity<ClinicDTO> addClinic(@RequestBody ClinicDTO clinicDTO) {
 
 		clinicService.addClinic(clinicDTO);
