@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.model.PatientRequest;
 import com.example.ClinicalSystem.repository.PatientRequestRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PatientRequestService implements PatientRequestServiceInterface {
 	
 	@Autowired
@@ -15,6 +18,9 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 	
 	@Autowired
 	ModelMapper modelMapper;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	public boolean emailExistsInDB(PatientRequestDTO patientRequestDTO) {
 		
@@ -36,6 +42,7 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 		if(!existsInRequests) {
 			
 			PatientRequest patientRequest = modelMapper.map(patientRequestDTO,PatientRequest.class);
+			patientRequest.setPassword(passwordEncoder.encode(patientRequest.getPassword()));
 			patientRequestRepository.save(patientRequest);
 			addedRequest = true;
 			return addedRequest;
