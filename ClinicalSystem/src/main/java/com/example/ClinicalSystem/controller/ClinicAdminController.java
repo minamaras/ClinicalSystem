@@ -21,13 +21,13 @@ import com.example.ClinicalSystem.service.DoctorService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
-@RequestMapping(value = "api/clinicAdmin")
+@RequestMapping(value = "api/clinicadmin")
 public class ClinicAdminController {
 
 	@Autowired
 	private ClinicAdminService clinicAdminService;
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/addClinicAdmin")
+	@RequestMapping(method = RequestMethod.POST, value = "/addclinicadmin")
 	public ResponseEntity<ClinicAdminDTO> addClinicAdmin(@RequestBody ClinicAdminDTO clinicAdminDTO) {
 
 		clinicAdminService.save(clinicAdminDTO);
@@ -35,7 +35,7 @@ public class ClinicAdminController {
 
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/allClinicAdmins")
+	@RequestMapping(method = RequestMethod.GET, value = "/allclinicadmins")
 	public ResponseEntity<List<ClinicAdminDTO>> getAllClinicAdmins() {
 
 		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.findAll();
