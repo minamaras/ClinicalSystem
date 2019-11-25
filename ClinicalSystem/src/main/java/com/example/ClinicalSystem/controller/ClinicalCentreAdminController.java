@@ -21,7 +21,7 @@ import com.example.ClinicalSystem.service.UserService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
-@RequestMapping(value = "api/clinicalCentreAdmins")
+@RequestMapping(value = "api/clinicalcentreadmins")
 public class ClinicalCentreAdminController {
 
 
@@ -37,7 +37,7 @@ public class ClinicalCentreAdminController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/addccAdmin")
+	@RequestMapping(method = RequestMethod.POST, value = "/addccadmin")
 	public ResponseEntity<ClinicalCentreAdminDTO> addccAdmin(@RequestBody ClinicalCentreAdminDTO ccAdminDTO) {
 		ccaService.save(ccAdminDTO);
 		return new ResponseEntity<>(ccAdminDTO,HttpStatus.CREATED);
