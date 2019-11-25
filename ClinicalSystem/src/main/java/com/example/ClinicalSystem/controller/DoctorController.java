@@ -23,7 +23,7 @@ public class DoctorController {
 	@Autowired
 	private DoctorService doctorService;
 
-	@RequestMapping(method = RequestMethod.GET, value = "/allDoctors")
+	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
 	public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
 
 		List<DoctorDTO> doctors = doctorService.findAll();
@@ -31,7 +31,7 @@ public class DoctorController {
 		return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/saveDoctor")
+	@RequestMapping(method = RequestMethod.POST, value = "/savedoctor")
 	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
 		
 		Doctor d = doctorService.saveDoctor(doctorDTO);
