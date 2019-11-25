@@ -1,13 +1,32 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.DTO.UserDTO;
+import com.example.ClinicalSystem.model.Patient;
+import com.example.ClinicalSystem.model.Role;
+import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.model.UserTokenState;
 import com.example.ClinicalSystem.security.TokenUtils;
+import com.example.ClinicalSystem.security.auth.JwtAuthenticationRequest;
 import com.example.ClinicalSystem.service.CustomUserDetailsService;
 import com.example.ClinicalSystem.service.PatientRequestService;
+import com.example.ClinicalSystem.service.PatientService;
 import com.example.ClinicalSystem.service.UserService;
+import com.example.ClinicalSystem.service.interfaces.PatientRequestServiceInterface;
+import com.example.ClinicalSystem.service.interfaces.UserServiceInterface;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,4 +45,61 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
 
-}
+    @Autowired
+    private PatientRequestService patientRequestService;
+
+    @Autowired
+    private PatientService patientService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/register")
+    public ResponseEntity<?> register(@RequestBody PatientDTO patientDTO) {
+
+        boolean registered = patientService.register(patientDTO);
+
+        if(registered){
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        else {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
+    public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest authenticationRequest) {
+
+        /*boolean isloggedin = userService.loginUser(userDTO);
+        if(isloggedin) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }*/
+
+        final Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+                        authenticationRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        UserDetails details = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
+
+        //username = email in this case
+        String jwt = tokenUtils.generateToken(details.getUsername());
+        int expiresIn = tokenUtils.getExpiredIn();
+
+        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+    }
+
+
+    }
+
+
+
+
