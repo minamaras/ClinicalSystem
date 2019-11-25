@@ -7,16 +7,20 @@ import com.example.ClinicalSystem.model.Role;
 import com.example.ClinicalSystem.service.interfaces.UserServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.repository.UserRepository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements UserServiceInterface {
+public class UserService implements UserServiceInterface, UserDetailsService {
 
 
 	@Autowired
@@ -36,7 +40,8 @@ public class UserService implements UserServiceInterface {
 
 	@Override
 	public User findByUsername(String email) {
-		return userRepository.findByEmail(email);
+		User user = userRepository.findByEmail(email);
+		return user;
 	}
 
 	@Override
@@ -87,4 +92,15 @@ public class UserService implements UserServiceInterface {
 		return exists;
 	}
 
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = (userRepository.findByEmail(email));
+
+		if(user == null)
+			throw new UsernameNotFoundException("User with "+ email+" doesn't exists!");
+
+
+
+		return user;
+	}
 }
