@@ -21,7 +21,7 @@ import com.example.ClinicalSystem.service.DoctorService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
-@RequestMapping(value = "api/clinicadmins")
+@RequestMapping(value = "api/clinicadmin")
 public class ClinicAdminController {
 
 	@Autowired
