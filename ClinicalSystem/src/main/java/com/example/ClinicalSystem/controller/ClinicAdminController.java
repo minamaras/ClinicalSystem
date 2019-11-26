@@ -35,7 +35,7 @@ public class ClinicAdminController {
 
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/allclinicadmins")
+	@RequestMapping(method = RequestMethod.GET, value = "/all")
 	public ResponseEntity<List<ClinicAdminDTO>> getAllClinicAdmins() {
 
 		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.findAll();
