@@ -1,5 +1,7 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.service.interfaces.PatientRequestServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,9 @@ import com.example.ClinicalSystem.model.PatientRequest;
 import com.example.ClinicalSystem.repository.PatientRequestRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PatientRequestService implements PatientRequestServiceInterface {
@@ -21,6 +26,9 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private PatientService patientService;
 	
 	public boolean emailExistsInDB(PatientRequestDTO patientRequestDTO) {
 		
@@ -50,7 +58,53 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 		
 		return addedRequest;
 	}
-	
-	
+
+    @Override
+    public PatientRequestDTO findByEmail(String email) {
+	    PatientRequest pr = patientRequestRepository.findByEmail(email);
+        PatientRequestDTO requestDTO = modelMapper.map(pr, PatientRequestDTO.class);
+        return requestDTO;
+    }
+
+    public List<PatientRequestDTO> findAll() {
+
+		List<PatientRequest> requests = patientRequestRepository.findAll();
+
+		List<PatientRequestDTO> requestDTO = new ArrayList<>();
+		for (PatientRequest request : requests) {
+			requestDTO.add(new PatientRequestDTO(request));
+		}
+
+		return requestDTO;
+	}
+
+
+	public boolean confirmUser(PatientRequestDTO requestDTO) {
+		Patient patient = modelMapper.map(requestDTO, Patient.class);
+		Patient p = patientService.savePatient(patient);
+		Long isDeleted = deletePatientRequest(p.getEmail());
+
+		if (isDeleted == 1){
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public boolean declineUser(PatientRequestDTO requestDTO){
+		Long isDeleted = deletePatientRequest(requestDTO.getEmail());
+		if(isDeleted == 1){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public Long deletePatientRequest(String email){
+		Long num = patientRequestRepository.removeByEmail(email);
+		return num;
+	}
+
 
 }
