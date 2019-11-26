@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
@@ -26,11 +27,11 @@ public class PatientRequestController {
 
         return new ResponseEntity<>(requests, HttpStatus.OK);
     }
-
+    @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "/confirmrequest")
-    public ResponseEntity<?> confirmRequest(@RequestBody String email) {
+    public ResponseEntity<?> confirmRequest(@RequestBody PatientRequestDTO dto) {
 
-        PatientRequestDTO requestDTO = patientRequestService.findByEmail(email);
+        PatientRequestDTO requestDTO = patientRequestService.findByEmail(dto.getEmail());
         boolean isAdded = patientRequestService.confirmUser(requestDTO);
 
         if(isAdded) {
