@@ -40,11 +40,11 @@ public class PatientRequestController {
             return new ResponseEntity<>(requestDTO, HttpStatus.BAD_REQUEST);
         }
     }
-
+    @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "/declinerequest")
-    public ResponseEntity<?> declineRequest(@RequestBody String email) {
+    public ResponseEntity<?> declineRequest(@RequestBody PatientRequestDTO dto) {
 
-        PatientRequestDTO requestDTO = patientRequestService.findByEmail(email);
+        PatientRequestDTO requestDTO = patientRequestService.findByEmail(dto.getEmail());
         boolean isRemoved = patientRequestService.declineUser(requestDTO);
 
         if(isRemoved) {
