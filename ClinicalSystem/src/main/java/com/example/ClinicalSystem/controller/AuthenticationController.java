@@ -94,8 +94,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
     }
 
-    @GetMapping(value="/user")
-    public ResponseEntity<?> getCurrentUser(@RequestHeader(value="accessToken") String token) {
+
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/user")
+    public ResponseEntity<?> getCurrentUser(@RequestHeader(value="token") String token) {
 
         String email = tokenUtils.getEmailFromToken(token);
 
