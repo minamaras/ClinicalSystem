@@ -43,6 +43,19 @@ public class ClinicController {
 
 		return new ResponseEntity<>(clinics, HttpStatus.OK);
 	}
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/updateclinic")
+	public ResponseEntity<ClinicDTO> updateClinic(@RequestBody ClinicDTO clinicDTO) {
+
+		if(clinicService.findClinic(clinicDTO) == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		clinicService.updateClinic(clinicDTO);
+		return new ResponseEntity<>(clinicDTO,HttpStatus.OK);
+
+	}
+
+
 	
 	
 	
