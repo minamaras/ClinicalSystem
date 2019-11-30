@@ -4,6 +4,7 @@ package com.example.ClinicalSystem.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.model.Nurse;
@@ -14,6 +15,9 @@ public class NurseService {
 
 	@Autowired
 	private NurseRepository nurseRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	public List<Nurse> findAll(){
 		return nurseRepository.findAll();
@@ -21,6 +25,8 @@ public class NurseService {
 	}
 	
 	public Nurse save(Nurse nurse) {
+
+		nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
 		return nurseRepository.save(nurse);
 	}
 	
