@@ -67,7 +67,7 @@ public class AuthenticationController {
 
         if(registered){
 
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(patientDTO, HttpStatus.CREATED);
         }
         else {
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
