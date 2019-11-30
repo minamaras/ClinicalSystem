@@ -38,6 +38,26 @@ public class ClinicService {
 		
 		return clinicsDTO;
 	}
-	
+
+	public  Clinic findClinic(ClinicDTO clinicDTO) {
+
+		if(clinicRepo.findByName(clinicDTO.getName()) != null) {
+			Clinic clinic = modelMapper.map(clinicDTO, Clinic.class);
+			return clinic;
+		}
+
+		return null;
+	}
+	public Clinic updateClinic(ClinicDTO clinicDto) {
+
+		Clinic clinic = clinicRepo.findByName(clinicDto.getName());
+		if(clinic == null) {
+			return null;
+		}
+		clinic.setAdress(clinicDto.getAdress());
+		clinic.setDescription(clinicDto.getDescription());
+
+		return clinicRepo.save(clinic);
+	}
 
 }
