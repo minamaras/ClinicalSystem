@@ -3,6 +3,8 @@ package com.example.ClinicalSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
+import com.example.ClinicalSystem.model.ClinicAdmin;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.repository.ClinicRepository;
+
+import javax.transaction.Transactional;
 
 @Service
 public class ClinicService {
@@ -37,6 +41,29 @@ public class ClinicService {
 		}
 		
 		return clinicsDTO;
+	}
+
+	public ClinicDTO findClinic(String name) {
+		Clinic clinic = clinicRepo.findByName(name);
+		ClinicDTO clinicDTO = modelMapper.map(clinic, ClinicDTO.class);
+		return clinicDTO;
+	}
+
+	@Transactional
+	public boolean addAdminToClinic(ClinicDTO clinicDTO, ClinicAdminDTO cadminDTO){
+		Clinic clinic = modelMapper.map(clinicDTO, Clinic.class);
+		ClinicAdmin cAdmin = modelMapper.map(cadminDTO, ClinicAdmin.class);
+
+
+		clinic.setClinicAdmin(cAdmin);
+		cAdmin.setClinics(clinic);
+
+
+		if((clinic.getClinicAdmin() != null) && (cAdmin.getClinic() != null)){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 
