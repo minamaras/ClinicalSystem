@@ -43,5 +43,13 @@ public class ClinicAdminController {
 		return new ResponseEntity<>(clinicAdmins, HttpStatus.OK);
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/available")
+	public ResponseEntity<List<ClinicAdminDTO>> getAvailableAdmins() {
+
+		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.findAvailableAdmins();
+
+		return new ResponseEntity<>(clinicAdmins, HttpStatus.OK);
+	}
+
 	
 }
