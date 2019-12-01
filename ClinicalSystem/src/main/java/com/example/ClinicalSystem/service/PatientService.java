@@ -51,7 +51,8 @@ public class PatientService {
 
 	
 	public Patient savePatient(Patient patient) {
-		
+
+		patient.setActive(true);
 		return patientRepository.save(patient);
 	}
 	
