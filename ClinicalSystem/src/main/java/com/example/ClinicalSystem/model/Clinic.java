@@ -40,9 +40,8 @@ public class Clinic {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private BusinessReport report;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private ClinicAdmin clinicAdmin;
-
+	@OneToMany(mappedBy = "clinic", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<ClinicAdmin> clinicAdmins = new HashSet<ClinicAdmin>();
 	public Clinic() {
 
 	}
@@ -163,11 +162,11 @@ public class Clinic {
 		this.patients = patients;
 	}
 
-	public ClinicAdmin getClinicAdmin() {
-		return clinicAdmin;
+	public Set<ClinicAdmin> getClinicAdmins() {
+		return clinicAdmins;
 	}
 
-	public void setClinicAdmin(ClinicAdmin clinicAdmin) {
-		this.clinicAdmin = clinicAdmin;
+	public void setClinicAdmins(Set<ClinicAdmin> clinicAdmins) {
+		this.clinicAdmins = clinicAdmins;
 	}
 }
