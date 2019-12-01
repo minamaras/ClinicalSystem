@@ -3,15 +3,12 @@ package com.example.ClinicalSystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.model.Clinic;
@@ -42,6 +39,20 @@ public class ClinicController {
 		List<ClinicDTO> clinics = clinicService.findAllClinics();
 
 		return new ResponseEntity<>(clinics, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/connectadmin/")
+	public ResponseEntity<ClinicDTO> addAdmin(@RequestBody String clinicName, @RequestBody ClinicAdminDTO cadminDTO){
+		ClinicDTO clinicdto = clinicService.findClinic(clinicName);
+		System.out.println(clinicdto.getName());
+		boolean isConnected = clinicService.addAdminToClinic(clinicdto, cadminDTO);
+
+		if(isConnected) {
+			return new ResponseEntity<>(clinicdto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(clinicdto, HttpStatus.BAD_REQUEST);
+		}
+
 	}
 	
 	
