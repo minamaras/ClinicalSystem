@@ -31,16 +31,16 @@ public class ClinicService {
 		return clinicRepo.save(clinic);
 	}
 
-	public List<ClinicDTO> findAllClinics() { 
+	public List<Clinic> findAllClinics() {
 		
 		List<Clinic> clinics = clinicRepo.findAll();
-
+	/*
 		List<ClinicDTO> clinicsDTO = new ArrayList<>();
 		for (Clinic c : clinics) {
 			clinicsDTO.add(new ClinicDTO(c));
 		}
-		
-		return clinicsDTO;
+		*/
+		return clinics;
 	}
 
 	public ClinicDTO findClinic(String name) {
@@ -55,11 +55,11 @@ public class ClinicService {
 		ClinicAdmin cAdmin = modelMapper.map(cadminDTO, ClinicAdmin.class);
 
 
-		clinic.setClinicAdmin(cAdmin);
+		clinic.getClinicAdmins().add(cAdmin);
 		cAdmin.setClinics(clinic);
 
 
-		if((clinic.getClinicAdmin() != null) && (cAdmin.getClinic() != null)){
+		if(cAdmin.getClinic() != null){
 			return true;
 		} else {
 			return false;
