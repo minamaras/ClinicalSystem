@@ -163,6 +163,11 @@ public class Clinic {
 		this.patients = patients;
 	}
 
+	public ClinicAdmin getClinicAdmin() {
+		return clinicAdmin;
+	}
 
-
+	public void setClinicAdmin(ClinicAdmin clinicAdmin) {
+		this.clinicAdmin = clinicAdmin;
+	}
 }
