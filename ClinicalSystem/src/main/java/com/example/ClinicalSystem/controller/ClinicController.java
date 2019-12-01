@@ -41,9 +41,9 @@ public class ClinicController {
 		return new ResponseEntity<>(clinics, HttpStatus.OK);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/connectadmin/")
-	public ResponseEntity<ClinicDTO> addAdmin(@RequestBody String clinicName, @RequestBody ClinicAdminDTO cadminDTO){
-		ClinicDTO clinicdto = clinicService.findClinic(clinicName);
+	@RequestMapping(method = RequestMethod.POST, value = "/connectadmin/{clinicid}")
+	public ResponseEntity<ClinicDTO> addAdmin(@PathVariable String clinicid, @RequestBody ClinicAdminDTO cadminDTO){
+		ClinicDTO clinicdto = clinicService.findClinic(clinicid);
 		System.out.println(clinicdto.getName());
 		boolean isConnected = clinicService.addAdminToClinic(clinicdto, cadminDTO);
 
