@@ -1,10 +1,14 @@
 package com.example.ClinicalSystem.service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
+import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.model.ClinicAdmin;
+import com.example.ClinicalSystem.model.Doctor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,6 +92,19 @@ public class ClinicService {
 		}
 	}
 
+	@Transactional
+	public boolean addDoctorsToClinic(ClinicDTO clinicDTO, List<DoctorDTO> doctorDTOS) {
+		Clinic clinic = modelMapper.map(clinicDTO, Clinic.class);
+		List<Doctor> doctors = new ArrayList<Doctor>();
 
+		for(DoctorDTO ddto : doctorDTOS) {
+			Doctor doctor = modelMapper.map(ddto, Doctor.class);
+			doctor.setClinic(clinic);
+			doctors.add(doctor);
+		}
 
+		clinic.setDoctors((Set<Doctor>) doctors);
+
+		return true;
+	}
 }
