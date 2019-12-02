@@ -23,6 +23,9 @@ public class ClinicService {
 	
 	@Autowired
 	ModelMapper modelMapper;
+
+	@Autowired
+	ClinicAdminService clinicAdminService;
 	
 	public Clinic addClinic(ClinicDTO clinicDto) {
 		
@@ -56,8 +59,8 @@ public class ClinicService {
 
 
 		clinic.getClinicAdmins().add(cAdmin);
-		cAdmin.setClinics(clinic);
-
+		cAdmin.setClinic(clinic);
+		clinicRepo.save(clinic);
 
 		if(cAdmin.getClinic() != null){
 			return true;
