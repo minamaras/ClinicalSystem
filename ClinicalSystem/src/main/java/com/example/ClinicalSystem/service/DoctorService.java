@@ -14,6 +14,8 @@ import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.Role;
 import com.example.ClinicalSystem.repository.DoctorRepository;
 
+import javax.transaction.Transactional;
+
 @Service
 public class DoctorService {
 	
@@ -54,4 +56,27 @@ public class DoctorService {
         return doctorRepository.save(doctor);
     }
 
+    @Transactional
+    public boolean removeDoctor(DoctorDTO doctorDto) {
+		UserDTO userDto = modelMapper.map(doctorDto, UserDTO.class);
+
+		if(userService.existsInDB(userDto)) {
+			Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
+
+			if(doctor.getAppointments().size() >= 1) {
+				return  false;
+			}
+
+			doctorRepository.deleteByEmail(doctor.getEmail());
+
+			return true;
+		}
+
+		return false;
+
+	}
+
+	public Doctor findOne(String email) {
+		return doctorRepository.findByEmail(email);
+	}
 }
