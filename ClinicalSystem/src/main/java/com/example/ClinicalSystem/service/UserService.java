@@ -1,20 +1,26 @@
 package com.example.ClinicalSystem.service;
 
-import com.example.ClinicalSystem.DTO.PatientDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
 import com.example.ClinicalSystem.model.Patient;
+import com.example.ClinicalSystem.model.PatientRequest;
 import com.example.ClinicalSystem.model.Role;
+import com.example.ClinicalSystem.service.interfaces.UserServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.repository.UserRepository;
 
+import javax.swing.text.html.Option;
+import java.util.List;
+import java.util.Optional;
+
 @Service
-public class UserService {
+public class UserService implements UserServiceInterface, UserDetailsService {
 
 
 	@Autowired
@@ -25,6 +31,23 @@ public class UserService {
 	
 	@Autowired
 	private PatientService patientService;
+
+
+	@Override
+	public Optional<User> findById(Long id) {
+		return userRepository.findById(id);
+	}
+
+	@Override
+	public User findByUsername(String email) {
+		User user = userRepository.findByEmail(email);
+		return user;
+	}
+
+	@Override
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
 
 
 	public boolean loginUser(UserDTO user) {
@@ -69,4 +92,15 @@ public class UserService {
 		return exists;
 	}
 
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = (userRepository.findByEmail(email));
+
+		if(user == null)
+			throw new UsernameNotFoundException("User with "+ email+" doesn't exists!");
+
+
+
+		return user;
+	}
 }

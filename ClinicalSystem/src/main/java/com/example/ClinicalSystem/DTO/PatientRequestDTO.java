@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.DTO;
 
+import com.example.ClinicalSystem.model.PatientRequest;
 import com.example.ClinicalSystem.model.Role;
 
 public class PatientRequestDTO {
@@ -24,6 +25,10 @@ public class PatientRequestDTO {
 		this.email = email;
 		this.password = password;
 		this.role = role;
+	}
+
+	public PatientRequestDTO(PatientRequest pr) {
+		this(pr.getId(), pr.getName(), pr.getLastname(), pr.getEmail(), pr.getPassword(), pr.getRole());
 	}
 
 	public PatientRequestDTO() {

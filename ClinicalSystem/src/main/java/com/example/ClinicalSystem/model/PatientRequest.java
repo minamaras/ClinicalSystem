@@ -22,16 +22,16 @@ public class PatientRequest {
 	@Enumerated(EnumType.STRING)
 	private Role role = Role.PATIENT;
 	
-	@Column(name="name",columnDefinition="VARCHAR(40)")
+	@Column(name="name")
 	private String name;
   
-	@Column(name="lastname",columnDefinition="VARCHAR(40)")
+	@Column(name="lastname")
 	private String lastname;
 	
-	@Column(name="email",columnDefinition="VARCHAR(50)", unique = true)
+	@Column(name="email",unique = true)
 	private String email;
 	
-	@Column(name="password",columnDefinition="VARCHAR(30)")
+	@Column(name="password")
 	private String password;
 
 	public PatientRequest() {

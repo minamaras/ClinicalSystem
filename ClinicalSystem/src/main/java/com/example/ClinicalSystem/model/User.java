@@ -1,22 +1,26 @@
 package com.example.ClinicalSystem.model;
 
+import org.joda.time.DateTime;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import static javax.persistence.InheritanceType.JOINED;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy=JOINED)
 @Table(name="users")
-public class User {
+public class User implements UserDetails {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -26,17 +30,26 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
-	@Column(name="name",columnDefinition="VARCHAR(40)")
+	@Column(name="name")
 	private String name;
   
-	@Column(name="lastname",columnDefinition="VARCHAR(40)")
+	@Column(name="lastname")
 	private String lastname;
 	
-	@Column(name="email",columnDefinition="VARCHAR(50)", unique = true)
+	@Column(name="email", unique = true)
 	private String email;
 	
-	@Column(name="password",columnDefinition="VARCHAR(30)")
+	@Column(name="password")
 	private String password;
+
+	@Column(name = "last_password_reset_date")
+	private Timestamp lastPasswordResetDate;
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_authority",
+			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+	private List<Authority> authorities;
 
 	public User() {
 		super();
@@ -95,11 +108,56 @@ public class User {
 		this.email = email;
 	}
 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.authorities;
+	}
+
 	public String getPassword() {
 		return password;
 	}
 
+	@Override
+	public String getUsername() {
+		return this.getEmail();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	public Timestamp getLastPasswordResetDate() {
+		return lastPasswordResetDate;
+	}
+
+	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+		this.lastPasswordResetDate = lastPasswordResetDate;
+	}
+
+	public void setAuthorities(List<Authority> authorities) {
+		this.authorities = authorities;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
 	public void setPassword(String password) {
+
+		Timestamp now = new Timestamp(DateTime.now().getMillis());
+		this.setLastPasswordResetDate( now );
 		this.password = password;
 	}
 	

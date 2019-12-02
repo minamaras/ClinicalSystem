@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.repository;
 
 
+import com.example.ClinicalSystem.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ public interface PatientRequestRepository extends JpaRepository<PatientRequest, 
 	
 	PatientRequest findByEmail(String email);	
 	PatientRequest save(PatientRequest patientRequest);
+	Long removeByEmail(String email);
 	
 
 }

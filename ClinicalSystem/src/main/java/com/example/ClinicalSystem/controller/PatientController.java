@@ -18,7 +18,7 @@ public class PatientController {
 	@Autowired
 	private PatientService patientService;
 
-	@RequestMapping(method = RequestMethod.POST, value = "/register")
+	/*@RequestMapping(method = RequestMethod.POST, value = "/register")
 	public ResponseEntity<?> register(@RequestBody PatientDTO patientDTO) {
 
 			boolean registered = patientService.register(patientDTO);
@@ -30,7 +30,7 @@ public class PatientController {
 			else {
 				return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
-	}
+	}*/
 
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
@@ -25,6 +26,9 @@ public class ClinicAdminService {
 	@Autowired 
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	public List<ClinicAdminDTO> findAll() {
 		List<ClinicAdmin> clinicAdmins = clinicAdminRepository.findAll();
 
@@ -36,13 +40,33 @@ public class ClinicAdminService {
 		return clinicAdminsDTO;
 	}
 
+	public List<ClinicAdminDTO> findAvailableAdmins() {
+		List<ClinicAdmin> clinicAdmins = clinicAdminRepository.findAll();
+
+		List<ClinicAdminDTO> clinicAdminsDTO = new ArrayList<>();
+
+		for (ClinicAdmin c : clinicAdmins) {
+			if(c.getClinic() == null) {
+				clinicAdminsDTO.add(new ClinicAdminDTO(c));
+			}
+		}
+
+		return clinicAdminsDTO;
+	}
+
 	public ClinicAdmin save(ClinicAdminDTO clinicAdminDto) {
 		
 		ClinicAdmin clinicAdmin = modelMapper.map(clinicAdminDto, ClinicAdmin.class);
+		clinicAdmin.setPassword(passwordEncoder.encode(clinicAdmin.getPassword()));
+
 		
 		return clinicAdminRepository.save(clinicAdmin);
 	}
 
+	public ClinicAdmin saveModel(ClinicAdmin clinicAdmin){
+		return clinicAdminRepository.save(clinicAdmin);
+	}
+	
 	public ClinicAdmin findByEmail(String email) {
 		return clinicAdminRepository.findByEmail(email);
 	}
