@@ -62,11 +62,15 @@ public class ClinicAdminService {
 		
 		return clinicAdminRepository.save(clinicAdmin);
 	}
+<<<<<<< Updated upstream
 
 	public ClinicAdmin saveModel(ClinicAdmin clinicAdmin){
 		return clinicAdminRepository.save(clinicAdmin);
 	}
 
+=======
+	
+>>>>>>> Stashed changes
 	public ClinicAdmin findByEmail(String email) {
 		return clinicAdminRepository.findByEmail(email);
 	}
