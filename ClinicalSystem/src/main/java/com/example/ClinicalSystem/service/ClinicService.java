@@ -19,13 +19,20 @@ import javax.transaction.Transactional;
 public class ClinicService {
 	
 	@Autowired
-	ClinicRepository clinicRepo;
+	private ClinicRepository clinicRepo;
 	
 	@Autowired
+<<<<<<< Updated upstream
 	ModelMapper modelMapper;
 
 	@Autowired
 	ClinicAdminService clinicAdminService;
+=======
+	private ModelMapper modelMapper;
+
+	@Autowired
+	private ClinicAdminService clinicAdminService;
+>>>>>>> Stashed changes
 	
 	public Clinic addClinic(ClinicDTO clinicDto) {
 		
