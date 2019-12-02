@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
+import com.example.ClinicalSystem.DTO.DoctorDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,6 +61,20 @@ public class ClinicController {
 		ClinicDTO clinicdto = clinicService.findClinic(clinicid);
 		System.out.println(clinicdto.getName());
 		boolean isConnected = clinicService.addAdminToClinic(clinicdto, cadminDTO);
+
+		if(isConnected) {
+			return new ResponseEntity<>(clinicdto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(clinicdto, HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/connectwithdoctors/{clinicid}")
+	public ResponseEntity<ClinicDTO> addDoctors(@PathVariable String clinicid, @RequestBody List<DoctorDTO> doctorDtos) {
+		ClinicDTO clinicdto = clinicService.findClinic(clinicid);
+
+		boolean isConnected = clinicService.addDoctorsToClinic(clinicdto, doctorDtos);
 
 		if(isConnected) {
 			return new ResponseEntity<>(clinicdto, HttpStatus.OK);
