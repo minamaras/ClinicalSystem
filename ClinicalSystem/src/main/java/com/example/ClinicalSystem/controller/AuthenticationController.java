@@ -9,10 +9,7 @@ import com.example.ClinicalSystem.model.UserTokenState;
 import com.example.ClinicalSystem.security.TokenUtils;
 import com.example.ClinicalSystem.security.auth.JwtAuthenticationRequest;
 import com.example.ClinicalSystem.security.auth.TokenAuthenticationFilter;
-import com.example.ClinicalSystem.service.CustomUserDetailsService;
-import com.example.ClinicalSystem.service.PatientRequestService;
-import com.example.ClinicalSystem.service.PatientService;
-import com.example.ClinicalSystem.service.UserService;
+import com.example.ClinicalSystem.service.*;
 import com.example.ClinicalSystem.service.interfaces.PatientRequestServiceInterface;
 import com.example.ClinicalSystem.service.interfaces.UserServiceInterface;
 import org.modelmapper.ModelMapper;
@@ -53,6 +50,9 @@ public class AuthenticationController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private DoctorService doctorService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -115,9 +115,26 @@ public class AuthenticationController {
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) a.getPrincipal();
 
-        UserDTO userDto = modelMapper.map(user, UserDTO.class);
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+        Patient p = patientService.findPatient(user.getEmail());
 
+        Role role = user.getRole();
+
+        if(role == Role.PATIENT) {
+            Patient patient = patientService.findPatient(user.getEmail());
+            PatientDTO patientDTO = modelMapper.map(patient, PatientDTO.class);
+            return new ResponseEntity<>(patientDTO, HttpStatus.OK);
+        }
+
+        else if(role == Role.CLINICALCENTREADMIN){
+
+                UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+                return new ResponseEntity<>(userDTO, HttpStatus.OK);
+
+
+        }else{
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 
