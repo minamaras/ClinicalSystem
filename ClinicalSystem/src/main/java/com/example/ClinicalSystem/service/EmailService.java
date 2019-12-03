@@ -39,6 +39,19 @@ public class EmailService {
         System.out.println("Email poslat!");
     }
 
+    @Async
+    public void sendDeclineNotificaitionAsync(User user, String explanation) throws MailException, InterruptedException {
+
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Registration");
+        mail.setText("Hello " + user.getName() + ",\n\nYour request for registration on our website has been denied. Here's an explanation:\n\n" + explanation + "\n\n\nClinical System Team");
+        javaMailSender.send(mail);
+
+    }
+
     public void sendNotificaitionSync(User user) throws MailException, InterruptedException {
 
         SimpleMailMessage mail = new SimpleMailMessage();
