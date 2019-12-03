@@ -103,8 +103,17 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 
 	}
 
-	public boolean declineUser(PatientRequestDTO requestDTO){
+	public boolean declineUser(PatientRequestDTO requestDTO, String explanation){
+		Patient patient = modelMapper.map(requestDTO, Patient.class);
 		Long isDeleted = deletePatientRequest(requestDTO.getEmail());
+
+
+		try {
+			emailService.sendDeclineNotificaitionAsync(patient, explanation);
+		} catch (Exception e) {
+			return false;
+		}
+
 		if(isDeleted == 1){
 			return true;
 		} else {
