@@ -29,6 +29,9 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 
 	@Autowired
 	private PatientService patientService;
+
+	@Autowired
+	private EmailService emailService;
 	
 	public boolean emailExistsInDB(PatientRequestDTO patientRequestDTO) {
 		
@@ -81,7 +84,15 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 
 	public boolean confirmUser(PatientRequestDTO requestDTO) {
 		Patient patient = modelMapper.map(requestDTO, Patient.class);
+
 		Patient p = patientService.savePatient(patient);
+
+		try {
+			emailService.sendNotificaitionAsync(p);
+		} catch (Exception e) {
+			return false;
+		}
+
 		Long isDeleted = deletePatientRequest(p.getEmail());
 
 		if (isDeleted == 1){
