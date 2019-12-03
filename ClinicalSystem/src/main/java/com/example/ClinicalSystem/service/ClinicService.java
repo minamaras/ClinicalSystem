@@ -23,10 +23,17 @@ import javax.transaction.Transactional;
 public class ClinicService {
 
 	@Autowired
-	ClinicRepository clinicRepo;
+	private ClinicRepository clinicRepo;
+  
+  @Autowired
+	private ClinicRepository clinicRepo;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Autowired
-	ModelMapper modelMapper;
+	private ClinicAdminService clinicAdminService;
+	
 
 	public Clinic addClinic(ClinicDTO clinicDto) {
 
@@ -35,16 +42,12 @@ public class ClinicService {
 		return clinicRepo.save(clinic);
 	}
 
-	public List<ClinicDTO> findAllClinics() {
+
+	public List<Clinic> findAllClinics() {
 
 		List<Clinic> clinics = clinicRepo.findAll();
 
-		List<ClinicDTO> clinicsDTO = new ArrayList<>();
-		for (Clinic c : clinics) {
-			clinicsDTO.add(new ClinicDTO(c));
-		}
-
-		return clinicsDTO;
+		return clinics;
 	}
 
 
@@ -81,11 +84,11 @@ public class ClinicService {
 		ClinicAdmin cAdmin = modelMapper.map(cadminDTO, ClinicAdmin.class);
 
 
-		clinic.setClinicAdmin(cAdmin);
-		cAdmin.setClinics(clinic);
+		clinic.getClinicAdmins().add(cAdmin);
+		cAdmin.setClinic(clinic);
+		clinicRepo.save(clinic);
 
-
-		if((clinic.getClinicAdmin() != null) && (cAdmin.getClinic() != null)){
+		if(cAdmin.getClinic() != null){
 			return true;
 		} else {
 			return false;
