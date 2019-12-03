@@ -39,7 +39,7 @@ public class PatientService {
 
 	public boolean register(PatientDTO patientDTO) {
 
-		UserDTO userDTO = modelMapper.map(patientDTO,UserDTO.class);		
+		UserDTO userDTO = modelMapper.map(patientDTO,UserDTO.class);
 		boolean existsInUsers = userService.existsInDB(userDTO);
 		boolean registered = false;
 
