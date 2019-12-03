@@ -25,4 +25,30 @@ public class OperationRoomService {
         return repo.save(room);
 
     }
+
+    @Transactional
+    public boolean removeRoom(OperationRoomDTO roomDTO) {
+
+        if(repo.findByNumber(roomDTO.getNumber()) != null) {
+
+            if(roomDTO.isReserved()) {
+
+                return false;
+            }
+
+            OR room = modelMapper.map(roomDTO, OR.class);
+
+            repo.deleteByNumber(room.getNumber());
+
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public OR findOne(int number) {
+        return repo.findByNumber(number);
+    }
+
 }

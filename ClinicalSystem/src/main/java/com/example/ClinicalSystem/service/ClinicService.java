@@ -24,17 +24,14 @@ public class ClinicService {
 
 	@Autowired
 	private ClinicRepository clinicRepo;
-  
-  @Autowired
-	private ClinicRepository clinicRepo;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
 	@Autowired
 	private ClinicAdminService clinicAdminService;
-	
 
+	
 	public Clinic addClinic(ClinicDTO clinicDto) {
 
 		Clinic clinic =  modelMapper.map(clinicDto, Clinic.class);
