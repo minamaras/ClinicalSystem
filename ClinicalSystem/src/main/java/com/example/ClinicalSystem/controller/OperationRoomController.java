@@ -27,4 +27,17 @@ public class OperationRoomController {
         return new ResponseEntity<>(roomDTO, HttpStatus.CREATED);
 
     }
+
+    @DeleteMapping(value = "{number}")
+    public ResponseEntity<Void> deleteRoom(@PathVariable int number) {
+
+        OR room = roomService.findOne(number);
+        OperationRoomDTO roomDto = modelMapper.map(room, OperationRoomDTO.class);
+
+        if(roomService.removeRoom(roomDto)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }
