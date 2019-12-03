@@ -1,11 +1,10 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.DTO.ClinicalCentreAdminDTO;
+import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.PatientDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
-import com.example.ClinicalSystem.model.Patient;
-import com.example.ClinicalSystem.model.Role;
-import com.example.ClinicalSystem.model.User;
-import com.example.ClinicalSystem.model.UserTokenState;
+import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.security.TokenUtils;
 import com.example.ClinicalSystem.security.auth.JwtAuthenticationRequest;
 import com.example.ClinicalSystem.security.auth.TokenAuthenticationFilter;
@@ -54,8 +53,12 @@ public class AuthenticationController {
     @Autowired
     private DoctorService doctorService;
 
+
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ClinicalCentreAdminService clinicalCentreAdminService;
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")
@@ -115,28 +118,23 @@ public class AuthenticationController {
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) a.getPrincipal();
 
-        Patient p = patientService.findPatient(user.getEmail());
-
-        Role role = user.getRole();
-
-        if(role == Role.PATIENT) {
-            Patient patient = patientService.findPatient(user.getEmail());
-            PatientDTO patientDTO = modelMapper.map(patient, PatientDTO.class);
+        if(user.getRole() == Role.PATIENT) {
+            Patient p = patientService.findPatient(user.getEmail());
+            PatientDTO patientDTO = modelMapper.map(p, PatientDTO.class);
             return new ResponseEntity<>(patientDTO, HttpStatus.OK);
-        }
 
-        else if(role == Role.CLINICALCENTREADMIN){
+        }else if ( user.getRole() == Role.CLINICALCENTREADMIN){
 
-                UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-                return new ResponseEntity<>(userDTO, HttpStatus.OK);
-
-
-        }else{
+            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+            User cca = userService.findByEmail(userDTO);
+            UserDTO ccaDTO = modelMapper.map(cca,UserDTO.class);
+            return new ResponseEntity<>(ccaDTO, HttpStatus.OK);
+        }else {
 
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
 
+        }
 
     }
 
