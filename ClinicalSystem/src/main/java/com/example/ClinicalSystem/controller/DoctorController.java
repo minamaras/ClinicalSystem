@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,9 @@ public class DoctorController {
 
 	@Autowired
 	private DoctorService doctorService;
+
+	@Autowired
+	ModelMapper modelMapper;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
@@ -46,6 +50,19 @@ public class DoctorController {
 		
 		
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
+	}
+
+	@DeleteMapping(value = "{email}")
+	public ResponseEntity<Void> deleteDoctor(@PathVariable String email){
+
+		Doctor doctor = doctorService.findOne(email);
+		DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+
+		if(doctorService.removeDoctor(doctorDTO)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 

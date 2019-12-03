@@ -22,6 +22,12 @@ public class Doctor extends User {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Clinic clinic;
 
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private ClinicAdmin clinicAdmin;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Appointment> appointments = new HashSet<Appointment>();
+
 	@ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<MedicalRecord> medicalRecords = new HashSet<MedicalRecord>();
 
@@ -55,6 +61,30 @@ public class Doctor extends User {
 		this.calendar = calendar;
 		this.setRole(Role.DOCTOR);
 	}*/
+
+	public ClinicAdmin getClinicAdmin() {
+		return clinicAdmin;
+	}
+
+	public void setClinicAdmin(ClinicAdmin clinicAdmin) {
+		this.clinicAdmin = clinicAdmin;
+	}
+
+	public Set<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
+	}
+
+	public Set<MedicalRecord> getMedicalRecords() {
+		return medicalRecords;
+	}
+
+	public void setMedicalRecords(Set<MedicalRecord> medicalRecords) {
+		this.medicalRecords = medicalRecords;
+	}
 
 	public String getSpecialization() {
 		return specialization;

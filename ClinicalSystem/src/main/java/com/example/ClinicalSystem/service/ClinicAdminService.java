@@ -40,6 +40,20 @@ public class ClinicAdminService {
 		return clinicAdminsDTO;
 	}
 
+	public List<ClinicAdminDTO> findAvailableAdmins() {
+		List<ClinicAdmin> clinicAdmins = clinicAdminRepository.findAll();
+
+		List<ClinicAdminDTO> clinicAdminsDTO = new ArrayList<>();
+
+		for (ClinicAdmin c : clinicAdmins) {
+			if(c.getClinic() == null) {
+				clinicAdminsDTO.add(new ClinicAdminDTO(c));
+			}
+		}
+
+		return clinicAdminsDTO;
+	}
+
 	public ClinicAdmin save(ClinicAdminDTO clinicAdminDto) {
 		
 		ClinicAdmin clinicAdmin = modelMapper.map(clinicAdminDto, ClinicAdmin.class);
