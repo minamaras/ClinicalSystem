@@ -22,6 +22,9 @@ public class ClinicalCentreAdminService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private EmailService emailService;
+
 	
 	public List<ClinicalCentreAdminDTO> findAll(){
 		
