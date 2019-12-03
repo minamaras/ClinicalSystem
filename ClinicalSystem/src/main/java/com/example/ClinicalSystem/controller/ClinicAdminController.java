@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
@@ -26,8 +27,10 @@ public class ClinicAdminController {
 
 	@Autowired
 	private ClinicAdminService clinicAdminService;
-	
+
+
 	@RequestMapping(method = RequestMethod.POST, value = "/addclinicadmin")
+	@PreAuthorize("hasAnyAuthority('CLINICADMIN','CLINICALCENTREADMIN')")
 	public ResponseEntity<ClinicAdminDTO> addClinicAdmin(@RequestBody ClinicAdminDTO clinicAdminDTO) {
 
 		clinicAdminService.save(clinicAdminDTO);
@@ -36,6 +39,7 @@ public class ClinicAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/all")
+	@PreAuthorize("hasAnyAuthority('CLINICADMIN','CLINICALCENTREADMIN')")
 	public ResponseEntity<List<ClinicAdminDTO>> getAllClinicAdmins() {
 
 		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.findAll();
