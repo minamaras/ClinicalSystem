@@ -34,8 +34,9 @@ public class ClinicAdminController {
 		return new ResponseEntity<>(clinicAdminDTO, HttpStatus.CREATED);
 
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/all")
+
 	public ResponseEntity<List<ClinicAdminDTO>> getAllClinicAdmins() {
 
 		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.findAll();
