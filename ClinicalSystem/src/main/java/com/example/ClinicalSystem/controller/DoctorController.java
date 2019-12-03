@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.DTO.ClinicDTO;
@@ -24,6 +25,7 @@ public class DoctorController {
 	private DoctorService doctorService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
 
 		List<DoctorDTO> doctors = doctorService.findAll();
@@ -32,6 +34,7 @@ public class DoctorController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/savedoctor")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
 		
 		Doctor d = doctorService.saveDoctor(doctorDTO);
