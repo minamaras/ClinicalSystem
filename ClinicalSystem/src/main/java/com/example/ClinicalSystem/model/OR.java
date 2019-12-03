@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name="OpRoom")
 public class OR {
 
-	@javax.persistence.Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 

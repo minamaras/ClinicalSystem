@@ -17,6 +17,9 @@ public class ClinicAdmin extends User {
 	@ManyToOne//(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Doctor> doctors = new HashSet<Doctor>();
+
 	public ClinicAdmin(Clinic clinic) {
 		super();
 		this.setRole(Role.CLINICADMIN);

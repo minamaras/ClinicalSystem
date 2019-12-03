@@ -9,7 +9,7 @@ import com.example.ClinicalSystem.model.Clinic;
 
 @Repository
 public interface ClinicRepository extends JpaRepository<Clinic, Long> {
-	
+
 	Clinic save(Clinic clinic);
 	List<Clinic> findAll();
 	Clinic findByName(String name);
