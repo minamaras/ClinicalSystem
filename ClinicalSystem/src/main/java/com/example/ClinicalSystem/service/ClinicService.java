@@ -30,6 +30,7 @@ public class ClinicService {
 
 	@Autowired
 	private ClinicAdminService clinicAdminService;
+
 	
 	public Clinic addClinic(ClinicDTO clinicDto) {
 

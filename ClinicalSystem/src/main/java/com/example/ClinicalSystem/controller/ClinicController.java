@@ -34,7 +34,7 @@ public class ClinicController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/allclinics")
+  @RequestMapping(method = RequestMethod.GET, value = "/allclinics")
 	public ResponseEntity<List<Clinic>> getAllClinics() {
 		
 		List<Clinic> clinics = clinicService.findAllClinics();
