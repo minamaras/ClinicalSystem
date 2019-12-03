@@ -17,6 +17,21 @@ public class PatientRequestDTO {
 	
 	private Role role;
 
+
+	private String adress;
+
+
+	private String city;
+
+
+	private String country;
+
+
+	private String phone;
+
+
+	private String socialSecurityNumber;
+
 	public PatientRequestDTO(Long id, String name, String lastname, String email, String password, Role role) {
 		super();
 		Id = id;
@@ -34,6 +49,46 @@ public class PatientRequestDTO {
 	public PatientRequestDTO() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public String getAdress() {
+		return adress;
+	}
+
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getSocialSecurityNumber() {
+		return socialSecurityNumber;
+	}
+
+	public void setSocialSecurityNumber(String socialSecurityNumber) {
+		this.socialSecurityNumber = socialSecurityNumber;
 	}
 
 	public Long getId() {
@@ -83,8 +138,6 @@ public class PatientRequestDTO {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	
-	
+
 
 }
