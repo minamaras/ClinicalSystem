@@ -58,8 +58,6 @@ public class AuthenticationController {
     private ModelMapper modelMapper;
 
 
-
-
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     public ResponseEntity<?> register(@RequestBody PatientDTO patientDTO) {
 
@@ -97,19 +95,29 @@ public class AuthenticationController {
 
 
 
+//    @RequestMapping(method = RequestMethod.GET, value = "/user")
+//    public ResponseEntity<?> getCurrentUser(@RequestHeader(value="token") String token) {
+//
+//        String email = tokenUtils.getEmailFromToken(token);
+//
+//        User user = userService.findByUsername(email);
+//
+//        if(user !=  null) {
+//            UserDTO userDto = modelMapper.map(user, UserDTO.class);
+//            return new ResponseEntity<>(userDto, HttpStatus.OK);
+//        }
+//
+//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/user")
-    public ResponseEntity<?> getCurrentUser(@RequestHeader(value="token") String token) {
+    public ResponseEntity<?> getCurrentUser() {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) a.getPrincipal();
 
-        String email = tokenUtils.getEmailFromToken(token);
+        UserDTO userDto = modelMapper.map(user, UserDTO.class);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
 
-        User user = userService.findByUsername(email);
-
-        if(user !=  null) {
-            UserDTO userDto = modelMapper.map(user, UserDTO.class);
-            return new ResponseEntity<>(userDto, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 

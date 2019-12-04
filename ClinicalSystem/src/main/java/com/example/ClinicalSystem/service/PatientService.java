@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.model.Patient;
@@ -33,6 +34,9 @@ public class PatientService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	public boolean register(PatientDTO patientDTO) {
 
 		UserDTO userDTO = modelMapper.map(patientDTO,UserDTO.class);		
@@ -51,7 +55,9 @@ public class PatientService {
 
 	
 	public Patient savePatient(Patient patient) {
-		
+
+		patient.setActive(true);
+		patient.setPassword(passwordEncoder.encode(patient.getPassword()));
 		return patientRepository.save(patient);
 	}
 	
