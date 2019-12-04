@@ -54,6 +54,16 @@ public class ClinicController {
 	}
 
 
+	/*@RequestMapping(method = RequestMethod.GET, value = "/allclinics")
+	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
+	public ResponseEntity<List<ClinicDTO>> getAllClinics() {
+
+		List<Clinic> clinics = clinicService.findAllClinics();
+
+		return new ResponseEntity<>(clinics, HttpStatus.OK);
+	}*/
+
+
 	@RequestMapping(method = RequestMethod.PUT, value = "/updateclinic")
 	public ResponseEntity<ClinicDTO> updateClinic(@RequestBody ClinicDTO clinicDTO) {
 

@@ -7,7 +7,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -20,19 +26,29 @@ public class OperationRoomController {
     @Autowired
     ModelMapper modelMapper;
 
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<List<OperationRoomDTO>> getAllRooms() {
+
+        List<OperationRoomDTO> rooms = roomService.findAll();
+
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/add")
     public ResponseEntity<OperationRoomDTO> addRoom(@RequestBody OperationRoomDTO roomDTO) {
 
-        roomService.save(roomDTO);
-        return new ResponseEntity<>(roomDTO, HttpStatus.CREATED);
+        if(roomService.save(roomDTO))
+            return new ResponseEntity<>(roomDTO, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
 
-    @DeleteMapping(value = "{number}")
-    public ResponseEntity<Void> deleteRoom(@PathVariable int number) {
-
-        OR room = roomService.findOne(number);
-        OperationRoomDTO roomDto = modelMapper.map(room, OperationRoomDTO.class);
+    @Transactional
+    @RequestMapping(method = RequestMethod.POST, value = "/deleteroom")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<Void> deleteRoom(@RequestBody OperationRoomDTO roomDto) {
 
         if(roomService.removeRoom(roomDto)) {
             return new ResponseEntity<>(HttpStatus.OK);

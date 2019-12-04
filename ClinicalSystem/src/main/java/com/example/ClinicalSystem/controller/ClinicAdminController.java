@@ -55,5 +55,5 @@ public class ClinicAdminController {
 		return new ResponseEntity<>(clinicAdmins, HttpStatus.OK);
 	}
 
-	
+
 }
