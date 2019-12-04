@@ -33,6 +33,9 @@ public class Patient extends User {
 	@Column(name = "active")
 	private boolean active = false;
 
+	@Column(name="verificationCode")
+	private String verificationCode;
+
 
 	public Patient(Set<Appointment> appointment, MedicalRecord medicalRecord, Set<Doctor> doctors) {
 		super();
@@ -88,9 +91,11 @@ public class Patient extends User {
 		this.active = active;
 	}
 
+	public String getVerificationCode() {
+		return verificationCode;
+	}
 
-
-
-
-
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
 }
