@@ -31,7 +31,7 @@ public class PatientController {
 			try {
 				//Patient p = patientService.findPatient(token.getPatient().getEmail());
 				patient.setActive(true);
-				patientService.savePatient(patient);
+				patientService.updatePatient(patient);
 
 				return new ResponseEntity<>("User "+ patient.getName() +" is successfully registered!", HttpStatus.OK);
 
