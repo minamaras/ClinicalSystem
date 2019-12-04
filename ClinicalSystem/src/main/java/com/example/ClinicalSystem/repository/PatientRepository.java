@@ -14,5 +14,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long>  {
 	
 	Patient findByEmail(String email);	
 	Patient save(Patient patient);
+	Optional<Patient> findOneByVerificationCode(String findVerificationCode);
 
 }
