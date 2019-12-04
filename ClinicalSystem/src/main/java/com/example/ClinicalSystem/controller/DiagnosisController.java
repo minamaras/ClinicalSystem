@@ -5,6 +5,7 @@ import com.example.ClinicalSystem.service.DiagnosisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class DiagnosisController {
     private DiagnosisService diagnosisService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/adddiagnosis")
+    @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
     public ResponseEntity<Diagnosis> addDiagnosis(@RequestBody Diagnosis diagnosis) {
 
         diagnosisService.addDiagnosis(diagnosis);
@@ -26,6 +28,7 @@ public class DiagnosisController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/alldiagnosis")
+    @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
     public ResponseEntity<List<Diagnosis>> getAllDiagnosis() {
 
         List<Diagnosis> diagnosis = diagnosisService.findAll();

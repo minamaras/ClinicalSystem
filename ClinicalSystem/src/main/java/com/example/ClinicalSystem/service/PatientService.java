@@ -59,17 +59,16 @@ public class PatientService {
 	
 	public Patient savePatient(Patient patient) {
 
-		patient.setActive(true);
 		patient.setPassword(passwordEncoder.encode(patient.getPassword()));
 		return patientRepository.save(patient);
 	}
 
 	public Patient updatePatient(Patient patient) {
 
-		patient.setActive(true);
+		//patient.setActive(true);
 		return patientRepository.save(patient);
 	}
-	
+
 	public Patient findPatient(String email) {
 		
 		return 	patientRepository.findByEmail(email);

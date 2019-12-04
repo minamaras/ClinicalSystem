@@ -22,6 +22,8 @@ public class EmailService {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private PatientService patientService;
 
     @Async
     public void sendDeclineNotificaitionAsync(User user, String explanation) throws MailException, InterruptedException {
@@ -42,6 +44,7 @@ public class EmailService {
         //ConfirmationToken confirmationToken = new ConfirmationToken(patient);
         //confirmationTokenService.save(confirmationToken);
         patient.setVerificationCode(UUID.randomUUID().toString());
+        patientService.updatePatient(patient);
 
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(patient.getEmail());

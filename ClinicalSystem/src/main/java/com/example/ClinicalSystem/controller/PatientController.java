@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.model.Patient;
@@ -16,10 +17,11 @@ public class PatientController {
 
 	@Autowired
 	private PatientService patientService;
-  @Autowired
+    @Autowired
 	private ModelMapper modelMapper;
 
 	@RequestMapping(method= RequestMethod.GET, value="/confirm-account/{verificationCode}")
+	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
 	public ResponseEntity<?> confirmUserAccount(@PathVariable("verificationCode") String verificationCode)
 	{
 		//ConfirmationToken token = confirmationTokenService.findByConfirmationToken(verificationCode);
