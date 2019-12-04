@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +19,24 @@ public class PatientController {
 	@Autowired
 	private PatientService patientService;
 
-	/*@RequestMapping(method = RequestMethod.POST, value = "/register")
-	public ResponseEntity<?> register(@RequestBody PatientDTO patientDTO) {
+	@Autowired
+	private ModelMapper modelMapper;
 
-			boolean registered = patientService.register(patientDTO);
+	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
+	public ResponseEntity<PatientDTO> updateProfile(@RequestBody PatientDTO patientDTO) {
 
-			if(registered){
 
-				return new ResponseEntity<>(HttpStatus.CREATED);
-			}
-			else {
-				return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			}
-	}*/
+		//Patient p = modelMapper.map(patientDTO,Patient.class);
+		//Patient saved = patientService.updatePatient(p);
+
+		Patient patientUpdated = modelMapper.map(patientDTO, Patient.class);
+		Patient saved = patientService.updatePatient(patientUpdated);
+
+		if(saved != null){
+			return new ResponseEntity<>(patientDTO,HttpStatus.OK);
+		}
+		return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
 
 
 }
