@@ -7,6 +7,7 @@ import com.example.ClinicalSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -98,10 +99,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/").permitAll()
                 .antMatchers("/auth/login").permitAll()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/*").permitAll()
-                .antMatchers("/**/**/**").permitAll()
-                .antMatchers("/**/**").permitAll()
+                .antMatchers("/auth/register").permitAll()
 
                 /*
                 .antMatchers("/api/hotels").hasAnyRole("USER")
@@ -111,8 +109,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll()
-                .and()
+                .cors().and()
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserService), BasicAuthenticationFilter.class);
 			/*
 			.and()
@@ -132,6 +129,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
         web.ignoring().antMatchers("/");
+        web.ignoring().antMatchers(HttpMethod.POST,"/auth/login");
         //i tako dalje na tu temu...
     }
 

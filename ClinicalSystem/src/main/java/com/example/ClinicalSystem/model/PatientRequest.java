@@ -34,6 +34,21 @@ public class PatientRequest {
 	@Column(name="password")
 	private String password;
 
+	@Column(name = "adress")
+	private String adress;
+
+	@Column(name = "city")
+	private String city;
+
+	@Column(name = "country")
+	private String country;
+
+	@Column(name = "phone")
+	private String phone;
+
+	@Column(name = "socialsecuritynumber")
+	private String socialSecurityNumber;
+
 	public PatientRequest() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -100,9 +115,45 @@ public class PatientRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-	
-	
 
+
+	public String getAdress() {
+		return adress;
+	}
+
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getSocialSecurityNumber() {
+		return socialSecurityNumber;
+	}
+
+	public void setSocialSecurityNumber(String socialSecurityNumber) {
+		this.socialSecurityNumber = socialSecurityNumber;
+	}
 }
