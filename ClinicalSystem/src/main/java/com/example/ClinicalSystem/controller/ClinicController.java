@@ -46,12 +46,22 @@ public class ClinicController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/allclinics")
 	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
-	public ResponseEntity<List<ClinicDTO>> getAllClinics() {
+	public ResponseEntity<List<Clinic>> getAllClinics() {
 
-		List<ClinicDTO> clinics = clinicService.findAllClinics();
+		List<Clinic> clinics = clinicService.findAllClinics();
 
 		return new ResponseEntity<>(clinics, HttpStatus.OK);
 	}
+
+
+	/*@RequestMapping(method = RequestMethod.GET, value = "/allclinics")
+	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
+	public ResponseEntity<List<ClinicDTO>> getAllClinics() {
+
+		List<Clinic> clinics = clinicService.findAllClinics();
+
+		return new ResponseEntity<>(clinics, HttpStatus.OK);
+	}*/
 
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/updateclinic")
