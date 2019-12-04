@@ -3,6 +3,7 @@ package com.example.ClinicalSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ClinicalSystem.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,10 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.ClinicDTO;
-import com.example.ClinicalSystem.model.Clinic;
-import com.example.ClinicalSystem.model.ClinicAdmin;
-import com.example.ClinicalSystem.model.Doctor;
-import com.example.ClinicalSystem.model.Role;
 import com.example.ClinicalSystem.repository.ClinicAdminRepository;
 
 @Service
@@ -28,6 +25,9 @@ public class ClinicAdminService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private AuthorityService authorityService;
 
 	public List<ClinicAdminDTO> findAll() {
 		List<ClinicAdmin> clinicAdmins = clinicAdminRepository.findAll();
@@ -59,6 +59,10 @@ public class ClinicAdminService {
 		ClinicAdmin clinicAdmin = modelMapper.map(clinicAdminDto, ClinicAdmin.class);
 		clinicAdmin.setPassword(passwordEncoder.encode(clinicAdmin.getPassword()));
 
+		Authority authoritie = authorityService.findByname("CLINICADMIN");
+		List<Authority> authorities = new ArrayList<>();
+		authorities.add(authoritie);
+		clinicAdmin.setAuthorities(authorities);
 		
 		return clinicAdminRepository.save(clinicAdmin);
 	}
