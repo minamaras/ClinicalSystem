@@ -19,6 +19,9 @@ import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.service.DoctorService;
+
+import javax.transaction.Transactional;
+
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping(value = "api/doctors")
@@ -60,17 +63,15 @@ public class DoctorController {
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
 	}
 
-	@DeleteMapping(value = "{email}")
+	@Transactional
+	@RequestMapping(method = RequestMethod.POST, value = "/deletedoctor")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<Void> deleteDoctor(@PathVariable String email){
+	public ResponseEntity<?> deleteDoctor(@RequestBody DoctorDTO doctorDto){
 
-		Doctor doctor = doctorService.findOne(email);
-		DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
-
-		if(doctorService.removeDoctor(doctorDTO)) {
-			return new ResponseEntity<>(HttpStatus.OK);
+		if(doctorService.findOne(doctorDto.getEmail()) != null) {
+			if (doctorService.removeDoctor(doctorDto))
+				return new ResponseEntity<>(HttpStatus.OK);
 		}
-
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
