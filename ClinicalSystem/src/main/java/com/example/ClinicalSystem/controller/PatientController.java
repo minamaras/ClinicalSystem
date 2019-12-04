@@ -22,21 +22,7 @@ public class PatientController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
-	public ResponseEntity<PatientDTO> updateProfile(@RequestBody PatientDTO patientDTO) {
 
-
-		//Patient p = modelMapper.map(patientDTO,Patient.class);
-		//Patient saved = patientService.updatePatient(p);
-
-		Patient patientUpdated = modelMapper.map(patientDTO, Patient.class);
-		Patient saved = patientService.updatePatient(patientUpdated);
-
-		if(saved != null){
-			return new ResponseEntity<>(patientDTO,HttpStatus.OK);
-		}
-		return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
 
 
 }
