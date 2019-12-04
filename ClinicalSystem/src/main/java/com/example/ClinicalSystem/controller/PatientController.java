@@ -22,7 +22,48 @@ public class PatientController {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
+	public ResponseEntity<PatientDTO> updateProfile(@RequestBody PatientDTO patientDTO) {
 
+		if(patientService.findPatient(patientDTO.getEmail()) == null){
+			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+
+			if (patientDTO.getName() == null) {
+				Patient p = patientService.findPatient(patientDTO.getEmail());
+				patientDTO.setName(p.getName());
+			}
+
+			if (patientDTO.getLastname() == null) {
+				Patient p = patientService.findPatient(patientDTO.getEmail());
+				patientDTO.setLastname(p.getLastname());
+			}
+
+			if (patientDTO.getAdress() == null) {
+				Patient p = patientService.findPatient(patientDTO.getEmail());
+				patientDTO.setAdress(p.getAdress());
+			}
+
+			if (patientDTO.getCountry() == null) {
+				Patient p = patientService.findPatient(patientDTO.getEmail());
+				patientDTO.setCountry(p.getCountry());
+			}
+
+			if (patientDTO.getCity() == null) {
+				Patient p = patientService.findPatient(patientDTO.getEmail());
+				patientDTO.setCity(p.getCity());
+			}
+
+			if (patientDTO.getPhone() == null) {
+				Patient p = patientService.findPatient(patientDTO.getEmail());
+				patientDTO.setPhone(p.getPhone());
+			}
+
+			Patient saved = patientService.updatePatient(modelMapper.map(patientDTO,Patient.class));
+			return new ResponseEntity<>(modelMapper.map(saved,PatientDTO.class),HttpStatus.OK);
+		}
+
+	}
 
 
 }
