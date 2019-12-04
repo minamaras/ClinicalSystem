@@ -84,11 +84,20 @@ public class AuthenticationController {
         final Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
                         authenticationRequest.getPassword()));
+        if(authentication == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetails details = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
+        if(details.getAuthorities().contains("PATIENT")) {
+            String email = authenticationRequest.getEmail();
+            if (patientService.findPatient(email).isActive() == false) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
 
         //username = email in this case
         String jwt = tokenUtils.generateToken(details.getUsername());

@@ -13,6 +13,7 @@ import com.example.ClinicalSystem.repository.PatientRequestRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,9 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 	private PatientService patientService;
 
 	@Autowired
+	private EmailService emailService;
+
+  @Autowired
 	private AuthorityService authorityService;
 	
 	public boolean emailExistsInDB(PatientRequestDTO patientRequestDTO) {
@@ -90,7 +94,15 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 		List<Authority> authorities = new ArrayList<>();
 		authorities.add(authoritie);
 		patient.setAuthorities(authorities);
+
 		Patient p = patientService.savePatient(patient);
+
+		try {
+			emailService.sendAcceptNotificaitionAsync(p);
+		} catch (Exception e) {
+			return false;
+		}
+
 		Long isDeleted = deletePatientRequest(p.getEmail());
 
 		if (isDeleted == 1){
@@ -101,8 +113,18 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 
 	}
 
-	public boolean declineUser(PatientRequestDTO requestDTO){
+	@Transactional
+	public boolean declineUser(PatientRequestDTO requestDTO, String explanation){
+		Patient patient = modelMapper.map(requestDTO, Patient.class);
 		Long isDeleted = deletePatientRequest(requestDTO.getEmail());
+
+
+		try {
+			emailService.sendDeclineNotificaitionAsync(patient, explanation);
+		} catch (Exception e) {
+			return false;
+		}
+
 		if(isDeleted == 1){
 			return true;
 		} else {
