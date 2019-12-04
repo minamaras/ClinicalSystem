@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
@@ -25,6 +26,9 @@ public class ClinicalCentreAdminService {
 	@Autowired
 	private EmailService emailService;
 
+  @Autowired
+	private PasswordEncoder passwordEncoder;
+
 	
 	public List<ClinicalCentreAdminDTO> findAll(){
 		
@@ -41,7 +45,7 @@ public class ClinicalCentreAdminService {
 	public ClinicalCentreAdmin save(ClinicalCentreAdminDTO clinicalCentreAdminDto) {
 		
 		ClinicalCentreAdmin ccAdmin = modelMapper.map(clinicalCentreAdminDto, ClinicalCentreAdmin.class);
-		
+		ccAdmin.setPassword(passwordEncoder.encode(ccAdmin.getPassword()));
 		return clinicalCentreAdminRepository.save(ccAdmin);
 	}
 	

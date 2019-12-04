@@ -1,15 +1,24 @@
 package com.example.ClinicalSystem.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class ClinicAdmin extends User {
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne//(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Clinic clinic;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Doctor> doctors = new HashSet<Doctor>();
 
 	public ClinicAdmin(Clinic clinic) {
 		super();
@@ -26,12 +35,8 @@ public class ClinicAdmin extends User {
 		return clinic;
 	}
 
-	public void setClinics(Clinic clinic) {
+	public void setClinic(Clinic clinic) {
 		this.clinic = clinic;
 	}
-
-
-
-
 
 }
