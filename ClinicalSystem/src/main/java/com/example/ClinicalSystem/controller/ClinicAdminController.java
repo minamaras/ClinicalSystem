@@ -37,7 +37,7 @@ public class ClinicAdminController {
 		return new ResponseEntity<>(clinicAdminDTO, HttpStatus.CREATED);
 
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/all")
 	@PreAuthorize("hasAnyAuthority('CLINICADMIN','CLINICALCENTREADMIN')")
 	public ResponseEntity<List<ClinicAdminDTO>> getAllClinicAdmins() {
@@ -55,5 +55,5 @@ public class ClinicAdminController {
 		return new ResponseEntity<>(clinicAdmins, HttpStatus.OK);
 	}
 
-	
+
 }

@@ -67,6 +67,10 @@ public class ClinicAdminService {
 		return clinicAdminRepository.save(clinicAdmin);
 	}
 
+	public ClinicAdmin saveModel(ClinicAdmin clinicAdmin){
+		return clinicAdminRepository.save(clinicAdmin);
+	}
+	
 	public ClinicAdmin findByEmail(String email) {
 		return clinicAdminRepository.findByEmail(email);
 	}
