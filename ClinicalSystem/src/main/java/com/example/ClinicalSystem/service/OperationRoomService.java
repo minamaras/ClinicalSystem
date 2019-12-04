@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OperationRoomService {
@@ -18,11 +20,28 @@ public class OperationRoomService {
     @Autowired
     OperationRoomRepository repo;
 
-    public OR save(OperationRoomDTO roomDto) {
+    public List<OperationRoomDTO> findAll() {
+
+        List<OR> rooms = repo.findAll();
+
+        List<OperationRoomDTO> roomsDTO = new ArrayList<>();
+        for (OR r : rooms) {
+            roomsDTO.add(new OperationRoomDTO(r));
+        }
+
+        return roomsDTO;
+    }
+
+    public boolean save(OperationRoomDTO roomDto) {
 
         OR room = modelMapper.map(roomDto, OR.class);
+        if(repo.findByNumber(roomDto.getNumber()) != null) {
 
-        return repo.save(room);
+            return false;
+        }
+
+        repo.save(room);
+        return true;
 
     }
 
