@@ -9,6 +9,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.DTO.ClinicDTO;
@@ -27,6 +33,7 @@ public class ClinicController {
 	ModelMapper modelMapper;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/addclinic")
+	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
 	public ResponseEntity<ClinicDTO> addClinic(@RequestBody ClinicDTO clinicDTO) {
 
 		clinicService.addClinic(clinicDTO);
@@ -34,10 +41,11 @@ public class ClinicController {
 
 	}
 
-  @RequestMapping(method = RequestMethod.GET, value = "/allclinics")
-	public ResponseEntity<List<Clinic>> getAllClinics() {
-		
-		List<Clinic> clinics = clinicService.findAllClinics();
+	@RequestMapping(method = RequestMethod.GET, value = "/allclinics")
+	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
+	public ResponseEntity<List<ClinicDTO>> getAllClinics() {
+
+		List<ClinicDTO> clinics = clinicService.findAllClinics();
 
 		return new ResponseEntity<>(clinics, HttpStatus.OK);
 	}

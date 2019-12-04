@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.Clinic;
+import com.example.ClinicalSystem.model.Role;
 
 public class ClinicAdminDTO {
 	
@@ -11,6 +12,7 @@ public class ClinicAdminDTO {
 	private String email;
 	private String password;
 	private Clinic clinic;
+	private Role role = Role.CLINICADMIN;
 	
 	public ClinicAdminDTO() {
 		super();
@@ -18,10 +20,11 @@ public class ClinicAdminDTO {
 
 	public ClinicAdminDTO(ClinicAdmin clinicAdmin) {
 
-		this(clinicAdmin.getId(), clinicAdmin.getName(), clinicAdmin.getLastname(),clinicAdmin.getEmail(), clinicAdmin.getPassword(), clinicAdmin.getClinic());
+		this(clinicAdmin.getId(), clinicAdmin.getName(), clinicAdmin.getLastname(),clinicAdmin.getEmail(), clinicAdmin.getPassword(), clinicAdmin.getClinic(),
+		clinicAdmin.getRole());
 	}
 	
-	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, Clinic clinic) {
+	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, Clinic clinic,Role role) {
 		super();
 		this.id = id;
 		this.name = firstName;
@@ -29,6 +32,7 @@ public class ClinicAdminDTO {
 		this.email = email;
 		this.password = password;
 		this.clinic = clinic;
+		this.role=role;
 	}
 
 
@@ -76,9 +80,20 @@ public class ClinicAdminDTO {
 
 	public void setClinic(Clinic clinic) { this.clinic = clinic; }
 
-	
-	
-	
-	
 
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 }

@@ -6,11 +6,31 @@ import com.example.ClinicalSystem.model.Role;
 public class PatientDTO {
 	
 	private Long Id;
+
 	private String name;
+
 	private String lastname;
+
 	private String email;
+
 	private String password;
+
 	private Role role = Role.PATIENT;
+
+	private String adress;
+
+
+	private String city;
+
+
+	private String country;
+
+
+	private String phone;
+
+	private String repatedPassword;
+
+	private String socialSecurityNumber;
 	
 	public PatientDTO(Patient p) {
 		this(p.getId(), p.getName(), p.getLastname(), p.getEmail(), p.getPassword());
@@ -89,11 +109,53 @@ public class PatientDTO {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	
-	
-	
-	
-	
 
+
+	public String getAdress() {
+		return adress;
+	}
+
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getSocialSecurityNumber() {
+		return socialSecurityNumber;
+	}
+
+	public void setSocialSecurityNumber(String socialSecurityNumber) {
+		this.socialSecurityNumber = socialSecurityNumber;
+	}
+
+	public String getRepatedPassword() {
+		return repatedPassword;
+	}
+
+	public void setRepatedPassword(String repatedPassword) {
+		this.repatedPassword = repatedPassword;
+	}
 }
