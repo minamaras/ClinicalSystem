@@ -1,6 +1,5 @@
 package com.example.ClinicalSystem.service;
 
-import com.example.ClinicalSystem.DTO.PatientDTO;
 import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.service.interfaces.PatientRequestServiceInterface;
 import org.modelmapper.ModelMapper;
@@ -88,7 +87,7 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 		Patient p = patientService.savePatient(patient);
 
 		try {
-			emailService.sendNotificaitionAsync(p);
+			emailService.sendAcceptNotificaitionAsync(p);
 		} catch (Exception e) {
 			return false;
 		}
