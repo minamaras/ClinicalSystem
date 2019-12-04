@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.model.Authority;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,38 +30,35 @@ public class PatientController {
 			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}else {
 
-			if (patientDTO.getName() == null) {
-				Patient p = patientService.findPatient(patientDTO.getEmail());
-				patientDTO.setName(p.getName());
+			Patient patient = patientService.findPatient(patientDTO.getEmail());
+
+			if (patientDTO.getName() != "") {
+
+				patient.setName(patientDTO.getName());
 			}
 
-			if (patientDTO.getLastname() == null) {
-				Patient p = patientService.findPatient(patientDTO.getEmail());
-				patientDTO.setLastname(p.getLastname());
+			if (patientDTO.getLastname() != "") {
+				patient.setLastname(patientDTO.getLastname());
 			}
 
-			if (patientDTO.getAdress() == null) {
-				Patient p = patientService.findPatient(patientDTO.getEmail());
-				patientDTO.setAdress(p.getAdress());
+			if (patientDTO.getAdress() != "") {
+				patient.setAdress(patientDTO.getAdress());
 			}
 
-			if (patientDTO.getCountry() == null) {
-				Patient p = patientService.findPatient(patientDTO.getEmail());
-				patientDTO.setCountry(p.getCountry());
+			if (patientDTO.getCountry() != "") {
+				patient.setCountry(patientDTO.getCountry());
 			}
 
-			if (patientDTO.getCity() == null) {
-				Patient p = patientService.findPatient(patientDTO.getEmail());
-				patientDTO.setCity(p.getCity());
+			if (patientDTO.getCity() != "") {
+				patient.setCity(patientDTO.getCity());
 			}
 
-			if (patientDTO.getPhone() == null) {
-				Patient p = patientService.findPatient(patientDTO.getEmail());
-				patientDTO.setPhone(p.getPhone());
+			if (patientDTO.getPhone() != "") {
+				patient.setPhone(patientDTO.getPhone());
 			}
 
-			Patient saved = patientService.updatePatient(modelMapper.map(patientDTO,Patient.class));
-			return new ResponseEntity<>(modelMapper.map(saved,PatientDTO.class),HttpStatus.OK);
+			patientService.updatePatient(patient);
+			return new ResponseEntity<>(modelMapper.map(patient,PatientDTO.class),HttpStatus.OK);
 		}
 
 	}
