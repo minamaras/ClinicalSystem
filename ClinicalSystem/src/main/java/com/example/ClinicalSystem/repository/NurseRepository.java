@@ -11,4 +11,5 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
 
 
 	Nurse save(Nurse nurse);
+	Nurse findByEmail(String email);
 }

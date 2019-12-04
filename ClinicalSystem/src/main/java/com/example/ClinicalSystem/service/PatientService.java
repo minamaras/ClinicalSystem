@@ -39,7 +39,7 @@ public class PatientService {
 
 	public boolean register(PatientDTO patientDTO) {
 
-		UserDTO userDTO = modelMapper.map(patientDTO,UserDTO.class);		
+		UserDTO userDTO = modelMapper.map(patientDTO,UserDTO.class);
 		boolean existsInUsers = userService.existsInDB(userDTO);
 		boolean registered = false;
 
@@ -58,6 +58,12 @@ public class PatientService {
 
 		patient.setActive(true);
 		patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+		return patientRepository.save(patient);
+	}
+
+	public Patient updatePatient(Patient patient) {
+
+		patient.setActive(true);
 		return patientRepository.save(patient);
 	}
 	
