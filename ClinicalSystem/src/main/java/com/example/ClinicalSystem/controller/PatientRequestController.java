@@ -7,6 +7,7 @@ import com.example.ClinicalSystem.service.PatientRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -22,6 +23,7 @@ public class PatientRequestController {
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/allrequests")
+    @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
     public ResponseEntity<List<PatientRequestDTO>> getAllRequests() {
 
         List<PatientRequestDTO> requests = patientRequestService.findAll();
@@ -30,6 +32,7 @@ public class PatientRequestController {
     }
     @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "/confirmrequest")
+    @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
     public ResponseEntity<?> confirmRequest(@RequestBody PatientRequestDTO dto) {
 
         PatientRequestDTO requestDTO = patientRequestService.findByEmail(dto.getEmail());
@@ -43,6 +46,7 @@ public class PatientRequestController {
     }
     @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "/declinerequest/{request_email}")
+     @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
     public ResponseEntity<?> declineRequest(@PathVariable String request_email, @RequestBody String emailExplanation) {
 
         PatientRequestDTO requestDTO = patientRequestService.findByEmail(request_email);

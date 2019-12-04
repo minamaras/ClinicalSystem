@@ -1,5 +1,7 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.model.Authority;
 import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.service.interfaces.PatientRequestServiceInterface;
 import org.modelmapper.ModelMapper;
@@ -31,6 +33,9 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 
 	@Autowired
 	private EmailService emailService;
+
+  @Autowired
+	private AuthorityService authorityService;
 	
 	public boolean emailExistsInDB(PatientRequestDTO patientRequestDTO) {
 		
@@ -52,7 +57,7 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 		if(!existsInRequests) {
 			
 			PatientRequest patientRequest = modelMapper.map(patientRequestDTO,PatientRequest.class);
-			patientRequest.setPassword(passwordEncoder.encode(patientRequest.getPassword()));
+			//patientRequest.setPassword(passwordEncoder.encode(patientRequest.getPassword()));
 			patientRequestRepository.save(patientRequest);
 			addedRequest = true;
 			return addedRequest;
@@ -83,6 +88,11 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 
 	public boolean confirmUser(PatientRequestDTO requestDTO) {
 		Patient patient = modelMapper.map(requestDTO, Patient.class);
+
+		Authority authoritie = authorityService.findByname("PATIENT");
+		List<Authority> authorities = new ArrayList<>();
+		authorities.add(authoritie);
+		patient.setAuthorities(authorities);
 
 		Patient p = patientService.savePatient(patient);
 

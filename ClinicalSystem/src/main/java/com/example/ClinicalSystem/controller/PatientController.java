@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ public class PatientController {
 
 	@Autowired
 	private PatientService patientService;
+  @Autowired
+	private ModelMapper modelMapper;
 
 	@RequestMapping(method= RequestMethod.GET, value="/confirm-account/{verificationCode}")
 	public ResponseEntity<?> confirmUserAccount(@PathVariable("verificationCode") String verificationCode)
@@ -42,6 +45,7 @@ public class PatientController {
 		}
 
 	}
+
 
 
 }

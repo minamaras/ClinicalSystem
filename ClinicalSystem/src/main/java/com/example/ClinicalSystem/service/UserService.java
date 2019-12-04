@@ -92,6 +92,25 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 		return exists;
 	}
 
+	public User findByEmail(UserDTO userDTO) {
+
+		User user = modelMapper.map(userDTO,User.class);
+
+		User u = userRepository.findByEmail(user.getEmail());
+		boolean exists = false;
+
+		if (u != null) {
+
+			return  u;
+		}
+
+		return null;
+	}
+
+
+
+
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = (userRepository.findByEmail(email));
