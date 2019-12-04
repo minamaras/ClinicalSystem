@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -9,35 +10,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.util.UUID;
+
 @Service
 public class EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
 
-    /*
-     * Koriscenje klase za ocitavanje vrednosti iz application.properties fajla
-     */
+
     @Autowired
     private Environment env;
 
-    /*
-     * Anotacija za oznacavanje asinhronog zadatka
-     * Vise informacija na: https://docs.spring.io/spring/docs/current/spring-framework-reference/integration.html#scheduling
-     */
-    @Async
-    public void sendNotificaitionAsync(User user) throws MailException, InterruptedException {
-
-
-        SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(user.getEmail());
-        mail.setFrom(env.getProperty("spring.mail.username"));
-        mail.setSubject("Primer slanja emaila pomoću asinhronog Spring taska");
-        mail.setText("Pozdrav " + user.getName() + ",\n\nhvala što pratiš ISA.");
-        javaMailSender.send(mail);
-
-        System.out.println("Email poslat!");
-    }
 
     @Async
     public void sendDeclineNotificaitionAsync(User user, String explanation) throws MailException, InterruptedException {
@@ -52,16 +36,21 @@ public class EmailService {
 
     }
 
-    public void sendNotificaitionSync(User user) throws MailException, InterruptedException {
+    @Async
+    public void sendAcceptNotificaitionAsync(Patient patient) throws MailException, InterruptedException {
+
+        //ConfirmationToken confirmationToken = new ConfirmationToken(patient);
+        //confirmationTokenService.save(confirmationToken);
+        patient.setVerificationCode(UUID.randomUUID().toString());
 
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(user.getEmail());
+        mail.setTo(patient.getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
-        mail.setSubject("Primer slanja emaila pomocu asinhronog Spring taska");
-        mail.setText("Pozdrav " + user.getName() + ",\n\nhvala što pratiš ISA.");
+        mail.setSubject("Clinical System: Confirm account");
+        mail.setText("Hello " + patient.getName() + ",\n\nYour request for registration has been accepted. Click the following link to activate your account:\n\n" + "http://localhost:8081/api/patients/confirm-account/" + patient.getVerificationCode() + "\n\n\nClinical System Team");
         javaMailSender.send(mail);
 
-        System.out.println("Email poslat!");
     }
+
 
 }
