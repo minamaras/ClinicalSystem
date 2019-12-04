@@ -21,7 +21,6 @@ public class PatientController {
 	private ModelMapper modelMapper;
 
 	@RequestMapping(method= RequestMethod.GET, value="/confirm-account/{verificationCode}")
-	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
 	public ResponseEntity<?> confirmUserAccount(@PathVariable("verificationCode") String verificationCode)
 	{
 		//ConfirmationToken token = confirmationTokenService.findByConfirmationToken(verificationCode);
