@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.DTO.ClinicDTO;
@@ -47,12 +49,19 @@ public class DoctorController {
 			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+
+		//Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		//User user = (User) a.getPrincipal();
+
+		//d.setClinicAdmin();
+		//d.setClinic();
 		
 		
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping(value = "{email}")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<Void> deleteDoctor(@PathVariable String email){
 
 		Doctor doctor = doctorService.findOne(email);
