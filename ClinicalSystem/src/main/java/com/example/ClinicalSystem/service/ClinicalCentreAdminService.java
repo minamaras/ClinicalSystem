@@ -25,6 +25,9 @@ public class ClinicalCentreAdminService {
 	private ModelMapper modelMapper;
 
 	@Autowired
+	private EmailService emailService;
+
+  @Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired

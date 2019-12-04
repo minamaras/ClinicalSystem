@@ -21,6 +21,7 @@ public class PatientRequestController {
     @Autowired
     private PatientRequestService patientRequestService;
 
+
     @RequestMapping(method = RequestMethod.GET, value = "/allrequests")
     @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
     public ResponseEntity<List<PatientRequestDTO>> getAllRequests() {
@@ -44,12 +45,12 @@ public class PatientRequestController {
         }
     }
     @Transactional
-    @RequestMapping(method = RequestMethod.POST, value = "/declinerequest")
-    @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
-    public ResponseEntity<?> declineRequest(@RequestBody PatientRequestDTO dto) {
+    @RequestMapping(method = RequestMethod.POST, value = "/declinerequest/{request_email}")
+     @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
+    public ResponseEntity<?> declineRequest(@PathVariable String request_email, @RequestBody String emailExplanation) {
 
-        PatientRequestDTO requestDTO = patientRequestService.findByEmail(dto.getEmail());
-        boolean isRemoved = patientRequestService.declineUser(requestDTO);
+        PatientRequestDTO requestDTO = patientRequestService.findByEmail(request_email);
+        boolean isRemoved = patientRequestService.declineUser(requestDTO, emailExplanation);
 
         if(isRemoved) {
             return new ResponseEntity<>(requestDTO, HttpStatus.OK);

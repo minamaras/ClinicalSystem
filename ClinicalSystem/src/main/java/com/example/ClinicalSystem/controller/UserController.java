@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.ClinicalSystem.service.EmailService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +23,19 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private EmailService emailService;
+
+    @Autowired
+    ModelMapper modelMapper;
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
 
 		boolean isloggedin = userService.loginUser(userDTO);
+
 		if(isloggedin) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}else {
