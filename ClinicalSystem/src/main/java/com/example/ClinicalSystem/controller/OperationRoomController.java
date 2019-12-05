@@ -36,6 +36,7 @@ public class OperationRoomController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/add")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<OperationRoomDTO> addRoom(@RequestBody OperationRoomDTO roomDTO) {
 
         if(roomService.save(roomDTO))
