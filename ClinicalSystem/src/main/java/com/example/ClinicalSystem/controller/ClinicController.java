@@ -5,11 +5,14 @@ import java.util.List;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.model.ClinicAdmin;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -65,6 +68,7 @@ public class ClinicController {
 
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/updateclinic")
+	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
 	public ResponseEntity<ClinicDTO> updateClinic(@RequestBody ClinicDTO clinicDTO) {
 
 		if(clinicService.findClinic(clinicDTO) == null) {
@@ -78,14 +82,16 @@ public class ClinicController {
 
 
 	@RequestMapping(method = RequestMethod.POST, value = "/connectadmin/{clinicid}")
+	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
 	public ResponseEntity<ClinicDTO> addAdmin(@PathVariable String clinicid, @RequestBody ClinicAdminDTO cadminDTO){
 		ClinicDTO clinicdto = clinicService.findClinic(clinicid);
 
 		boolean isConnected = clinicService.addAdminToClinic(clinicdto, cadminDTO);
+		ClinicDTO dto = clinicService.findClinic(clinicid);
 		if(isConnected) {
-			return new ResponseEntity<>(clinicdto, HttpStatus.OK);
+			return new ResponseEntity<>(dto, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(clinicdto, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -103,6 +109,19 @@ public class ClinicController {
 		}
 
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/clinicinfo")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
+	public ResponseEntity<ClinicDTO> currentClinicInfo() {
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		ClinicAdmin clinicAdmin = (ClinicAdmin) a.getPrincipal();
+
+		Clinic clinic = clinicAdmin.getClinic();
+
+		return new ResponseEntity<>(modelMapper.map(clinic, ClinicDTO.class), HttpStatus.OK);
+	}
+
+
 
 
 
