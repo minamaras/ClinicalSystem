@@ -3,6 +3,7 @@ package com.example.ClinicalSystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -53,11 +54,15 @@ public class DoctorController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		//Authentication a = SecurityContextHolder.getContext().getAuthentication();
-		//User user = (User) a.getPrincipal();
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		ClinicAdmin admin = (ClinicAdmin) a.getPrincipal();
 
-		//d.setClinicAdmin();
-		//d.setClinic();
+		d.setClinicAdmin(admin);
+
+		if(admin.getClinic() == null)
+			return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
+
+		d.setClinic(admin.getClinic());
 		
 		
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
