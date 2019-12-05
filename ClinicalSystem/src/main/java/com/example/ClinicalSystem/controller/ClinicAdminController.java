@@ -6,6 +6,7 @@ import com.example.ClinicalSystem.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +29,9 @@ public class ClinicAdminController {
 	@Autowired
 	private ClinicAdminService clinicAdminService;
 
+	@Autowired
+	private ModelMapper modelMapper;
+
 
 	@RequestMapping(method = RequestMethod.POST, value = "/addclinicadmin")
 	@PreAuthorize("hasAnyAuthority('CLINICADMIN','CLINICALCENTREADMIN')")
@@ -48,12 +52,40 @@ public class ClinicAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/available")
+	@PreAuthorize("hasAnyAuthority('CLINICADMIN','CLINICALCENTREADMIN')")
 	public ResponseEntity<List<ClinicAdminDTO>> getAvailableAdmins() {
 
 		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.findAvailableAdmins();
 
 		return new ResponseEntity<>(clinicAdmins, HttpStatus.OK);
 	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
+	public ResponseEntity<ClinicAdminDTO> updateProfile(@RequestBody ClinicAdminDTO clinicAdminDTO) {
+
+		if(clinicAdminService.findByEmail(clinicAdminDTO.getEmail()) == null){
+			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+
+			ClinicAdmin admin = clinicAdminService.findByEmail(clinicAdminDTO.getEmail());
+
+			if (clinicAdminDTO.getName() != "") {
+
+				admin.setName(clinicAdminDTO.getName());
+			}
+
+			if (clinicAdminDTO.getLastname() != "") {
+				admin.setLastname(clinicAdminDTO.getLastname());
+			}
+
+			clinicAdminService.updateClinicAdmin(admin);
+			return new ResponseEntity<>(modelMapper.map(admin,ClinicAdminDTO.class),HttpStatus.OK);
+		}
+
+	}
+
+
 
 
 }
