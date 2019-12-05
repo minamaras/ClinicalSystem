@@ -74,7 +74,10 @@ public class ClinicAdminService {
 	public ClinicAdmin findByEmail(String email) {
 		return clinicAdminRepository.findByEmail(email);
 	}
-	
+
+	public ClinicAdmin updateClinicAdmin(ClinicAdmin admin) {
+		return clinicAdminRepository.save(admin);
+	}
 	
 
 }
