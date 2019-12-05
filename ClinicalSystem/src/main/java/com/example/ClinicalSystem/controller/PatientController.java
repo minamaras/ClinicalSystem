@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.DTO.PatientDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,47 @@ public class PatientController {
 		else
 		{
 			return new ResponseEntity<>("The link is invalid.", HttpStatus.NOT_FOUND);
+		}
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<PatientDTO> updateProfile(@RequestBody PatientDTO patientDTO) {
+
+		if(patientService.findPatient(patientDTO.getEmail()) == null){
+			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+
+			Patient patient = patientService.findPatient(patientDTO.getEmail());
+
+			if (patientDTO.getName() != "") {
+
+				patient.setName(patientDTO.getName());
+			}
+
+			if (patientDTO.getLastname() != "") {
+				patient.setLastname(patientDTO.getLastname());
+			}
+
+			if (patientDTO.getAdress() != "") {
+				patient.setAdress(patientDTO.getAdress());
+			}
+
+			if (patientDTO.getCountry() != "") {
+				patient.setCountry(patientDTO.getCountry());
+			}
+
+			if (patientDTO.getCity() != "") {
+				patient.setCity(patientDTO.getCity());
+			}
+
+			if (patientDTO.getPhone() != "") {
+				patient.setPhone(patientDTO.getPhone());
+			}
+
+			patientService.updatePatient(patient);
+			return new ResponseEntity<>(modelMapper.map(patient,PatientDTO.class),HttpStatus.OK);
 		}
 
 	}
