@@ -45,7 +45,7 @@ public class PatientRequestController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/declinerequest/{request_email}")
+    @RequestMapping(method = RequestMethod.POST, value = "/declinerequest/{request_email:.+}")
     @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
     public ResponseEntity<?> declineRequest(@PathVariable String request_email, @RequestBody String emailExplanation) {
 
