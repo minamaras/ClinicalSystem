@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.model.Authority;
 import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.Doctor;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,9 @@ public class ClinicService {
 
 	@Autowired
 	private ClinicAdminService clinicAdminService;
+
+	@Autowired
+	private AuthorityService authorityService;
 
 	
 	public Clinic addClinic(ClinicDTO clinicDto) {
@@ -79,6 +83,11 @@ public class ClinicService {
 	public boolean addAdminToClinic(ClinicDTO clinicDTO, ClinicAdminDTO cadminDTO){
 		Clinic clinic = modelMapper.map(clinicDTO, Clinic.class);
 		ClinicAdmin cAdmin = modelMapper.map(cadminDTO, ClinicAdmin.class);
+
+		Authority authoritie = authorityService.findByname("CLINICADMIN");
+		List<Authority> authorities = new ArrayList<>();
+		authorities.add(authoritie);
+		cAdmin.setAuthorities(authorities);
 
 
 		clinic.getClinicAdmins().add(cAdmin);
