@@ -61,14 +61,25 @@ public class ClinicService {
 
 		return null;
 	}
-	public Clinic updateClinic(ClinicDTO clinicDto) {
 
-		Clinic clinic = clinicRepo.findByName(clinicDto.getName());
-		if(clinic == null) {
-			return null;
+	public Clinic findName(String name) {
+		if(clinicRepo.findByName(name) != null) {
+			return clinicRepo.findByName(name);
 		}
-		clinic.setAdress(clinicDto.getAdress());
-		clinic.setDescription(clinicDto.getDescription());
+
+		return null;
+	}
+
+	public  Clinic findClinic(Clinic clinic) {
+
+		if(clinicRepo.findByName(clinic.getName()) != null) {
+			return clinic;
+		}
+
+		return null;
+	}
+
+	public Clinic updateClinic(Clinic clinic) {
 
 		return clinicRepo.save(clinic);
 	}
