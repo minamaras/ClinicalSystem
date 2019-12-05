@@ -67,7 +67,7 @@ public class ClinicController {
 	}*/
 
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/updateclinic")
+	/*@RequestMapping(method = RequestMethod.PUT, value = "/updateclinic")
 	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
 	public ResponseEntity<ClinicDTO> updateClinic(@RequestBody ClinicDTO clinicDTO) {
 
@@ -77,7 +77,7 @@ public class ClinicController {
 		clinicService.updateClinic(clinicDTO);
 		return new ResponseEntity<>(clinicDTO,HttpStatus.OK);
 
-	}
+	}*/
 
 
 
@@ -119,6 +119,31 @@ public class ClinicController {
 		Clinic clinic = clinicAdmin.getClinic();
 
 		return new ResponseEntity<>(modelMapper.map(clinic, ClinicDTO.class), HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/update")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
+	public ResponseEntity<ClinicAdminDTO> update(@RequestBody ClinicDTO clinicDTO) {
+
+		if(clinicService.findClinic(clinicDTO.getName()) == null){
+			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+
+			Clinic clinic = clinicService.findName(clinicDTO.getName());
+
+			if (clinicDTO.getAdress() != "") {
+
+				clinic.setDescription(clinicDTO.getDescription());
+			}
+
+			if (clinicDTO.getDescription() != "") {
+				clinic.setAdress(clinicDTO.getAdress());
+			}
+
+			clinicService.updateClinic(clinic);
+			return new ResponseEntity<>(modelMapper.map(clinic,ClinicAdminDTO.class),HttpStatus.OK);
+		}
+
 	}
 
 
