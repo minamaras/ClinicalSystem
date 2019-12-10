@@ -1,21 +1,19 @@
 package com.example.ClinicalSystem.service;
 
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.NurseDTO;
-import com.example.ClinicalSystem.model.Authority;
-import com.example.ClinicalSystem.model.ClinicAdmin;
-import com.example.ClinicalSystem.model.Doctor;
+import com.example.ClinicalSystem.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.ClinicalSystem.model.Nurse;
 import com.example.ClinicalSystem.repository.NurseRepository;
 
 @Service
@@ -29,6 +27,9 @@ public class NurseService {
 
 	@Autowired
 	private AuthorityService authorityService;
+
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -45,9 +46,15 @@ public class NurseService {
 	
 	}
 
-	public Nurse save(NurseDTO nurseDTO) {
+	public Nurse save(NurseDTO nurseDTO, Principal p) {
+
+		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
+		Clinic clinicAdm = cAdmin.getClinic();
+
 
 		Nurse nurse = modelMapper.map(nurseDTO, Nurse.class);
+		nurse.setClinic(clinicAdm);
+		clinicAdm.getNurses().add(nurse);
 		nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
 
 		Authority authoritie = authorityService.findByname("NURSE");
