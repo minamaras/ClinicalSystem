@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
+import com.example.ClinicalSystem.DTO.DoctorDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,17 +26,13 @@ public class NurseController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@GetMapping(value = "/all")
-	public ResponseEntity<List<NurseDTO>> getAllNurses(){
-		List<Nurse> nurses = nurseService.findAll();
+	@RequestMapping(method = RequestMethod.GET, value = "/all")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
+	public ResponseEntity<List<NurseDTO>> getAllNurses() {
 
-		List<NurseDTO> nursesDTO = new ArrayList<>();
+		List<NurseDTO> nursesdto = nurseService.findAll();
 
-		for(Nurse nurse : nurses) {
-			NurseDTO nurseDTOpomocna = modelMapper.map(nurse,NurseDTO.class);
-			nursesDTO.add(nurseDTOpomocna);
-		}
-		return new ResponseEntity<>(nursesDTO, HttpStatus.OK);
+		return new ResponseEntity<>(nursesdto, HttpStatus.OK);
 	}
 
 
