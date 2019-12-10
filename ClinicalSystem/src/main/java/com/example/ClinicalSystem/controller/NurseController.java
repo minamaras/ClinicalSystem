@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +39,9 @@ public class NurseController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/addnurse")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<NurseDTO> addNurse(@RequestBody NurseDTO nurseDTO) {
+	public ResponseEntity<NurseDTO> addNurse(@RequestBody NurseDTO nurseDTO, Principal p) {
 
-		nurseService.save(nurseDTO);
+		nurseService.save(nurseDTO, p);
 		return new ResponseEntity<>(nurseDTO, HttpStatus.CREATED);
 
 	}
