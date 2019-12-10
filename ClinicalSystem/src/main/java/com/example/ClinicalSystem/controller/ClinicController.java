@@ -121,6 +121,21 @@ public class ClinicController {
 		return new ResponseEntity<>(modelMapper.map(clinic, ClinicDTO.class), HttpStatus.OK);
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/clinicabout/{clinicname}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<ClinicDTO> AboutClinic(@PathVariable String clinicname) {
+
+		Clinic clinic = clinicService.findName(clinicname);
+		if(clinic != null) {
+
+			ClinicDTO clinicDTO = modelMapper.map(clinic, ClinicDTO.class);
+			return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+
 	@RequestMapping(method = RequestMethod.POST, value = "/update")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<ClinicAdminDTO> update(@RequestBody ClinicDTO clinicDTO) {
