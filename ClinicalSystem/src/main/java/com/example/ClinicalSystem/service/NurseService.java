@@ -4,8 +4,10 @@ package com.example.ClinicalSystem.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.model.Authority;
+import com.example.ClinicalSystem.model.ClinicAdmin;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,16 +35,21 @@ public class NurseService {
 		return nurseRepository.findAll();
 	
 	}
-	
-	public Nurse save(Nurse nurse) {
 
+	public Nurse save(NurseDTO nurseDTO) {
+
+		Nurse nurse = modelMapper.map(nurseDTO, Nurse.class);
 		nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
+
 		Authority authoritie = authorityService.findByname("NURSE");
 		List<Authority> authorities = new ArrayList<>();
 		authorities.add(authoritie);
 		nurse.setAuthorities(authorities);
 
+		return nurseRepository.save(nurse);
+	}
 
+	public Nurse saveModel(Nurse nurse){
 		return nurseRepository.save(nurse);
 	}
 
