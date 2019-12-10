@@ -7,8 +7,8 @@ import com.example.ClinicalSystem.model.Role;
 public class NurseDTO {
 	
 	private Long id;
-	private String firstName;
-	private String lastName;
+	private String name;
+	private String lastname;
 	private String email;
 	private Clinic clinic;
 	private Role role = Role.NURSE;
@@ -16,16 +16,17 @@ public class NurseDTO {
 	
 	public NurseDTO() {
 		super();
+		this.role = role.NURSE;
 	}
 	
-	//public NurseDTO(Nurse nurse) {
-		//this(nurse.getId(), nurse.getName(), nurse.getLastname(), nurse.getEmail(), nurse.getClinic());
-	//}
+	public NurseDTO(Nurse nurse) {
+		this(nurse.getId(), nurse.getName(), nurse.getLastname(), nurse.getEmail(), nurse.getClinic());
+	}
 	
 	public NurseDTO(Long id, String firstName, String lastName, String email, Clinic clinic) {
 		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.name = firstName;
+		this.lastname = lastName;
 		this.email = email;
 		this.clinic = clinic;
 	}
@@ -38,20 +39,20 @@ public class NurseDTO {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setName(String firstName) {
+		this.name = firstName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getLastname() {
+		return lastname;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastname(String lastName) {
+		this.lastname = lastName;
 	}
 
 	public String getEmail() {
