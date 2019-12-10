@@ -3,10 +3,12 @@ package com.example.ClinicalSystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.DTO.NurseDTO;
@@ -37,13 +39,12 @@ public class NurseController {
 	}
 
 
-	@PostMapping(consumes = "application/json")
-	public ResponseEntity<NurseDTO> saveNurse(@RequestBody NurseDTO nurseDTO){
+	@RequestMapping(method = RequestMethod.POST, value = "/addnurse")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
+	public ResponseEntity<NurseDTO> addNurse(@RequestBody NurseDTO nurseDTO) {
 
-		Nurse nurse = modelMapper.map(nurseDTO,Nurse.class);
-		nurse = nurseService.save(nurse);
+		nurseService.save(nurseDTO);
+		return new ResponseEntity<>(nurseDTO, HttpStatus.CREATED);
 
-		NurseDTO nurseDTOfinal = modelMapper.map(nurse,NurseDTO.class);
-		return new ResponseEntity<>(nurseDTOfinal, HttpStatus.CREATED);
 	}
 }
