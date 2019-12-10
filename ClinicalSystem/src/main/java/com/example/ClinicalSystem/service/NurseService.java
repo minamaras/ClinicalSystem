@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
+import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.model.Authority;
 import com.example.ClinicalSystem.model.ClinicAdmin;
+import com.example.ClinicalSystem.model.Doctor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,8 +33,15 @@ public class NurseService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	public List<Nurse> findAll(){
-		return nurseRepository.findAll();
+	public List<NurseDTO> findAll(){
+		List<Nurse> nurses = nurseRepository.findAll();
+
+		List<NurseDTO> nursesDTO = new ArrayList<>();
+		for (Nurse n : nurses) {
+			nursesDTO.add(new NurseDTO(n));
+		}
+
+		return nursesDTO;
 	
 	}
 
