@@ -103,7 +103,7 @@ public class DoctorController {
 				doctor.setSpecialization(doctorDTO.getSpecialization());
 			}
 
-			if(doctorDTO.getRating() != "") {
+			if(doctorDTO.getRating() < 0 && doctorDTO.getRating() > 10) {
 				doctor.setRating(doctorDTO.getRating());
 			}
 
