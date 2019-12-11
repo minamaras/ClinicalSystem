@@ -13,8 +13,9 @@ public class DoctorDTO {
     private String password;
     private Role role;
     private String specialization;
-    private String rating;
     private ClinicDTO clinic;
+    private int rating;
+
 
     public DoctorDTO() {
     	this.role = role.DOCTOR;
@@ -25,7 +26,7 @@ public class DoctorDTO {
         this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getRating());
     }
 
-    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, String rating) {
+    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, int rating) {
         Id = id;
         this.name = name;
         this.lastname = lastname;
@@ -92,11 +93,11 @@ public class DoctorDTO {
         this.specialization = specialization;
     }
 
-    public String getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

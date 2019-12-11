@@ -13,10 +13,10 @@ import javax.persistence.OneToOne;
 @Entity
 public class Nurse extends User {
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Clinic clinic;
 
-	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "nurse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Recipe> recipes = new HashSet<Recipe>();
 
 

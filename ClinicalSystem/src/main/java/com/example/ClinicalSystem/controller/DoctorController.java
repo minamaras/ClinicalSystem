@@ -80,5 +80,38 @@ public class DoctorController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
+	@PreAuthorize("hasAuthority('DOCTOR')")
+	public ResponseEntity<DoctorDTO> updateProfile(@RequestBody DoctorDTO doctorDTO) {
+
+		if(doctorService.findOne(doctorDTO.getEmail()) == null){
+			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+
+			Doctor doctor = doctorService.findOne(doctorDTO.getEmail());
+
+			if (doctorDTO.getName() != "") {
+
+				doctor.setName(doctorDTO.getName());
+			}
+
+			if (doctorDTO.getLastname() != "") {
+				doctor.setLastname(doctorDTO.getLastname());
+			}
+
+			if(doctorDTO.getSpecialization() != "") {
+				doctor.setSpecialization(doctorDTO.getSpecialization());
+			}
+
+			if(doctorDTO.getRating() != "") {
+				doctor.setRating(doctorDTO.getRating());
+			}
+
+			doctorService.updateDoctor(doctor);
+			return new ResponseEntity<>(modelMapper.map(doctor,DoctorDTO.class),HttpStatus.OK);
+		}
+
+	}
+
 
 }
