@@ -5,6 +5,7 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika1', 'Bulevar Oslobodjenja 22','9');
 insert into doctor (id,specialization,rating) values (-4,'zubar','10');
+insert into clinical_centre_admin (id) values (-6);
 
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 insert into clinic_admin (id,clinic_id) values (-3,-3);
