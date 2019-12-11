@@ -42,7 +42,7 @@ public class ClinicController {
 	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
 	public ResponseEntity<ClinicDTO> addClinic(@RequestBody ClinicDTO clinicDTO) {
 
-		clinicService.addClinic(clinicDTO);
+		clinicService.addClinic(modelMapper.map(clinicDTO,Clinic.class));
 		return new ResponseEntity<>(clinicDTO,HttpStatus.CREATED);
 
 	}
