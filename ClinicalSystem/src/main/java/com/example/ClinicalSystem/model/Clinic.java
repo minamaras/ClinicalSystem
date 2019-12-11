@@ -34,6 +34,9 @@ public class Clinic {
 	@Column(name = "price")
 	private String price;
 
+	@Column(name = "rating", nullable = false)
+	private int rating;
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
@@ -184,5 +187,13 @@ public class Clinic {
 
 	public void SetAdmin(ClinicAdmin clinicAdmin){
 		this.clinicAdmins.add(clinicAdmin);
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 }
