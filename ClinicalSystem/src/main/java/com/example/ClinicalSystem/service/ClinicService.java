@@ -36,9 +36,7 @@ public class ClinicService {
 	private AuthorityService authorityService;
 
 	
-	public Clinic addClinic(ClinicDTO clinicDto) {
-
-		Clinic clinic =  modelMapper.map(clinicDto, Clinic.class);
+	public Clinic addClinic(Clinic clinic) {
 
 		return clinicRepo.save(clinic);
 	}

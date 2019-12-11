@@ -2,12 +2,16 @@ package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Clinic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ClinicDTO {
 	
 	private Long id;
 	private String name;
 	private String adress;
 	private String description;
+	private List<DoctorDTO> doctors = new ArrayList<DoctorDTO>();
 	
 	public ClinicDTO() {
 		super();
@@ -56,8 +60,12 @@ public class ClinicDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
-	
 
+	public List<DoctorDTO> getDoctors() {
+		return doctors;
+	}
+
+	public void setDoctors(List<DoctorDTO> doctors) {
+		this.doctors = doctors;
+	}
 }
