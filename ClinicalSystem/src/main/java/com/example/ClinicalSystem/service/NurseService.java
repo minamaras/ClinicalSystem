@@ -53,8 +53,12 @@ public class NurseService {
 
 
 		Nurse nurse = modelMapper.map(nurseDTO, Nurse.class);
-		nurse.setClinic(clinic);
-		clinic.getNurses().add(nurse);
+
+		if(clinic != null) {
+			nurse.setClinic(clinic);
+			clinic.getNurses().add(nurse);
+		}
+
 		nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
 
 		Authority authoritie = authorityService.findByname("NURSE");
