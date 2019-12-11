@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.model.Doctor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,32 @@ public class NurseController {
 
 		nurseService.save(nurseDTO, p);
 		return new ResponseEntity<>(nurseDTO, HttpStatus.CREATED);
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
+	@PreAuthorize("hasAuthority('NURSE')")
+	public ResponseEntity<NurseDTO> updateProfile(@RequestBody NurseDTO nurseDTO) {
+
+		if (nurseService.findByEmail(nurseDTO.getEmail()) == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+
+			Nurse nurse = nurseService.findByEmail(nurseDTO.getEmail());
+
+			if (nurseDTO.getName() != "") {
+
+				nurse.setName(nurseDTO.getName());
+			}
+
+			if (nurseDTO.getLastname() != "") {
+				nurse.setLastname(nurseDTO.getLastname());
+			}
+
+
+			nurseService.updateNurse(nurse);
+			return new ResponseEntity<>(modelMapper.map(nurse, NurseDTO.class), HttpStatus.OK);
+		}
 
 	}
 }
