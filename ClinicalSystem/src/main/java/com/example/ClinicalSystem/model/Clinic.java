@@ -46,7 +46,7 @@ public class Clinic {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private BusinessReport report;
 
-	@OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "clinic", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ClinicAdmin> clinicAdmins = new HashSet<ClinicAdmin>();
 	public Clinic() {
 
@@ -174,5 +174,15 @@ public class Clinic {
 
 	public void setClinicAdmins(Set<ClinicAdmin> clinicAdmins) {
 		this.clinicAdmins = clinicAdmins;
+	}
+
+	public void AddDoctor(Doctor doctor){
+		this.doctors.add(doctor);
+	}
+
+	public void RemoveDoctor(Doctor doctor){this.doctors.remove(doctor);}
+
+	public void SetAdmin(ClinicAdmin clinicAdmin){
+		this.clinicAdmins.add(clinicAdmin);
 	}
 }
