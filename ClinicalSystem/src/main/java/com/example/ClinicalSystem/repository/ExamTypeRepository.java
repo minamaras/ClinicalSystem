@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface ExamTypeRepository extends JpaRepository<ExamType, Long> {
 
     ExamType findByName(String name);
-    ExamType deleteByName(String name);
+    void deleteByName(String name);
 }
