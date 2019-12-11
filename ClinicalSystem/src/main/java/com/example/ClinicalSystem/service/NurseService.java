@@ -49,12 +49,12 @@ public class NurseService {
 	public Nurse save(NurseDTO nurseDTO, Principal p) {
 
 		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
-		Clinic clinicAdm = cAdmin.getClinic();
+		Clinic clinic = cAdmin.getClinic();
 
 
 		Nurse nurse = modelMapper.map(nurseDTO, Nurse.class);
-		nurse.setClinic(clinicAdm);
-		clinicAdm.getNurses().add(nurse);
+		nurse.setClinic(clinic);
+		clinic.getNurses().add(nurse);
 		nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
 
 		Authority authoritie = authorityService.findByname("NURSE");
