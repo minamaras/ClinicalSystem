@@ -79,5 +79,9 @@ public class NurseService {
 		return  nurse;
 
 	}
+
+	public Nurse updateNurse(Nurse nurse) {
+		return nurseRepository.save(nurse);
+	}
 	
 }
