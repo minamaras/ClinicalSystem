@@ -3,6 +3,10 @@ package com.example.ClinicalSystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.model.*;
+import com.sun.xml.bind.v2.schemagen.episode.SchemaBindings;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.DTO.ClinicalCentreAdminDTO;
-import com.example.ClinicalSystem.model.Clinic;
-import com.example.ClinicalSystem.model.ClinicAdmin;
-import com.example.ClinicalSystem.model.ClinicalCentreAdmin;
-import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.ClinicAdminService;
 import com.example.ClinicalSystem.service.ClinicalCentreAdminService;
 import com.example.ClinicalSystem.service.UserService;
@@ -30,6 +30,9 @@ public class ClinicalCentreAdminController {
 
 	@Autowired
 	private ClinicalCentreAdminService ccaService;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 
 
@@ -48,6 +51,31 @@ public class ClinicalCentreAdminController {
 		ccaService.save(ccAdminDTO);
 		return new ResponseEntity<>(ccAdminDTO,HttpStatus.CREATED);
 
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/update")
+	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
+	public ResponseEntity<ClinicalCentreAdminDTO> updateProfile(@RequestBody ClinicalCentreAdminDTO ccAdminDTO) {
+
+		if (ccaService.findByEmail(ccAdminDTO.getEmail()) == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+
+			ClinicalCentreAdmin ccAdmin = ccaService.findByEmail(ccAdminDTO.getEmail());
+
+			if (ccAdminDTO.getName() != "") {
+
+				ccAdmin.setName(ccAdminDTO.getName());
+			}
+
+			if (ccAdminDTO.getLastname() != "") {
+				ccAdmin.setLastname(ccAdminDTO.getLastname());
+			}
+
+			ccaService.updateAdmin(ccAdmin);
+
+			return new ResponseEntity<>(modelMapper.map(ccAdmin,ClinicalCentreAdminDTO.class), HttpStatus.OK);
+		}
 	}
 
 }
