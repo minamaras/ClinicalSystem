@@ -5,6 +5,7 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (2,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 
 
+
 INSERT INTO authority (id,name) values (1,'PATIENT');
 INSERT INTO authority (id,name) values (2,'DOCTOR');
 INSERT INTO authority (id,name) values (3,'NURSE');

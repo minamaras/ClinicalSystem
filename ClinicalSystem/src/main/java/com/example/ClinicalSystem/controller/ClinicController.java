@@ -48,7 +48,7 @@ public class ClinicController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/allclinics")
-	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
+	@PreAuthorize("hasAnyAuthority('CLINICALCENTREADMIN','PATIENT')")
 	public ResponseEntity<List<Clinic>> getAllClinics() {
 
 		List<Clinic> clinics = clinicService.findAllClinics();

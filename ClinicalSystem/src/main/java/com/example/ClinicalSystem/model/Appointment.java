@@ -24,8 +24,8 @@ public class Appointment {
 	@Column(name = "time", nullable = false )
 	private String time;
 
-	@Column(name = "type", nullable = false)
-	private String type;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private ExamType type;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
@@ -48,7 +48,7 @@ public class Appointment {
 		super();
 	}
 
-	public Appointment(Long id, String date, String time, String type, Patient patient, Doctor doctor,
+	public Appointment(Long id, String date, String time, ExamType type, Patient patient, Doctor doctor,
 			 boolean hasHappend) {
 		super();
 		this.id = id;
@@ -84,11 +84,11 @@ public class Appointment {
 		this.time = time;
 	}
 
-	public String getType() {
+	public ExamType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(ExamType type) {
 		this.type = type;
 	}
 
