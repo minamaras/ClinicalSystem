@@ -13,7 +13,7 @@ public class Doctor extends User {
 	private String specialization;
 
 	@Column(name = "rating", nullable = false)
-	private String rating;
+	private int rating;
 
 	@ManyToMany
 	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
@@ -38,11 +38,11 @@ public class Doctor extends User {
 	public Doctor() {
 		super();
 		this.setRole(Role.DOCTOR);
-		this.setRating("0");
+		this.setRating(0);
 
 	}
 
-	public Doctor(String specialization, String rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords) {
+	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords) {
 		super();
 		this.specialization = specialization;
 		this.rating = rating;
@@ -94,11 +94,11 @@ public class Doctor extends User {
 		this.specialization = specialization;
 	}
 
-	public String getRating() {
+	public int getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(int rating) {
 		this.rating = rating;
 	}
 
