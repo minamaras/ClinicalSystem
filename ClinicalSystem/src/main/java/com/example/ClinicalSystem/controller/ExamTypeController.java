@@ -40,4 +40,18 @@ public class ExamTypeController {
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/deletetype")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<Void> deleteType(@RequestBody ExamTypeDTO examTypeDTO) {
+
+        if(examTypeService.deleteType(examTypeDTO)) {
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
 }
