@@ -33,11 +33,11 @@ public class ClinicAdminController {
 	private ModelMapper modelMapper;
 
 
-	@RequestMapping(method = RequestMethod.POST, value = "/addclinicadmin")
+	@RequestMapping(method = RequestMethod.POST, value = "/addclinicadmin/{clinicid}")
 	@PreAuthorize("hasAnyAuthority('CLINICADMIN','CLINICALCENTREADMIN')")
-	public ResponseEntity<ClinicAdminDTO> addClinicAdmin(@RequestBody ClinicAdminDTO clinicAdminDTO) {
+	public ResponseEntity<ClinicAdminDTO> addClinicAdmin(@PathVariable String clinicid, @RequestBody ClinicAdminDTO clinicAdminDTO) {
 
-		clinicAdminService.save(clinicAdminDTO);
+		clinicAdminService.save(clinicAdminDTO, clinicid);
 		return new ResponseEntity<>(clinicAdminDTO, HttpStatus.CREATED);
 
 	}
