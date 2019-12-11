@@ -14,6 +14,7 @@ public class DoctorDTO {
     private Role role;
     private String specialization;
     private String rating;
+    private ClinicDTO clinic;
 
     public DoctorDTO() {
     	this.role = role.DOCTOR;
@@ -97,5 +98,13 @@ public class DoctorDTO {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    public ClinicDTO getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(ClinicDTO clinic) {
+        this.clinic = clinic;
     }
 }
