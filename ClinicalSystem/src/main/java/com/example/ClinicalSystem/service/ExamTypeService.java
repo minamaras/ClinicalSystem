@@ -51,6 +51,25 @@ public class ExamTypeService {
         return true;
 
     }
+
+    @Transactional
+    public boolean deleteType(ExamTypeDTO examTypeDTO) {
+
+        if(findOne(examTypeDTO.getName()) != null) {
+
+            ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
+
+            if(examType.getExams().isEmpty()) {
+
+                examTypeRepository.deleteByName(examType.getName());
+                return true;
+            }
+
+            return false;
+        }
+
+        return  false;
+    }
 }
 
 
