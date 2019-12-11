@@ -29,6 +29,9 @@ public class ClinicAdminService {
 	@Autowired
 	private AuthorityService authorityService;
 
+	@Autowired
+	private ClinicService clinicService;
+
 	public List<ClinicAdminDTO> findAll() {
 		List<ClinicAdmin> clinicAdmins = clinicAdminRepository.findAll();
 
@@ -54,10 +57,17 @@ public class ClinicAdminService {
 		return clinicAdminsDTO;
 	}
 
-	public ClinicAdmin save(ClinicAdminDTO clinicAdminDto) {
+	public ClinicAdmin save(ClinicAdminDTO clinicAdminDto, String clinicid) {
+
+		ClinicDTO clinicdto = clinicService.findClinic(clinicid);
 		
 		ClinicAdmin clinicAdmin = modelMapper.map(clinicAdminDto, ClinicAdmin.class);
 		clinicAdmin.setPassword(passwordEncoder.encode(clinicAdmin.getPassword()));
+		if(clinicdto != null){
+			Clinic clinic = modelMapper.map(clinicdto, Clinic.class);
+			clinicAdmin.setClinic(clinic);
+			clinic.getClinicAdmins().add(clinicAdmin);
+		}
 
 		Authority authoritie = authorityService.findByname("CLINICADMIN");
 		List<Authority> authorities = new ArrayList<>();
