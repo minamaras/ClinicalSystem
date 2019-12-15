@@ -35,6 +35,9 @@ public class ClinicService {
 	@Autowired
 	private AuthorityService authorityService;
 
+	@Autowired
+	private DoctorService doctorService;
+
 	
 	public Clinic addClinic(Clinic clinic) {
 
@@ -124,5 +127,18 @@ public class ClinicService {
 		clinic.setDoctors((Set<Doctor>) doctors);
 
 		return true;
+	}
+
+	public boolean connectDoctorWithClinic(String name, DoctorDTO doctorDTO) {
+
+		Doctor doctor = modelMapper.map(doctorDTO, Doctor.class);
+		Clinic clinic = clinicRepo.findByName(name);
+
+		if(doctor.getClinic() == null){
+			clinic.getDoctors().add(doctor);
+			clinicRepo.save(clinic);
+		}
+
+		return false;
 	}
 }
