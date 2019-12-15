@@ -155,22 +155,15 @@ public class ClinicController {
 
 			Clinic clinic = clinicService.findName(clinicDTO.getName());
 
-			if (clinicDTO.getAdress() != "") {
-
+			if (clinicDTO.getAdress() != "")
 				clinic.setDescription(clinicDTO.getDescription());
-			}
-
-			if (clinicDTO.getDescription() != "") {
-				clinic.setAdress(clinicDTO.getAdress());
-			}
-
-			if(clinicDTO.getAdress() == "") {
+			else
 				clinic.setAdress(clinic.getAdress());
-			}
 
-			if(clinicDTO.getDescription() == "") {
+			if (clinicDTO.getDescription() != "")
+				clinic.setAdress(clinicDTO.getAdress());
+			else
 				clinic.setDescription(clinic.getDescription());
-			}
 
 			clinicService.updateClinic(clinic);
 			return new ResponseEntity<>(modelMapper.map(clinic,ClinicDTO.class),HttpStatus.OK);
