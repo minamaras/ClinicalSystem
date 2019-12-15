@@ -138,7 +138,7 @@ public class ClinicController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/update")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<ClinicAdminDTO> update(@RequestBody ClinicDTO clinicDTO) {
+	public ResponseEntity<ClinicDTO> update(@RequestBody ClinicDTO clinicDTO) {
 
 		if(clinicService.findClinic(clinicDTO.getName()) == null){
 			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -156,7 +156,7 @@ public class ClinicController {
 			}
 
 			clinicService.updateClinic(clinic);
-			return new ResponseEntity<>(modelMapper.map(clinic,ClinicAdminDTO.class),HttpStatus.OK);
+			return new ResponseEntity<>(modelMapper.map(clinic,ClinicDTO.class),HttpStatus.OK);
 		}
 
 	}
