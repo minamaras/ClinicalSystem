@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.model.ClinicAdmin;
+import com.sun.mail.iap.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -96,6 +97,14 @@ public class ClinicController {
 
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/connectdoctor/{clinicname}")
+	public ResponseEntity<Void> connectDoctorWithClinic(@PathVariable String name, @RequestBody DoctorDTO doctorDTO) {
+
+		if(clinicService.connectDoctorWithClinic(name, doctorDTO))
+			return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+}
+
 	@RequestMapping(method = RequestMethod.POST, value = "/connectwithdoctors/{clinicid}")
 	public ResponseEntity<ClinicDTO> addDoctors(@PathVariable String clinicid, @RequestBody List<DoctorDTO> doctorDtos) {
 		ClinicDTO clinicdto = clinicService.findClinic(clinicid);
@@ -153,6 +162,14 @@ public class ClinicController {
 
 			if (clinicDTO.getDescription() != "") {
 				clinic.setAdress(clinicDTO.getAdress());
+			}
+
+			if(clinicDTO.getAdress() == "") {
+				clinic.setAdress(clinic.getAdress());
+			}
+
+			if(clinicDTO.getDescription() == "") {
+				clinic.setDescription(clinic.getDescription());
 			}
 
 			clinicService.updateClinic(clinic);
