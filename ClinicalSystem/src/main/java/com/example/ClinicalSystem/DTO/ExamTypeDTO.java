@@ -4,20 +4,22 @@ import com.example.ClinicalSystem.model.ExamType;
 
 public class ExamTypeDTO {
 
-    String name;
-    Long id;
+    private String name;
+    private Long id;
+    private int price;
 
     public ExamTypeDTO() {
         super();
     }
 
     public ExamTypeDTO(ExamType type) {
-        this(type.getId(), type.getName());
+        this(type.getId(), type.getName(), type.getPrice());
     }
 
-    public ExamTypeDTO(Long id, String name) {
+    public ExamTypeDTO(Long id, String name, int price) {
         this.id = id;
         this.name = name;
+        this.price = price;
     }
 
     public String getName() {
@@ -34,5 +36,13 @@ public class ExamTypeDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
