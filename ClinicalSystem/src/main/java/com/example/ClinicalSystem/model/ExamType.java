@@ -14,6 +14,9 @@ public class ExamType {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "price")
+    private int price;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Appointment> exams = new HashSet<Appointment>();
 
@@ -39,5 +42,13 @@ public class ExamType {
 
     public void setExams(Set<Appointment> exams) {
         this.exams = exams;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
