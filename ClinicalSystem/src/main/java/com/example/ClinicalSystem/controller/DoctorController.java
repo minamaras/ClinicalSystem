@@ -101,6 +101,20 @@ public class DoctorController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/aboutclinicdoctors/{clinicname}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<Set<DoctorDTO>>DoctorsOfClinic(@PathVariable String clinicname) {
+
+
+		Set<DoctorDTO> doctors = doctorService.findAllDoctorsFromAClinic(clinicname);
+		if(doctors.size() > 0) {
+
+			return new ResponseEntity<>(doctors, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 
 	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
 	@PreAuthorize("hasAuthority('DOCTOR')")
