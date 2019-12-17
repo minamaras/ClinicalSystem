@@ -1,11 +1,15 @@
 package com.example.ClinicalSystem.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.model.ClinicAdmin;
+import com.example.ClinicalSystem.model.Doctor;
+import com.sun.mail.iap.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -96,6 +100,14 @@ public class ClinicController {
 
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/connectdoctor/{clinicname}")
+	public ResponseEntity<Void> connectDoctorWithClinic(@PathVariable String name, @RequestBody DoctorDTO doctorDTO) {
+
+		if(clinicService.connectDoctorWithClinic(name, doctorDTO))
+			return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+}
+
 	@RequestMapping(method = RequestMethod.POST, value = "/connectwithdoctors/{clinicid}")
 	public ResponseEntity<ClinicDTO> addDoctors(@PathVariable String clinicid, @RequestBody List<DoctorDTO> doctorDtos) {
 		ClinicDTO clinicdto = clinicService.findClinic(clinicid);
@@ -129,6 +141,12 @@ public class ClinicController {
 		if(clinic != null) {
 
 			ClinicDTO clinicDTO = modelMapper.map(clinic, ClinicDTO.class);
+			Set<Doctor> docs =clinic.getDoctors();
+			Set<Long> setOfIds = new HashSet<>();
+			for(Doctor doctor : docs){
+				setOfIds.add(doctor.getId());
+			}
+			clinicDTO.setDoctorsId(setOfIds);
 			return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
 		}
 
@@ -146,14 +164,15 @@ public class ClinicController {
 
 			Clinic clinic = clinicService.findName(clinicDTO.getName());
 
-			if (clinicDTO.getAdress() != "") {
-
+			if (clinicDTO.getAdress() != "")
 				clinic.setDescription(clinicDTO.getDescription());
-			}
+			else
+				clinic.setAdress(clinic.getAdress());
 
-			if (clinicDTO.getDescription() != "") {
+			if (clinicDTO.getDescription() != "")
 				clinic.setAdress(clinicDTO.getAdress());
-			}
+			else
+				clinic.setDescription(clinic.getDescription());
 
 			clinicService.updateClinic(clinic);
 			return new ResponseEntity<>(modelMapper.map(clinic,ClinicDTO.class),HttpStatus.OK);

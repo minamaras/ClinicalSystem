@@ -13,7 +13,8 @@ public class DoctorDTO {
     private String password;
     private Role role;
     private String specialization;
-    private ClinicDTO clinic;
+    private Long clinicid;
+    private String clinicname;
     private int rating;
 
 
@@ -35,6 +36,7 @@ public class DoctorDTO {
         this.role = role.DOCTOR;
         this.specialization = specialization;
         this.rating = rating;
+
     }
 
     public Long getId() {
@@ -101,11 +103,19 @@ public class DoctorDTO {
         this.rating = rating;
     }
 
-    public ClinicDTO getClinic() {
-        return clinic;
+    public Long getClinicid() {
+        return clinicid;
     }
 
-    public void setClinic(ClinicDTO clinic) {
-        this.clinic = clinic;
+    public void setClinicid(Long clinicid) {
+        this.clinicid = clinicid;
+    }
+
+    public String getClinicname() {
+        return clinicname;
+    }
+
+    public void setClinicname(String clinicname) {
+        this.clinicname = clinicname;
     }
 }
