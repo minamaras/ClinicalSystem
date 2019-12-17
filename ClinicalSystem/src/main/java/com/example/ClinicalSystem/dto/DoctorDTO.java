@@ -36,6 +36,7 @@ public class DoctorDTO {
         this.role = role.DOCTOR;
         this.specialization = specialization;
         this.rating = rating;
+
     }
 
     public Long getId() {
