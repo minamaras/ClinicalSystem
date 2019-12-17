@@ -33,7 +33,7 @@ public class Clinic {
 
 	@Column(name = "price")
 	private String price;
-
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
