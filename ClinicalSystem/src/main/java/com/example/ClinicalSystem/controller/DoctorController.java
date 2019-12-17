@@ -93,12 +93,8 @@ public class DoctorController {
 
 
 		Set<DoctorDTO> doctors = doctorService.findAllDoctorsFromAClinic(clinicname);
-		if(doctors.size() > 0) {
+		return new ResponseEntity<>(doctors, HttpStatus.OK);
 
-			return new ResponseEntity<>(doctors, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 
