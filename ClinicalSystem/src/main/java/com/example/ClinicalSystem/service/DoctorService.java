@@ -44,11 +44,14 @@ public class DoctorService {
 	private ClinicService clinicService;
 
 
-	public List<DoctorDTO> findAll() {
-		
-		List<Doctor> doctors = doctorRepository.findAll();
+	public Set<DoctorDTO> findAll(Principal p) {
 
-		List<DoctorDTO> doctorsDTO = new ArrayList<>();
+		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
+		Clinic clinic = cAdmin.getClinic();
+
+		Set<Doctor> doctors = clinic.getDoctors();
+
+		Set<DoctorDTO> doctorsDTO = new HashSet<>();
 		for (Doctor d : doctors) {
 			doctorsDTO.add(new DoctorDTO(d));
 		}
