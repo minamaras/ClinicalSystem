@@ -106,4 +106,20 @@ public class DoctorService {
 	}
 
 
+	public Set<DoctorDTO> findAllDoctorsFromAClinic(String clinicname){
+
+		HashSet<DoctorDTO> doctorsret = new HashSet<>();
+		Clinic clinic = clinicService.findName(clinicname);
+
+		Set<Doctor> docs =clinic.getDoctors();
+		Set<Long> setOfIds = new HashSet<>();
+		for(Doctor doctor : docs){
+			setOfIds.add(doctor.getId());
+			DoctorDTO doctorDTO = modelMapper.map(doctor,DoctorDTO.class);
+			doctorDTO.setClinicid(clinic.getId());
+			doctorsret.add(doctorDTO);
+		}
+
+		return  doctorsret;
+	}
 }
