@@ -1,8 +1,10 @@
 package com.example.ClinicalSystem.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.UserService;
@@ -42,30 +44,14 @@ public class DoctorController {
 
 		return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, value = "/savedoctor")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
-		
-		Doctor d = doctorService.saveDoctor(doctorDTO);
-		
-		if( d == null) {
-			
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<DoctorDTO> addNurse(@RequestBody DoctorDTO doctorDTO, Principal p) {
 
-		Authentication a = SecurityContextHolder.getContext().getAuthentication();
-		ClinicAdmin admin = (ClinicAdmin) a.getPrincipal();
-
-		d.setClinicAdmin(admin);
-
-		if(admin.getClinic() == null)
-			return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
-
-		d.setClinic(admin.getClinic());
-		
-		
+		doctorService.save(doctorDTO, p);
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
+
 	}
 
 	@Transactional
