@@ -40,9 +40,9 @@ public class DoctorController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
+	public ResponseEntity<Set<DoctorDTO>> getAllDoctors(Principal p) {
 
-		List<DoctorDTO> doctors = doctorService.findAll();
+		Set<DoctorDTO> doctors = doctorService.findAll(p);
 
 		return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
