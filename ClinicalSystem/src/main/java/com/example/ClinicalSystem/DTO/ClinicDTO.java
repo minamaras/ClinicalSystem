@@ -1,9 +1,12 @@
 package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Clinic;
+import com.example.ClinicalSystem.model.Doctor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ClinicDTO {
 	
@@ -11,7 +14,12 @@ public class ClinicDTO {
 	private String name;
 	private String adress;
 	private String description;
+<<<<<<< Updated upstream
 	private List<DoctorDTO> doctors = new ArrayList<DoctorDTO>();
+=======
+	private Set<Long> doctorsId = new HashSet<Long>();
+	private int rating;
+>>>>>>> Stashed changes
 	
 	public ClinicDTO() {
 		super();
@@ -61,11 +69,11 @@ public class ClinicDTO {
 		this.description = description;
 	}
 
-	public List<DoctorDTO> getDoctors() {
-		return doctors;
+	public Set<Long> getDoctorsId() {
+		return doctorsId;
 	}
 
-	public void setDoctors(List<DoctorDTO> doctors) {
-		this.doctors = doctors;
+	public void setDoctorsId(Set<Long> doctorsId) {
+		this.doctorsId = doctorsId;
 	}
 }
