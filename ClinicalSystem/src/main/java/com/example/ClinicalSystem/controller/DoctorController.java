@@ -2,7 +2,9 @@ package com.example.ClinicalSystem.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.UserService;
@@ -42,15 +44,15 @@ public class DoctorController {
 
 		return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, value = "/savedoctor")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
-		
+
 		Doctor d = doctorService.saveDoctor(doctorDTO);
-		
+
 		if( d == null) {
-			
+
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -63,8 +65,8 @@ public class DoctorController {
 			return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
 
 		d.setClinic(admin.getClinic());
-		
-		
+
+
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
 	}
 
@@ -79,6 +81,40 @@ public class DoctorController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/doctorabout/{id}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<DoctorDTO> AboutDoctor(@PathVariable String id) {
+
+
+		Doctor doctor = doctorService.findOneById(Long.parseLong(id));
+		if(doctor != null) {
+
+			DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+			Clinic clinic = doctor.getClinic();
+			doctorDTO.setClinicid(clinic.getId());
+			doctorDTO.setClinicname(clinic.getName());
+
+			return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/aboutclinicdoctors/{clinicname}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<Set<DoctorDTO>>DoctorsOfClinic(@PathVariable String clinicname) {
+
+
+		Set<DoctorDTO> doctors = doctorService.findAllDoctorsFromAClinic(clinicname);
+		if(doctors.size() > 0) {
+
+			return new ResponseEntity<>(doctors, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 
 	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
 	@PreAuthorize("hasAuthority('DOCTOR')")

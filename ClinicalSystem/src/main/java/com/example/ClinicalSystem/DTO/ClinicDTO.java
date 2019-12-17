@@ -1,27 +1,30 @@
 package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Clinic;
+import com.example.ClinicalSystem.model.Doctor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ClinicDTO {
-	
+
 	private Long id;
 	private String name;
 	private String adress;
 	private String description;
-	private List<DoctorDTO> doctors = new ArrayList<DoctorDTO>();
+	private Set<Long> doctorsId = new HashSet<Long>();
 	private int rating;
 	
 	public ClinicDTO() {
 		super();
 	}
-	
+
 	public ClinicDTO(Clinic clinic) {
 		this(clinic.getId(), clinic.getName(), clinic.getAdress(), clinic.getDescription());
 	}
-	
+
 	public ClinicDTO(Long id, String name, String adress, String description) {
 		super();
 		this.id = id;
@@ -62,12 +65,12 @@ public class ClinicDTO {
 		this.description = description;
 	}
 
-	public List<DoctorDTO> getDoctors() {
-		return doctors;
+	public Set<Long> getDoctorsId() {
+		return doctorsId;
 	}
 
-	public void setDoctors(List<DoctorDTO> doctors) {
-		this.doctors = doctors;
+	public void setDoctorsId(Set<Long> doctorsId) {
+		this.doctorsId = doctorsId;
 	}
 
 	public int getRating() {
