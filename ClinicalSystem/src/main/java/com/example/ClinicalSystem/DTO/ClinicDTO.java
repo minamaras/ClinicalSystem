@@ -14,12 +14,8 @@ public class ClinicDTO {
 	private String name;
 	private String adress;
 	private String description;
-<<<<<<< Updated upstream
-	private List<DoctorDTO> doctors = new ArrayList<DoctorDTO>();
-=======
 	private Set<Long> doctorsId = new HashSet<Long>();
 	private int rating;
->>>>>>> Stashed changes
 	
 	public ClinicDTO() {
 		super();
