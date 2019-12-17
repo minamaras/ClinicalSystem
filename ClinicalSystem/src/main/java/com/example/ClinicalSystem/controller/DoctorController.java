@@ -44,15 +44,15 @@ public class DoctorController {
 
 		return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, value = "/savedoctor")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
-		
+
 		Doctor d = doctorService.saveDoctor(doctorDTO);
-		
+
 		if( d == null) {
-			
+
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -65,8 +65,8 @@ public class DoctorController {
 			return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
 
 		d.setClinic(admin.getClinic());
-		
-		
+
+
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
 	}
 
@@ -125,7 +125,7 @@ public class DoctorController {
 				doctor.setSpecialization(doctorDTO.getSpecialization());
 			}
 
-			if(doctorDTO.getRating() != 0) {
+			if(doctorDTO.getRating() < 0 && doctorDTO.getRating() > 10) {
 				doctor.setRating(doctorDTO.getRating());
 			}
 

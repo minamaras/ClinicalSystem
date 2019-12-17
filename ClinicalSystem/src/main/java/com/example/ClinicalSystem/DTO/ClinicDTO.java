@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ClinicDTO {
-	
+
 	private Long id;
 	private String name;
 	private String adress;
@@ -20,11 +20,11 @@ public class ClinicDTO {
 	public ClinicDTO() {
 		super();
 	}
-	
+
 	public ClinicDTO(Clinic clinic) {
 		this(clinic.getId(), clinic.getName(), clinic.getAdress(), clinic.getDescription());
 	}
-	
+
 	public ClinicDTO(Long id, String name, String adress, String description) {
 		super();
 		this.id = id;
@@ -71,5 +71,13 @@ public class ClinicDTO {
 
 	public void setDoctorsId(Set<Long> doctorsId) {
 		this.doctorsId = doctorsId;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 }

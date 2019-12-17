@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ClinicalSystem.model.Authority;
+import com.example.ClinicalSystem.model.Patient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,6 +55,11 @@ public class ClinicalCentreAdminService {
 		List<Authority> authorities = new ArrayList<>();
 		authorities.add(authoritie);
 		ccAdmin.setAuthorities(authorities);
+		return clinicalCentreAdminRepository.save(ccAdmin);
+	}
+
+	public ClinicalCentreAdmin updateAdmin(ClinicalCentreAdmin ccAdmin) {
+
 		return clinicalCentreAdminRepository.save(ccAdmin);
 	}
 	

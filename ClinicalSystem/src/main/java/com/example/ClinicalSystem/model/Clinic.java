@@ -33,7 +33,10 @@ public class Clinic {
 
 	@Column(name = "price")
 	private String price;
-	
+
+	@Column(name = "rating", nullable = false)
+	private int rating;
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
@@ -51,7 +54,7 @@ public class Clinic {
 	public Clinic() {
 
 	}
-	
+
 	public Clinic(Long id, String name, String adress, String description) {
 		super();
 		this.id = id;
@@ -71,7 +74,7 @@ public class Clinic {
 		this.freeAppointment = freeAppointment;
 		this.price = price;
 	}
-	
+
 	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price,
 				  HashSet<Doctor> doctors, HashSet<Nurse> nurses, HashSet<Patient> patients) {
 		super();
@@ -184,5 +187,13 @@ public class Clinic {
 
 	public void SetAdmin(ClinicAdmin clinicAdmin){
 		this.clinicAdmins.add(clinicAdmin);
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 }

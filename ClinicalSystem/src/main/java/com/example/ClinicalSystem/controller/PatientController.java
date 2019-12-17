@@ -3,6 +3,7 @@ package com.example.ClinicalSystem.controller;
 import com.example.ClinicalSystem.DTO.PatientDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.service.PatientService;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -22,31 +27,20 @@ public class PatientController {
 	private ModelMapper modelMapper;
 
 	@RequestMapping(method= RequestMethod.GET, value="/confirm-account/{verificationCode}")
-	public ResponseEntity<?> confirmUserAccount(@PathVariable("verificationCode") String verificationCode)
-	{
+	public ResponseEntity confirmUserAccount(@PathVariable("verificationCode") String verificationCode) throws URISyntaxException {
 		//ConfirmationToken token = confirmationTokenService.findByConfirmationToken(verificationCode);
 		Patient patient = patientService.findVerificationCode(verificationCode);
+		patient.setActive(true);
+		patientService.updatePatient(patient);
 
-		if(patient.getVerificationCode() != null)
-		{
-			try {
-				//Patient p = patientService.findPatient(token.getPatient().getEmail());
-				patient.setActive(true);
-				patientService.updatePatient(patient);
+		URI newUri = new URI("http://localhost:3000/activated-account");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(newUri);
 
-				return new ResponseEntity<>("User "+ patient.getName() +" is successfully registered!", HttpStatus.OK);
-
-			} catch (Exception e){
-				return new ResponseEntity<>("Account activation is unsuccessful.", HttpStatus.NOT_FOUND);
-			}
-
-		}
-		else
-		{
-			return new ResponseEntity<>("The link is invalid.", HttpStatus.NOT_FOUND);
-		}
-
+		return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
 	}
+
+
 
 	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
 	@PreAuthorize("hasAuthority('PATIENT')")
