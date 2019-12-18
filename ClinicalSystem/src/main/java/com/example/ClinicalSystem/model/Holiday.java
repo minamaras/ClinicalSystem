@@ -29,16 +29,20 @@ public class Holiday {
     @Column(name="end")
     private Date end;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Nurse nurse;
+
 
     public Holiday() {
 
     }
 
-    public Holiday(HolidayType type, String reason, Date start, Date end){
+    public Holiday(HolidayType type, String reason, Date start, Date end, Nurse nurse){
         this.type = type;
         this.reason = reason;
         this.start = start;
         this.end = end;
+        this.nurse = nurse;
     }
 
     public Long getId() {
@@ -79,5 +83,13 @@ public class Holiday {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public Nurse getNurse() {
+        return nurse;
+    }
+
+    public void setNurse(Nurse nurse) {
+        this.nurse = nurse;
     }
 }
