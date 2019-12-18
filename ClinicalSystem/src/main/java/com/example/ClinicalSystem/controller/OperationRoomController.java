@@ -57,4 +57,22 @@ public class OperationRoomController {
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/update")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<OperationRoomDTO> update(@RequestBody OperationRoomDTO roomDto) {
+
+        if(roomService.findOne(roomDto.getNumber()) == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        OR room = roomService.findOne(roomDto.getNumber());
+
+        if(roomDto.getName() != "")
+            room.setName(roomDto.getName());
+
+        roomService.update(room);
+
+        return new ResponseEntity<>(modelMapper.map(room, OperationRoomDTO.class), HttpStatus.OK);
+
+    }
 }

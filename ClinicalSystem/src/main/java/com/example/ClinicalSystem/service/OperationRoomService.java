@@ -71,4 +71,8 @@ public class OperationRoomService {
         return repo.findByNumber(number);
     }
 
+    public OR update(OR or) {
+        return repo.save(or);
+    }
+
 }
