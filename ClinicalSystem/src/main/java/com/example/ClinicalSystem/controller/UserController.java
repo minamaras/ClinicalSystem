@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.ClinicalSystem.model.Role;
 import com.example.ClinicalSystem.service.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,11 +44,16 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-		
-	 /*@RequestMapping(method = RequestMethod.GET, value = "/login")
-	    public void redirect(HttpServletResponse response) throws IOException{
-	        response.sendRedirect("http://localhost:8081/login.html");
-	    }*/
+
+	@RequestMapping(method = RequestMethod.GET, value = "/getrole/{email:.+}")
+	public ResponseEntity<?> getRole(@PathVariable String email) {
+
+		User user = userService.findByUsername(email);
+		Role role = user.getRole();
+
+		return new ResponseEntity<>(role, HttpStatus.OK);
+	}
+
+
 
 }
