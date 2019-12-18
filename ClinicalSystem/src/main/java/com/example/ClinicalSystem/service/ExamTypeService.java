@@ -70,6 +70,11 @@ public class ExamTypeService {
 
         return  false;
     }
+
+    public ExamType updateType(ExamType examType) {
+
+        return examTypeRepository.save(examType);
+    }
 }
 
 
