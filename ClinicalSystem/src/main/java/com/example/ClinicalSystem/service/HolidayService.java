@@ -32,5 +32,7 @@ public class HolidayService {
         return holidaysDTO;
     }
 
-    
+    public Holiday findOne(String reason){
+        return holidayRepository.findByReason(reason);
+    }
 }
