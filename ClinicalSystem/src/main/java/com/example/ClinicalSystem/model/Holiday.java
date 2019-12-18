@@ -12,7 +12,7 @@ public class Holiday {
     @Column(name = "id")
     private Long id;
 
-    @Column(name="type")
+    @Column(name="typeholiday")
     private HolidayType type;
 
     public enum HolidayType {
@@ -23,13 +23,13 @@ public class Holiday {
     @Column(name="reason")
     private String reason;
 
-    @Column(name="start")
+    @Column(name="startdate")
     private Date start;
 
-    @Column(name="end")
+    @Column(name="enddate")
     private Date end;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Nurse nurse;
 
 
