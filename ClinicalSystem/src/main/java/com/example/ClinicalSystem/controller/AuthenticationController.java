@@ -120,9 +120,8 @@ public class AuthenticationController {
 
         }else if ( user.getRole() == Role.CLINICALCENTREADMIN){
 
-            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-            User cca = userService.findByEmail(userDTO);
-            UserDTO ccaDTO = modelMapper.map(cca,UserDTO.class);
+            ClinicalCentreAdmin cca = clinicalCentreAdminService.findByEmail(user.getEmail());
+            ClinicalCentreAdminDTO ccaDTO = modelMapper.map(cca,ClinicalCentreAdminDTO.class);
             return new ResponseEntity<>(ccaDTO, HttpStatus.OK);
 
         }else if ( user.getRole() == Role.DOCTOR){
