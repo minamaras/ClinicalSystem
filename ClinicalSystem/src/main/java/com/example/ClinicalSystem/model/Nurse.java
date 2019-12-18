@@ -15,6 +15,9 @@ public class Nurse extends User {
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Recipe> recipes = new HashSet<Recipe>();
 
+	@OneToMany(mappedBy = "nurse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Holiday> holidays = new HashSet<Holiday>();
+
 
 	public Nurse() {
 		super();
@@ -44,7 +47,11 @@ public class Nurse extends User {
 		this.recipes = recipes;
 	}
 
+	public Set<Holiday> getHolidays() {
+		return holidays;
+	}
 
-
-
+	public void setHolidays(Set<Holiday> holidays) {
+		this.holidays = holidays;
+	}
 }
