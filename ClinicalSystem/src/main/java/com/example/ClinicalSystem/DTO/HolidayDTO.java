@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Holiday;
+import com.example.ClinicalSystem.model.Nurse;
 
 import java.util.Date;
 
@@ -11,18 +12,24 @@ public class HolidayDTO {
     private String reason;
     private Date start;
     private Date end;
+    private String nurseid;
 
-    public HolidayDTO(Long id, Holiday.HolidayType type, String reason, Date start, Date end){
+    public HolidayDTO(Long id, Holiday.HolidayType type, String reason, Date start, Date end, String nurseid){
         super();
         this.id = id;
         this.type = type;
         this.reason = reason;
         this.start = start;
         this.end = end;
+        this.nurseid = nurseid;
+    }
+
+    public HolidayDTO(){
+        super();
     }
 
     public HolidayDTO(Holiday holiday){
-        this(holiday.getId(), holiday.getType(), holiday.getReason(), holiday.getStart(), holiday.getEnd());
+        this(holiday.getId(), holiday.getType(), holiday.getReason(), holiday.getStart(), holiday.getEnd(), holiday.getNurse().getEmail());
     }
 
     public Long getId() {
@@ -63,5 +70,13 @@ public class HolidayDTO {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public String getNurseid() {
+        return nurseid;
+    }
+
+    public void setNurseid(String nurseid) {
+        this.nurseid = nurseid;
     }
 }
