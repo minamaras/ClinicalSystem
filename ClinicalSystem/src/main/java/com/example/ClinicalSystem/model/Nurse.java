@@ -15,7 +15,7 @@ public class Nurse extends User {
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Recipe> recipes = new HashSet<Recipe>();
 
-	@OneToMany(mappedBy = "nurse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Holiday> holidays = new HashSet<Holiday>();
 
 
