@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping(value = "api/holiday")
@@ -18,16 +20,17 @@ public class HolidayController {
     @Autowired
     private HolidayService holidayService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/makerequest/{nurseid}")
+    @RequestMapping(method = RequestMethod.POST, value = "/makerequest")
     @PreAuthorize("hasAuthority('NURSE')")
-    public ResponseEntity<?> makeRequest(@PathVariable String nurseid, @RequestBody HolidayDTO holidayDTO) {
+    public ResponseEntity<?> makeRequest(@RequestBody HolidayDTO holidayDTO, Principal p) {
 
-        boolean isApproved = holidayService.request(nurseid, holidayDTO);
+        boolean isApproved = holidayService.request(p, holidayDTO);
+
 
         if(!isApproved) {
-            return new ResponseEntity<>("Request with this start date or reason already exists!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>("Success!", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 }
