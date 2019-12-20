@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.repository.NurseRepository;
 
+import javax.transaction.Transactional;
+
 @Service
 public class NurseService {
 
@@ -33,7 +35,8 @@ public class NurseService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
+	@Transactional
 	public List<NurseDTO> findAll(){
 		List<Nurse> nurses = nurseRepository.findAll();
 
@@ -46,6 +49,7 @@ public class NurseService {
 	
 	}
 
+	@Transactional
 	public Nurse save(NurseDTO nurseDTO, Principal p) {
 
 		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
@@ -69,10 +73,7 @@ public class NurseService {
 		return nurseRepository.save(nurse);
 	}
 
-	public Nurse saveModel(Nurse nurse){
-		return nurseRepository.save(nurse);
-	}
-
+	@Transactional
 	public Nurse findByEmail(String email){
 
 		Nurse nurse = nurseRepository.findByEmail(email);
