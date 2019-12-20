@@ -1,5 +1,7 @@
 package com.example.ClinicalSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,8 +18,8 @@ public class Holiday {
     private HolidayType type;
 
     public enum HolidayType {
-        HOLIDAY,
-        ABSENCE
+        Holiday,
+        Absence
     }
 
     @Column(name="reason")
@@ -29,7 +31,9 @@ public class Holiday {
     @Column(name="enddate")
     private Date end;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Nurse nurse;
 
 
