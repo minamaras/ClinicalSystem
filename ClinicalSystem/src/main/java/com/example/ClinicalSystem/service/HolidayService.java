@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +28,7 @@ public class HolidayService {
     @Autowired
     private NurseService nurseService;
 
+    @Transactional
     public List<HolidayDTO> findAll() {
         List<Holiday> holidays = holidayRepository.findAll();
 
@@ -41,19 +44,22 @@ public class HolidayService {
         return holidayRepository.findByReason(reason);
     }
 
-    public boolean request(String nurseid,HolidayDTO holidayDTO){
-        Nurse nurse = nurseService.findByEmail(nurseid);
+    @Transactional
+    public boolean request(Principal p, HolidayDTO holidayDTO){
+        Nurse nurse = nurseService.findByEmail(p.getName());
+        holidayDTO.setNurseid(nurse.getEmail());
 
         Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
         Set<Holiday> nurseHolidays = nurse.getHolidays();
 
         for(Holiday h: nurseHolidays){
-            if(h.getReason().equals(holiday.getReason()) || h.getStart().equals(holiday.getStart())){
+            if(h.getStart().compareTo(holiday.getStart()) == 0){
                 return false;
             }
         }
-
-        nurse.getHolidays().add(holiday);
+        holiday.setNurse(nurse);
+        //nurse.getHolidays().add(holiday);
+        //nurseService.updateNurse(nurse);
         holidayRepository.save(holiday);
 
         return true;
