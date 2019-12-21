@@ -66,9 +66,11 @@ public class NurseController {
 				nurse.setLastname(nurseDTO.getLastname());
 			}
 
-
 			nurseService.updateNurse(nurse);
-			return new ResponseEntity<>(modelMapper.map(nurse, NurseDTO.class), HttpStatus.OK);
+			NurseDTO nursedto1 = modelMapper.map(nurse, NurseDTO.class);
+			nursedto1.setClinicid(nurse.getClinic().getName());
+
+			return new ResponseEntity<>(nursedto1, HttpStatus.OK);
 		}
 
 	}

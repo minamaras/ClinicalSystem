@@ -4,20 +4,19 @@ import com.example.ClinicalSystem.model.ClinicalCentreAdmin;
 import com.example.ClinicalSystem.model.Role;
 
 public class ClinicalCentreAdminDTO {
-	
+
 	private Long id;
 	private String name;
 	private String lastname;
 	private String email;
 	private String password;
 	private Role role = Role.CLINICALCENTREADMIN;
-	
+
 	public ClinicalCentreAdminDTO() {
 		super();
 		this.role = role.CLINICALCENTREADMIN;
-		
 	}
-	
+
 	public ClinicalCentreAdminDTO(ClinicalCentreAdmin ccaDTO) {
 		this.id = ccaDTO.getId();
 		this.name = ccaDTO.getName();
@@ -25,15 +24,15 @@ public class ClinicalCentreAdminDTO {
 		this.email = ccaDTO.getEmail();
 		this.password = ccaDTO.getPassword();
 	}
-	
-	
+
+
 	public ClinicalCentreAdminDTO(Long id, String firstName, String lastName, String email, String password) {
 		this.id = id;
 		this.name = firstName;
 		this.lastname = lastName;
 		this.email = email;
 		this.password = password;
-		
+
 	}
 
 	public Long getId() {
@@ -48,7 +47,7 @@ public class ClinicalCentreAdminDTO {
 		return name;
 	}
 
-	public void setFirstName(String firstName) {
+	public void setName(String firstName) {
 		this.name = firstName;
 	}
 
@@ -68,7 +67,13 @@ public class ClinicalCentreAdminDTO {
 		this.email = email;
 	}
 
+	public Role getRole() {
+		return role;
+	}
 
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
 	public String getPassword() {
 		return password;
@@ -79,8 +84,7 @@ public class ClinicalCentreAdminDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-	
+
+
 
 }
