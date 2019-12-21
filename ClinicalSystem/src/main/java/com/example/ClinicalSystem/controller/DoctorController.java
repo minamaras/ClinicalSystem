@@ -124,9 +124,12 @@ public class DoctorController {
 			if(doctorDTO.getRating() < 0 && doctorDTO.getRating() > 10) {
 				doctor.setRating(doctorDTO.getRating());
 			}
-
+			DoctorDTO drdto = modelMapper.map(doctor,DoctorDTO.class);
+			drdto.setClinicid(doctor.getClinic().getId());
+			drdto.setClinicname(doctor.getClinic().getName());
 			doctorService.updateDoctor(doctor);
-			return new ResponseEntity<>(modelMapper.map(doctor,DoctorDTO.class),HttpStatus.OK);
+
+			return new ResponseEntity<>(drdto,HttpStatus.OK);
 		}
 
 	}
