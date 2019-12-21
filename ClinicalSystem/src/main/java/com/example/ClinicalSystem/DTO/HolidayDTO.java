@@ -12,16 +12,16 @@ public class HolidayDTO {
     private String reason;
     private Date start;
     private Date end;
-    private String nurseid;
+    private String email;
 
-    public HolidayDTO(Long id, Holiday.HolidayType type, String reason, Date start, Date end, String nurseid){
+    public HolidayDTO(Long id, Holiday.HolidayType type, String reason, Date start, Date end, String email){
         super();
         this.id = id;
         this.type = type;
         this.reason = reason;
         this.start = start;
         this.end = end;
-        this.nurseid = nurseid;
+        this.email = email;
     }
 
     public HolidayDTO(){
@@ -29,7 +29,7 @@ public class HolidayDTO {
     }
 
     public HolidayDTO(Holiday holiday){
-        this(holiday.getId(), holiday.getType(), holiday.getReason(), holiday.getStart(), holiday.getEnd(), holiday.getNurse().getEmail());
+        this(holiday.getId(), holiday.getType(), holiday.getReason(), holiday.getStart(), holiday.getEnd(), holiday.getUser().getEmail());
     }
 
     public Long getId() {
@@ -72,11 +72,11 @@ public class HolidayDTO {
         this.end = end;
     }
 
-    public String getNurseid() {
-        return nurseid;
+    public String getEmail() {
+        return email;
     }
 
-    public void setNurseid(String nurseid) {
-        this.nurseid = nurseid;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

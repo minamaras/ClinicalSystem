@@ -34,19 +34,19 @@ public class Holiday {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Nurse nurse;
+    private User user;
 
 
     public Holiday() {
 
     }
 
-    public Holiday(HolidayType type, String reason, Date start, Date end, Nurse nurse){
+    public Holiday(HolidayType type, String reason, Date start, Date end, User user){
         this.type = type;
         this.reason = reason;
         this.start = start;
         this.end = end;
-        this.nurse = nurse;
+        this.user = user;
     }
 
     public Long getId() {
@@ -89,11 +89,11 @@ public class Holiday {
         this.end = end;
     }
 
-    public Nurse getNurse() {
-        return nurse;
+    public User getUser() {
+        return user;
     }
 
-    public void setNurse(Nurse nurse) {
-        this.nurse = nurse;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

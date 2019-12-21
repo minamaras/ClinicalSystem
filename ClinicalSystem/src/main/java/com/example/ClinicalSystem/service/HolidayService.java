@@ -5,6 +5,7 @@ import com.example.ClinicalSystem.DTO.HolidayDTO;
 import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.Holiday;
 import com.example.ClinicalSystem.model.Nurse;
+import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.repository.HolidayRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class HolidayService {
     @Autowired
     private NurseService nurseService;
 
+    @Autowired
+    private UserService userService;
+
     @Transactional
     public List<HolidayDTO> findAll() {
         List<Holiday> holidays = holidayRepository.findAll();
@@ -46,18 +50,18 @@ public class HolidayService {
 
     @Transactional
     public boolean request(Principal p, HolidayDTO holidayDTO){
-        Nurse nurse = nurseService.findByEmail(p.getName());
-        holidayDTO.setNurseid(nurse.getEmail());
+        User user = userService.findByUsername(p.getName());
+        holidayDTO.setEmail(user.getEmail());
 
         Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
-        Set<Holiday> nurseHolidays = nurse.getHolidays();
+        Set<Holiday> holidays = user.getHolidays();
 
-        for(Holiday h: nurseHolidays){
+        for(Holiday h: holidays){
             if(h.getStart().compareTo(holiday.getStart()) == 0){
                 return false;
             }
         }
-        holiday.setNurse(nurse);
+        holiday.setUser(user);
         //nurse.getHolidays().add(holiday);
         //nurseService.updateNurse(nurse);
         holidayRepository.save(holiday);

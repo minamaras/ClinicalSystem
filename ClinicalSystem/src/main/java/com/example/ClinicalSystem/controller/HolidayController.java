@@ -21,7 +21,7 @@ public class HolidayController {
     private HolidayService holidayService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/makerequest")
-    @PreAuthorize("hasAuthority('NURSE')")
+    @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
     public ResponseEntity<?> makeRequest(@RequestBody HolidayDTO holidayDTO, Principal p) {
 
         boolean isApproved = holidayService.request(p, holidayDTO);
