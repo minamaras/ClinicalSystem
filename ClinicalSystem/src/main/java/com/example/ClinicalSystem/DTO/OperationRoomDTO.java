@@ -8,21 +8,24 @@ public class OperationRoomDTO {
     private int number;
     private String name;
     private boolean isReserved;
+    private String reserved;
 
-    public OperationRoomDTO(Long id, int number, String name, boolean isReserved) {
+    public OperationRoomDTO(Long id, int number, String name, boolean isReserved, String reserved) {
         this.id = id;
         this.number = number;
         this.name = name;
         this.isReserved = isReserved;
+        this.reserved = reserved;
     }
 
     public OperationRoomDTO() {
         super();
-        this.isReserved = false;
+        this.setReserved("No");
+        this.setReserved(false);
     }
 
     public OperationRoomDTO(OR room) {
-        this(room.getId(), room.getNumber(), room.getName(), room.isReserved());
+        this(room.getId(), room.getNumber(), room.getName(), room.isReserved(), room.getReserved());
     }
 
     public Long getId() {
@@ -55,5 +58,13 @@ public class OperationRoomDTO {
 
     public void setReserved(boolean reserved) {
         isReserved = reserved;
+    }
+
+    public String getReserved() {
+        return reserved;
+    }
+
+    public void setReserved(String reserved) {
+        this.reserved = reserved;
     }
 }
