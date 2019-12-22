@@ -44,10 +44,14 @@ public class ClinicController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/addclinic")
 	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
-	public ResponseEntity<ClinicDTO> addClinic(@RequestBody ClinicDTO clinicDTO) {
+	public ResponseEntity<?> addClinic(@RequestBody ClinicDTO clinicDTO) {
 
-		clinicService.addClinic(modelMapper.map(clinicDTO,Clinic.class));
-		return new ResponseEntity<>(clinicDTO,HttpStatus.CREATED);
+		boolean isAdded = clinicService.addClinic(modelMapper.map(clinicDTO,Clinic.class));
+		if(!isAdded){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
 
 	}
 
