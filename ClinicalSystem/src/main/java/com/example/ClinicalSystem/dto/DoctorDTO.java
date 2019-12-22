@@ -4,6 +4,8 @@ import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.Role;
 
+import java.util.Date;
+
 public class DoctorDTO {
 
     private Long Id;
@@ -16,6 +18,8 @@ public class DoctorDTO {
     private Long clinicid;
     private String clinicname;
     private int rating;
+    private Date start;
+    private Date end;
 
 
     public DoctorDTO() {
@@ -24,10 +28,10 @@ public class DoctorDTO {
     }
 
     public DoctorDTO(Doctor d) {
-        this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getRating());
+        this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getRating(), d.getStart(), d.getEnd());
     }
 
-    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, int rating) {
+    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, int rating, Date start, Date end) {
         Id = id;
         this.name = name;
         this.lastname = lastname;
@@ -36,6 +40,8 @@ public class DoctorDTO {
         this.role = role.DOCTOR;
         this.specialization = specialization;
         this.rating = rating;
+        this.start = start;
+        this.end = end;
 
     }
 
@@ -117,5 +123,21 @@ public class DoctorDTO {
 
     public void setClinicname(String clinicname) {
         this.clinicname = clinicname;
+    }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
     }
 }
