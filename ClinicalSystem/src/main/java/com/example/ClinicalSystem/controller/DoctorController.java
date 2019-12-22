@@ -94,6 +94,7 @@ public class DoctorController {
 			Clinic clinic = doctor.getClinic();
 			doctorDTO.setClinicid(clinic.getId());
 			doctorDTO.setClinicname(clinic.getName());
+			doctorDTO.setExamType(doctor.getExamType().getName());
 
 			return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
 		}
