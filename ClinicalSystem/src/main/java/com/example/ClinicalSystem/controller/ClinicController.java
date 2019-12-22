@@ -65,30 +65,6 @@ public class ClinicController {
 	}
 
 
-	/*@RequestMapping(method = RequestMethod.GET, value = "/allclinics")
-	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
-	public ResponseEntity<List<ClinicDTO>> getAllClinics() {
-
-		List<Clinic> clinics = clinicService.findAllClinics();
-
-		return new ResponseEntity<>(clinics, HttpStatus.OK);
-	}*/
-
-
-	/*@RequestMapping(method = RequestMethod.PUT, value = "/updateclinic")
-	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
-	public ResponseEntity<ClinicDTO> updateClinic(@RequestBody ClinicDTO clinicDTO) {
-
-		if(clinicService.findClinic(clinicDTO) == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		clinicService.updateClinic(clinicDTO);
-		return new ResponseEntity<>(clinicDTO,HttpStatus.OK);
-
-	}*/
-
-
-
 	@RequestMapping(method = RequestMethod.POST, value = "/connectadmin/{clinicid}")
 	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
 	public ResponseEntity<ClinicDTO> addAdmin(@PathVariable String clinicid, @RequestBody ClinicAdminDTO cadminDTO){
