@@ -2,7 +2,7 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-5,'jelena', 'bojanic', 'jelena.bojanic97@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'PATIENT','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-4,'mina', 'maras', 'mina.maras@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-3,'tamara', 'jancic', 'tamara@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'CLINICADMIN','2019-12-01 09:00:01');
-insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-8,'sestra', 'sestr', 'sestra@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'NURSE','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-12,'sestra', 'sestr', 'sestra@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'NURSE','2019-12-01 09:00:01');
 
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-9,'biljana', 'petrovic', 'biljana@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'CLINICADMIN','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-10,'sandra', 'babic', 'sandra@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'CLINICADMIN','2019-12-01 09:00:01');
@@ -34,7 +34,7 @@ insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type
 
 insert into clinical_centre_admin (id) values (-6);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-4,-4);
-insert into nurse (id, clinic_id) values (-8, -3);
+insert into nurse (id, clinic_id) values (-12, -3);
 
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 
@@ -46,7 +46,7 @@ insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-2,-11);
 
 
 insert into clinic_doctors (clinic_id,doctors_id) values (-3,-4);
-insert into clinic_nurses (clinic_id,nurses_id) values (-3,-8);
+insert into clinic_nurses (clinic_id,nurses_id) values (-3,-12);
 
 insert into clinic_doctors (clinic_id,doctors_id) values (-5,-7);
 insert into clinic_doctors (clinic_id,doctors_id) values (-7,-8);
@@ -62,4 +62,4 @@ INSERT INTO user_authority (user_id,authority_id) values (-6,5);
 INSERT INTO user_authority (user_id,authority_id) values (-5,1);
 INSERT INTO user_authority (user_id,authority_id) values (-4,2);
 INSERT INTO user_authority (user_id,authority_id) values (-3,4);
-INSERT INTO user_authority (user_id,authority_id) values (-8,3);
+INSERT INTO user_authority (user_id,authority_id) values (-12,3);
