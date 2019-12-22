@@ -36,6 +36,9 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private OR or;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private ExaminationRoom examinationRoom;
+
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Calendar calendar;
@@ -118,7 +121,27 @@ public class Appointment {
 		this.hasHappend = hasHappend;
 	}
 
+	public OR getOr() {
+		return or;
+	}
 
+	public void setOr(OR or) {
+		this.or = or;
+	}
 
+	public ExaminationRoom getExaminationRoom() {
+		return examinationRoom;
+	}
 
+	public void setExaminationRoom(ExaminationRoom examinationRoom) {
+		this.examinationRoom = examinationRoom;
+	}
+
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
 }
