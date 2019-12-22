@@ -117,6 +117,7 @@ public class DoctorService {
 			setOfIds.add(doctor.getId());
 			DoctorDTO doctorDTO = modelMapper.map(doctor,DoctorDTO.class);
 			doctorDTO.setClinicid(clinic.getId());
+			doctorDTO.setExamType(doctor.getExamType().getName());
 			doctorsret.add(doctorDTO);
 		}
 
