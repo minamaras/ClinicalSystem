@@ -35,10 +35,14 @@ public class ClinicAdminController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/addclinicadmin/{clinicid}")
 	@PreAuthorize("hasAnyAuthority('CLINICADMIN','CLINICALCENTREADMIN')")
-	public ResponseEntity<ClinicAdminDTO> addClinicAdmin(@PathVariable String clinicid, @RequestBody ClinicAdminDTO clinicAdminDTO) {
+	public ResponseEntity<?> addClinicAdmin(@PathVariable String clinicid, @RequestBody ClinicAdminDTO clinicAdminDTO) {
 
-		clinicAdminService.save(clinicAdminDTO, clinicid);
-		return new ResponseEntity<>(clinicAdminDTO, HttpStatus.CREATED);
+		boolean isAdded = clinicAdminService.save(clinicAdminDTO, clinicid);
+		if(!isAdded){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
 
 	}
 

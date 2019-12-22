@@ -9,7 +9,9 @@ import static javax.persistence.InheritanceType.JOINED;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy=JOINED)
@@ -44,6 +46,9 @@ public class User implements UserDetails {
 
 	@Column(name = "last_password_reset_date")
 	private Timestamp lastPasswordResetDate;
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Holiday> holidays = new HashSet<Holiday>();
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority",
@@ -160,8 +165,12 @@ public class User implements UserDetails {
 		this.setLastPasswordResetDate( now );
 		this.password = password;
 	}
-	
-	
-	
 
+	public Set<Holiday> getHolidays() {
+		return holidays;
+	}
+
+	public void setHolidays(Set<Holiday> holidays) {
+		this.holidays = holidays;
+	}
 }

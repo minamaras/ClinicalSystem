@@ -13,8 +13,13 @@ public class DiagnosisService {
     @Autowired
     private DiagnosisRepository diagnosisRepository;
 
-    public Diagnosis addDiagnosis(Diagnosis diagnosis){
-        return diagnosisRepository.save(diagnosis);
+    public boolean addDiagnosis(Diagnosis diagnosis){
+
+        if(findByName(diagnosis.getName()) != null){
+            return false;
+        }
+        diagnosisRepository.save(diagnosis);
+        return true;
     }
 
     public List<Diagnosis> findAll(){

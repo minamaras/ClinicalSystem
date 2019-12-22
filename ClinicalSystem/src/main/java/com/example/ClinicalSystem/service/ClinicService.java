@@ -39,9 +39,14 @@ public class ClinicService {
 	private DoctorService doctorService;
 
 	
-	public Clinic addClinic(Clinic clinic) {
+	public boolean addClinic(Clinic clinic) {
 
-		return clinicRepo.save(clinic);
+		if(findName(clinic.getName()) != null){
+			return false;
+		}
+
+		clinicRepo.save(clinic);
+		return true;
 	}
 
 

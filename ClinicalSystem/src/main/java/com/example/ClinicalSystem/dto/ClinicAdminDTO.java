@@ -8,7 +8,7 @@ public class ClinicAdminDTO {
 	
 	private Long id;
 	private String name;
-	private String lastName;
+	private String lastname;
 	private String email;
 	private String password;
 	private Clinic clinic;
@@ -28,7 +28,7 @@ public class ClinicAdminDTO {
 		super();
 		this.id = id;
 		this.name = firstName;
-		this.lastName = lastName;
+		this.lastname = lastName;
 		this.email = email;
 		this.password = password;
 		this.clinic = clinic;
@@ -53,11 +53,11 @@ public class ClinicAdminDTO {
 	}
 
 	public String getLastname() {
-		return lastName;
+		return lastname;
 	}
 
 	public void setLastname(String lastName) {
-		this.lastName = lastName;
+		this.lastname = lastName;
 	}
 
 	public String getEmail() {
@@ -79,15 +79,6 @@ public class ClinicAdminDTO {
 	public Clinic getClinic() { return clinic; }
 
 	public void setClinic(Clinic clinic) { this.clinic = clinic; }
-
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
 	public Role getRole() {
 		return role;

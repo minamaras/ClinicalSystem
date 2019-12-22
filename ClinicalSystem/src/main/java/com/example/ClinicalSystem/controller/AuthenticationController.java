@@ -120,27 +120,32 @@ public class AuthenticationController {
 
         }else if ( user.getRole() == Role.CLINICALCENTREADMIN){
 
-            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-            User cca = userService.findByEmail(userDTO);
-            UserDTO ccaDTO = modelMapper.map(cca,UserDTO.class);
+            ClinicalCentreAdmin cca = clinicalCentreAdminService.findByEmail(user.getEmail());
+            ClinicalCentreAdminDTO ccaDTO = modelMapper.map(cca,ClinicalCentreAdminDTO.class);
             return new ResponseEntity<>(ccaDTO, HttpStatus.OK);
 
         }else if ( user.getRole() == Role.DOCTOR){
 
             Doctor d = doctorService.findOne(user.getEmail());
             DoctorDTO doctorDTO = modelMapper.map(d, DoctorDTO.class);
+            doctorDTO.setClinicname(d.getClinic().getName());
+            doctorDTO.setClinicid(d.getClinic().getId());
+
             return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
 
         } else if ( user.getRole() == Role.CLINICADMIN){
 
             ClinicAdmin clinicAdmin = clinicAdminService.findByEmail(user.getEmail());
             ClinicAdminDTO clinicAdminDTO = modelMapper.map(clinicAdmin, ClinicAdminDTO.class);
+            //clinicAdminDTO.setClinic();
             return new ResponseEntity<>(clinicAdminDTO, HttpStatus.OK);
 
         } else if ( user.getRole() == Role.NURSE){
 
             Nurse nurse = nurseService.findByEmail(user.getEmail());
             NurseDTO nurseDTO = modelMapper.map(nurse, NurseDTO.class);
+            nurseDTO.setClinicid(nurse.getClinic().getName());
+
             return new ResponseEntity<>(nurseDTO, HttpStatus.OK);
         }
 

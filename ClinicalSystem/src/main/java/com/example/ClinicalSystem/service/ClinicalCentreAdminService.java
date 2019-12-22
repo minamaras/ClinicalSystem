@@ -34,6 +34,9 @@ public class ClinicalCentreAdminService {
 	@Autowired
 	private AuthorityService authorityService;
 
+	@Autowired
+	private UserService userService;
+
 	
 	public List<ClinicalCentreAdminDTO> findAll(){
 		
@@ -47,15 +50,21 @@ public class ClinicalCentreAdminService {
 		return clinicAdminsDTO;
 	}
 	
-	public ClinicalCentreAdmin save(ClinicalCentreAdminDTO clinicalCentreAdminDto) {
-		
+	public boolean save(ClinicalCentreAdminDTO clinicalCentreAdminDto) {
+
+		if(userService.findByUsername(clinicalCentreAdminDto.getEmail()) != null){
+			return false;
+		}
+
 		ClinicalCentreAdmin ccAdmin = modelMapper.map(clinicalCentreAdminDto, ClinicalCentreAdmin.class);
 		ccAdmin.setPassword(passwordEncoder.encode(ccAdmin.getPassword()));
 		Authority authoritie = authorityService.findByname("CLINICALCENTREADMIN");
 		List<Authority> authorities = new ArrayList<>();
 		authorities.add(authoritie);
 		ccAdmin.setAuthorities(authorities);
-		return clinicalCentreAdminRepository.save(ccAdmin);
+		clinicalCentreAdminRepository.save(ccAdmin);
+
+		return true;
 	}
 
 	public ClinicalCentreAdmin updateAdmin(ClinicalCentreAdmin ccAdmin) {

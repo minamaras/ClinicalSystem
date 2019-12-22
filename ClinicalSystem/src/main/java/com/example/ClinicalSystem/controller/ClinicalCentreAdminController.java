@@ -47,9 +47,14 @@ public class ClinicalCentreAdminController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/addccadmin")
 	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
-	public ResponseEntity<ClinicalCentreAdminDTO> addccAdmin(@RequestBody ClinicalCentreAdminDTO ccAdminDTO) {
-		ccaService.save(ccAdminDTO);
-		return new ResponseEntity<>(ccAdminDTO,HttpStatus.CREATED);
+	public ResponseEntity<?> addccAdmin(@RequestBody ClinicalCentreAdminDTO ccAdminDTO) {
+
+		boolean isAdded = ccaService.save(ccAdminDTO);
+		if(!isAdded){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
 
 	}
 

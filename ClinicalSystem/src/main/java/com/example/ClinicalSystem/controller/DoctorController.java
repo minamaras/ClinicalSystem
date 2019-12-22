@@ -1,9 +1,11 @@
 package com.example.ClinicalSystem.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.User;
@@ -38,36 +40,20 @@ public class DoctorController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
+	public ResponseEntity<Set<DoctorDTO>> getAllDoctors(Principal p) {
 
-		List<DoctorDTO> doctors = doctorService.findAll();
+		Set<DoctorDTO> doctors = doctorService.findAll(p);
 
 		return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/savedoctor")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
+	public ResponseEntity<DoctorDTO> addDoctor(@RequestBody DoctorDTO doctorDTO, Principal p) {
 
-		Doctor d = doctorService.saveDoctor(doctorDTO);
-
-		if( d == null) {
-
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		Authentication a = SecurityContextHolder.getContext().getAuthentication();
-		ClinicAdmin admin = (ClinicAdmin) a.getPrincipal();
-
-		d.setClinicAdmin(admin);
-
-		if(admin.getClinic() == null)
-			return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
-
-		d.setClinic(admin.getClinic());
-
-
+		doctorService.save(doctorDTO, p);
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
+
 	}
 
 	@Transactional
@@ -108,12 +94,8 @@ public class DoctorController {
 
 
 		Set<DoctorDTO> doctors = doctorService.findAllDoctorsFromAClinic(clinicname);
-		if(doctors.size() > 0) {
+		return new ResponseEntity<>(doctors, HttpStatus.OK);
 
-			return new ResponseEntity<>(doctors, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 
@@ -143,9 +125,12 @@ public class DoctorController {
 			if(doctorDTO.getRating() < 0 && doctorDTO.getRating() > 10) {
 				doctor.setRating(doctorDTO.getRating());
 			}
-
+			DoctorDTO drdto = modelMapper.map(doctor,DoctorDTO.class);
+			drdto.setClinicid(doctor.getClinic().getId());
+			drdto.setClinicname(doctor.getClinic().getName());
 			doctorService.updateDoctor(doctor);
-			return new ResponseEntity<>(modelMapper.map(doctor,DoctorDTO.class),HttpStatus.OK);
+
+			return new ResponseEntity<>(drdto,HttpStatus.OK);
 		}
 
 	}
