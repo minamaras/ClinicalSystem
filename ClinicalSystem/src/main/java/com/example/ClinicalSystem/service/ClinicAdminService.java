@@ -32,6 +32,9 @@ public class ClinicAdminService {
 	@Autowired
 	private ClinicService clinicService;
 
+	@Autowired
+	private UserService userService;
+
 	public List<ClinicAdminDTO> findAll() {
 		List<ClinicAdmin> clinicAdmins = clinicAdminRepository.findAll();
 
@@ -57,8 +60,11 @@ public class ClinicAdminService {
 		return clinicAdminsDTO;
 	}
 
-	public ClinicAdmin save(ClinicAdminDTO clinicAdminDto, String clinicid) {
+	public boolean save(ClinicAdminDTO clinicAdminDto, String clinicid) {
 
+		if(userService.findByUsername(clinicAdminDto.getEmail()) != null){
+			return false;
+		}
 		ClinicDTO clinicdto = clinicService.findClinic(clinicid);
 		
 		ClinicAdmin clinicAdmin = modelMapper.map(clinicAdminDto, ClinicAdmin.class);
@@ -74,7 +80,8 @@ public class ClinicAdminService {
 		authorities.add(authoritie);
 		clinicAdmin.setAuthorities(authorities);
 		
-		return clinicAdminRepository.save(clinicAdmin);
+		clinicAdminRepository.save(clinicAdmin);
+		return true;
 	}
 
 	public ClinicAdmin saveModel(ClinicAdmin clinicAdmin){

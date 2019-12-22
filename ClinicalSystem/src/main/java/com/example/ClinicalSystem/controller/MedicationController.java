@@ -18,10 +18,14 @@ public class MedicationController {
     private MedicationService medicationService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/addmedication")
-    public ResponseEntity<Medication> addMedication(@RequestBody Medication medication) {
+    public ResponseEntity<?> addMedication(@RequestBody Medication medication) {
 
-        medicationService.addMedication(medication);
-        return new ResponseEntity<>(medication, HttpStatus.CREATED);
+        boolean isAdded = medicationService.addMedication(medication);
+        if(!isAdded){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
 
     }
 

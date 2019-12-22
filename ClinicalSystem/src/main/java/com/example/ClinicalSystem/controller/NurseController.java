@@ -40,11 +40,14 @@ public class NurseController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/addnurse")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<NurseDTO> addNurse(@RequestBody NurseDTO nurseDTO, Principal p) {
+	public ResponseEntity<?> addNurse(@RequestBody NurseDTO nurseDTO, Principal p) {
 
-		nurseService.save(nurseDTO, p);
-		return new ResponseEntity<>(nurseDTO, HttpStatus.CREATED);
-
+		boolean isAdded = nurseService.save(nurseDTO, p);
+		if(!isAdded){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
