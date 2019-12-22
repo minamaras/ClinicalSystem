@@ -71,6 +71,10 @@ public class DoctorService {
 
 		Doctor doctor = modelMapper.map(doctorDTO, Doctor.class);
 
+		if(doctor.getStart().compareTo(doctor.getEnd()) > 0 || doctor.getStart().compareTo(doctor.getEnd()) == 0 ) {
+			return null;
+		}
+
 		if(clinic != null) {
 			doctor.setClinic(clinic);
 			clinic.getDoctors().add(doctor);
