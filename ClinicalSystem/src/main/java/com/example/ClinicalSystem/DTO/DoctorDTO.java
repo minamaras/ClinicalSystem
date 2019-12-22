@@ -16,6 +16,7 @@ public class DoctorDTO {
     private Long clinicid;
     private String clinicname;
     private int rating;
+    private String examType;
 
 
     public DoctorDTO() {
@@ -117,5 +118,13 @@ public class DoctorDTO {
 
     public void setClinicname(String clinicname) {
         this.clinicname = clinicname;
+    }
+
+    public String getExamType() {
+        return examType;
+    }
+
+    public void setExamType(String examType) {
+        this.examType = examType;
     }
 }
