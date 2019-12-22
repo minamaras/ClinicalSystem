@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +36,12 @@ public class Doctor extends User {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calendar calendar;
 
+	@Column(name="startdate")
+	private Date start;
+
+	@Column(name="enddate")
+	private Date end;
+
 
 	public Doctor() {
 		super();
@@ -43,7 +50,7 @@ public class Doctor extends User {
 
 	}
 
-	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords) {
+	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Date end, Date start) {
 		super();
 		this.specialization = specialization;
 		this.rating = rating;
@@ -52,6 +59,8 @@ public class Doctor extends User {
 		this.calendar = calendar;
 		this.medicalRecords = medicalRecords;
 		this.setRole(Role.DOCTOR);
+		this.start = start;
+		this.end = end;
 
 	}
 
@@ -133,5 +142,21 @@ public class Doctor extends User {
 
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
+	}
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 }
