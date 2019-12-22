@@ -22,7 +22,7 @@ public class ExamTypeController {
     private ExamTypeService examTypeService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")
-    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    @PreAuthorize("hasAnyAuthority('CLINICADMIN','PATIENT')")
     public ResponseEntity<List<ExamTypeDTO>> getAllTypes() {
 
         List<ExamTypeDTO> examDtos = examTypeService.findAll();
