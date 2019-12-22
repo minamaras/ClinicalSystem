@@ -1,5 +1,8 @@
 package com.example.ClinicalSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,11 +39,13 @@ public class Doctor extends User {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calendar calendar;
 
-	@Column(name="startdate")
-	private Date start;
+	@Column(name="starttime")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	private Time start;
 
-	@Column(name="enddate")
-	private Date end;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name="endtime")
+	private Time end;
 
 
 	public Doctor() {
@@ -50,7 +55,7 @@ public class Doctor extends User {
 
 	}
 
-	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Date end, Date start) {
+	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Time end, Time start) {
 		super();
 		this.specialization = specialization;
 		this.rating = rating;
@@ -144,19 +149,19 @@ public class Doctor extends User {
 		this.calendar = calendar;
 	}
 
-	public Date getStart() {
+	public Time getStart() {
 		return start;
 	}
 
-	public void setStart(Date start) {
+	public void setStart(Time start) {
 		this.start = start;
 	}
 
-	public Date getEnd() {
+	public Time getEnd() {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(Time end) {
 		this.end = end;
 	}
 }
