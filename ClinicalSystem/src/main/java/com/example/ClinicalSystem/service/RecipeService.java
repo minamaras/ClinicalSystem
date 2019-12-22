@@ -18,4 +18,11 @@ public class RecipeService {
         return recipeRepository.save(recipe);
     }
 
+    public List<Recipe> findAll(){
+        return  recipeRepository.findAll();
+    }
+
+    public Optional<Recipe> findbyId(Long id){
+        return recipeRepository.findById(id);
+    }
 }
