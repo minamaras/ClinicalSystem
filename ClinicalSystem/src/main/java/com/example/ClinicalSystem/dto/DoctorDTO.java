@@ -4,6 +4,7 @@ import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.Role;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class DoctorDTO {
@@ -18,8 +19,8 @@ public class DoctorDTO {
     private Long clinicid;
     private String clinicname;
     private int rating;
-    private Date start;
-    private Date end;
+    private Time start;
+    private Time end;
 
 
     public DoctorDTO() {
@@ -31,7 +32,7 @@ public class DoctorDTO {
         this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getRating(), d.getStart(), d.getEnd());
     }
 
-    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, int rating, Date start, Date end) {
+    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, int rating, Time start, Time end) {
         Id = id;
         this.name = name;
         this.lastname = lastname;
@@ -129,15 +130,15 @@ public class DoctorDTO {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(Time start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public Time getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(Time end) {
         this.end = end;
     }
 }
