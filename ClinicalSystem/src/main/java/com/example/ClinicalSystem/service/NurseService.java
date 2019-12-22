@@ -50,11 +50,14 @@ public class NurseService {
 	}
 
 	@Transactional
-	public Nurse save(NurseDTO nurseDTO, Principal p) {
+	public boolean save(NurseDTO nurseDTO, Principal p) {
+
+		if(userService.findByUsername(nurseDTO.getEmail()) != null) {
+			return false;
+		}
 
 		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
 		Clinic clinic = cAdmin.getClinic();
-
 
 		Nurse nurse = modelMapper.map(nurseDTO, Nurse.class);
 
@@ -69,8 +72,8 @@ public class NurseService {
 		List<Authority> authorities = new ArrayList<>();
 		authorities.add(authoritie);
 		nurse.setAuthorities(authorities);
-
-		return nurseRepository.save(nurse);
+		nurseRepository.save(nurse);
+		return true;
 	}
 
 	@Transactional
