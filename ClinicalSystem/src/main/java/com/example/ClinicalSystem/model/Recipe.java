@@ -24,7 +24,7 @@ public class Recipe {
 	private Nurse nurse;
 	
 	@Column(name = "isAuthenthicated")
-	private boolean autentifikovan;
+	private boolean auth;
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -87,7 +87,12 @@ public class Recipe {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	
-	
+
+	public boolean isAuth() {
+		return auth;
+	}
+
+	public void setAuth(boolean auth) {
+		this.auth = auth;
+	}
 }
