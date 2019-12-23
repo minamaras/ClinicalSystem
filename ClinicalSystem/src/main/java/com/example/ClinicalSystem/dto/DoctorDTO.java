@@ -4,6 +4,9 @@ import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.Role;
 
+import java.sql.Time;
+import java.util.Date;
+
 public class DoctorDTO {
 
     private Long Id;
@@ -17,6 +20,9 @@ public class DoctorDTO {
     private String clinicname;
     private int rating;
     private ExamTypeDTO examType;
+    private Time start;
+    private Time end;
+
 
 
     public DoctorDTO() {
@@ -25,10 +31,10 @@ public class DoctorDTO {
     }
 
     public DoctorDTO(Doctor d) {
-        this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getRating());
+        this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getRating(), d.getStart(), d.getEnd());
     }
 
-    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, int rating) {
+    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, int rating, Time start, Time end) {
         Id = id;
         this.name = name;
         this.lastname = lastname;
@@ -37,6 +43,8 @@ public class DoctorDTO {
         this.role = role.DOCTOR;
         this.specialization = specialization;
         this.rating = rating;
+        this.start = start;
+        this.end = end;
 
     }
 
@@ -120,11 +128,28 @@ public class DoctorDTO {
         this.clinicname = clinicname;
     }
 
+
     public ExamTypeDTO getExamType() {
         return examType;
     }
 
     public void setExamType(ExamTypeDTO examType) {
         this.examType = examType;
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Time start) {
+        this.start = start;
+    }
+
+    public Time getEnd() {
+        return end;
+    }
+
+    public void setEnd(Time end) {
+        this.end = end;
+
     }
 }
