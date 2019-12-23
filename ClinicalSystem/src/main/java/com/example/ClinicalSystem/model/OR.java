@@ -24,8 +24,8 @@ public class OR {
 	@Column(name = "number", nullable = false)
 	private int number;
 
-	@Column(name = "isreserved")
-	private boolean isReserved;
+	@Column(name = "isavailable")
+	private boolean isAvailable;
 
 	@Column(name = "reserved")
 	private String reserved;
@@ -44,11 +44,11 @@ public class OR {
 		super();
 	}
 
-	public OR(Long id, int number, boolean isReserved, String name, String reserved) {
+	public OR(Long id, int number, boolean isAvailable, String name, String reserved) {
 		super();
 		this.id = id;
 		this.number = number;
-		this.isReserved = isReserved;
+		this.isAvailable = isAvailable;
 		this.name = name;
 		this.reserved = reserved;
 	}
@@ -70,12 +70,12 @@ public class OR {
 		this.number = number;
 	}
 
-	public boolean isReserved() {
-		return isReserved;
+	public boolean isAvailable() {
+		return isAvailable;
 	}
 
-	public void setReserved(boolean isReserved) {
-		this.isReserved = isReserved;
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 
 	public String getName() {

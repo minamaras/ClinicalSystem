@@ -42,11 +42,8 @@ public class OperationRoomService {
             return false;
         }
 
-        if(roomDto.getReserved() == "Yes" || roomDto.getReserved() == "yes") {
-            roomDto.setReserved(true);
-        }
-
-        roomDto.setReserved(false);
+        roomDto.setAvailable(false);
+        roomDto.setReserved("No");
 
         repo.save(room);
         return true;
@@ -57,7 +54,7 @@ public class OperationRoomService {
 
         if(repo.findByNumber(roomDTO.getNumber()) != null) {
 
-            if(roomDTO.isReserved()) {
+            if(roomDTO.isAvailable()) {
 
                 return false;
             }
