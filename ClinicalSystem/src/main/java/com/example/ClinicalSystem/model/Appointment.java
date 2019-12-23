@@ -1,6 +1,9 @@
 package com.example.ClinicalSystem.model;
 
 
+import com.example.ClinicalSystem.DTO.OperationRoomDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.sql.Time;
+import java.util.Date;
 
 
 @Entity
@@ -18,11 +23,19 @@ public class Appointment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "date" , nullable = false)
-	private String date;
+	@Column(name = "name" , nullable = false)
+	private String name;
 
-	@Column(name = "time", nullable = false )
-	private String time;
+	@Column(name = "startdate" , nullable = false)
+	private Date start;
+
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name = "starttime", nullable = false )
+	private Time startTime;
+
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name = "endtime", nullable = false )
+	private Time endTime;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ExamType type;
@@ -48,16 +61,19 @@ public class Appointment {
 		super();
 	}
 
-	public Appointment(Long id, String date, String time, ExamType type, Patient patient, Doctor doctor,
-			 boolean hasHappend) {
+	public Appointment(Long id, Date start, Time startTime, Time endTime, ExamType type, Patient patient, Doctor doctor,
+					   boolean hasHappend, OR room, String name) {
 		super();
 		this.id = id;
-		this.date = date;
-		this.time = time;
+		this.start = start;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		this.type = type;
 		this.patient = patient;
 		this.doctor = doctor;
 		this.hasHappend = hasHappend;
+		this.or = room;
+		this.name = name;
 	}
 
 	public Long getId() {
@@ -66,22 +82,6 @@ public class Appointment {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 	public ExamType getType() {
@@ -118,7 +118,51 @@ public class Appointment {
 		this.hasHappend = hasHappend;
 	}
 
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
 
+	public Date getStart() {
+		return start;
+	}
 
+	public void setStart(Date start) {
+		this.start = start;
+	}
 
+	public Time getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
+	}
+
+	public Time getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public OR getOr() {
+		return or;
+	}
+
+	public void setOr(OR or) {
+		this.or = or;
+	}
+
+	public Calendar getCalendar() {
+		return calendar;
+	}
 }
