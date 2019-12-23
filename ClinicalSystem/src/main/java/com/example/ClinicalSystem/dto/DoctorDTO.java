@@ -19,8 +19,10 @@ public class DoctorDTO {
     private Long clinicid;
     private String clinicname;
     private int rating;
+    private ExamTypeDTO examType;
     private Time start;
     private Time end;
+
 
 
     public DoctorDTO() {
@@ -126,6 +128,14 @@ public class DoctorDTO {
         this.clinicname = clinicname;
     }
 
+
+    public ExamTypeDTO getExamType() {
+        return examType;
+    }
+
+    public void setExamType(ExamTypeDTO examType) {
+        this.examType = examType;
+
     public Date getStart() {
         return start;
     }
@@ -140,5 +150,6 @@ public class DoctorDTO {
 
     public void setEnd(Time end) {
         this.end = end;
+
     }
 }

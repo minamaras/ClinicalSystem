@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.example.ClinicalSystem.DTO.ExamTypeDTO;
 import com.example.ClinicalSystem.DTO.NurseDTO;
-import com.example.ClinicalSystem.model.Clinic;
-import com.example.ClinicalSystem.model.ClinicAdmin;
-import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.service.DoctorService;
 
 import javax.transaction.Transactional;
@@ -80,6 +78,8 @@ public class DoctorController {
 			Clinic clinic = doctor.getClinic();
 			doctorDTO.setClinicid(clinic.getId());
 			doctorDTO.setClinicname(clinic.getName());
+			ExamTypeDTO examTypeDTO = modelMapper.map(doctor.getExamType(), ExamTypeDTO.class);
+			doctorDTO.setExamType(examTypeDTO);
 
 			return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
 		}
