@@ -4,10 +4,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.ClinicalSystem.DTO.NurseDTO;
+import com.example.ClinicalSystem.DTO.*;
+
 import java.util.*;
 
-import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.DTO.UserDTO;
 import com.example.ClinicalSystem.repository.DoctorRepository;
 
 import javax.transaction.Transactional;
@@ -129,9 +127,12 @@ public class DoctorService {
 		for(Doctor doctor : docs){
 			setOfIds.add(doctor.getId());
 			DoctorDTO doctorDTO = modelMapper.map(doctor,DoctorDTO.class);
+			ExamTypeDTO examTypeDTO = modelMapper.map(doctor.getExamType(),ExamTypeDTO.class);
 			doctorDTO.setClinicid(clinic.getId());
-			doctorDTO.setExamType(doctor.getExamType().getName());
+			doctorDTO.setExamType(examTypeDTO);
+
 			doctorsret.add(doctorDTO);
+
 		}
 
 		return  doctorsret;
