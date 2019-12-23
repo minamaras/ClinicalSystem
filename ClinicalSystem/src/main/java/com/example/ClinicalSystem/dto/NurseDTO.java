@@ -10,25 +10,24 @@ public class NurseDTO {
 	private String name;
 	private String lastname;
 	private String email;
-	private Clinic clinic;
+	private String clinicid;
 	private Role role = Role.NURSE;
 	private String password;
-	
-	public NurseDTO() {
+
+	public NurseDTO(){
 		super();
 		this.role = role.NURSE;
 	}
-	
+
 	public NurseDTO(Nurse nurse) {
-		this(nurse.getId(), nurse.getName(), nurse.getLastname(), nurse.getEmail(), nurse.getClinic());
+		this(nurse.getId(), nurse.getName(), nurse.getLastname(), nurse.getEmail());
 	}
 	
-	public NurseDTO(Long id, String firstName, String lastName, String email, Clinic clinic) {
+	public NurseDTO(Long id, String firstName, String lastName, String email) {
 		this.id = id;
 		this.name = firstName;
 		this.lastname = lastName;
 		this.email = email;
-		this.clinic = clinic;
 	}
 
 	public Long getId() {
@@ -63,12 +62,12 @@ public class NurseDTO {
 		this.email = email;
 	}
 
-	public Clinic getClinic() {
-		return clinic;
+	public String getClinicid() {
+		return clinicid;
 	}
 
-	public void setClinic(Clinic clinic) {
-		this.clinic = clinic;
+	public void setClinicid(String clinicid) {
+		this.clinicid = clinicid;
 	}
 
 	public Role getRole() {

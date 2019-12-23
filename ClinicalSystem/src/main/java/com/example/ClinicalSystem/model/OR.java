@@ -24,25 +24,33 @@ public class OR {
 	@Column(name = "number", nullable = false)
 	private int number;
 
-	@Column(name = "isreserved", nullable = false)
+	@Column(name = "isreserved")
 	private boolean isReserved;
+
+	@Column(name = "reserved")
+	private String reserved;
 
 	@Column(name = "name", nullable = false)
 	private String name;
 
+
+
 	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
+
+
 
 	public OR() {
 		super();
 	}
 
-	public OR(Long id, int number, boolean isReserved, String name) {
+	public OR(Long id, int number, boolean isReserved, String name, String reserved) {
 		super();
 		this.id = id;
 		this.number = number;
 		this.isReserved = isReserved;
 		this.name = name;
+		this.reserved = reserved;
 	}
 
 
@@ -86,5 +94,15 @@ public class OR {
 		this.appointments = appointments;
 	}
 
+	public String getReserved() {
+		return reserved;
+	}
 
+	public void setReserved(String reserved) {
+		this.reserved = reserved;
+	}
+
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
+	}
 }

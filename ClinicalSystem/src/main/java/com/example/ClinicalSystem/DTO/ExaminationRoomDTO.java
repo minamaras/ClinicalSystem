@@ -1,31 +1,29 @@
 package com.example.ClinicalSystem.DTO;
 
-import com.example.ClinicalSystem.model.OR;
 
-public class OperationRoomDTO {
+import com.example.ClinicalSystem.model.ExaminationRoom;
+
+public class ExaminationRoomDTO {
 
     private Long id;
     private int number;
     private String name;
     private boolean isReserved;
-    private String reserved;
 
-    public OperationRoomDTO(Long id, int number, String name, boolean isReserved, String reserved) {
+    public ExaminationRoomDTO(Long id, int number, String name, boolean isReserved) {
         this.id = id;
         this.number = number;
         this.name = name;
-        this.isReserved = isReserved;
-        this.reserved = reserved;
+        this.isReserved = false;
     }
 
-    public OperationRoomDTO() {
+    public ExaminationRoomDTO() {
         super();
-        this.setReserved("No");
-        this.setReserved(false);
+        this.isReserved = false;
     }
 
-    public OperationRoomDTO(OR room) {
-        this(room.getId(), room.getNumber(), room.getName(), room.isReserved(), room.getReserved());
+    public ExaminationRoomDTO(ExaminationRoom room) {
+        this(room.getId(), room.getNumber(), room.getName(), room.isReserved());
     }
 
     public Long getId() {
@@ -58,13 +56,5 @@ public class OperationRoomDTO {
 
     public void setReserved(boolean reserved) {
         isReserved = reserved;
-    }
-
-    public String getReserved() {
-        return reserved;
-    }
-
-    public void setReserved(String reserved) {
-        this.reserved = reserved;
     }
 }

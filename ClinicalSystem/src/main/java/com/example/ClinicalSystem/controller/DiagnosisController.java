@@ -20,10 +20,14 @@ public class DiagnosisController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/adddiagnosis")
     @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
-    public ResponseEntity<Diagnosis> addDiagnosis(@RequestBody Diagnosis diagnosis) {
+    public ResponseEntity<?> addDiagnosis(@RequestBody Diagnosis diagnosis) {
 
-        diagnosisService.addDiagnosis(diagnosis);
-        return new ResponseEntity<>(diagnosis, HttpStatus.CREATED);
+        boolean isAdded = diagnosisService.addDiagnosis(diagnosis);
+        if(!isAdded){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
 
     }
 

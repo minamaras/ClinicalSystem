@@ -1,59 +1,54 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.DTO.ExaminationRoomDTO;
 import com.example.ClinicalSystem.DTO.OperationRoomDTO;
+import com.example.ClinicalSystem.model.ExaminationRoom;
 import com.example.ClinicalSystem.model.OR;
+import com.example.ClinicalSystem.repository.ExaminationRoomRepository;
 import com.example.ClinicalSystem.repository.OperationRoomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
-public class OperationRoomService {
+public class ExaminationRoomService {
 
     @Autowired
     ModelMapper modelMapper;
 
     @Autowired
-    OperationRoomRepository repo;
+    ExaminationRoomRepository repo;
 
-    public List<OperationRoomDTO> findAll() {
+    public List<ExaminationRoomDTO> findAll() {
 
-        List<OR> rooms = repo.findAll();
+        List<ExaminationRoom> rooms = repo.findAll();
 
-        List<OperationRoomDTO> roomsDTO = new ArrayList<>();
-        for (OR r : rooms) {
-            roomsDTO.add(new OperationRoomDTO(r));
+        List<ExaminationRoomDTO> roomsDTO = new ArrayList<>();
+        for (ExaminationRoom r : rooms) {
+            roomsDTO.add(new ExaminationRoomDTO(r));
         }
 
         return roomsDTO;
     }
 
-    public boolean save(OperationRoomDTO roomDto) {
+    public boolean save(ExaminationRoomDTO roomDto) {
 
-        OR room = modelMapper.map(roomDto, OR.class);
+        ExaminationRoom room = modelMapper.map(roomDto, ExaminationRoom.class);
         if(repo.findByNumber(roomDto.getNumber()) != null) {
 
             return false;
         }
-
-        if(roomDto.getReserved() == "Yes" || roomDto.getReserved() == "yes") {
-            roomDto.setReserved(true);
-        }
-
-        roomDto.setReserved(false);
 
         repo.save(room);
         return true;
     }
 
     @Transactional
-    public boolean removeRoom(OperationRoomDTO roomDTO) {
+    public boolean removeRoom(ExaminationRoomDTO roomDTO) {
 
         if(repo.findByNumber(roomDTO.getNumber()) != null) {
 
@@ -62,7 +57,7 @@ public class OperationRoomService {
                 return false;
             }
 
-            OR room = modelMapper.map(roomDTO, OR.class);
+            ExaminationRoom room = modelMapper.map(roomDTO, ExaminationRoom.class);
 
             repo.deleteByNumber(room.getNumber());
 
@@ -73,12 +68,11 @@ public class OperationRoomService {
 
     }
 
-    public OR findOne(int number) {
+    public ExaminationRoom findOne(int number) {
         return repo.findByNumber(number);
     }
 
-    public OR update(OR or) {
+    public ExaminationRoom update(ExaminationRoom or) {
         return repo.save(or);
     }
-
 }
