@@ -73,6 +73,9 @@ public class RecipeService {
         recipeDTO1.setAuth(true);
         return recipeDTO1;
     }
+
+    public Recipe save(Recipe recipe){
+        return recipeRepository.save(recipe);
     }
 
     public Optional<Recipe> findbyId(Long id){
