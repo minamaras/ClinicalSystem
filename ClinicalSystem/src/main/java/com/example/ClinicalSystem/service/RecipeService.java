@@ -2,10 +2,7 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.RecipeDTO;
-import com.example.ClinicalSystem.model.ClinicAdmin;
-import com.example.ClinicalSystem.model.Nurse;
-import com.example.ClinicalSystem.model.Recipe;
-import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.RecipeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +58,10 @@ public class RecipeService {
         User user = userService.findByUsername(p.getName());
         //recipeDTO.setNurseemail(user.getEmail());
         Recipe recipe = modelMapper.map(recipeDTO, Recipe.class);
+        Doctor dr = (Doctor) userService.findByUsername(recipeDTO.getDoctoremail());
+        Patient patient = (Patient) userService.findByUsername(recipeDTO.getPatientemail());
+        recipe.setDoctor(dr);
+        recipe.setPatient(patient);
 
         if(!recipe.isAuth()){
             recipe.setAuth(true);
@@ -70,6 +71,8 @@ public class RecipeService {
 
         RecipeDTO recipeDTO1 = modelMapper.map(recipe, RecipeDTO.class);
         recipeDTO1.setNurseemail(user.getEmail());
+        recipeDTO1.setDoctoremail(recipe.getDoctor().getEmail());
+        recipeDTO1.setPatientemail(recipe.getPatient().getEmail());
         recipeDTO1.setAuth(true);
         return recipeDTO1;
     }
