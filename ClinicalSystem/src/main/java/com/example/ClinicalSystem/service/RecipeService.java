@@ -56,6 +56,23 @@ public class RecipeService {
         return recipesDTO;
     }
 
+    public RecipeDTO authRecipe(RecipeDTO recipeDTO, Principal p){
+
+        User user = userService.findByUsername(p.getName());
+        //recipeDTO.setNurseemail(user.getEmail());
+        Recipe recipe = modelMapper.map(recipeDTO, Recipe.class);
+
+        if(!recipe.isAuth()){
+            recipe.setAuth(true);
+            recipe.setNurse((Nurse) user);
+            save(recipe);
+        }
+
+        RecipeDTO recipeDTO1 = modelMapper.map(recipe, RecipeDTO.class);
+        recipeDTO1.setNurseemail(user.getEmail());
+        recipeDTO1.setAuth(true);
+        return recipeDTO1;
+    }
     }
 
     public Optional<Recipe> findbyId(Long id){
