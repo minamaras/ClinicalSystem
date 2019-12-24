@@ -29,4 +29,14 @@ public class RecipeController {
 
         return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/allunauth")
+    @PreAuthorize("hasAuthority('NURSE')")
+    public ResponseEntity<List<RecipeDTO>> getUnauthorisedRecipes() {
+
+        List<RecipeDTO> recipes = recipeService.findUnauth();
+
+        return new ResponseEntity<>(recipes, HttpStatus.OK);
+    }
+
 }
