@@ -39,4 +39,14 @@ public class RecipeController {
         return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/authenticate")
+    @PreAuthorize("hasAuthority('NURSE')")
+    public ResponseEntity<?> authentificateRecipe(@RequestBody RecipeDTO recipeDTO, Principal p) {
+
+
+        RecipeDTO recipeDTO1 = recipeService.authRecipe(recipeDTO, p);
+
+        return new ResponseEntity<>(recipeDTO1, HttpStatus.OK);
+    }
+
 }
