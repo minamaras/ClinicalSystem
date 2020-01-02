@@ -64,6 +64,27 @@ public class ClinicController {
 		return new ResponseEntity<>(clinics, HttpStatus.OK);
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/allclinicsdto")
+	@PreAuthorize("hasAnyAuthority('CLINICALCENTREADMIN','PATIENT')")
+	public ResponseEntity<Set<ClinicDTO>> getAllClinicsDTO() {
+
+		List<Clinic> clinics = clinicService.findAllClinics();
+		Set<ClinicDTO> retrunclinics = new HashSet<>();
+
+		for(Clinic c : clinics){
+
+			ClinicDTO clinicDTO = modelMapper.map(c,ClinicDTO.class);
+			Set<Doctor> docs =c.getDoctors();
+			Set<Long> setOfIds = new HashSet<>();
+			for(Doctor doctor : docs){
+				setOfIds.add(doctor.getId());
+			}
+			clinicDTO.setDoctorsId(setOfIds);
+			retrunclinics.add(clinicDTO);
+		}
+		return new ResponseEntity<>(retrunclinics, HttpStatus.OK);
+	}
+
 
 	@RequestMapping(method = RequestMethod.POST, value = "/connectadmin/{clinicid}")
 	@PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")

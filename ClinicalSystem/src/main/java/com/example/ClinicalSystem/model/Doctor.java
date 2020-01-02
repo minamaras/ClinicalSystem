@@ -23,8 +23,12 @@ public class Doctor extends User {
 	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
 	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private ExamType examType;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private ClinicAdmin clinicAdmin;
@@ -148,6 +152,14 @@ public class Doctor extends User {
 		this.calendar = calendar;
 	}
 
+
+	public ExamType getExamType() {
+		return examType;
+	
+
+	public void setExamType(ExamType examType) {
+		this.examType = examType;
+
 	public Time getStart() {
 		return start;
 	}
@@ -162,5 +174,6 @@ public class Doctor extends User {
 
 	public void setEnd(Time end) {
 		this.end = end;
+
 	}
 }

@@ -14,10 +14,13 @@ public class ExamType {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Doctor> doctors = new HashSet<Doctor>();
+
     @Column(name = "price")
     private int price;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Appointment> exams = new HashSet<Appointment>();
 
     public Long getId() {
@@ -50,5 +53,13 @@ public class ExamType {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public Set<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(Set<Doctor> doctors) {
+        this.doctors = doctors;
     }
 }
