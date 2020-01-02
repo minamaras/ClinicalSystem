@@ -15,8 +15,11 @@ public class ExaminationRoom {
     @Column(name = "number", nullable = false)
     private int number;
 
-    @Column(name = "isreserved")
-    private boolean isReserved;
+    @Column(name = "isavailable")
+    private boolean isAvailable;
+
+    @Column(name = "reserved")
+    private String reserved;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -28,12 +31,13 @@ public class ExaminationRoom {
         super();
     }
 
-    public ExaminationRoom(Long id, int number, boolean isReserved, String name) {
+    public ExaminationRoom(Long id, int number, boolean isAvailable, String name, String reserved) {
         super();
         this.id = id;
         this.number = number;
-        this.isReserved = false;
+        this.isAvailable = isAvailable;
         this.name = name;
+        this.reserved = reserved;
     }
 
 
@@ -53,14 +57,6 @@ public class ExaminationRoom {
         this.number = number;
     }
 
-    public boolean isReserved() {
-        return isReserved;
-    }
-
-    public void setReserved(boolean isReserved) {
-        this.isReserved = isReserved;
-    }
-
     public String getName() {
         return name;
     }
@@ -77,5 +73,23 @@ public class ExaminationRoom {
         this.appointments = appointments;
     }
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
 
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public String getReserved() {
+        return reserved;
+    }
+
+    public void setReserved(String reserved) {
+        this.reserved = reserved;
+    }
+
+    public void setAppointments(Set<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 }
