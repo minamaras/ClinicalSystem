@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.sql.Time;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class Doctor extends User {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
 
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ExamType examType;
 
@@ -155,10 +157,12 @@ public class Doctor extends User {
 
 	public ExamType getExamType() {
 		return examType;
+	}
 	
 
-	public void setExamType(ExamType examType) {
-		this.examType = examType;
+	public void setExamType(ExamType examType){
+			this.examType = examType;
+	}
 
 	public Time getStart() {
 		return start;
