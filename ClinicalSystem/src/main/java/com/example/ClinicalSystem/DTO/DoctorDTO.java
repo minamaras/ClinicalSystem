@@ -134,6 +134,7 @@ public class DoctorDTO {
 
     public void setExamType(ExamTypeDTO examType) {
         this.examType = examType;
+    }
 
     public Date getStart() {
         return start;
