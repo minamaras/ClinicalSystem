@@ -2,6 +2,8 @@ package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.OR;
 
+import java.util.Date;
+
 public class OperationRoomDTO {
 
     private Long id;
@@ -9,13 +11,15 @@ public class OperationRoomDTO {
     private String name;
     private boolean isAvailable;
     private String reserved;
+    private Date dateReserved;
 
-    public OperationRoomDTO(Long id, int number, String name, boolean isAvailable, String reserved) {
+    public OperationRoomDTO(Long id, int number, String name, boolean isAvailable, String reserved, Date dateReserved) {
         this.id = id;
         this.number = number;
         this.name = name;
         this.isAvailable = isAvailable;
         this.reserved = reserved;
+        this.dateReserved = dateReserved;
     }
 
     public OperationRoomDTO() {
@@ -25,7 +29,7 @@ public class OperationRoomDTO {
     }
 
     public OperationRoomDTO(OR room) {
-        this(room.getId(), room.getNumber(), room.getName(), room.isAvailable(), room.getReserved());
+        this(room.getId(), room.getNumber(), room.getName(), room.isAvailable(), room.getReserved(), room.getDateReserved());
     }
 
     public Long getId() {
@@ -66,5 +70,13 @@ public class OperationRoomDTO {
 
     public void setReserved(String reserved) {
         this.reserved = reserved;
+    }
+
+    public Date getDateReserved() {
+        return dateReserved;
+    }
+
+    public void setDateReserved(Date dateReserved) {
+        this.dateReserved = dateReserved;
     }
 }

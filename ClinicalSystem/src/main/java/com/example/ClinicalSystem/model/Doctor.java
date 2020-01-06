@@ -17,7 +17,7 @@ public class Doctor extends User {
 	@Column(name = "specialization", nullable = false)
 	private String specialization;
 
-	@Column(name = "rating", nullable = false)
+	@Column(name = "rating")
 	private int rating;
 
 	@ManyToMany

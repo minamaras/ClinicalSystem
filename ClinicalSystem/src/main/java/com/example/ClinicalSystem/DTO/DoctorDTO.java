@@ -26,6 +26,7 @@ public class DoctorDTO {
 
     public DoctorDTO() {
     	this.role = role.DOCTOR;
+    	this.rating = 0;
 
     }
 
