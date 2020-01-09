@@ -1,8 +1,11 @@
 package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.DTO.ExamTypeDTO;
 import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.model.Clinic;
+import com.example.ClinicalSystem.model.Doctor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -38,6 +41,22 @@ public class PatientController {
 		List<PatientDTO> patientDTOS = patientService.findAll();
 
 		return new ResponseEntity<>(patientDTOS, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/aboutpatient/{id}")
+	@PreAuthorize("hasAuthority('DOCTOR')")
+	public ResponseEntity<PatientDTO> AboutPatient(@PathVariable String id) {
+
+
+		Patient patient = patientService.findOneById(Long.parseLong(id));
+		if(patient != null) {
+
+			PatientDTO patientDTO = modelMapper.map(patient, PatientDTO.class);
+
+			return new ResponseEntity<>(patientDTO, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 
