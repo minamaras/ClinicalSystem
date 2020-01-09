@@ -8,7 +8,7 @@ import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.DTO.PatientDTO;
 import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
-import com.example.ClinicalSystem.model.OR;
+import com.example.ClinicalSystem.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -17,9 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.ClinicalSystem.model.Patient;
-import com.example.ClinicalSystem.model.PatientRequest;
-import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.repository.PatientRepository;
 import com.example.ClinicalSystem.repository.UserRepository;
 import com.example.ClinicalSystem.service.PatientRequestService;
@@ -98,5 +95,14 @@ public class PatientService {
 		}
 
 		return patientDTOS;
+	}
+
+	public Patient findOneById(long id) {
+
+		Optional<User> user = userService.findById(id);
+		User u = user.get();
+		Patient patient = patientRepository.findByEmail(u.getEmail());
+
+		return patient;
 	}
 }
