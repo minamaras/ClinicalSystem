@@ -1,10 +1,14 @@
 package com.example.ClinicalSystem.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.DTO.PatientDTO;
 import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
+import com.example.ClinicalSystem.model.OR;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -85,4 +89,14 @@ public class PatientService {
 			throw new ResourceNotFoundException("User with this verification code not found!");
 	}
 
+	public List<PatientDTO> findAll() {
+		List<Patient> patients = patientRepository.findAll();
+
+		List<PatientDTO> patientDTOS = new ArrayList<>();
+		for (Patient p : patients) {
+			patientDTOS.add(new PatientDTO(p));
+		}
+
+		return patientDTOS;
+	}
 }
