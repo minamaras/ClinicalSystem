@@ -33,20 +33,21 @@ public class PatientDTO {
 	private String socialSecurityNumber;
 	
 	public PatientDTO(Patient p) {
-		this(p.getId(), p.getName(), p.getLastname(), p.getEmail(), p.getPassword());
+		this(p.getId(), p.getName(), p.getLastname(), p.getEmail(), p.getPassword(), p.getSocialSecurityNumber());
 	}
 	public PatientDTO() {
 		
 	}
 
 
-	public PatientDTO(Long id, String name, String lastname, String email, String password) {
+	public PatientDTO(Long id, String name, String lastname, String email, String password, String socialSecurityNumber) {
 		super();
 		Id = id;
 		this.name = name;
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
+		this.socialSecurityNumber = socialSecurityNumber;
 
 	}
 
