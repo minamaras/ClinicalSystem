@@ -97,12 +97,19 @@ public class PatientService {
 		return patientDTOS;
 	}
 
-	public Patient findOneById(long id) {
+	public Patient findOneById(String id) {
 
-		Optional<User> user = userService.findById(id);
+		Optional<User> user = Optional.ofNullable(userService.findByUsername(id));
 		User u = user.get();
 		Patient patient = patientRepository.findByEmail(u.getEmail());
 
 		return patient;
+	}
+
+	public Patient findOneBySocialSecurityNumber(String id) {
+		Patient patient = patientRepository.findBySocialSecurityNumber(id);
+
+		return patient;
+
 	}
 }
