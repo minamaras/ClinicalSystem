@@ -48,7 +48,7 @@ public class PatientController {
 	public ResponseEntity<PatientDTO> AboutPatient(@PathVariable String id) {
 
 
-		Patient patient = patientService.findOneById(Long.parseLong(id));
+		Patient patient = patientService.findOneBySocialSecurityNumber(id);
 		if(patient != null) {
 
 			PatientDTO patientDTO = modelMapper.map(patient, PatientDTO.class);
