@@ -111,6 +111,7 @@ public class DoctorService {
 	public Doctor findOne(String email) {
 		return doctorRepository.findByEmail(email);
 	}
+
 	public Doctor findOneById(Long id) {
 
 		Optional<User> user = userService.findById(id);
@@ -119,7 +120,6 @@ public class DoctorService {
 
 		return doctor;
 	}
-
 
 	public Set<DoctorDTO> findAllDoctorsFromAClinic(String clinicname){
 
