@@ -24,9 +24,9 @@ public class DoctorDTO {
     private Time end;
 
 
-
     public DoctorDTO() {
     	this.role = role.DOCTOR;
+    	this.rating = 0;
 
     }
 
@@ -135,6 +135,7 @@ public class DoctorDTO {
 
     public void setExamType(ExamTypeDTO examType) {
         this.examType = examType;
+    }
 
     }
     public Date getStart(){

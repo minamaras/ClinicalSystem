@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.sql.Time;
 import java.util.*;
@@ -14,16 +15,18 @@ public class Doctor extends User {
 	@Column(name = "specialization", nullable = false)
 	private String specialization;
 
-	@Column(name = "rating", nullable = false)
+	@Column(name = "rating")
 	private int rating;
 
 	@ManyToMany
 	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
 
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
 
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ExamType examType;
 

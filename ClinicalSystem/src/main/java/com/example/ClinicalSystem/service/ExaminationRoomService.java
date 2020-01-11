@@ -52,7 +52,7 @@ public class ExaminationRoomService {
 
         if(repo.findByNumber(roomDTO.getNumber()) != null) {
 
-            if(roomDTO.isReserved()) {
+            if(roomDTO.isAvailable()) {
 
                 return false;
             }

@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,18 +39,20 @@ public class OR {
 	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-
+	@Column(name="date_reserved")
+	private Date dateReserved;
 
 	public OR() {
 		super();
 	}
 
-	public OR(Long id, int number, boolean isAvailable, String name, String reserved) {
+	public OR(Long id, int number, boolean isAvailable, String name, String reserved, Date dateReserved) {
 		super();
 		this.id = id;
 		this.number = number;
 		this.isAvailable = isAvailable;
 		this.name = name;
+		this.dateReserved = dateReserved;
 		this.reserved = reserved;
 	}
 
@@ -104,5 +107,13 @@ public class OR {
 
 	public void setAppointments(Set<Appointment> appointments) {
 		this.appointments = appointments;
+	}
+
+	public Date getDateReserved() {
+		return dateReserved;
+	}
+
+	public void setDateReserved(Date dateReserved) {
+		this.dateReserved = dateReserved;
 	}
 }
