@@ -41,6 +41,9 @@ public class DoctorService {
 	@Autowired
 	private ClinicService clinicService;
 
+	@Autowired
+	private ExamTypeService examTypeService;
+
 
 	public Set<DoctorDTO> findAll(Principal p) {
 
@@ -58,6 +61,8 @@ public class DoctorService {
 	}
 
 	public Doctor updateDoctor(Doctor doctor) {
+	public Doctor updateDoctor(Doctor doctor)
+	{
 		return doctorRepository.save(doctor);
 	}
 
