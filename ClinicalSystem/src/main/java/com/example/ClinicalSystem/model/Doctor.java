@@ -3,9 +3,7 @@ package com.example.ClinicalSystem.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Time;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -48,6 +46,8 @@ public class Doctor extends User {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	@Column(name="endtime")
 	private Time end;
+
+
 
 
 	public Doctor() {
@@ -154,11 +154,12 @@ public class Doctor extends User {
 
 	public ExamType getExamType() {
 		return examType;
-	
 
-	public void setExamType(ExamType examType) {
-		this.examType = examType;
+	}
+	public void setExamType(ExamType examType){
+			this.examType = examType;
 
+		}
 	public Time getStart() {
 		return start;
 	}
