@@ -69,6 +69,9 @@ public class DoctorService {
 
 		Doctor doctor = modelMapper.map(doctorDTO, Doctor.class);
 
+		ExamType  examType = examTypeService.findOne(doctorDTO.getExamType().getName());
+		doctor.setExamType(examType);
+
 		if(doctor.getStart().compareTo(doctor.getEnd()) > 0 || doctor.getStart().compareTo(doctor.getEnd()) == 0 ) {
 			return null;
 		}
