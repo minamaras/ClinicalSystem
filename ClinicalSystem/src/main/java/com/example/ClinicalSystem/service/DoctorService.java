@@ -60,7 +60,6 @@ public class DoctorService {
 		return doctorsDTO;
 	}
 
-	public Doctor updateDoctor(Doctor doctor) {
 	public Doctor updateDoctor(Doctor doctor)
 	{
 		return doctorRepository.save(doctor);
