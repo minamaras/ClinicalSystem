@@ -1,9 +1,6 @@
 package com.example.ClinicalSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,6 +34,7 @@ public class Clinic {
 	@Column(name = "rating", nullable = false)
 	private int rating;
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
