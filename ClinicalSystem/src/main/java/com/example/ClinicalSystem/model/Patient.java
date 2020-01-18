@@ -21,7 +21,12 @@ public class Patient extends User {
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointment = new HashSet<Appointment>();
 
-	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne( cascade = CascadeType.ALL)
+	@JoinTable(name = "patient_medical_record",
+			joinColumns =
+					{ @JoinColumn(name = "patient_id", referencedColumnName = "id") },
+			inverseJoinColumns =
+					{ @JoinColumn(name = "medical_record_id", referencedColumnName = "id") })
 	private MedicalRecord medicalRecord;
 
 	@ManyToMany(mappedBy = "patients")
