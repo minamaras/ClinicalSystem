@@ -23,5 +23,20 @@ public class MedicalRecordService {
     @Autowired
     private ModelMapper modelMapper;
 
+    public List<MedicalRecordDTO> findAll() {
+
+        List<MedicalRecord> records = medicalRecordRepository.findAll();
+        List<MedicalRecordDTO> recordsDTO = new ArrayList<>();
+
+        for (MedicalRecord r : records) {
+
+            MedicalRecordDTO medicalRecordDTO = modelMapper.map(r, MedicalRecordDTO.class);
+            recordsDTO.add(medicalRecordDTO);
+        }
+
+        return recordsDTO;
+
+    }
+
 
 }
