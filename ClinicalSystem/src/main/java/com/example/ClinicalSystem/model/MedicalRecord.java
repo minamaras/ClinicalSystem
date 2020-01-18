@@ -14,6 +14,9 @@ public class MedicalRecord {
 	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<DoctorVisits> doctorVisits = new HashSet<>();
+
 	@Column(name = "medicalhistory", nullable = false)
 	private String medicalHistory;
 
@@ -46,6 +49,27 @@ public class MedicalRecord {
 	}
 
 
+	public Set<DoctorVisits> getDoctorVisits() {
+		return doctorVisits;
+	}
 
+	public void setDoctorVisits(Set<DoctorVisits> doctorVisits) {
+		this.doctorVisits = doctorVisits;
+	}
 
+	public Set<Doctor> getDoctors() {
+		return doctors;
+	}
+
+	public void setDoctors(Set<Doctor> doctors) {
+		this.doctors = doctors;
+	}
+
+	public Set<Disease> getDiseases() {
+		return diseases;
+	}
+
+	public void setDiseases(Set<Disease> diseases) {
+		this.diseases = diseases;
+	}
 }
