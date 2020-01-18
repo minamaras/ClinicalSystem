@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -12,7 +13,6 @@ public class MedicalRecord {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@OneToOne(mappedBy ="medicalRecord")
 	private Patient patient;
 
