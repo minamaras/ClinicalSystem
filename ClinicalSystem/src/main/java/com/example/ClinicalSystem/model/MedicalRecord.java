@@ -12,6 +12,7 @@ public class MedicalRecord {
 	private int id;
 
 	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(mappedBy ="medicalRecord")
 	private Patient patient;
 
 	@ManyToMany
