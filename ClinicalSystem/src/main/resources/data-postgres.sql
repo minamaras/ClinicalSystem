@@ -12,9 +12,9 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-8,'doktor2', 'doktor2', 'doktor2@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-11,'doktor3', 'doktor3', 'doktor3@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
-insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-20,'doktor20', 'doktor20', 'doktor20@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
-insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-21,'doktor21', 'doktor21', 'doktor21@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
-insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-22,'doktor22', 'doktor22', 'doktor22@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-20,'Petar', 'Petrovic', 'doktor20@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-21,'Marina', 'Peric', 'doktor21@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-22,'Ivan', 'Ivanovic', 'doktor22@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
 
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika1', 'Bulevar Oslobodjenja 22','9');
@@ -59,8 +59,10 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-22,-22);
 
 insert into nurse (id, clinic_id) values (-12, -3);
 
+insert into medical_record (id,medicalhistory) values (-3,'nestonesto');
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 
+insert into patient_medical_record(medical_record_id,patient_id) values (-3,-5);
 insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-3,-4);
 
 insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-9,-7);
@@ -99,4 +101,26 @@ INSERT INTO user_authority (user_id,authority_id) values (-12,3);
 INSERT INTO user_authority (user_id,authority_id) values (-20,2);
 INSERT INTO user_authority (user_id,authority_id) values (-21,2);
 INSERT INTO user_authority (user_id,authority_id) values (-22,2);
+
+
+
+insert into doctor_visits (id,visitdate,visitdescription,medical_record_id) values (-4,'2019-5-10','Temperatura,kasalj',-3);
+insert into doctor_visits (id,visitdate,visitdescription,medical_record_id) values (-5,'2018-12-1','Bolovi u zeludcu',-3);
+insert into doctor_visits (id,visitdate,visitdescription,medical_record_id) values (-6,'2015-1-27','Jak kasalj',-3);
+
+insert into medical_record_doctor_visits(medical_record_id,doctor_visits_id) values(-3,-4);
+insert into medical_record_doctor_visits(medical_record_id,doctor_visits_id) values(-3,-5);
+insert into medical_record_doctor_visits(medical_record_id,doctor_visits_id) values(-3,-6);
+
+insert into doctor_visits_doctor(visit_id,doctor_id) values (-4,-4);
+insert into doctor_visits_doctor(visit_id,doctor_id) values (-5,-22);
+insert into doctor_visits_doctor(visit_id,doctor_id) values (-6,-22);
+
+insert into disease(id,diseasedescription,diseasename) values (-5,'bolest stitne zlezde',' Hashimoto tireoiditis');
+insert into disease(id,diseasedescription,diseasename) values (-6,'upala grla','‎Tonsillitis');
+
+insert into disease_record(disease_id,record_id) values (-5,-3);
+insert into disease_record(disease_id,record_id) values (-6,-3);
+
+
 
