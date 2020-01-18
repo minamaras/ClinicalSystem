@@ -38,5 +38,31 @@ public class MedicalRecordService {
 
     }
 
+    public MedicalRecordDTO findRecord(Long id){
+
+        Optional<Patient> patient = patientService.findPatientById(id);
+       MedicalRecord mr = medicalRecordRepository.findById(patient.get().getMedicalRecord().getId());
+       MedicalRecordDTO medicalRecordDTO = modelMapper.map(mr, MedicalRecordDTO.class);
+
+       Set<DoctorVistisDTO> doctorVList = new HashSet<>();
+       for(DoctorVisits dv : mr.getDoctorVisits()){
+
+           DoctorVistisDTO doctorVistisDTO = modelMapper.map(dv,DoctorVistisDTO.class);
+           doctorVistisDTO.setSomedate(dv.getVisitDate().toString());
+           doctorVList.add(doctorVistisDTO);
+       }
+
+       Set<String> diseaselist = new HashSet<>();
+        for(Disease d : mr.getDiseases()){
+            diseaselist.add(d.getName());
+        }
+
+        medicalRecordDTO.setDoctorVisits(doctorVList);
+        medicalRecordDTO.setDiseases(diseaselist);
+
+        return medicalRecordDTO;
+
+    }
+
 
 }
