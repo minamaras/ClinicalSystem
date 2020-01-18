@@ -50,6 +50,9 @@ public class Doctor extends User {
 	@Column(name="endtime")
 	private Time end;
 
+	@OneToOne(mappedBy = "doctor")
+	private DoctorVisits doctorVisits;
+
 
 
 
