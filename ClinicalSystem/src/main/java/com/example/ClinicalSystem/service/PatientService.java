@@ -4,27 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.DTO.PatientDTO;
 import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
-import com.example.ClinicalSystem.model.OR;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.model.Patient;
-import com.example.ClinicalSystem.model.PatientRequest;
-import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.repository.PatientRepository;
-import com.example.ClinicalSystem.repository.UserRepository;
-import com.example.ClinicalSystem.service.PatientRequestService;
-
-import javax.transaction.Transactional;
 
 @Service
 public class PatientService {
@@ -77,6 +67,12 @@ public class PatientService {
 		
 		return 	patientRepository.findByEmail(email);
 		
+	}
+
+	public Optional<Patient> findPatientById(Long id) {
+
+		return 	patientRepository.findById(id);
+
 	}
 
 	public Patient findVerificationCode(String findVerificationCode) throws ResourceNotFoundException {
