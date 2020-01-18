@@ -14,6 +14,10 @@ public class MedicalRecord {
 	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
 
+	@ManyToMany
+	@JoinTable(name = "disease_record", joinColumns = @JoinColumn(name = "record_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "disease_id", referencedColumnName = "id"))
+	private Set<Disease> diseases = new HashSet<>();
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DoctorVisits> doctorVisits = new HashSet<>();
 
