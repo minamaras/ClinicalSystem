@@ -16,7 +16,6 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-21,'doktor21', 'doktor21', 'doktor21@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-22,'doktor22', 'doktor22', 'doktor22@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
-
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika1', 'Bulevar Oslobodjenja 22','9');
 INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika broj 2', 'Klinika2', 'Njegoseva 3','6');
 INSERT INTO clinic (id, description, name, adress,rating) values (-7, 'Klinika broj 3', 'Klinika3', 'Safarikova 11','7');
@@ -59,7 +58,13 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-22,-22);
 
 insert into nurse (id, clinic_id) values (-12, -3);
 
+
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
+
+insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-121, false, 'prvi recept', -4, null, -5);
+insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-131, false, 'drugi recept', -4, null, -5);
+insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-141, false, 'treci recept', -4, null, -5);
+
 
 insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-3,-4);
 
