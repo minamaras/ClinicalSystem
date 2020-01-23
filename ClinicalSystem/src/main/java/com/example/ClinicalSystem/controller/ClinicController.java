@@ -148,7 +148,8 @@ public class ClinicController {
 	@PreAuthorize("hasAuthority('PATIENT')")
 	public ResponseEntity<ClinicDTO> AboutClinic(@PathVariable String clinicname) {
 
-		Clinic clinic = clinicService.findName(clinicname);
+		String cleanText = clinicname.replaceAll("\\d+", "").replaceAll("(.)([A-Z])", "$1 $2");
+		Clinic clinic = clinicService.findName(cleanText);
 		if(clinic != null) {
 
 			ClinicDTO clinicDTO = modelMapper.map(clinic, ClinicDTO.class);
