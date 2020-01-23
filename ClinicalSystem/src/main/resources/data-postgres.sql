@@ -3,6 +3,7 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-4,'mina', 'maras', 'mina.maras@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-3,'tamara', 'jancic', 'tamara@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'CLINICADMIN','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-12,'sestra', 'sestr', 'sestra@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'NURSE','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-14,'marko', 'markovic', 'marko@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'PATIENT','2019-12-01 09:00:01');
 
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-9,'biljana', 'petrovic', 'biljana@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'CLINICADMIN','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-10,'sandra', 'babic', 'sandra@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'CLINICADMIN','2019-12-01 09:00:01');
@@ -56,10 +57,12 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-20,-20);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-21,-21);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-22,-22);
 
-insert into nurse (id, clinic_id) values (-12, -3);
+insert into nurse (id, clinic_id) values (-12, -5);
 
 
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
+insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-14,'true','Fruskogorska 12','Novi Sad','Srbija','062332324','0301997805111');
+
 
 insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-121, false, 'prvi recept', -4, null, -5);
 insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-131, false, 'drugi recept', -4, null, -5);
@@ -76,6 +79,8 @@ insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-9,-20);
 insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-10,-21);
 insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-2,-22);
 
+insert into clinic_patients(clinics_id,patients_id) values (-5, -14);
+insert into clinic_patients(clinics_id,patients_id) values (-3, -5);
 
 insert into clinic_doctors (clinic_id,doctors_id) values (-3,-4);
 insert into clinic_nurses (clinic_id,nurses_id) values (-3,-12);
