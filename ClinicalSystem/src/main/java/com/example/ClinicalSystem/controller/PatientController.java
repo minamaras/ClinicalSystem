@@ -40,7 +40,16 @@ public class PatientController {
 		return new ResponseEntity<>(patientDTOS, HttpStatus.OK);
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/allfromclinic")
+	@PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
+	public ResponseEntity<List<PatientDTO>> getAllFromClinicNurse(Principal p) {
 
+		List<PatientDTO> patientDTOS = patientService.findAllFromClinic(p);
+
+		return new ResponseEntity<>(patientDTOS, HttpStatus.OK);
+	}
+
+	
 	@RequestMapping(method= RequestMethod.GET, value="/confirm-account/{verificationCode}")
 	public ResponseEntity confirmUserAccount(@PathVariable("verificationCode") String verificationCode) throws URISyntaxException {
 		//ConfirmationToken token = confirmationTokenService.findByConfirmationToken(verificationCode);
