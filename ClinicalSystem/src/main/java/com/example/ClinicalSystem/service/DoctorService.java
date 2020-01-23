@@ -131,7 +131,8 @@ public class DoctorService {
 	public Set<DoctorDTO> findAllDoctorsFromAClinic(String clinicname){
 
 		HashSet<DoctorDTO> doctorsret = new HashSet<>();
-		Clinic clinic = clinicService.findName(clinicname);
+		String cleanText = clinicname.replaceAll("\\d+", "").replaceAll("(.)([A-Z])", "$1 $2");
+		Clinic clinic = clinicService.findName(cleanText);
 
 		Set<Doctor> docs =clinic.getDoctors();
 		Set<Long> setOfIds = new HashSet<>();
@@ -141,7 +142,15 @@ public class DoctorService {
 			ExamTypeDTO examTypeDTO = modelMapper.map(doctor.getExamType(),ExamTypeDTO.class);
 			doctorDTO.setClinicid(clinic.getId());
 			doctorDTO.setExamType(examTypeDTO);
+			Set<AppointmentDTO> appointmentDTOS = new HashSet<>();
 
+			for(Appointment a : doctor.getAppointments()){
+				AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
+				appointmentDTO.setDate(a.getStart().toString().substring(0,10));
+				appointmentDTOS.add(appointmentDTO);
+
+			}
+			doctorDTO.setAppointments(appointmentDTOS);
 			doctorsret.add(doctorDTO);
 
 		}
