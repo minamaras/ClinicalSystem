@@ -431,8 +431,7 @@ public class ClinicService {
 
 								}
 							}
-
-							lista.add("da");
+							
 
 						}
 					}
