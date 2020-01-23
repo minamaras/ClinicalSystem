@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.joda.time.LocalTime;
 
 import java.sql.Time;
 import java.util.*;
@@ -27,7 +28,7 @@ public class Doctor extends User {
 	private Clinic clinic;
 
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private ExamType examType;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -49,6 +50,14 @@ public class Doctor extends User {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	@Column(name="endtime")
 	private Time end;
+
+	@Column(name="starttimeJ")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	private org.joda.time.LocalTime startJ;
+
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name="endtimeJ")
+	private org.joda.time.LocalTime endJ;
 
 
 
@@ -178,5 +187,22 @@ public class Doctor extends User {
 	public void setEnd(Time end) {
 		this.end = end;
 
+	}
+
+
+	public LocalTime getStartJ() {
+		return startJ;
+	}
+
+	public void setStartJ(LocalTime startJ) {
+		this.startJ = startJ;
+	}
+
+	public LocalTime getEndJ() {
+		return endJ;
+	}
+
+	public void setEndJ(LocalTime endJ) {
+		this.endJ = endJ;
 	}
 }
