@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.DTO.FilterDTO;
 import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.Doctor;
 import com.sun.mail.iap.Response;
@@ -60,6 +61,15 @@ public class ClinicController {
 	public ResponseEntity<List<Clinic>> getAllClinics() {
 
 		List<Clinic> clinics = clinicService.findAllClinics();
+
+		return new ResponseEntity<>(clinics, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/filterclinics")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<List<ClinicDTO>> filter(@RequestBody FilterDTO filterDTO) {
+
+		List<ClinicDTO> clinics = clinicService.filterClinics(filterDTO);
 
 		return new ResponseEntity<>(clinics, HttpStatus.OK);
 	}
