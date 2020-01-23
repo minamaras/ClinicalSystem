@@ -41,7 +41,7 @@ public class Clinic {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Nurse> nurses = new HashSet<Nurse>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Patient> patients = new HashSet<Patient>();
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
