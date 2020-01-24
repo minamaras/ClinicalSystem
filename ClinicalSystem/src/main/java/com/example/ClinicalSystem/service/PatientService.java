@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +9,7 @@ import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.DTO.PatientDTO;
 import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
-import com.example.ClinicalSystem.model.OR;
+import com.example.ClinicalSystem.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -17,9 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.ClinicalSystem.model.Patient;
-import com.example.ClinicalSystem.model.PatientRequest;
-import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.repository.PatientRepository;
 import com.example.ClinicalSystem.repository.UserRepository;
 import com.example.ClinicalSystem.service.PatientRequestService;
@@ -43,6 +41,15 @@ public class PatientService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private NurseService nurseService;
+
+	@Autowired
+	private DoctorService doctorService;
+
+	@Autowired
+	private ClinicAdminService clinicAdminService;
 
 	public boolean register(PatientDTO patientDTO) {
 
@@ -99,4 +106,35 @@ public class PatientService {
 
 		return patientDTOS;
 	}
+
+	public List<PatientDTO> findAllFromClinic(Principal p){
+		List<Patient> patients = patientRepository.findAll();
+
+		User user = (User) userService.findByUsername(p.getName());
+		Clinic myClinic;
+
+		if(user.getRole() == Role.NURSE){
+			Nurse nurse = nurseService.findByEmail(user.getEmail());
+			myClinic = nurse.getClinic();
+		} else if (user.getRole() == Role.DOCTOR){
+			Doctor doctor = doctorService.findOne(user.getEmail());
+			myClinic = doctor.getClinic();
+		} else {
+			return null;
+		}
+
+		List<PatientDTO> patientDTOS = new ArrayList<>();
+
+		for (Patient patient : patients) {
+			for(Clinic c : patient.getClinics()){
+				if(c.getId().equals(myClinic.getId())){
+					patientDTOS.add(new PatientDTO(patient));
+				}
+			}
+		}
+
+		return patientDTOS;
+	}
+
+
 }
