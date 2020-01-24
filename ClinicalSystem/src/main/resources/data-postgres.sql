@@ -27,15 +27,15 @@ insert into clinic_admin (id,clinic_id) values (-10,-7);
 insert into clinic_admin (id,clinic_id) values (-2,-2);
 
 insert into clinic_admin (id,clinic_id) values (-3,-3);
-insert into exam_type (id,name,price) values (-4,'Stomatoloski pregled',1500);
+insert into exam_type (id,name,price, duration) values (-4,'Stomatoloski pregled',1500, 15);
 
-insert into exam_type (id,name,price) values (-6,'Ginekoloski pregled',1500);
-insert into exam_type (id,name,price) values (-5,'Ocni pregled',1800);
-insert into exam_type (id,name,price) values (-7,'Dermatoloski pregled',2000);
+insert into exam_type (id,name,price, duration) values (-6,'Ginekoloski pregled',1500, 20);
+insert into exam_type (id,name,price, duration) values (-5,'Ocni pregled',1800, 10);
+insert into exam_type (id,name,price, duration) values (-7,'Dermatoloski pregled',2000, 30);
 
-insert into exam_type (id,name,price) values (-20,'Imunoloski pregled',3000);
-insert into exam_type (id,name,price) values (-21,'MRI pregled',40000);
-insert into exam_type (id,name,price) values (-22,'Opsti pregled',5000);
+insert into exam_type (id,name,price, duration) values (-20,'Imunoloski pregled',3000, 40);
+insert into exam_type (id,name,price, duration) values (-21,'MRI pregled',40000, 60);
+insert into exam_type (id,name,price, duration) values (-22,'Opsti pregled',5000, 30);
 
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-4,'zubar','10',-3,-3,-4);
 
