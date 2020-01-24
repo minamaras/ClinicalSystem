@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.HolidayDTO;
+import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.service.HolidayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -19,6 +21,14 @@ public class HolidayController {
 
     @Autowired
     private HolidayService holidayService;
+
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<?> getAll() {
+        List<HolidayDTO> holidayDTOS = holidayService.findAll();
+
+        return new ResponseEntity<>(holidayDTOS, HttpStatus.OK);
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/makerequest")
     @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
