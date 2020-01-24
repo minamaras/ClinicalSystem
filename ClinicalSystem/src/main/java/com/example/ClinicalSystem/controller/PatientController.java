@@ -1,5 +1,7 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.DTO.PatientDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Principal;
+import java.util.List;
+import java.util.Set;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -26,6 +31,25 @@ public class PatientController {
     @Autowired
 	private ModelMapper modelMapper;
 
+	@RequestMapping(method = RequestMethod.GET, value = "/all")
+	@PreAuthorize("hasAuthority('DOCTOR')")
+	public ResponseEntity<List<PatientDTO>> getAll() {
+
+		List<PatientDTO> patientDTOS = patientService.findAll();
+
+		return new ResponseEntity<>(patientDTOS, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/allfromclinic")
+	@PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
+	public ResponseEntity<List<PatientDTO>> getAllFromClinicNurse(Principal p) {
+
+		List<PatientDTO> patientDTOS = patientService.findAllFromClinic(p);
+
+		return new ResponseEntity<>(patientDTOS, HttpStatus.OK);
+	}
+
+	
 	@RequestMapping(method= RequestMethod.GET, value="/confirm-account/{verificationCode}")
 	public ResponseEntity confirmUserAccount(@PathVariable("verificationCode") String verificationCode) throws URISyntaxException {
 		//ConfirmationToken token = confirmationTokenService.findByConfirmationToken(verificationCode);

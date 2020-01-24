@@ -40,7 +40,7 @@ public class ExamTypeService {
 
     public boolean saveType(ExamTypeDTO examTypeDTO) {
 
-        if(findOne(examTypeDTO.getName()) != null) {
+        if((findOne(examTypeDTO.getName()) != null) || examTypeDTO.getPrice() <= 0) {
             return false;
         }
 
@@ -69,6 +69,11 @@ public class ExamTypeService {
         }
 
         return  false;
+    }
+
+    public ExamType updateType(ExamType examType) {
+
+        return examTypeRepository.save(examType);
     }
 }
 

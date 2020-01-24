@@ -13,8 +13,13 @@ public class MedicationService {
     @Autowired
     private MedicationRepository medicationRepository;
 
-    public Medication addMedication(Medication medication){
-        return medicationRepository.save(medication);
+    public boolean addMedication(Medication medication){
+
+        if(findByName(medication.getName()) != null){
+            return false;
+        }
+        medicationRepository.save(medication);
+        return true;
     }
 
     public List<Medication> findAll(){

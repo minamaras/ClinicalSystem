@@ -1,35 +1,32 @@
 package com.example.ClinicalSystem.DTO;
 
-import com.example.ClinicalSystem.model.OR;
 
-import java.util.Date;
+import com.example.ClinicalSystem.model.ExaminationRoom;
 
-public class OperationRoomDTO {
+public class ExaminationRoomDTO {
 
     private Long id;
     private int number;
     private String name;
     private boolean isAvailable;
     private String reserved;
-    private Date dateReserved;
 
-    public OperationRoomDTO(Long id, int number, String name, boolean isAvailable, String reserved, Date dateReserved) {
+    public ExaminationRoomDTO(Long id, int number, String name, boolean isAvailable, String reserved) {
         this.id = id;
         this.number = number;
         this.name = name;
         this.isAvailable = isAvailable;
         this.reserved = reserved;
-        this.dateReserved = dateReserved;
     }
 
-    public OperationRoomDTO() {
+    public ExaminationRoomDTO() {
         super();
-        this.setReserved("No");
-        this.setAvailable(false);
+        this.isAvailable = false;
+        this.reserved = "No";
     }
 
-    public OperationRoomDTO(OR room) {
-        this(room.getId(), room.getNumber(), room.getName(), room.isAvailable(), room.getReserved(), room.getDateReserved());
+    public ExaminationRoomDTO(ExaminationRoom room) {
+        this(room.getId(), room.getNumber(), room.getName(), room.isAvailable(), room.getReserved());
     }
 
     public Long getId() {
@@ -70,13 +67,5 @@ public class OperationRoomDTO {
 
     public void setReserved(String reserved) {
         this.reserved = reserved;
-    }
-
-    public Date getDateReserved() {
-        return dateReserved;
-    }
-
-    public void setDateReserved(Date dateReserved) {
-        this.dateReserved = dateReserved;
     }
 }

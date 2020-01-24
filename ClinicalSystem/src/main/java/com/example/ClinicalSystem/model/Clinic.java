@@ -1,9 +1,6 @@
 package com.example.ClinicalSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,13 +34,14 @@ public class Clinic {
 	@Column(name = "rating", nullable = false)
 	private int rating;
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Nurse> nurses = new HashSet<Nurse>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Patient> patients = new HashSet<Patient>();
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -54,7 +52,7 @@ public class Clinic {
 	public Clinic() {
 
 	}
-	
+
 	public Clinic(Long id, String name, String adress, String description) {
 		super();
 		this.id = id;
@@ -74,7 +72,7 @@ public class Clinic {
 		this.freeAppointment = freeAppointment;
 		this.price = price;
 	}
-	
+
 	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price,
 				  HashSet<Doctor> doctors, HashSet<Nurse> nurses, HashSet<Patient> patients) {
 		super();

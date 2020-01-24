@@ -14,7 +14,17 @@ public class ExamType {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Doctor> doctors = new HashSet<Doctor>();
+
+    @Column(name = "price")
+    private int price;
+
+    @Column(name = "duration")
+    private int duration;
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Appointment> exams = new HashSet<Appointment>();
 
     public Long getId() {
@@ -39,5 +49,29 @@ public class ExamType {
 
     public void setExams(Set<Appointment> exams) {
         this.exams = exams;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Set<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(Set<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }

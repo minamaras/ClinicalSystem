@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,25 +25,35 @@ public class OR {
 	@Column(name = "number", nullable = false)
 	private int number;
 
-	@Column(name = "isreserved", nullable = false)
-	private boolean isReserved;
+	@Column(name = "isavailable")
+	private boolean isAvailable;
+
+	@Column(name = "reserved")
+	private String reserved;
 
 	@Column(name = "name", nullable = false)
 	private String name;
 
+
+
 	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
+
+	@Column(name="date_reserved")
+	private Date dateReserved;
 
 	public OR() {
 		super();
 	}
 
-	public OR(Long id, int number, boolean isReserved, String name) {
+	public OR(Long id, int number, boolean isAvailable, String name, String reserved, Date dateReserved) {
 		super();
 		this.id = id;
 		this.number = number;
-		this.isReserved = isReserved;
+		this.isAvailable = isAvailable;
 		this.name = name;
+		this.dateReserved = dateReserved;
+		this.reserved = reserved;
 	}
 
 
@@ -62,12 +73,12 @@ public class OR {
 		this.number = number;
 	}
 
-	public boolean isReserved() {
-		return isReserved;
+	public boolean isAvailable() {
+		return isAvailable;
 	}
 
-	public void setReserved(boolean isReserved) {
-		this.isReserved = isReserved;
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 
 	public String getName() {
@@ -86,5 +97,23 @@ public class OR {
 		this.appointments = appointments;
 	}
 
+	public String getReserved() {
+		return reserved;
+	}
 
+	public void setReserved(String reserved) {
+		this.reserved = reserved;
+	}
+
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
+	}
+
+	public Date getDateReserved() {
+		return dateReserved;
+	}
+
+	public void setDateReserved(Date dateReserved) {
+		this.dateReserved = dateReserved;
+	}
 }

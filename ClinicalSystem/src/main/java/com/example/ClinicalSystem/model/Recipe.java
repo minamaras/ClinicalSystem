@@ -1,5 +1,7 @@
 package com.example.ClinicalSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,17 +18,19 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Doctor doctor;
-	
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Nurse nurse;
 	
 	@Column(name = "isAuthenthicated")
-	private boolean autentifikovan;
-	
-	
+	private boolean auth;
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
 	
@@ -87,7 +91,12 @@ public class Recipe {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	
-	
+
+	public boolean isAuth() {
+		return auth;
+	}
+
+	public void setAuth(boolean auth) {
+		this.auth = auth;
+	}
 }

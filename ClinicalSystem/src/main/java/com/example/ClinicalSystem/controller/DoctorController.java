@@ -1,10 +1,13 @@
 package com.example.ClinicalSystem.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import com.example.ClinicalSystem.model.ClinicAdmin;
-import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.DTO.ExamTypeDTO;
+import com.example.ClinicalSystem.DTO.NurseDTO;
+import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.service.DoctorService;
 
 import javax.transaction.Transactional;
@@ -36,36 +38,20 @@ public class DoctorController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
+	public ResponseEntity<Set<DoctorDTO>> getAllDoctors(Principal p) {
 
-		List<DoctorDTO> doctors = doctorService.findAll();
+		Set<DoctorDTO> doctors = doctorService.findAll(p);
 
 		return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, value = "/savedoctor")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody DoctorDTO doctorDTO) {
-		
-		Doctor d = doctorService.saveDoctor(doctorDTO);
-		
-		if( d == null) {
-			
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<DoctorDTO> addDoctor(@RequestBody DoctorDTO doctorDTO, Principal p) {
 
-		Authentication a = SecurityContextHolder.getContext().getAuthentication();
-		ClinicAdmin admin = (ClinicAdmin) a.getPrincipal();
-
-		d.setClinicAdmin(admin);
-
-		if(admin.getClinic() == null)
-			return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
-
-		d.setClinic(admin.getClinic());
-		
-		
+		doctorService.save(doctorDTO, p);
 		return new ResponseEntity<>(doctorDTO, HttpStatus.CREATED);
+
 	}
 
 	@Transactional
@@ -79,6 +65,38 @@ public class DoctorController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/doctorabout/{id}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<DoctorDTO> AboutDoctor(@PathVariable String id) {
+
+
+		Doctor doctor = doctorService.findOneById(Long.parseLong(id));
+		if(doctor != null) {
+
+			DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+			Clinic clinic = doctor.getClinic();
+			doctorDTO.setClinicid(clinic.getId());
+			doctorDTO.setClinicname(clinic.getName());
+			ExamTypeDTO examTypeDTO = modelMapper.map(doctor.getExamType(), ExamTypeDTO.class);
+			doctorDTO.setExamType(examTypeDTO);
+
+			return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/aboutclinicdoctors/{clinicname}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<Set<DoctorDTO>>DoctorsOfClinic(@PathVariable String clinicname) {
+
+
+		Set<DoctorDTO> doctors = doctorService.findAllDoctorsFromAClinic(clinicname);
+		return new ResponseEntity<>(doctors, HttpStatus.OK);
+
+	}
+
 
 	@RequestMapping(method = RequestMethod.POST, value = "/updateprofile")
 	@PreAuthorize("hasAuthority('DOCTOR')")
@@ -106,9 +124,12 @@ public class DoctorController {
 			if(doctorDTO.getRating() < 0 && doctorDTO.getRating() > 10) {
 				doctor.setRating(doctorDTO.getRating());
 			}
-
+			DoctorDTO drdto = modelMapper.map(doctor,DoctorDTO.class);
+			drdto.setClinicid(doctor.getClinic().getId());
+			drdto.setClinicname(doctor.getClinic().getName());
 			doctorService.updateDoctor(doctor);
-			return new ResponseEntity<>(modelMapper.map(doctor,DoctorDTO.class),HttpStatus.OK);
+
+			return new ResponseEntity<>(drdto,HttpStatus.OK);
 		}
 
 	}

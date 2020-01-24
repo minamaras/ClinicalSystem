@@ -1,18 +1,21 @@
 package com.example.ClinicalSystem.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.ClinicalSystem.model.Authority;
+import com.example.ClinicalSystem.DTO.*;
+
+import java.util.*;
+
+import com.example.ClinicalSystem.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.DTO.UserDTO;
-import com.example.ClinicalSystem.model.Doctor;
-import com.example.ClinicalSystem.model.Role;
 import com.example.ClinicalSystem.repository.DoctorRepository;
 
 import javax.transaction.Transactional;
@@ -35,11 +38,21 @@ public class DoctorService {
 	@Autowired
 	private AuthorityService authorityService;
 
-	public List<DoctorDTO> findAll() {
-		
-		List<Doctor> doctors = doctorRepository.findAll();
+	@Autowired
+	private ClinicService clinicService;
 
-		List<DoctorDTO> doctorsDTO = new ArrayList<>();
+	@Autowired
+	private ExamTypeService examTypeService;
+
+
+	public Set<DoctorDTO> findAll(Principal p) {
+
+		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
+		Clinic clinic = cAdmin.getClinic();
+
+		Set<Doctor> doctors = clinic.getDoctors();
+
+		Set<DoctorDTO> doctorsDTO = new HashSet<>();
 		for (Doctor d : doctors) {
 			doctorsDTO.add(new DoctorDTO(d));
 		}
@@ -47,27 +60,40 @@ public class DoctorService {
 		return doctorsDTO;
 	}
 
-	public Doctor updateDoctor(Doctor doctor) {
+	public Doctor updateDoctor(Doctor doctor)
+	{
 		return doctorRepository.save(doctor);
 	}
-	
-	public Doctor saveDoctor(DoctorDTO doctorDto) {
-		
-		UserDTO userDto = modelMapper.map(doctorDto, UserDTO.class);
-		if(userService.existsInDB(userDto)) {
+
+	public Doctor save(DoctorDTO doctorDTO, Principal p) {
+
+		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
+		Clinic clinic = cAdmin.getClinic();
+
+
+		Doctor doctor = modelMapper.map(doctorDTO, Doctor.class);
+
+		ExamType  examType = examTypeService.findOne(doctorDTO.getExamType().getName());
+		doctor.setExamType(examType);
+
+		if(doctor.getStart().compareTo(doctor.getEnd()) > 0 || doctor.getStart().compareTo(doctor.getEnd()) == 0 ) {
 			return null;
 		}
-		
-		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
+
+		if(clinic != null) {
+			doctor.setClinic(clinic);
+			clinic.getDoctors().add(doctor);
+		}
+
+		doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
+
 		Authority authoritie = authorityService.findByname("DOCTOR");
 		List<Authority> authorities = new ArrayList<>();
 		authorities.add(authoritie);
 		doctor.setAuthorities(authorities);
 
-		doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-
-        return doctorRepository.save(doctor);
-    }
+		return doctorRepository.save(doctor);
+	}
 
     @Transactional
     public boolean removeDoctor(DoctorDTO doctorDto) {
@@ -91,5 +117,35 @@ public class DoctorService {
 
 	public Doctor findOne(String email) {
 		return doctorRepository.findByEmail(email);
+	}
+	public Doctor findOneById(Long id) {
+
+		Optional<User> user = userService.findById(id);
+		User u = user.get();
+		Doctor doctor = doctorRepository.findByEmail(u.getEmail());
+
+		return doctor;
+	}
+
+
+	public Set<DoctorDTO> findAllDoctorsFromAClinic(String clinicname){
+
+		HashSet<DoctorDTO> doctorsret = new HashSet<>();
+		Clinic clinic = clinicService.findName(clinicname);
+
+		Set<Doctor> docs =clinic.getDoctors();
+		Set<Long> setOfIds = new HashSet<>();
+		for(Doctor doctor : docs){
+			setOfIds.add(doctor.getId());
+			DoctorDTO doctorDTO = modelMapper.map(doctor,DoctorDTO.class);
+			ExamTypeDTO examTypeDTO = modelMapper.map(doctor.getExamType(),ExamTypeDTO.class);
+			doctorDTO.setClinicid(clinic.getId());
+			doctorDTO.setExamType(examTypeDTO);
+
+			doctorsret.add(doctorDTO);
+
+		}
+
+		return  doctorsret;
 	}
 }
