@@ -20,6 +20,10 @@ public class ExamType {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "duration")
+    private int duration;
+
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Appointment> exams = new HashSet<Appointment>();
 
@@ -61,5 +65,13 @@ public class ExamType {
 
     public void setDoctors(Set<Doctor> doctors) {
         this.doctors = doctors;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }
