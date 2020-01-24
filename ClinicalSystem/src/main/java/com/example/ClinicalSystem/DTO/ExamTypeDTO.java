@@ -7,19 +7,21 @@ public class ExamTypeDTO {
     private String name;
     private Long id;
     private int price;
+    private int duration;
 
     public ExamTypeDTO() {
         super();
     }
 
     public ExamTypeDTO(ExamType type) {
-        this(type.getId(), type.getName(), type.getPrice());
+        this(type.getId(), type.getName(), type.getPrice(), type.getDuration());
     }
 
-    public ExamTypeDTO(Long id, String name, int price) {
+    public ExamTypeDTO(Long id, String name, int price, int duration) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.duration = duration;
     }
 
     public String getName() {
@@ -44,5 +46,13 @@ public class ExamTypeDTO {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }
