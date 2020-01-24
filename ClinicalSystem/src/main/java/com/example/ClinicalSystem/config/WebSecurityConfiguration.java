@@ -100,6 +100,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/auth/register").permitAll()
+                .antMatchers("/api/users/getrole/**").permitAll()
                 .antMatchers("/api/patients/confirm-account/**").permitAll()
 
                 /*
