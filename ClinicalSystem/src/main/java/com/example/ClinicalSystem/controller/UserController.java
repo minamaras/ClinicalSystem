@@ -1,9 +1,11 @@
 package com.example.ClinicalSystem.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.ClinicalSystem.DTO.ChangePasswordDTO;
 import com.example.ClinicalSystem.model.Role;
 import com.example.ClinicalSystem.service.EmailService;
 import org.modelmapper.ModelMapper;
@@ -54,6 +56,18 @@ public class UserController {
 		return new ResponseEntity<>(role, HttpStatus.OK);
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/changepass")
+	public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
 
+	boolean isChanged = userService.changePassword(changePasswordDTO);
+
+	if(isChanged) {
+		return new ResponseEntity<>(HttpStatus.OK);
+	}else {
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+
+	}
 
 }
