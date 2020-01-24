@@ -41,7 +41,7 @@ insert into exam_type (id,name,price, duration) values (-20,'Imunoloski pregled'
 insert into exam_type (id,name,price, duration) values (-21,'MRI pregled',40000, 60);
 insert into exam_type (id,name,price, duration) values (-22,'Opsti pregled',5000, 30);
 
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-4,'zubar','10',-3,-3,-4);
+--insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-4,'zubar','10',-3,-3,-4);
 
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-7,'zubar','10',-5,-9,-4);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-8,'ocni lekar','9',-7,-10,-5);
@@ -52,7 +52,7 @@ insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-22,'doktor opste prakse','10',-2,-2,-22);
 
 
-insert into clinical_centre_admin (id) values (-6);
+--insert into clinical_centre_admin (id) values (-6);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-4,-4);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-5,-8);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-7,-11);
