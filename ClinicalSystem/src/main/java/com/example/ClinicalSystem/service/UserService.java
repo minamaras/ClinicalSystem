@@ -1,21 +1,25 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.DTO.ChangePasswordDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
-import com.example.ClinicalSystem.model.Patient;
-import com.example.ClinicalSystem.model.PatientRequest;
-import com.example.ClinicalSystem.model.Role;
+import com.example.ClinicalSystem.model.*;
+import com.example.ClinicalSystem.repository.ClinicalCentreAdminRepository;
 import com.example.ClinicalSystem.service.interfaces.UserServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.repository.UserRepository;
 
 import javax.swing.text.html.Option;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,10 +31,19 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 	private UserRepository userRepository;
 
 	@Autowired
+	private ClinicalCentreAdminRepository clinicalCentreAdminRepository;
+
+	@Autowired
 	private ModelMapper modelMapper;
 	
 	@Autowired
 	private PatientService patientService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
 
 	@Override
@@ -92,6 +105,8 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 		return exists;
 	}
 
+
+
 	public User findByEmail(UserDTO userDTO) {
 
 		User user = modelMapper.map(userDTO,User.class);
@@ -107,9 +122,27 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 		return null;
 	}
 
+	public boolean changePassword(ChangePasswordDTO changePasswordDTO){
 
+		User user = findByUsername(changePasswordDTO.getEmail());
+		final Authentication authentication =
+				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), changePasswordDTO.getOldpassword()));
+		if(authentication == null){
+			return false;
+		} else {
+			user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewpassword()));
 
+			if(user.getRole().equals(Role.CLINICALCENTREADMIN)){
+				ClinicalCentreAdmin cca = (ClinicalCentreAdmin) user;
+				cca.setFirstLogin(false);
+				clinicalCentreAdminRepository.save(cca);
+			}
 
+			userRepository.save(user);
+			return true;
+		}
+
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -122,4 +155,6 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
 		return user;
 	}
+
+
 }
