@@ -2,10 +2,8 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.HolidayDTO;
-import com.example.ClinicalSystem.model.ClinicAdmin;
-import com.example.ClinicalSystem.model.Holiday;
-import com.example.ClinicalSystem.model.Nurse;
-import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.DTO.PatientRequestDTO;
+import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.HolidayRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +73,20 @@ public class HolidayService {
     }
 
      */
+
+    @Transactional
+    public boolean decline(HolidayDTO holidayDTO){
+        Long isDeleted = deleteRequest(holidayDTO.getEmail());
+
+        if(isDeleted == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Long deleteRequest(String email){
+        Long num = holidayRepository.removeByEmail(email);
+        return num;
+    }
 }
