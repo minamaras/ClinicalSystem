@@ -3,9 +3,7 @@ package com.example.ClinicalSystem.service;
 import com.example.ClinicalSystem.DTO.ChangePasswordDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
 import com.example.ClinicalSystem.model.*;
-import com.example.ClinicalSystem.repository.ClinicalCentreAdminRepository;
-import com.example.ClinicalSystem.repository.DoctorRepository;
-import com.example.ClinicalSystem.repository.NurseRepository;
+import com.example.ClinicalSystem.repository.*;
 import com.example.ClinicalSystem.service.interfaces.UserServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.example.ClinicalSystem.repository.UserRepository;
 
 import javax.swing.text.html.Option;
 import java.security.Principal;
@@ -40,6 +36,9 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
 	@Autowired
 	private NurseRepository nurseRepository;
+
+	@Autowired
+	private ClinicAdminRepository clinicAdminRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -153,6 +152,11 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 				Nurse nurse = (Nurse) user;
 				nurse.setFirstLogin(false);
 				nurseRepository.save(nurse);
+
+			} else if(user.getRole().equals(Role.CLINICADMIN)) {
+				ClinicAdmin ca = (ClinicAdmin) user;
+				ca.setFirstlogin(false);
+				clinicAdminRepository.save(ca);
 
 			}
 
