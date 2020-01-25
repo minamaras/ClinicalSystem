@@ -13,7 +13,8 @@ public class ClinicAdminDTO {
 	private String password;
 	private Clinic clinic;
 	private Role role = Role.CLINICADMIN;
-	
+	private boolean firstLogin;
+
 	public ClinicAdminDTO() {
 		super();
 	}
@@ -21,10 +22,10 @@ public class ClinicAdminDTO {
 	public ClinicAdminDTO(ClinicAdmin clinicAdmin) {
 
 		this(clinicAdmin.getId(), clinicAdmin.getName(), clinicAdmin.getLastname(),clinicAdmin.getEmail(), clinicAdmin.getPassword(), clinicAdmin.getClinic(),
-		clinicAdmin.getRole());
+		clinicAdmin.getRole(), clinicAdmin.isFirstlogin());
 	}
 	
-	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, Clinic clinic,Role role) {
+	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, Clinic clinic,Role role, boolean firstLogin) {
 		super();
 		this.id = id;
 		this.name = firstName;
@@ -33,6 +34,7 @@ public class ClinicAdminDTO {
 		this.password = password;
 		this.clinic = clinic;
 		this.role=role;
+		this.firstLogin = firstLogin;
 	}
 
 
@@ -86,5 +88,13 @@ public class ClinicAdminDTO {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 }
