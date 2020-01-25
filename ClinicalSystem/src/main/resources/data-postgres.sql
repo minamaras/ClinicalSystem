@@ -19,7 +19,7 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika1', 'Bulevar Oslobodjenja 22','9');
 
-insert into doctor (id,specialization,rating) values (-4,'zubar','10');
+--insert into doctor (id,specialization,rating) values (-4,'zubar','10');
 insert into clinical_centre_admin (id, firstlogin) values (-6, true);
 
 INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika broj 2', 'Klinika2', 'Njegoseva 3','6');
@@ -41,7 +41,7 @@ insert into exam_type (id,name,price, duration) values (-20,'Imunoloski pregled'
 insert into exam_type (id,name,price, duration) values (-21,'MRI pregled',40000, 60);
 insert into exam_type (id,name,price, duration) values (-22,'Opsti pregled',5000, 30);
 
---insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-4,'zubar','10',-3,-3,-4);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-4,'zubar','10',-3,-3,-4);
 
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-7,'zubar','10',-5,-9,-4);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-8,'ocni lekar','9',-7,-10,-5);
