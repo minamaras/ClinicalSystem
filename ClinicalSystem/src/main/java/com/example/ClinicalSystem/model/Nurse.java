@@ -18,10 +18,14 @@ public class Nurse extends User {
 	@OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Holiday> holidays = new HashSet<Holiday>();
 
+	@Column(name="firstlogin")
+	private boolean firstLogin;
+
 
 	public Nurse() {
 		super();
 		this.setRole(Role.NURSE);
+		this.firstLogin = true;
 	}
 
 	public Nurse(Clinic clinic) {
@@ -53,5 +57,13 @@ public class Nurse extends User {
 
 	public void setHolidays(Set<Holiday> holidays) {
 		this.holidays = holidays;
+	}
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 }
