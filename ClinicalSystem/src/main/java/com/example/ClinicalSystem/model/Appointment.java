@@ -29,14 +29,6 @@ public class Appointment {
 	@Column(name = "startdate" , nullable = false)
 	private Date start;
 
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	@Column(name = "starttime", nullable = false )
-	private Time startTime;
-
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	@Column(name = "endtime", nullable = false )
-	private Time endTime;
-
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ExamType type;
 
@@ -61,13 +53,11 @@ public class Appointment {
 		super();
 	}
 
-	public Appointment(Long id, Date start, Time startTime, Time endTime, ExamType type, Patient patient, Doctor doctor,
+	public Appointment(Long id, Date start, ExamType type, Patient patient, Doctor doctor,
 					   boolean hasHappend, OR room, String name) {
 		super();
 		this.id = id;
 		this.start = start;
-		this.startTime = startTime;
-		this.endTime = endTime;
 		this.type = type;
 		this.patient = patient;
 		this.doctor = doctor;
@@ -128,22 +118,6 @@ public class Appointment {
 
 	public void setStart(Date start) {
 		this.start = start;
-	}
-
-	public Time getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Time startTime) {
-		this.startTime = startTime;
-	}
-
-	public Time getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Time endTime) {
-		this.endTime = endTime;
 	}
 
 	public String getName() {
