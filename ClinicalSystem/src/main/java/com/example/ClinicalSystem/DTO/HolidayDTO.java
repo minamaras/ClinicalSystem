@@ -29,7 +29,7 @@ public class HolidayDTO {
     }
 
     public HolidayDTO(Holiday holiday){
-        this(holiday.getId(), holiday.getType(), holiday.getReason(), holiday.getStart(), holiday.getEnd(), holiday.getUser().getEmail());
+        this(holiday.getId(), holiday.getType(), holiday.getReason(), holiday.getStart(), holiday.getEnd(), holiday.getEmail());
     }
 
     public Long getId() {
