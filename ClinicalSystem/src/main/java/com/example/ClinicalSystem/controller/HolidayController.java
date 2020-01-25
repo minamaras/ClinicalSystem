@@ -43,4 +43,19 @@ public class HolidayController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/decline")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<?> declineRequest(@RequestBody HolidayDTO holidayDTO) {
+
+        boolean isDeleted = holidayService.decline(holidayDTO);
+
+        if(!isDeleted) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+
 }
