@@ -47,7 +47,7 @@ public class User implements UserDetails {
 	@Column(name = "last_password_reset_date")
 	private Timestamp lastPasswordResetDate;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Holiday> holidays = new HashSet<Holiday>();
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
