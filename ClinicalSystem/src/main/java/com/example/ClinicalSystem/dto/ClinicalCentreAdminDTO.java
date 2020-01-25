@@ -11,10 +11,12 @@ public class ClinicalCentreAdminDTO {
 	private String email;
 	private String password;
 	private Role role = Role.CLINICALCENTREADMIN;
-
+	private boolean firstLogin;
+	
 	public ClinicalCentreAdminDTO() {
 		super();
 		this.role = role.CLINICALCENTREADMIN;
+		this.firstLogin = true;
 	}
 
 	public ClinicalCentreAdminDTO(ClinicalCentreAdmin ccaDTO) {
@@ -23,15 +25,17 @@ public class ClinicalCentreAdminDTO {
 		this.lastname = ccaDTO.getLastname();
 		this.email = ccaDTO.getEmail();
 		this.password = ccaDTO.getPassword();
+		this.firstLogin = ccaDTO.isFirstLogin();
 	}
-
-
-	public ClinicalCentreAdminDTO(Long id, String firstName, String lastName, String email, String password) {
+	
+	
+	public ClinicalCentreAdminDTO(Long id, String firstName, String lastName, String email, String password, boolean firstLogin) {
 		this.id = id;
 		this.name = firstName;
 		this.lastname = lastName;
 		this.email = email;
 		this.password = password;
+		this.firstLogin = firstLogin;
 
 	}
 
@@ -79,12 +83,16 @@ public class ClinicalCentreAdminDTO {
 		return password;
 	}
 
-
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
 
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
+	}
 
 }

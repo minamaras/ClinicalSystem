@@ -30,6 +30,7 @@ public class Appointment {
 	@Column(name = "startdate" , nullable = false)
 	private Date start;
 
+
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	@Column(name = "starttime", nullable = false )
 	private Time startTime;
@@ -46,6 +47,7 @@ public class Appointment {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	@Column(name = "endtimeJ" )
 	private org.joda.time.LocalTime endTimeJ;
+
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ExamType type;
@@ -71,13 +73,11 @@ public class Appointment {
 		super();
 	}
 
-	public Appointment(Long id, Date start, Time startTime, Time endTime, ExamType type, Patient patient, Doctor doctor,
+	public Appointment(Long id, Date start, ExamType type, Patient patient, Doctor doctor,
 					   boolean hasHappend, OR room, String name) {
 		super();
 		this.id = id;
 		this.start = start;
-		this.startTime = startTime;
-		this.endTime = endTime;
 		this.type = type;
 		this.patient = patient;
 		this.doctor = doctor;
@@ -140,22 +140,6 @@ public class Appointment {
 		this.start = start;
 	}
 
-	public Time getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Time startTime) {
-		this.startTime = startTime;
-	}
-
-	public Time getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Time endTime) {
-		this.endTime = endTime;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -193,4 +177,3 @@ public class Appointment {
 		this.endTimeJ = endTimeJ;
 	}
 }
-

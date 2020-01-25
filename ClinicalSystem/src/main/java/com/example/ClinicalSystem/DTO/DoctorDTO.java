@@ -142,7 +142,6 @@ public class DoctorDTO {
         this.examType = examType;
     }
 
-
     public Date getStart(){
         return start;
     }

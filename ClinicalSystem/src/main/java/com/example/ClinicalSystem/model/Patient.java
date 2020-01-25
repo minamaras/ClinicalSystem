@@ -27,6 +27,9 @@ public class Patient extends User {
 	@ManyToMany(mappedBy = "patients")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
+	@ManyToMany(mappedBy = "patients")
+	private Set<Clinic> clinics = new HashSet<Clinic>();
+
 	@OneToMany(mappedBy = "patient",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Recipe> recipes = new HashSet<Recipe>();
 
@@ -154,5 +157,13 @@ public class Patient extends User {
 
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
+	}
+
+	public Set<Clinic> getClinics() {
+		return clinics;
+	}
+
+	public void setClinics(Set<Clinic> clinics) {
+		this.clinics = clinics;
 	}
 }
