@@ -13,21 +13,24 @@ public class NurseDTO {
 	private String clinicid;
 	private Role role = Role.NURSE;
 	private String password;
+	private boolean firstLogin;
 
 	public NurseDTO(){
 		super();
 		this.role = role.NURSE;
+		this.firstLogin = true;
 	}
 
 	public NurseDTO(Nurse nurse) {
-		this(nurse.getId(), nurse.getName(), nurse.getLastname(), nurse.getEmail());
+		this(nurse.getId(), nurse.getName(), nurse.getLastname(), nurse.getEmail(), nurse.isFirstLogin());
 	}
 	
-	public NurseDTO(Long id, String firstName, String lastName, String email) {
+	public NurseDTO(Long id, String firstName, String lastName, String email, boolean firstLogin) {
 		this.id = id;
 		this.name = firstName;
 		this.lastname = lastName;
 		this.email = email;
+		this.firstLogin = firstLogin;
 	}
 
 	public Long getId() {
@@ -84,5 +87,13 @@ public class NurseDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 }
