@@ -61,7 +61,7 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-20,-20);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-21,-21);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-22,-22);
 
-insert into nurse (id, clinic_id) values (-12, -5);
+insert into nurse (id, clinic_id, firstlogin) values (-12, -5, true);
 
 
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
