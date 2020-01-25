@@ -26,11 +26,11 @@ INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika b
 INSERT INTO clinic (id, description, name, adress,rating) values (-7, 'Klinika broj 3', 'Klinika3', 'Safarikova 11','7');
 INSERT INTO clinic (id, description, name, adress,rating) values (-2, 'Klinika broj 4', 'Klinika4', 'Bulevar Evrope 8','10');
 
-insert into clinic_admin (id,clinic_id) values (-9,-5);
-insert into clinic_admin (id,clinic_id) values (-10,-7);
-insert into clinic_admin (id,clinic_id) values (-2,-2);
+insert into clinic_admin (id,clinic_id, firstlogin) values (-9,-5, true);
+insert into clinic_admin (id,clinic_id, firstlogin) values (-10,-7, true);
+insert into clinic_admin (id,clinic_id, firstlogin) values (-2,-2, true);
 
-insert into clinic_admin (id,clinic_id) values (-3,-3);
+insert into clinic_admin (id,clinic_id, firstlogin) values (-3,-3, true);
 insert into exam_type (id,name,price, duration) values (-4,'Stomatoloski pregled',1500, 15);
 
 insert into exam_type (id,name,price, duration) values (-6,'Ginekoloski pregled',1500, 20);
