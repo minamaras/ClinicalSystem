@@ -41,15 +41,15 @@ insert into exam_type (id,name,price, duration) values (-20,'Imunoloski pregled'
 insert into exam_type (id,name,price, duration) values (-21,'MRI pregled',40000, 60);
 insert into exam_type (id,name,price, duration) values (-22,'Opsti pregled',5000, 30);
 
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-4,'zubar','10',-3,-3,-4);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-4,'zubar','10',-3,-3,-4, true);
 
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-7,'zubar','10',-5,-9,-4);
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-8,'ocni lekar','9',-7,-10,-5);
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-11,'Dermatolog','7',-2,-2,-7);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-7,'zubar','10',-5,-9,-4, true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-8,'ocni lekar','9',-7,-10,-5, true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-11,'Dermatolog','7',-2,-2,-7, true);
 
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-20,'imunolog','10',-5,-9,-20);
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-21,'radiolog','10',-7,-10,-21);
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id) values (-22,'doktor opste prakse','10',-2,-2,-22);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-20,'imunolog','10',-5,-9,-20, true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-21,'radiolog','10',-7,-10,-21, true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-22,'doktor opste prakse','10',-2,-2,-22, true);
 
 
 --insert into clinical_centre_admin (id) values (-6);
