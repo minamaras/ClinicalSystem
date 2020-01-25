@@ -50,17 +50,19 @@ public class Doctor extends User {
 	@Column(name="endtime")
 	private Time end;
 
-
+	@Column(name = "firstlogin", nullable = false)
+	private boolean firstLogin;
 
 
 	public Doctor() {
 		super();
 		this.setRole(Role.DOCTOR);
 		this.setRating(0);
+		this.firstLogin = true;
 
 	}
 
-	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Time end, Time start) {
+	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Time end, Time start, boolean firstLogin) {
 		super();
 		this.specialization = specialization;
 		this.rating = rating;
@@ -71,6 +73,7 @@ public class Doctor extends User {
 		this.setRole(Role.DOCTOR);
 		this.start = start;
 		this.end = end;
+		this.firstLogin = firstLogin;
 
 	}
 
@@ -178,5 +181,13 @@ public class Doctor extends User {
 	public void setEnd(Time end) {
 		this.end = end;
 
+	}
+
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 }

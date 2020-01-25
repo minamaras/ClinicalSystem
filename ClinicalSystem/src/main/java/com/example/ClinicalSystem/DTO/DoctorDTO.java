@@ -22,20 +22,20 @@ public class DoctorDTO {
     private ExamTypeDTO examType;
     private Time start;
     private Time end;
-
-
+    private boolean firstLogin;
 
     public DoctorDTO() {
     	this.role = role.DOCTOR;
     	this.rating = 0;
+    	this.firstLogin = true;
 
     }
 
     public DoctorDTO(Doctor d) {
-        this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getRating(), d.getStart(), d.getEnd());
+        this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getRating(), d.getStart(), d.getEnd(), d.isFirstLogin());
     }
 
-    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, int rating, Time start, Time end) {
+    public DoctorDTO(Long id, String name, String lastname, String email, String password, Role role, String specialization, int rating, Time start, Time end, boolean firstLogin) {
         Id = id;
         this.name = name;
         this.lastname = lastname;
@@ -46,6 +46,7 @@ public class DoctorDTO {
         this.rating = rating;
         this.start = start;
         this.end = end;
+        this.firstLogin = firstLogin;
 
     }
 
@@ -153,5 +154,13 @@ public class DoctorDTO {
     public void setEnd(Time end) {
         this.end = end;
 
+    }
+
+    public boolean isFirstLogin() {
+        return firstLogin;
+    }
+
+    public void setFirstLogin(boolean firstLogin) {
+        this.firstLogin = firstLogin;
     }
 }
