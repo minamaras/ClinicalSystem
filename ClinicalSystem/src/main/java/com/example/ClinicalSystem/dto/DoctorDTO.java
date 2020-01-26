@@ -1,9 +1,6 @@
 package com.example.ClinicalSystem.DTO;
 
-import com.example.ClinicalSystem.model.Appointment;
-import com.example.ClinicalSystem.model.Clinic;
-import com.example.ClinicalSystem.model.Doctor;
-import com.example.ClinicalSystem.model.Role;
+import com.example.ClinicalSystem.model.*;
 
 import java.sql.Time;
 import java.util.Date;
@@ -166,4 +163,6 @@ public class DoctorDTO {
     public void setAppointments(Set<AppointmentDTO> appointments) {
         this.appointments = appointments;
     }
+
+
 }
