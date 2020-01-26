@@ -30,6 +30,9 @@ public class HolidayService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EmailService emailService;
+
 
     @Transactional
     public List<HolidayDTO> findAll() {
@@ -82,6 +85,13 @@ public class HolidayService {
 
     @Transactional
     public boolean decline(HolidayDTO holidayDTO){
+
+        User user = userService.findByUsername(holidayDTO.getEmail());
+        try {
+            emailService.sendRejectedHolidayAsync(user);
+        } catch (Exception e) {
+            return false;
+        }
 
         if(changeStatusToRejected(holidayDTO.getEmail())){
             findAll();
