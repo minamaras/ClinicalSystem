@@ -205,7 +205,7 @@ public class ClinicService {
 
 											} else if ((filter.getStartAppointmentFilter().isAfter(Atimestart)) && (filter.getStartAppointmentFilter().isBefore(Atimeend))) {
 												lista.add("ne");
-											}else if((filter.getStartAppointmentFilter().isBefore(Atimestart)) && (filter.getStartAppointmentFilter().plusMinutes(30).isAfter(Atimestart))){
+											}else if((filter.getStartAppointmentFilter().isBefore(Atimestart)) && (filter.getStartAppointmentFilter().plusMinutes(d.getExamType().getDuration()).isAfter(Atimestart))){
 												lista.add("ne");
 											}
 
@@ -224,7 +224,7 @@ public class ClinicService {
 														else if(filter.getStartAppointmentFilter().isAfter(otherStart) && filter.getStartAppointmentFilter().isBefore(otherEnd)){
 															lista.add("ne");
 														}
-														else if((filter.getStartAppointmentFilter().isBefore(otherStart)) && (filter.getStartAppointmentFilter().plusMinutes(30).isAfter(otherStart))){
+														else if((filter.getStartAppointmentFilter().isBefore(otherStart)) && (filter.getStartAppointmentFilter().plusMinutes(d.getExamType().getDuration()).isAfter(otherStart))){
 															lista.add("ne");
 														}
 
@@ -378,7 +378,7 @@ public class ClinicService {
 									} else if ((filter.getStartAppointmentFilter().isAfter(Atimestart)) && (filter.getStartAppointmentFilter().isBefore(Atimeend))) {
 										lista.add("ne");
 									}
-									else if((filter.getStartAppointmentFilter().isBefore(Atimestart)) && (filter.getStartAppointmentFilter().plusMinutes(30).isAfter(Atimestart))){
+									else if((filter.getStartAppointmentFilter().isBefore(Atimestart)) && (filter.getStartAppointmentFilter().plusMinutes(d.getExamType().getDuration()).isAfter(Atimestart))){
 										lista.add("ne");
 									}
 
@@ -397,7 +397,7 @@ public class ClinicService {
 												else if(filter.getStartAppointmentFilter().isAfter(otherStart) && filter.getStartAppointmentFilter().isBefore(otherEnd)){
 													lista.add("ne");
 												}
-												else if((filter.getStartAppointmentFilter().isBefore(otherStart)) && (filter.getStartAppointmentFilter().plusMinutes(30).isAfter(otherStart))){
+												else if((filter.getStartAppointmentFilter().isBefore(otherStart)) && (filter.getStartAppointmentFilter().plusMinutes(d.getExamType().getDuration()).isAfter(otherStart))){
 													lista.add("ne");
 												}
 												else{
