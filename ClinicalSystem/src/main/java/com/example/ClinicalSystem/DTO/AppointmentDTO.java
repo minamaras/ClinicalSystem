@@ -14,6 +14,8 @@ public class AppointmentDTO {
     private int roomNumber;
     private String name;
     private String date;
+    private Time startTime;
+    private Time endTime;
 
     public AppointmentDTO(Long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
         this.id = id;
@@ -86,6 +88,22 @@ public class AppointmentDTO {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
     }
 }
 
