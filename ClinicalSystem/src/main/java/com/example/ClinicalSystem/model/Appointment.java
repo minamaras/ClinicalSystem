@@ -40,14 +40,6 @@ public class Appointment {
 	private Time endTime;
 
 
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	@Column(name = "starttimeJ")
-	private org.joda.time.LocalTime startTimeJ;
-
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	@Column(name = "endtimeJ" )
-	private org.joda.time.LocalTime endTimeJ;
-
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ExamType type;
@@ -161,19 +153,19 @@ public class Appointment {
 	}
 
 
-	public LocalTime getStartTimeJ() {
-		return startTimeJ;
+	public Time getStartTime() {
+		return startTime;
 	}
 
-	public void setStartTimeJ(LocalTime startTimeJ) {
-		this.startTimeJ = startTimeJ;
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
 	}
 
-	public LocalTime getEndTimeJ() {
-		return endTimeJ;
+	public Time getEndTime() {
+		return endTime;
 	}
 
-	public void setEndTimeJ(LocalTime endTimeJ) {
-		this.endTimeJ = endTimeJ;
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
 	}
 }
