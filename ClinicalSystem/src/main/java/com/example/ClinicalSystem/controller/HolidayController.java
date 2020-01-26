@@ -4,7 +4,9 @@ import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.HolidayDTO;
 import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.DTO.PatientRequestDTO;
+import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.HolidayService;
+import com.example.ClinicalSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class HolidayController {
 
     @Autowired
     private HolidayService holidayService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
