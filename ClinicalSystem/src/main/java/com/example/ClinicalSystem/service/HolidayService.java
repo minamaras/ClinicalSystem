@@ -37,14 +37,18 @@ public class HolidayService {
 
         List<HolidayDTO> holidaysDTO = new ArrayList<>();
         for (Holiday h : holidays) {
-            holidaysDTO.add(new HolidayDTO(h));
+            if(h.getHolidayRequestStatus() == HolidayRequestStatus.INPROGRESS)
+            {
+                holidaysDTO.add(new HolidayDTO(h));
+            }
+
         }
 
         return holidaysDTO;
     }
 
-    public Holiday findOne(String reason){
-        return holidayRepository.findByReason(reason);
+    public Holiday findOne(String email){
+        return holidayRepository.findByEmail(email);
     }
 
     @Transactional
@@ -78,17 +82,27 @@ public class HolidayService {
 
     @Transactional
     public boolean decline(HolidayDTO holidayDTO){
-        Long isDeleted = deleteRequest(holidayDTO.getEmail());
 
-        if(isDeleted == 1){
+        if(changeStatusToRejected(holidayDTO.getEmail())){
+            findAll();
             return true;
         } else {
             return false;
         }
     }
 
-    public Long deleteRequest(String email){
-        Long num = holidayRepository.removeByEmail(email);
-        return num;
+    public boolean changeStatusToRejected(String email) {
+        Holiday holiday = holidayRepository.findByEmail(email);
+
+        if(holiday != null){
+
+            holiday.setHolidayRequestStatus(HolidayRequestStatus.REJECTED);
+            HolidayDTO holidayDTO = modelMapper.map(holiday, HolidayDTO.class);
+            return true;
+        }
+
+        return false;
+
     }
+
 }
