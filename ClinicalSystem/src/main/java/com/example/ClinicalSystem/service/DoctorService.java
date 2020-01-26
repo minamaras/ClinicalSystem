@@ -147,6 +147,8 @@ public class DoctorService {
 			for(Appointment a : doctor.getAppointments()){
 				AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
 				appointmentDTO.setDate(a.getStart().toString().substring(0,10));
+				appointmentDTO.setStartTime(a.getStartTime());
+				appointmentDTO.setEndTime(a.getEndTime());
 				appointmentDTOS.add(appointmentDTO);
 
 			}
