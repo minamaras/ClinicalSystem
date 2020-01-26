@@ -34,6 +34,10 @@ public class Holiday {
     @Column(name = "email")
     private String email;
 
+    @Column(name="holidaystatus")
+    @Enumerated(EnumType.STRING)
+    private HolidayRequestStatus holidayRequestStatus;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private User user;
@@ -41,13 +45,14 @@ public class Holiday {
     public Holiday() {
     }
 
-    public Holiday(HolidayType type, String reason, Date start, Date end, User user, String email){
+    public Holiday(HolidayType type, String reason, Date start, Date end, User user, String email, HolidayRequestStatus holidayRequestStatus){
         this.type = type;
         this.reason = reason;
         this.start = start;
         this.end = end;
         this.user = user;
         this.email = user.getEmail();
+        this.holidayRequestStatus = holidayRequestStatus;
     }
 
     public Long getId() {
@@ -104,5 +109,13 @@ public class Holiday {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public HolidayRequestStatus getHolidayRequestStatus() {
+        return holidayRequestStatus;
+    }
+
+    public void setHolidayRequestStatus(HolidayRequestStatus holidayRequestStatus) {
+        this.holidayRequestStatus = holidayRequestStatus;
     }
 }
