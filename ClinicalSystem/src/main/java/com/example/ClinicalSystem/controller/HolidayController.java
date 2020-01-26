@@ -49,6 +49,19 @@ public class HolidayController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/confirm")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<?> confirmRequest(@RequestBody HolidayDTO holidayDTO) {
+
+        boolean isConfirmed = holidayService.confirm(holidayDTO);
+
+        if(!isConfirmed) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/decline")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<?> declineRequest(@RequestBody HolidayDTO holidayDTO) {
