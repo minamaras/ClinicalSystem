@@ -5,13 +5,16 @@ import com.example.ClinicalSystem.DTO.HolidayDTO;
 import com.example.ClinicalSystem.DTO.PatientRequestDTO;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.HolidayRepository;
+import com.example.ClinicalSystem.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +35,9 @@ public class HolidayService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Transactional
@@ -63,7 +69,7 @@ public class HolidayService {
         Set<Holiday> holidays = user.getHolidays();
 
         for(Holiday h: holidays){
-            if(h.getStart().compareTo(holiday.getStart()) == 0){
+            if(h.getStart().compareTo(holiday.getStart()) == 0) {
                 return false;
             }
         }
@@ -115,4 +121,30 @@ public class HolidayService {
 
     }
 
+    public boolean confirm(HolidayDTO holidayDTO) {
+
+        User user = userService.findByUsername(holidayDTO.getEmail());
+
+        if(user != null) {
+            try {
+                emailService.sendConfirmHolidayAsync(user);
+            } catch (Exception e) {
+                return false;
+            }
+
+            holidayDTO.setHolidayRequestStatus(HolidayRequestStatus.ACCEPTED);
+            Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
+
+            holiday.setUser(user);
+
+            holidayRepository.save(holiday);
+
+            userService.saveHoliday(user, holiday);
+
+            findAll();
+            return  true;
+        }
+
+        return  false;
+    }
 }
