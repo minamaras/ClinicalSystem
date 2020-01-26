@@ -55,6 +55,62 @@ public class AppointmentRequestService {
     private ClinicService clinicService;
 
 
+    public boolean saveAppointmentRequest(AppointmentRequestDTO appointmentRequestDTO) throws ParseException, UnsupportedEncodingException {
+
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) a.getPrincipal();
+
+        Patient p = patientService.findPatient(user.getEmail());
+
+        AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
+        appointmentRequest.setPatient(p);
+
+        String startDate=appointmentRequestDTO.getDate();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
+        java.util.Date date = sdf1.parse(startDate);
+        java.sql.Date finaldate = new java.sql.Date(date.getTime());
+        appointmentRequest.setStart(finaldate);
+
+        String decoded = URLDecoder.decode(appointmentRequestDTO.getExamTypeName(), "UTF-8");
+        ExamType examType =examTypeService.findOne(decoded);
+        if(examType != null){
+            appointmentRequest.setType(examType);
+            java.sql.Time startTime = java.sql.Time.valueOf(appointmentRequest.getStartTime().toString());
+            LocalTime localtime = startTime.toLocalTime();
+            localtime = localtime.plusMinutes(examType.getDuration());
+            Time endTime= Time.valueOf(localtime);
+            appointmentRequest.setEndTime(endTime);
+        }
+
+        Doctor doctor = doctorService.findOneById(appointmentRequestDTO.getDoctorid());
+
+        if(doctor != null){
+            appointmentRequest.setDoctor(doctor);
+        }
+
+        Clinic clinic = doctor.getClinic();
+        List<ClinicAdmin> admins = new ArrayList<>();
+        for(ClinicAdmin ca : clinic.getClinicAdmins()){
+            admins.add(ca);
+        }
+
+        int randomNumberAdmin = (int)(Math.random() * admins.size());
+
+        if (appointmentRequestRepository.save(appointmentRequest) != null) {
+
+            try {
+                emailService.sendAdminNotificaitionAsync(admins.get(randomNumberAdmin),p,finaldate,appointmentRequest.getStartTime(),appointmentRequest.getEndTime(),appointmentRequest.getType());
+            } catch (Exception e) {
+                return false;
+            }
+
+            return true;
+        } else {
+            return false;
+
+
+        }
+    }
 }
 
 
