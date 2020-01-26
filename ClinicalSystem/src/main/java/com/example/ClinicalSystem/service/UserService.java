@@ -17,9 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService implements UserServiceInterface, UserDetailsService {
@@ -178,5 +181,12 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 		return user;
 	}
 
+	@Transactional
+	public void saveHoliday(User user, Holiday holiday) {
+		Set<Holiday> holidays = user.getHolidays();
+		holidays.add(holiday);
 
+		user.setHolidays(holidays);
+		userRepository.save(user);
+	}
 }

@@ -11,5 +11,7 @@ public interface HolidayRepository extends JpaRepository<Holiday, Long> {
     Holiday save(Holiday holiday);
     List<Holiday> findAll();
     Holiday findByReason(String reason);
-
+    Long removeByEmail(String email);
+    Long removeByReason(String reason);
+    Holiday findByEmail(String email);
 }
