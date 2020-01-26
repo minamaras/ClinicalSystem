@@ -71,5 +71,17 @@ public class EmailService {
 
     }
 
+    @Async
+    public void sendConfirmHolidayAsync(User user) throws MailException, InterruptedException {
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Holiday Request");
+        mail.setText("Hello " + user.getName() + ",\n\nYour request for holiday/absence has been accepted." + "\n\n\nClinical System Team");
+        javaMailSender.send(mail);
+
+    }
+
 
 }
