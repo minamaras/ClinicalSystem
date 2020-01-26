@@ -117,16 +117,16 @@ insert into clinic_doctors (clinic_id,doctors_id) values (-3,-23);
 
 insert into calendar(id,doctor_id) values (-1,-4);
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
-(-5,'10:30:00',false,'pregled1','2020-12-20','10:00:00',-1,-4,-3,-5,-4);
+(-5,'10:15:00',false,'pregled1','2020-12-20','10:00:00',-1,-4,-3,-5,-4);
 
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
 (-3,'13:00:00',false,'pregled2','2020-01-20' ,'12:30:00',-1,-7,-3,-5,-4);
 
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
-(-7,'10:30:00',false,'pregled3','2020-02-02','10:00:00',-1,-20,-3,-5,-6);
+(-7,'10:40:00',false,'pregled3','2020-02-02','10:00:00',-1,-20,-3,-5,-6);
 
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
-(-8,'12:00:00',false,'pregled4','2020-02-02','11:30:00',-1,-20,-3,-5,-6);
+(-8,'12:00:00',false,'pregled4','2020-02-02','11:20:00',-1,-20,-3,-5,-6);
 
 insert into doctor_appointments(doctor_id,appointments_id) values (-4,-5);
 insert into doctor_appointments(doctor_id,appointments_id) values (-7,-3);
