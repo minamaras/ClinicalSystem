@@ -30,6 +30,7 @@ public class HolidayService {
     @Autowired
     private UserService userService;
 
+
     @Transactional
     public List<HolidayDTO> findAll() {
         List<Holiday> holidays = holidayRepository.findAll();
@@ -62,6 +63,7 @@ public class HolidayService {
         holiday.setUser(user);
         //nurse.getHolidays().add(holiday);
         //nurseService.updateNurse(nurse);
+        holiday.setHolidayRequestStatus(HolidayRequestStatus.INPROGRESS);
         holidayRepository.save(holiday);
 
         return true;
