@@ -1,11 +1,11 @@
 package com.example.ClinicalSystem.DTO;
 
-import com.example.ClinicalSystem.model.Clinic;
-import com.example.ClinicalSystem.model.Doctor;
-import com.example.ClinicalSystem.model.Role;
+import com.example.ClinicalSystem.model.*;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DoctorDTO {
 
@@ -23,6 +23,9 @@ public class DoctorDTO {
     private Time start;
     private Time end;
     private boolean firstLogin;
+    private Set<AppointmentDTO> appointments = new HashSet<>();
+
+
 
     public DoctorDTO() {
     	this.role = role.DOCTOR;
@@ -138,7 +141,7 @@ public class DoctorDTO {
     public void setExamType(ExamTypeDTO examType) {
         this.examType = examType;
     }
-    
+
     public Date getStart(){
         return start;
     }
@@ -163,4 +166,13 @@ public class DoctorDTO {
     public void setFirstLogin(boolean firstLogin) {
         this.firstLogin = firstLogin;
     }
+    public Set<AppointmentDTO> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<AppointmentDTO> appointments) {
+        this.appointments = appointments;
+    }
+
+
 }
