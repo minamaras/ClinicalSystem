@@ -49,4 +49,13 @@ public class RecipeController {
         return new ResponseEntity<>(recipeDTO1, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/patients")
+    @PreAuthorize("hasAnyAuthority('NURSE', 'DOCTOR')")
+    public ResponseEntity<List<RecipeDTO>> getPatientsRecipes(@RequestBody String patientemail) {
+
+        List<RecipeDTO> recipesdto = recipeService.findPatients(patientemail);
+
+        return new ResponseEntity<>(recipesdto, HttpStatus.OK);
+    }
+
 }
