@@ -40,7 +40,7 @@ public class ClinicAdminService {
 
 		List<ClinicAdminDTO> clinicAdminsDTO = new ArrayList<>();
 		for (ClinicAdmin c : clinicAdmins) {
-			clinicAdminsDTO.add(new ClinicAdminDTO(c));
+			clinicAdminsDTO.add(modelMapper.map(c,ClinicAdminDTO.class));
 		}
 		
 		return clinicAdminsDTO;
@@ -53,7 +53,7 @@ public class ClinicAdminService {
 
 		for (ClinicAdmin c : clinicAdmins) {
 			if(c.getClinic() == null) {
-				clinicAdminsDTO.add(new ClinicAdminDTO(c));
+				clinicAdminsDTO.add(modelMapper.map(c,ClinicAdminDTO.class));
 			}
 		}
 

@@ -1,5 +1,7 @@
 package com.example.ClinicalSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +25,7 @@ public class ExamType {
     @Column(name = "duration",nullable = false)
     private int duration;
 
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Appointment> exams = new HashSet<Appointment>();
 

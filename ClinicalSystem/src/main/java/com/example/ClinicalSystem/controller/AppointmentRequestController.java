@@ -35,5 +35,13 @@ public class AppointmentRequestController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/all")
+    @PreAuthorize("hasAnyAuthority('CLINICADMIN')")
+    public ResponseEntity<?> getAll() {
+        List<AppointmentRequest> requests = appointmentRequestService.findAll();
+
+        return new ResponseEntity<>(requests, HttpStatus.OK);
+    }
+
 
 }

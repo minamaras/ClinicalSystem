@@ -43,25 +43,24 @@ public class Doctor extends User {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calendar calendar;
 
-	@Column(name="starttime")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name = "starttime")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	private Time start;
 
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	@Column(name="endtime")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name = "endtime")
 	private Time end;
 
-	@Column(name = "firstlogin", nullable = false)
+	@Column(name = "firstlogin")
 	private boolean firstLogin;
-	@Column(name="starttimeJ")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+
+	@Column(name = "starttimeJ")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	private org.joda.time.LocalTime startJ;
 
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	@Column(name="endtimeJ")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name = "endtimeJ")
 	private org.joda.time.LocalTime endJ;
-
-
 
 
 	public Doctor() {
@@ -172,10 +171,12 @@ public class Doctor extends User {
 		return examType;
 
 	}
-	public void setExamType(ExamType examType){
-			this.examType = examType;
 
-		}
+	public void setExamType(ExamType examType) {
+		this.examType = examType;
+
+	}
+
 	public Time getStart() {
 		return start;
 	}
@@ -199,20 +200,23 @@ public class Doctor extends User {
 
 	public void setFirstLogin(boolean firstLogin) {
 		this.firstLogin = firstLogin;
-
-	public LocalTime getStartJ() {
-		return startJ;
 	}
 
-	public void setStartJ(LocalTime startJ) {
-		this.startJ = startJ;
+		public LocalTime getStartJ () {
+			return startJ;
+		}
+
+		public void setStartJ (LocalTime startJ){
+			this.startJ = startJ;
+		}
+
+		public LocalTime getEndJ () {
+			return endJ;
+		}
+
+		public void setEndJ (LocalTime endJ){
+			this.endJ = endJ;
+		}
 	}
 
-	public LocalTime getEndJ() {
-		return endJ;
-	}
 
-	public void setEndJ(LocalTime endJ) {
-		this.endJ = endJ;
-	}
-}

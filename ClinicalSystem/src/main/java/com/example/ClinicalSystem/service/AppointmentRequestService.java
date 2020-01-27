@@ -111,6 +111,12 @@ public class AppointmentRequestService {
 
         }
     }
+
+    public List<AppointmentRequest> findAll() {
+
+
+        return appointmentRequestRepository.findAll();
+    }
 }
 
 
