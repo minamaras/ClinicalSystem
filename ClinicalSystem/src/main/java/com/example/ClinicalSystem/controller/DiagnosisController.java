@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.DTO.DiagnosisDTO;
 import com.example.ClinicalSystem.DTO.DiagnosisNamesDTO;
 import com.example.ClinicalSystem.model.Diagnosis;
 import com.example.ClinicalSystem.service.DiagnosisService;
@@ -35,9 +36,9 @@ public class DiagnosisController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/alldiagnosis")
     @PreAuthorize("hasAnyAuthority('CLINICALCENTREADMIN','DOCTOR','NURSE')")
-    public ResponseEntity<List<Diagnosis>> getAllDiagnosis() {
+    public ResponseEntity<List<DiagnosisDTO>> getAllDiagnosis() {
 
-        List<Diagnosis> diagnosis = diagnosisService.findAll();
+        List<DiagnosisDTO> diagnosis = diagnosisService.findAllDTOs();
 
         return new ResponseEntity<>(diagnosis, HttpStatus.OK);
     }

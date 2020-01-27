@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.DiagnosisNamesDTO;
+import com.example.ClinicalSystem.DTO.MedicationDTO;
 import com.example.ClinicalSystem.DTO.MedicationNamesDTO;
 import com.example.ClinicalSystem.model.Diagnosis;
 import com.example.ClinicalSystem.model.Medication;
@@ -23,6 +24,7 @@ public class MedicationController {
     private MedicationService medicationService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/addmedication")
+    @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
     public ResponseEntity<?> addMedication(@RequestBody Medication medication) {
 
         boolean isAdded = medicationService.addMedication(medication);
@@ -35,9 +37,10 @@ public class MedicationController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/allmedications")
-    public ResponseEntity<List<Medication>> getAllMedication() {
+    @PreAuthorize("hasAnyAuthority('DOCTOR','NURSE','CLINICALCENTREADMIN')")
+    public ResponseEntity<List<MedicationDTO>> getAllMedication() {
 
-        List<Medication> medications = medicationService.findAll();
+        List<MedicationDTO> medications = medicationService.findAllDTOs();
 
         return new ResponseEntity<>(medications, HttpStatus.OK);
     }
