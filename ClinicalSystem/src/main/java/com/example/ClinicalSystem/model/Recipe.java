@@ -18,7 +18,7 @@ public class Recipe {
 	private Doctor doctor;
 
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Patient patient;
 
 	@JsonIgnore
