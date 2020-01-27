@@ -8,10 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RecipeService {
@@ -25,11 +24,23 @@ public class RecipeService {
     @Autowired
     private  UserService userService;
 
+    @Autowired
+    private ReportService reportService;
+
+    @Autowired
+    private MedicalRecordService medicalRecordService;
+
+    @Autowired
+    private PatientService patientService;
+
+    @Autowired
+    private MedicationService medicationService;
+
     public Recipe addRecipe(Recipe recipe){
         return recipeRepository.save(recipe);
     }
 
-    public List<RecipeDTO> findAll(){
+    public List<RecipeDTO> findAllDto(){
 
         List<Recipe> recipes = recipeRepository.findAll();
         List<RecipeDTO> recipesDTO = new ArrayList<>();
@@ -52,6 +63,26 @@ public class RecipeService {
 
         return recipesDTO;
     }
+
+
+    public List<RecipeDTO> findPatients(String patientemail){
+        List<Recipe> recipes = recipeRepository.findAll();
+        List<RecipeDTO> recipesDTO = new ArrayList<>();
+
+        //Patient patient = patientService.findPatient(patientemail);
+        //MedicalRecord medicalRecord = medicalRecordService.findById(patient.getMedicalRecord().getId());
+        //List<Report> reports = new ArrayList<>();
+
+
+        for(Recipe r : recipes){
+            if(r.getPatient().getEmail().equals(patientemail)){
+                RecipeDTO recipeDTO = new RecipeDTO(r);
+                recipesDTO.add(recipeDTO);
+            }
+        }
+        return recipesDTO;
+    }
+
 
     public RecipeDTO authRecipe(RecipeDTO recipeDTO, Principal p){
 
