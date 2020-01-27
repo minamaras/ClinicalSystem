@@ -115,4 +115,31 @@ public class RecipeService {
     public Optional<Recipe> findbyId(Long id){
         return recipeRepository.findById(id);
     }
+
+    public Boolean addNew(RecipeDTO recipeDTO, Principal p){
+        Doctor doctor = (Doctor) userService.findByUsername(p.getName());
+        Patient patient = patientService.findPatient(recipeDTO.getPatientemail());
+
+        if(patient == null){
+            return false;
+        }
+
+        Recipe recipe = new Recipe();
+
+        Set<Medication> medications = new HashSet<>();
+
+        for(String med : recipeDTO.getMedicationName()){
+            Medication medication = medicationService.findByName(med);
+            medications.add(medication);
+        }
+
+        recipe.setPatient(patient);
+        recipe.setDoctor(doctor);
+        recipe.setContent(recipeDTO.getContent());
+        recipe.setMedications(medications);
+
+        save(recipe);
+        return true;
+
+    }
 }
