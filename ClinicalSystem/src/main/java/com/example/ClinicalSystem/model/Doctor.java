@@ -51,25 +51,23 @@ public class Doctor extends User {
 	@Column(name="endtime")
 	private Time end;
 
-	@Column(name="starttimeJ")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	private org.joda.time.LocalTime startJ;
-
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	@Column(name="endtimeJ")
-	private org.joda.time.LocalTime endJ;
+	@Column(name = "firstlogin", nullable = false)
+	private boolean firstLogin;
 
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Report> reports = new HashSet<Report>();
 
 
 	public Doctor() {
 		super();
 		this.setRole(Role.DOCTOR);
 		this.setRating(0);
+		this.firstLogin = true;
 
 	}
 
-	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Time end, Time start) {
+	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Time end, Time start, boolean firstLogin) {
 		super();
 		this.specialization = specialization;
 		this.rating = rating;
@@ -80,6 +78,7 @@ public class Doctor extends User {
 		this.setRole(Role.DOCTOR);
 		this.start = start;
 		this.end = end;
+		this.firstLogin = firstLogin;
 
 	}
 
@@ -189,20 +188,19 @@ public class Doctor extends User {
 
 	}
 
-
-	public LocalTime getStartJ() {
-		return startJ;
+	public boolean isFirstLogin() {
+		return firstLogin;
 	}
 
-	public void setStartJ(LocalTime startJ) {
-		this.startJ = startJ;
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 
-	public LocalTime getEndJ() {
-		return endJ;
+	public Set<Report> getReports() {
+		return reports;
 	}
 
-	public void setEndJ(LocalTime endJ) {
-		this.endJ = endJ;
+	public void setReports(Set<Report> reports) {
+		this.reports = reports;
 	}
 }

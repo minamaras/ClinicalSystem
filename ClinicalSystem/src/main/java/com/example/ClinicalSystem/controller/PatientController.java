@@ -3,6 +3,7 @@ package com.example.ClinicalSystem.controller;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.model.MedicalRecord;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +32,7 @@ public class PatientController {
     @Autowired
 	private ModelMapper modelMapper;
 
+
 	@RequestMapping(method = RequestMethod.GET, value = "/all")
 	@PreAuthorize("hasAuthority('DOCTOR')")
 	public ResponseEntity<List<PatientDTO>> getAll() {
@@ -54,6 +56,11 @@ public class PatientController {
 	public ResponseEntity confirmUserAccount(@PathVariable("verificationCode") String verificationCode) throws URISyntaxException {
 		//ConfirmationToken token = confirmationTokenService.findByConfirmationToken(verificationCode);
 		Patient patient = patientService.findVerificationCode(verificationCode);
+
+		MedicalRecord medicalRecord = new MedicalRecord();
+		medicalRecord.setPatient(patient);
+		patient.setMedicalRecord(medicalRecord);
+
 		patient.setActive(true);
 		patientService.updatePatient(patient);
 

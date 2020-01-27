@@ -29,7 +29,7 @@ INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika b
 INSERT INTO clinic (id, description, name, adress,rating) values (-7, 'Klinika broj 3', 'Klinika Nada Diva', 'Safarikova 11','7');
 INSERT INTO clinic (id, description, name, adress,rating) values (-2, 'Klinika broj 4', 'Poliklinika Brankov', 'Bulevar Evrope 8','10');
 --insert into doctor (id,specialization,rating) values (-4,'zubar','10');
-insert into clinical_centre_admin (id, firstlogin) values (-6, true);
+insert into clinical_centre_admin (id, firstlogin) values (-6, false);
 
 
 insert into clinic_admin (id,clinic_id) values (-9,-5);
@@ -47,23 +47,24 @@ insert into exam_type (id,name,price, duration) values (-20,'Imunoloski pregled'
 insert into exam_type (id,name,price, duration) values (-21,'MRI pregled',40000, 60);
 insert into exam_type (id,name,price, duration) values (-22,'Opsti pregled',5000, 30);
 
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime) values (-4,'zubar','10',-3,-3,-4,'8:00:00','15:45:00');
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+  (-4,'zubar','10',-3,-3,-4,'8:00:00','15:45:00',true);
 
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime) values
-(-7,'zubar','10',-5,-9,-4,'15:00:00','20:00:00');
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime) values
-(-8,'ocni lekar','9',-7,-10,-5,'12:00:00','18:00:00');
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime) values
-(-11,'Dermatolog','7',-2,-2,-7,'8:00:00','16:00:00');
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-7,'zubar','10',-5,-9,-4,'15:00:00','20:00:00',true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-8,'ocni lekar','9',-7,-10,-5,'12:00:00','18:00:00',true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-11,'Dermatolog','7',-2,-2,-7,'8:00:00','16:00:00',true);
 
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime) values
-(-20,'imunolog','10',-5,-9,-20,'8:00:00','16:00:00');
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime) values
- (-21,'radiolog','10',-7,-10,-21,'12:00:00','20:00:00');
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime) values
- (-22,'doktor opste prakse','10',-2,-2,-22,'15:00:00','20:00:00');
- insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime) values
- (-23,'Zubar','10',-3,-3,-4,'8:00:00','17:00:00');
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-20,'imunolog','10',-5,-9,-20,'8:00:00','16:00:00',true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-21,'radiolog','10',-7,-10,-21,'12:00:00','20:00:00',true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-22,'doktor opste prakse','10',-2,-2,-22,'15:00:00','20:00:00',true);
+ insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-23,'Zubar','10',-3,-3,-4,'8:00:00','17:00:00',true);
 
 
 --insert into clinical_centre_admin (id) values (-6);
@@ -80,14 +81,50 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-22,-22);
 
 insert into nurse (id, clinic_id) values (-12, -5);
 
-
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-14,'true','Fruskogorska 12','Novi Sad','Srbija','062332324','0301997805111');
 
 
 insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-121, false, 'prvi recept', -4, null, -5);
-insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-131, false, 'drugi recept', -4, null, -5);
-insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-141, false, 'treci recept', -4, null, -5);
+insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-131, false, 'drugi recept', -4, null, -14);
+insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-141, false, 'treci recept', -4, null, -14);
+
+insert into medication (id, name, text) values (-1,'Panadol','za ublazavanje bolova');
+insert into medication (id, name, text) values (-2,'Analgin','za ublazavanje bolova');
+insert into medication (id, name, text) values (-3,'Kafetin','za ublazavanje bolova');
+insert into medication (id, name, text) values (-4,'Andol','za ublazavanje bolova');
+insert into medication (id, name, text) values (-5,'Paracetamol','za ublazavanje bolova');
+insert into medication (id, name, text) values (-6,'Fervex','za ublazavanje bolova');
+insert into medication (id, name, text) values (-7,'Coldrex','za ublazavanje bolova');
+insert into medication (id, name, text) values (-8,'Bromazepam','za ublazavanje bolova');
+insert into medication (id, name, text) values (-10,'Ksanaks','za smirenje');
+insert into medication (id, name, text) values (-11,'Bensedin','za smirenje');
+insert into medication (id, name, text) values (-12,'Brufen','za ublazavanje bolova');
+insert into medication (id, name, text) values (-13,'Pressing','za alergiju');
+insert into medication (id, name, text) values (-14,'Diazepam','za ublazavanje bolova');
+insert into medication (id, name, text) values (-15,'Hloramfenikol','mast za oc.');
+insert into medication (id, name, text) values (-16,'Ibuprofen','za ublazavanje bolova');
+insert into medication (id, name, text) values (-17,'Kodein','za ublazavanje bolova');
+insert into medical_record(id, additional, allergies, blood_type,eyes, measures, patient_id) values (-32, 'dodatno', 'paracetamol', '0+', '-2', '170cm/60kg', -14);
+insert into medical_record(id, additional, allergies, blood_type,eyes, measures, patient_id) values (-33, null, null, null, null, null, -5);
+
+insert into diagnosis (id,name,text) values (-1,'Tuberkuloza','Bakterijska infekcija.');
+insert into diagnosis (id,name,text) values (-2,'Upala pluca',null);
+insert into diagnosis (id,name,text) values (-3,'Angina','Bol u grlu');
+insert into diagnosis (id,name,text) values (-4,'Hiv','Virus');
+insert into diagnosis (id,name,text) values (-5,'Migrena','Jak bol u predelu glave.');
+insert into diagnosis (id,name,text) values (-6,'Zubobolja','Preporucuje se poseta stomatologu');
+insert into diagnosis (id,name,text) values (-7,'Mononukleoza','Zarazna bolest! Ne izlaziti.');
+insert into diagnosis (id,name,text) values (-8,'Prehlada','Lako izleciva, bezopasna.');
+insert into diagnosis (id,name,text) values (-11,'Rak','Opasno. Obavezni dalji pregledi.');
+insert into diagnosis (id,name,text) values (-9,'Psorijaza','Kozno oboljenje.');
+insert into diagnosis (id,name,text) values (-10,'Upala bubrega',null);
+
+insert into report(id,text,appointment_id,diagnosis_id,doctor_id,medical_record_id) values (-2,'Prvi izvestaj sa prvog pregleda', null,-1, -7, -32);
+insert into report(id,text,appointment_id,diagnosis_id,doctor_id,medical_record_id) values (-3,'Drugi izvestaj sa drugog pregleda', null,-1, -7, -32);
+insert into medical_record_reports(medical_record_id,reports_id) values (-32,-2);
+insert into medical_record_reports(medical_record_id,reports_id) values (-32,-3);
+insert into recipe_medication (recipe_id, medication_id) values (-121,-1);
 
 
 insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-3,-4);

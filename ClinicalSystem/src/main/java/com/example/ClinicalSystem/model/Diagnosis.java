@@ -1,6 +1,8 @@
 package com.example.ClinicalSystem.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Diagnosis {
@@ -10,10 +12,14 @@ public class Diagnosis {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    String name;
+    private String name;
 
-    @Column(name = "text", nullable = false)
-    String text;
+    @Column(name = "text")
+    private String text;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "diagnosis")
+    private Set<Report> reports = new HashSet<Report>();
+
 
     public Diagnosis(){
 
@@ -46,5 +52,13 @@ public class Diagnosis {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Set<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        this.reports = reports;
     }
 }

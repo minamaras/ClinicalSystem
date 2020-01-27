@@ -5,14 +5,7 @@ import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.joda.time.LocalTime;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
 
@@ -57,6 +50,8 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Calendar calendar;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	private Report report;
 
 	@Column(name = "hasHappend", nullable = false)
 	private boolean hasHappend;
@@ -152,6 +147,13 @@ public class Appointment {
 		return calendar;
 	}
 
+	public Report getReport() {
+		return report;
+	}
+
+	public void setReport(Report report) {
+		this.report = report;
+	}
 
 	public Time getStartTime() {
 		return startTime;

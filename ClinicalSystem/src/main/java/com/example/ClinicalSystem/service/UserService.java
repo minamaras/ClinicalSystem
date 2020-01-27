@@ -4,6 +4,7 @@ import com.example.ClinicalSystem.DTO.ChangePasswordDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.ClinicalCentreAdminRepository;
+import com.example.ClinicalSystem.repository.DoctorRepository;
 import com.example.ClinicalSystem.service.interfaces.UserServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
 	@Autowired
 	private ClinicalCentreAdminRepository clinicalCentreAdminRepository;
+
+	@Autowired
+	private DoctorRepository doctorRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -136,6 +140,11 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 				ClinicalCentreAdmin cca = (ClinicalCentreAdmin) user;
 				cca.setFirstLogin(false);
 				clinicalCentreAdminRepository.save(cca);
+			} else if(user.getRole().equals(Role.DOCTOR)) {
+				Doctor doctor = (Doctor) user;
+				doctor.setFirstLogin(false);
+				doctorRepository.save(doctor);
+
 			}
 
 			userRepository.save(user);
