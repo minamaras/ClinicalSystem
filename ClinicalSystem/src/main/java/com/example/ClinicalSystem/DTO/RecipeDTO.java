@@ -24,7 +24,10 @@ public class RecipeDTO {
         this.id = recipe.getId();
         this.doctoremail = recipe.getDoctor().getEmail();
         this.patientemail = recipe.getPatient().getEmail();
-        this.auth = false;
+        if(recipe.getNurse() != null) {
+            this.nurseemail = recipe.getNurse().getEmail();
+        }
+        this.auth = recipe.isAuth();
         this.content = recipe.getContent();
         for(Medication med : recipe.getMedications()){
             this.medicationName.add(med.getName());
