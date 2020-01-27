@@ -12,10 +12,10 @@ public class Diagnosis {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    String name;
+    private String name;
 
     @Column(name = "text")
-    String text;
+    private String text;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "diagnosis")
     private Set<Report> reports = new HashSet<Report>();
