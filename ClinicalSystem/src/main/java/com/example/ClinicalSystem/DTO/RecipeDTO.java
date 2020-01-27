@@ -1,6 +1,10 @@
 package com.example.ClinicalSystem.DTO;
 
+import com.example.ClinicalSystem.model.Medication;
 import com.example.ClinicalSystem.model.Recipe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeDTO {
 
@@ -10,13 +14,21 @@ public class RecipeDTO {
     private String patientemail;
     private boolean auth;
     private String content;
+    private List<String> medicationName = new ArrayList<>();
     
     public RecipeDTO() {
         super();
     }
 
     public RecipeDTO(Recipe recipe){
-        this(recipe.getId(), recipe.getDoctor().getEmail(), recipe.getPatient().getEmail(), recipe.isAuth(), recipe.getContent());
+        this.id = recipe.getId();
+        this.doctoremail = recipe.getDoctor().getEmail();
+        this.patientemail = recipe.getPatient().getEmail();
+        this.auth = false;
+        this.content = recipe.getContent();
+        for(Medication med : recipe.getMedications()){
+            this.medicationName.add(med.getName());
+        }
     }
 
     public RecipeDTO(Long id, String demail, String pemail, boolean auth, String content){
@@ -26,6 +38,7 @@ public class RecipeDTO {
         this.auth = auth;
         this.content = content;
     }
+
 
     public Long getId() {
         return id;
@@ -73,5 +86,13 @@ public class RecipeDTO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public List<String> getMedicationName() {
+        return medicationName;
+    }
+
+    public void setMedicationName(List<String> medicationName) {
+        this.medicationName = medicationName;
     }
 }
