@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.RecipeDTO;
+import com.example.ClinicalSystem.DTO.ReportDTO;
 import com.example.ClinicalSystem.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class RecipeController {
     @PreAuthorize("hasAuthority('NURSE')")
     public ResponseEntity<List<RecipeDTO>> getAllRecipes() {
 
-        List<RecipeDTO> recipes = recipeService.findAll();
+        List<RecipeDTO> recipes = recipeService.findAllDto();
 
         return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
@@ -57,5 +58,18 @@ public class RecipeController {
 
         return new ResponseEntity<>(recipesdto, HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/addrecipe")
+    @PreAuthorize("hasAnyAuthority('DOCTOR','NURSE')")
+    public ResponseEntity<?> addRecipe(@RequestBody RecipeDTO recipeDTO, Principal p) {
+
+        boolean isAdded = recipeService.addNew(recipeDTO, p);
+        if(!isAdded){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+    }
+
 
 }
