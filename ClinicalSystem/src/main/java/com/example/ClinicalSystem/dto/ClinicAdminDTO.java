@@ -11,20 +11,15 @@ public class ClinicAdminDTO {
 	private String lastname;
 	private String email;
 	private String password;
-	private Clinic clinic;
+	private ClinicDTO clinic;
 	private Role role = Role.CLINICADMIN;
 	
 	public ClinicAdminDTO() {
 		super();
 	}
 
-	public ClinicAdminDTO(ClinicAdmin clinicAdmin) {
-
-		this(clinicAdmin.getId(), clinicAdmin.getName(), clinicAdmin.getLastname(),clinicAdmin.getEmail(), clinicAdmin.getPassword(), clinicAdmin.getClinic(),
-		clinicAdmin.getRole());
-	}
 	
-	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, Clinic clinic,Role role) {
+	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, ClinicDTO clinic,Role role) {
 		super();
 		this.id = id;
 		this.name = firstName;
@@ -76,9 +71,9 @@ public class ClinicAdminDTO {
 		this.password = password;
 	}
 
-	public Clinic getClinic() { return clinic; }
+	public ClinicDTO getClinic() { return clinic; }
 
-	public void setClinic(Clinic clinic) { this.clinic = clinic; }
+	public void setClinic(ClinicDTO clinic) { this.clinic = clinic; }
 
 	public Role getRole() {
 		return role;
