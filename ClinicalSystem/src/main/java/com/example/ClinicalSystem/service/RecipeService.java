@@ -84,28 +84,23 @@ public class RecipeService {
     }
 
 
-    public RecipeDTO authRecipe(RecipeDTO recipeDTO, Principal p){
+    public boolean authRecipe(String id, Principal p){
+
+        long idRec = Long.parseLong(id);
+
+        Recipe recipe = recipeRepository.findById(idRec);
 
         User user = userService.findByUsername(p.getName());
-        //recipeDTO.setNurseemail(user.getEmail());
-        Recipe recipe = modelMapper.map(recipeDTO, Recipe.class);
-        Doctor dr = (Doctor) userService.findByUsername(recipeDTO.getDoctoremail());
-        Patient patient = (Patient) userService.findByUsername(recipeDTO.getPatientemail());
-        recipe.setDoctor(dr);
-        recipe.setPatient(patient);
-
+        
         if(!recipe.isAuth()){
             recipe.setAuth(true);
             recipe.setNurse((Nurse) user);
             save(recipe);
+
+            return true;
         }
 
-        RecipeDTO recipeDTO1 = modelMapper.map(recipe, RecipeDTO.class);
-        recipeDTO1.setNurseemail(user.getEmail());
-        recipeDTO1.setDoctoremail(recipe.getDoctor().getEmail());
-        recipeDTO1.setPatientemail(recipe.getPatient().getEmail());
-        recipeDTO1.setAuth(true);
-        return recipeDTO1;
+        return false;
     }
 
     public Recipe save(Recipe recipe){
