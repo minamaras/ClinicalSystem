@@ -67,8 +67,8 @@ insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) v
 
 
 insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-121, false, 'prvi recept', -4, null, -5);
-insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-131, false, 'drugi recept', -4, null, -5);
-insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-141, false, 'treci recept', -4, null, -5);
+insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-131, false, 'drugi recept', -4, null, -14);
+insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-141, false, 'treci recept', -4, null, -14);
 
 insert into medication (id, name, text) values (-1,'Panadol','za ublazavanje bolova');
 insert into medication (id, name, text) values (-2,'Analgin','za ublazavanje bolova');
@@ -78,7 +78,6 @@ insert into medication (id, name, text) values (-5,'Paracetamol','za ublazavanje
 insert into medication (id, name, text) values (-6,'Fervex','za ublazavanje bolova');
 insert into medication (id, name, text) values (-7,'Coldrex','za ublazavanje bolova');
 insert into medication (id, name, text) values (-8,'Bromazepam','za ublazavanje bolova');
-insert into medication (id, name, text) values (-9,'Panadol','za ublazavanje bolova');
 insert into medication (id, name, text) values (-10,'Ksanaks','za smirenje');
 insert into medication (id, name, text) values (-11,'Bensedin','za smirenje');
 insert into medication (id, name, text) values (-12,'Brufen','za ublazavanje bolova');
@@ -88,6 +87,7 @@ insert into medication (id, name, text) values (-15,'Hloramfenikol','mast za oc.
 insert into medication (id, name, text) values (-16,'Ibuprofen','za ublazavanje bolova');
 insert into medication (id, name, text) values (-17,'Kodein','za ublazavanje bolova');
 insert into medical_record(id, additional, allergies, blood_type,eyes, measures, patient_id) values (-32, 'dodatno', 'paracetamol', '0+', '-2', '170cm/60kg', -14);
+insert into medical_record(id, additional, allergies, blood_type,eyes, measures, patient_id) values (-33, null, null, null, null, null, -5);
 
 insert into diagnosis (id,name,text) values (-1,'Tuberkuloza','Bakterijska infekcija.');
 insert into diagnosis (id,name,text) values (-2,'Upala pluca',null);
