@@ -20,7 +20,7 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika1', 'Bulevar Oslobodjenja 22','9');
 
 --insert into doctor (id,specialization,rating) values (-4,'zubar','10');
-insert into clinical_centre_admin (id, firstlogin) values (-6, true);
+insert into clinical_centre_admin (id, firstlogin) values (-6, false);
 
 INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika broj 2', 'Klinika2', 'Njegoseva 3','6');
 INSERT INTO clinic (id, description, name, adress,rating) values (-7, 'Klinika broj 3', 'Klinika3', 'Safarikova 11','7');
