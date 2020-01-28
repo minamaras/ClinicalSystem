@@ -1,6 +1,6 @@
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-6,'admin', 'admin', 'admin@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'CLINICALCENTREADMIN','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-5,'jelena', 'bojanic', 'jelena.bojanic97@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'PATIENT','2019-12-01 09:00:01');
-insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-4,'mina', 'maras', 'mina.maras@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-4,'mina', 'maras', 'minamaras1997@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-3,'tamara', 'jancic', 'tamara@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'CLINICADMIN','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-12,'sestra', 'sestr', 'sestra@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'NURSE','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-14,'marko', 'markovic', 'marko@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'PATIENT','2019-12-01 09:00:01');
@@ -32,11 +32,11 @@ INSERT INTO clinic (id, description, name, adress,rating) values (-2, 'Klinika b
 insert into clinical_centre_admin (id, firstlogin) values (-6, false);
 
 
-insert into clinic_admin (id,clinic_id) values (-9,-5);
-insert into clinic_admin (id,clinic_id) values (-10,-7);
-insert into clinic_admin (id,clinic_id) values (-2,-2);
+insert into clinic_admin (id,clinic_id, firstlogin) values (-9,-5, true);
+insert into clinic_admin (id,clinic_id, firstlogin) values (-10,-7, true);
+insert into clinic_admin (id,clinic_id, firstlogin) values (-2,-2, true);
 
-insert into clinic_admin (id,clinic_id) values (-3,-3);
+insert into clinic_admin (id,clinic_id, firstlogin) values (-3,-3, true);
 insert into exam_type (id,name,price, duration) values (-4,'Stomatoloski pregled',1500, 15);
 
 insert into exam_type (id,name,price, duration) values (-6,'Ginekoloski pregled',1500, 20);
@@ -79,7 +79,7 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-20,-20);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-21,-21);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-22,-22);
 
-insert into nurse (id, clinic_id) values (-12, -5);
+insert into nurse (id, clinic_id, firstlogin) values (-12, -5, true);
 
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-14,'true','Fruskogorska 12','Novi Sad','Srbija','062332324','0301997805111');

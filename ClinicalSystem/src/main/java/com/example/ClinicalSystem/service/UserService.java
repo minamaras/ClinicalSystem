@@ -3,8 +3,7 @@ package com.example.ClinicalSystem.service;
 import com.example.ClinicalSystem.DTO.ChangePasswordDTO;
 import com.example.ClinicalSystem.DTO.UserDTO;
 import com.example.ClinicalSystem.model.*;
-import com.example.ClinicalSystem.repository.ClinicalCentreAdminRepository;
-import com.example.ClinicalSystem.repository.DoctorRepository;
+import com.example.ClinicalSystem.repository.*;
 import com.example.ClinicalSystem.service.interfaces.UserServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.ClinicalSystem.repository.UserRepository;
-
 import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService implements UserServiceInterface, UserDetailsService {
@@ -36,6 +36,12 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
 	@Autowired
 	private DoctorRepository doctorRepository;
+
+	@Autowired
+	private NurseRepository nurseRepository;
+
+	@Autowired
+	private ClinicAdminRepository clinicAdminRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -145,6 +151,16 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 				doctor.setFirstLogin(false);
 				doctorRepository.save(doctor);
 
+			} else if(user.getRole().equals(Role.NURSE)) {
+				Nurse nurse = (Nurse) user;
+				nurse.setFirstLogin(false);
+				nurseRepository.save(nurse);
+
+			} else if(user.getRole().equals(Role.CLINICADMIN)) {
+				ClinicAdmin ca = (ClinicAdmin) user;
+				ca.setFirstlogin(false);
+				clinicAdminRepository.save(ca);
+
 			}
 
 			userRepository.save(user);
@@ -165,5 +181,12 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 		return user;
 	}
 
+	@Transactional
+	public void saveHoliday(User user, Holiday holiday) {
+		Set<Holiday> holidays = user.getHolidays();
+		holidays.add(holiday);
 
+		user.setHolidays(holidays);
+		userRepository.save(user);
+	}
 }

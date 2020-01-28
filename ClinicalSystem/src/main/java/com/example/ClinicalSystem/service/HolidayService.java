@@ -2,18 +2,19 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.HolidayDTO;
-import com.example.ClinicalSystem.model.ClinicAdmin;
-import com.example.ClinicalSystem.model.Holiday;
-import com.example.ClinicalSystem.model.Nurse;
-import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.DTO.PatientRequestDTO;
+import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.HolidayRepository;
+import com.example.ClinicalSystem.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,20 +33,31 @@ public class HolidayService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+
     @Transactional
     public List<HolidayDTO> findAll() {
         List<Holiday> holidays = holidayRepository.findAll();
 
         List<HolidayDTO> holidaysDTO = new ArrayList<>();
         for (Holiday h : holidays) {
-            holidaysDTO.add(new HolidayDTO(h));
+            if(h.getHolidayRequestStatus() == HolidayRequestStatus.INPROGRESS)
+            {
+                holidaysDTO.add(new HolidayDTO(h));
+            }
+
         }
 
         return holidaysDTO;
     }
 
-    public Holiday findOne(String reason){
-        return holidayRepository.findByReason(reason);
+    public Holiday findOne(String email){
+        return holidayRepository.findByEmail(email);
     }
 
     @Transactional
@@ -57,13 +69,14 @@ public class HolidayService {
         Set<Holiday> holidays = user.getHolidays();
 
         for(Holiday h: holidays){
-            if(h.getStart().compareTo(holiday.getStart()) == 0){
+            if(h.getStart().compareTo(holiday.getStart()) == 0) {
                 return false;
             }
         }
         holiday.setUser(user);
         //nurse.getHolidays().add(holiday);
         //nurseService.updateNurse(nurse);
+        holiday.setHolidayRequestStatus(HolidayRequestStatus.INPROGRESS);
         holidayRepository.save(holiday);
 
         return true;
@@ -75,4 +88,63 @@ public class HolidayService {
     }
 
      */
+
+    @Transactional
+    public boolean decline(HolidayDTO holidayDTO){
+
+        User user = userService.findByUsername(holidayDTO.getEmail());
+        try {
+            emailService.sendRejectedHolidayAsync(user);
+        } catch (Exception e) {
+            return false;
+        }
+
+        if(changeStatusToRejected(holidayDTO.getEmail())){
+            findAll();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean changeStatusToRejected(String email) {
+        Holiday holiday = holidayRepository.findByEmail(email);
+
+        if(holiday != null){
+
+            holiday.setHolidayRequestStatus(HolidayRequestStatus.REJECTED);
+            HolidayDTO holidayDTO = modelMapper.map(holiday, HolidayDTO.class);
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public boolean confirm(HolidayDTO holidayDTO) {
+
+        User user = userService.findByUsername(holidayDTO.getEmail());
+
+        if(user != null) {
+            try {
+                emailService.sendConfirmHolidayAsync(user);
+            } catch (Exception e) {
+                return false;
+            }
+
+            holidayDTO.setHolidayRequestStatus(HolidayRequestStatus.ACCEPTED);
+            Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
+
+            holiday.setUser(user);
+
+            holidayRepository.save(holiday);
+
+            userService.saveHoliday(user, holiday);
+
+            findAll();
+            return  true;
+        }
+
+        return  false;
+    }
 }

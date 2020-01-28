@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Holiday;
+import com.example.ClinicalSystem.model.HolidayRequestStatus;
 import com.example.ClinicalSystem.model.Nurse;
 
 import java.util.Date;
@@ -13,8 +14,9 @@ public class HolidayDTO {
     private Date start;
     private Date end;
     private String email;
+    private HolidayRequestStatus holidayRequestStatus;
 
-    public HolidayDTO(Long id, Holiday.HolidayType type, String reason, Date start, Date end, String email){
+    public HolidayDTO(Long id, Holiday.HolidayType type, String reason, Date start, Date end, String email, HolidayRequestStatus holidayRequestStatus){
         super();
         this.id = id;
         this.type = type;
@@ -22,6 +24,7 @@ public class HolidayDTO {
         this.start = start;
         this.end = end;
         this.email = email;
+        this.holidayRequestStatus = holidayRequestStatus;
     }
 
     public HolidayDTO(){
@@ -29,7 +32,7 @@ public class HolidayDTO {
     }
 
     public HolidayDTO(Holiday holiday){
-        this(holiday.getId(), holiday.getType(), holiday.getReason(), holiday.getStart(), holiday.getEnd(), holiday.getUser().getEmail());
+        this(holiday.getId(), holiday.getType(), holiday.getReason(), holiday.getStart(), holiday.getEnd(), holiday.getEmail(), holiday.getHolidayRequestStatus());
     }
 
     public Long getId() {
@@ -78,5 +81,13 @@ public class HolidayDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public HolidayRequestStatus getHolidayRequestStatus() {
+        return holidayRequestStatus;
+    }
+
+    public void setHolidayRequestStatus(HolidayRequestStatus holidayRequestStatus) {
+        this.holidayRequestStatus = holidayRequestStatus;
     }
 }

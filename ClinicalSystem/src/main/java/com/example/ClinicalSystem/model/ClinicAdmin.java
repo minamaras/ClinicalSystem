@@ -18,6 +18,9 @@ public class ClinicAdmin extends User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
+	@Column(name="firstlogin")
+	private boolean firstlogin;
+
 	public ClinicAdmin(Clinic clinic) {
 		super();
 		this.setRole(Role.CLINICADMIN);
@@ -27,6 +30,7 @@ public class ClinicAdmin extends User {
 	public ClinicAdmin() {
 		super();
 		this.setRole(Role.CLINICADMIN);
+		this.firstlogin = true;
 	}
 
 	public Clinic getClinic() {
@@ -35,6 +39,14 @@ public class ClinicAdmin extends User {
 
 	public void setClinic(Clinic clinic) {
 		this.clinic = clinic;
+	}
+
+	public boolean isFirstlogin() {
+		return firstlogin;
+	}
+
+	public void setFirstlogin(boolean firstlogin) {
+		this.firstlogin = firstlogin;
 	}
 
 }
