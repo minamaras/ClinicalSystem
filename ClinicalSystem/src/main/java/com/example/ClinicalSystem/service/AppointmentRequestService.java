@@ -96,6 +96,19 @@ public class AppointmentRequestService {
 
         int randomNumberAdmin = (int)(Math.random() * admins.size());
 
+
+        //provera da li postoji vec taj u bazi
+
+        AppointmentRequest reqpatient = appointmentRequestRepository.findByPatient(p);
+        AppointmentRequest reqdate = appointmentRequestRepository.findByStart((Date) appointmentRequest.getStart());
+        AppointmentRequest reqtime = appointmentRequestRepository.findByStartTime(appointmentRequest.getStartTime());
+        AppointmentRequest reqtype = appointmentRequestRepository.findByType(appointmentRequest.getType());
+
+
+        if(reqpatient != null && reqdate != null & reqtime != null && reqtype != null){
+            return false;
+        }
+
         if (appointmentRequestRepository.save(appointmentRequest) != null) {
 
             try {
