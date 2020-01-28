@@ -35,13 +35,23 @@ public class AppointmentRequestController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/all")
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
     @PreAuthorize("hasAnyAuthority('CLINICADMIN')")
     public ResponseEntity<?> getAll() {
-        List<AppointmentRequest> requests = appointmentRequestService.findAll();
-
-        return new ResponseEntity<>(requests, HttpStatus.OK);
+        return new ResponseEntity<>(appointmentRequestService.findAll(), HttpStatus.OK);
     }
 
+    //vraca sobe koje mogu da se rezervisu za exam
+    @RequestMapping(method = RequestMethod.GET, value = "/check")
+    @PreAuthorize("hasAnyAuthority('CLINICADMIN')")
+    public ResponseEntity<?> checkRooms(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+
+        if( appointmentRequestService.checkAvailableRooms(appointmentRequestDTO) != null) {
+            return new ResponseEntity<>(appointmentRequestDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
 }
