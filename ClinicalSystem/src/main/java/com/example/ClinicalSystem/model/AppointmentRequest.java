@@ -19,6 +19,9 @@ public class AppointmentRequest {
     @Column(name = "startdate" , nullable = false)
     private Date start;
 
+    @Column(name = "examdate" , nullable = false)
+    private String date;
+
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @Column(name = "starttime", nullable = false )
     private Time startTime;
@@ -42,7 +45,7 @@ public class AppointmentRequest {
     }
 
     public AppointmentRequest(Long id, Date start, ExamType type, Patient patient, Doctor doctor,
-                       boolean hasHappend, OR room, String name) {
+                       boolean hasHappend, OR room, String name, String date) {
         super();
         this.id = id;
         this.start = start;
@@ -50,6 +53,7 @@ public class AppointmentRequest {
         this.patient = patient;
         this.doctor = doctor;
         this.name = name;
+        this.date = date;
     }
 
     public Long getId() {
@@ -115,6 +119,14 @@ public class AppointmentRequest {
 
     public void setEndTime(Time endTime) {
         this.endTime = endTime;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
 
