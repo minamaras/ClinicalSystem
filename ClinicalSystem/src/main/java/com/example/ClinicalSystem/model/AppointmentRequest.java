@@ -17,7 +17,7 @@ public class AppointmentRequest {
     private String name;
 
     @Column(name = "startdate" , nullable = false)
-    private Date start;
+    private java.sql.Date start;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @Column(name = "starttime", nullable = false )
@@ -41,8 +41,8 @@ public class AppointmentRequest {
         super();
     }
 
-    public AppointmentRequest(Long id, Date start, ExamType type, Patient patient, Doctor doctor,
-                       boolean hasHappend, OR room, String name) {
+    public AppointmentRequest(Long id, java.sql.Date start, ExamType type, Patient patient, Doctor doctor,
+                              boolean hasHappend, OR room, String name) {
         super();
         this.id = id;
         this.start = start;
@@ -89,7 +89,7 @@ public class AppointmentRequest {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(java.sql.Date start) {
         this.start = start;
     }
 
