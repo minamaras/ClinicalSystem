@@ -1,5 +1,9 @@
 package com.example.ClinicalSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.joda.time.LocalTime;
+
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +38,13 @@ public class OR {
 	@Column(name = "name", nullable = false)
 	private String name;
 
+	@Column(name = "reservedFrom")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	private Time reservedFrom;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name = "reservedTill")
+	private Time reservedTill;
 
 	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
@@ -46,7 +56,7 @@ public class OR {
 		super();
 	}
 
-	public OR(Long id, int number, boolean isAvailable, String name, String reserved, Date dateReserved) {
+	public OR(Long id, int number, boolean isAvailable, String name, String reserved, Date dateReserved, Time reservedFrom,Time reservedTill) {
 		super();
 		this.id = id;
 		this.number = number;
@@ -54,6 +64,8 @@ public class OR {
 		this.name = name;
 		this.dateReserved = dateReserved;
 		this.reserved = reserved;
+		this.reservedFrom = reservedFrom;
+		this.reservedTill = reservedTill;
 	}
 
 
@@ -115,5 +127,21 @@ public class OR {
 
 	public void setDateReserved(Date dateReserved) {
 		this.dateReserved = dateReserved;
+	}
+
+	public Time getReservedFrom() {
+		return reservedFrom;
+	}
+
+	public void setReservedFrom(Time reservedFrom) {
+		this.reservedFrom = reservedFrom;
+	}
+
+	public Time getReservedTill() {
+		return reservedTill;
+	}
+
+	public void setReservedTill(Time reservedTill) {
+		this.reservedTill = reservedTill;
 	}
 }
