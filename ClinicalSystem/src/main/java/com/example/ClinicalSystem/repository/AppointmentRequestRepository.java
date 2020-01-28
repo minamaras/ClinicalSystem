@@ -7,6 +7,7 @@ import com.example.ClinicalSystem.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;
+import java.sql.Time;
 public interface AppointmentRequestRepository extends JpaRepository<AppointmentRequest, Long> {
 
     AppointmentRequest save(AppointmentRequest a);
