@@ -34,6 +34,10 @@ public class OperationRoomService {
         return roomsDTO;
     }
 
+    public List<OR> findAllRooms() {
+        return repo.findAll();
+    }
+
     public boolean save(OperationRoomDTO roomDto) {
 
         OR room = modelMapper.map(roomDto, OR.class);
