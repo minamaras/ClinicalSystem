@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;
 import java.sql.Time;
+
 public interface AppointmentRequestRepository extends JpaRepository<AppointmentRequest, Long> {
 
     AppointmentRequest save(AppointmentRequest a);
@@ -15,5 +16,6 @@ public interface AppointmentRequestRepository extends JpaRepository<AppointmentR
     AppointmentRequest findByName(String name);
     AppointmentRequest findByPatient(Patient p);
     AppointmentRequest findByStart(Date start);
+    AppointmentRequest findByStartTime(Time starttime);
     AppointmentRequest findByType(ExamType type);
 }
