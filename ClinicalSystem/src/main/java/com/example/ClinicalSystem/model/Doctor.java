@@ -53,6 +53,9 @@ public class Doctor extends User {
 	@Column(name = "firstlogin", nullable = false)
 	private boolean firstLogin;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Report> reports = new HashSet<Report>();
+
 
 	public Doctor() {
 		super();
@@ -189,5 +192,13 @@ public class Doctor extends User {
 
 	public void setFirstLogin(boolean firstLogin) {
 		this.firstLogin = firstLogin;
+	}
+
+	public Set<Report> getReports() {
+		return reports;
+	}
+
+	public void setReports(Set<Report> reports) {
+		this.reports = reports;
 	}
 }

@@ -10,6 +10,6 @@ import java.util.List;
 public interface DiagnosisRepository extends JpaRepository<Diagnosis, Long> {
 
     Diagnosis save(Diagnosis diagnosis);
-    List<Diagnosis> findAll();
+    List<Diagnosis> findAllByOrderByNameAsc();
     Diagnosis findByName(String name);
 }

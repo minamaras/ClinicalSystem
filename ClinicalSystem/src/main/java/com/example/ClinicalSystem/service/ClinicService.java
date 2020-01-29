@@ -52,7 +52,7 @@ public class ClinicService {
 
 	public List<Clinic> findAllClinics() {
 
-		List<Clinic> clinics = clinicRepo.findAll();
+		List<Clinic> clinics = clinicRepo.findAllByOrderByNameAsc();
 
 		return clinics;
 	}

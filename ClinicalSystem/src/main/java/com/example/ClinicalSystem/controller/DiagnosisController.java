@@ -1,5 +1,7 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.DTO.DiagnosisDTO;
+import com.example.ClinicalSystem.DTO.DiagnosisNamesDTO;
 import com.example.ClinicalSystem.model.Diagnosis;
 import com.example.ClinicalSystem.service.DiagnosisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
@@ -32,12 +35,29 @@ public class DiagnosisController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/alldiagnosis")
-    @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
-    public ResponseEntity<List<Diagnosis>> getAllDiagnosis() {
+    @PreAuthorize("hasAnyAuthority('CLINICALCENTREADMIN','DOCTOR','NURSE')")
+    public ResponseEntity<List<DiagnosisDTO>> getAllDiagnosis() {
 
-        List<Diagnosis> diagnosis = diagnosisService.findAll();
+        List<DiagnosisDTO> diagnosis = diagnosisService.findAllDTOs();
 
         return new ResponseEntity<>(diagnosis, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/alldiagnosisnames")
+    @PreAuthorize("hasAnyAuthority('DOCTOR','NURSE')")
+    public ResponseEntity<List<DiagnosisNamesDTO>> getAllDiagnosisNames() {
+
+        List<Diagnosis> diagnosis = diagnosisService.findAll();
+        List<DiagnosisNamesDTO> diagnosisNamesDTOS = new ArrayList<>();
+
+        for(Diagnosis diag : diagnosis){
+            DiagnosisNamesDTO dNamesDTO = new DiagnosisNamesDTO(diag.getName());
+            diagnosisNamesDTOS.add(dNamesDTO);
+        }
+
+
+        return new ResponseEntity<>(diagnosisNamesDTOS, HttpStatus.OK);
     }
 
 

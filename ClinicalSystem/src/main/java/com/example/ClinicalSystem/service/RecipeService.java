@@ -8,10 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RecipeService {
@@ -25,11 +24,23 @@ public class RecipeService {
     @Autowired
     private  UserService userService;
 
+    @Autowired
+    private ReportService reportService;
+
+    @Autowired
+    private MedicalRecordService medicalRecordService;
+
+    @Autowired
+    private PatientService patientService;
+
+    @Autowired
+    private MedicationService medicationService;
+
     public Recipe addRecipe(Recipe recipe){
         return recipeRepository.save(recipe);
     }
 
-    public List<RecipeDTO> findAll(){
+    public List<RecipeDTO> findAllDto(){
 
         List<Recipe> recipes = recipeRepository.findAll();
         List<RecipeDTO> recipesDTO = new ArrayList<>();
@@ -53,28 +64,43 @@ public class RecipeService {
         return recipesDTO;
     }
 
-    public RecipeDTO authRecipe(RecipeDTO recipeDTO, Principal p){
+
+    public List<RecipeDTO> findPatients(String patientemail){
+        List<Recipe> recipes = recipeRepository.findAll();
+        List<RecipeDTO> recipesDTO = new ArrayList<>();
+
+        //Patient patient = patientService.findPatient(patientemail);
+        //MedicalRecord medicalRecord = medicalRecordService.findById(patient.getMedicalRecord().getId());
+        //List<Report> reports = new ArrayList<>();
+
+
+        for(Recipe r : recipes){
+            if(r.getPatient().getEmail().equals(patientemail)){
+                RecipeDTO recipeDTO = new RecipeDTO(r);
+                recipesDTO.add(recipeDTO);
+            }
+        }
+        return recipesDTO;
+    }
+
+
+    public boolean authRecipe(String id, Principal p){
+
+        long idRec = Long.parseLong(id);
+
+        Recipe recipe = recipeRepository.findById(idRec);
 
         User user = userService.findByUsername(p.getName());
-        //recipeDTO.setNurseemail(user.getEmail());
-        Recipe recipe = modelMapper.map(recipeDTO, Recipe.class);
-        Doctor dr = (Doctor) userService.findByUsername(recipeDTO.getDoctoremail());
-        Patient patient = (Patient) userService.findByUsername(recipeDTO.getPatientemail());
-        recipe.setDoctor(dr);
-        recipe.setPatient(patient);
-
+        
         if(!recipe.isAuth()){
             recipe.setAuth(true);
             recipe.setNurse((Nurse) user);
             save(recipe);
+
+            return true;
         }
 
-        RecipeDTO recipeDTO1 = modelMapper.map(recipe, RecipeDTO.class);
-        recipeDTO1.setNurseemail(user.getEmail());
-        recipeDTO1.setDoctoremail(recipe.getDoctor().getEmail());
-        recipeDTO1.setPatientemail(recipe.getPatient().getEmail());
-        recipeDTO1.setAuth(true);
-        return recipeDTO1;
+        return false;
     }
 
     public Recipe save(Recipe recipe){
@@ -83,5 +109,32 @@ public class RecipeService {
 
     public Optional<Recipe> findbyId(Long id){
         return recipeRepository.findById(id);
+    }
+
+    public Boolean addNew(RecipeDTO recipeDTO, Principal p){
+        Doctor doctor = (Doctor) userService.findByUsername(p.getName());
+        Patient patient = patientService.findPatient(recipeDTO.getPatientemail());
+
+        if(patient == null){
+            return false;
+        }
+
+        Recipe recipe = new Recipe();
+
+        Set<Medication> medications = new HashSet<>();
+
+        for(String med : recipeDTO.getMedicationName()){
+            Medication medication = medicationService.findByName(med);
+            medications.add(medication);
+        }
+
+        recipe.setPatient(patient);
+        recipe.setDoctor(doctor);
+        recipe.setContent(recipeDTO.getContent());
+        recipe.setMedications(medications);
+
+        save(recipe);
+        return true;
+
     }
 }
