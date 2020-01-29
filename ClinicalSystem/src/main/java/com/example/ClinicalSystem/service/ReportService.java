@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ReportService {
@@ -41,6 +42,29 @@ public class ReportService {
 
     public Report save(Report report) { return reportRepository.save(report); }
 
+    public List<ReportDTO> getAllForPatient(String patientemail, Principal p){
+
+        Patient patient = patientService.findPatient(patientemail);
+        User user = userService.findByUsername(p.getName());
+
+        MedicalRecord medicalRecord = medicalRecordService.findById(patient.getMedicalRecord().getId());
+        Set<Report> reports = medicalRecord.getReports();
+        List<ReportDTO> reportsDTO = new ArrayList<>();
+
+        for(Report r: reports){
+
+            ReportDTO rep = new ReportDTO(r);
+            if(r.getDoctor().getEmail().equals(user.getEmail())){
+                rep.setEditable(true);
+            }
+
+            reportsDTO.add(rep);
+
+        }
+
+        return reportsDTO;
+    }
+
     public boolean addNew(ReportDTO reportDTO, Principal p) {
         Doctor doctor = (Doctor) userService.findByUsername(p.getName());
         Patient patient = patientService.findPatient(reportDTO.getPatientemail());
@@ -70,6 +94,20 @@ public class ReportService {
         medicalRecordService.saveRecord(medicalRecord);
 
         return true;
+
+    }
+
+    public ReportDTO edit(ReportDTO reportDTO){
+        Report report = reportRepository.findById(reportDTO.getId());
+
+        report.setText(reportDTO.getText());
+        Diagnosis diagnosis = diagnosisService.findByName(reportDTO.getDiagnosisName());
+
+        report.setDiagnosis(diagnosis);
+        save(report);
+
+        ReportDTO dto = new ReportDTO(report);
+        return dto;
 
     }
 }
