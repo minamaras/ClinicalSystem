@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.joda.time.LocalTime;
 
 import java.sql.Time;
 import java.util.*;
@@ -27,7 +28,7 @@ public class Doctor extends User {
 	private Clinic clinic;
 
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private ExamType examType;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -52,6 +53,7 @@ public class Doctor extends User {
 
 	@Column(name = "firstlogin", nullable = false)
 	private boolean firstLogin;
+
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Report> reports = new HashSet<Report>();

@@ -3,6 +3,7 @@ package com.example.ClinicalSystem.model;
 
 import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.joda.time.LocalTime;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -21,6 +22,17 @@ public class Appointment {
 
 	@Column(name = "startdate" , nullable = false)
 	private Date start;
+
+
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name = "starttime", nullable = false )
+	private Time startTime;
+
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name = "endtime", nullable = false )
+	private Time endTime;
+
+
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ExamType type;
@@ -142,5 +154,20 @@ public class Appointment {
 	public void setReport(Report report) {
 		this.report = report;
 	}
-}
 
+	public Time getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
+	}
+
+	public Time getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
+	}
+}

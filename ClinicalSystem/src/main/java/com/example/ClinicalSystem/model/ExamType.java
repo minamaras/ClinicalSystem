@@ -20,7 +20,7 @@ public class ExamType {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "duration")
+    @Column(name = "duration",nullable = false)
     private int duration;
 
 

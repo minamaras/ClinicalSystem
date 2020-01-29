@@ -1,38 +1,30 @@
 package com.example.ClinicalSystem.DTO;
 
-import com.example.ClinicalSystem.model.Appointment;
+import com.example.ClinicalSystem.model.AppointmentRequest;
 
 import java.sql.Time;
 import java.util.Date;
 
-public class AppointmentDTO {
+public class AppointmentRequestDTO {
 
     private Long id;
     private Date start;
-    private String examTypeName;
-    private String doctorEmail;
-    private int roomNumber;
-    private String name;
     private String date;
+    private String examTypeName;
+    private String name;
     private Time startTime;
     private Time endTime;
-    private ExamTypeDTO type;
+    private Long doctorid;
 
-    public AppointmentDTO(Long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
+    public AppointmentRequestDTO(Long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
         this.id = id;
         this.start = start;
-        this.roomNumber = roomNumber;
-        this.doctorEmail = doctorEmail;
         this.examTypeName = examTypeName;
         this.name = name;
     }
 
-    public AppointmentDTO() {
+    public AppointmentRequestDTO() {
         super();
-    }
-
-    public AppointmentDTO(Appointment a) {
-        this(a.getId(), a.getStart(), a.getType().getName(), a.getDoctor().getEmail(), a.getOr().getNumber(), a.getName());
     }
 
     public Long getId() {
@@ -59,21 +51,6 @@ public class AppointmentDTO {
         this.examTypeName = examTypeName;
     }
 
-    public String getDoctorEmail() {
-        return doctorEmail;
-    }
-
-    public void setDoctorEmail(String doctorEmail) {
-        this.doctorEmail = doctorEmail;
-    }
-
-    public int getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
-    }
 
     public String getName() {
         return name;
@@ -107,12 +84,12 @@ public class AppointmentDTO {
         this.endTime = endTime;
     }
 
-    public ExamTypeDTO getType() {
-        return type;
+    public Long getDoctorid() {
+        return doctorid;
     }
 
-    public void setType(ExamTypeDTO type) {
-        this.type = type;
+    public void setDoctorid(Long doctorid) {
+        this.doctorid = doctorid;
     }
 }
 

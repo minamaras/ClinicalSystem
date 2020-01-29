@@ -3,10 +3,7 @@ package com.example.ClinicalSystem.controller;
 import com.example.ClinicalSystem.DTO.MedicalRecordDTO;
 import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.DTO.ReportDTO;
-import com.example.ClinicalSystem.model.MedicalRecord;
-import com.example.ClinicalSystem.model.Patient;
-import com.example.ClinicalSystem.model.Report;
-import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.model.*
 import com.example.ClinicalSystem.service.MedicalRecordService;
 import com.example.ClinicalSystem.service.PatientService;
 import com.example.ClinicalSystem.service.ReportService;
@@ -15,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -40,6 +39,7 @@ public class ReportController {
     private ModelMapper modelMapper;
 
     @RequestMapping(method = RequestMethod.POST, value = "/info")
+
     @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
     public ResponseEntity<List<ReportDTO>> allReports(@RequestBody String patientemail, Principal p) {
 

@@ -16,6 +16,7 @@ public class ClinicDTO {
 	private String description;
 	private Set<Long> doctorsId = new HashSet<Long>();
 	private int rating;
+	private String examprice="";
 	
 	public ClinicDTO() {
 		super();
@@ -79,5 +80,13 @@ public class ClinicDTO {
 
 	public void setRating(int rating) {
 		this.rating = rating;
+	}
+
+	public String getExamprice() {
+		return examprice;
+	}
+
+	public void setExamprice(String examprice) {
+		this.examprice = examprice;
 	}
 }

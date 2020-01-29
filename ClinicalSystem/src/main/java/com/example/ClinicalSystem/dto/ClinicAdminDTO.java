@@ -5,27 +5,21 @@ import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Role;
 
 public class ClinicAdminDTO {
-	
+
 	private Long id;
 	private String name;
 	private String lastname;
 	private String email;
 	private String password;
-	private Clinic clinic;
+	private ClinicDTO clinic;
 	private Role role = Role.CLINICADMIN;
 	private boolean firstLogin;
 
 	public ClinicAdminDTO() {
 		super();
 	}
+	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, ClinicDTO clinic,Role role, boolean firstLogin) {
 
-	public ClinicAdminDTO(ClinicAdmin clinicAdmin) {
-
-		this(clinicAdmin.getId(), clinicAdmin.getName(), clinicAdmin.getLastname(),clinicAdmin.getEmail(), clinicAdmin.getPassword(), clinicAdmin.getClinic(),
-		clinicAdmin.getRole(), clinicAdmin.isFirstlogin());
-	}
-	
-	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, Clinic clinic,Role role, boolean firstLogin) {
 		super();
 		this.id = id;
 		this.name = firstName;
@@ -78,9 +72,9 @@ public class ClinicAdminDTO {
 		this.password = password;
 	}
 
-	public Clinic getClinic() { return clinic; }
+	public ClinicDTO getClinic() { return clinic; }
 
-	public void setClinic(Clinic clinic) { this.clinic = clinic; }
+	public void setClinic(ClinicDTO clinic) { this.clinic = clinic; }
 
 	public Role getRole() {
 		return role;

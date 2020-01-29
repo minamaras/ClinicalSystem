@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Holiday {
     @Column(name="reason")
     private String reason;
 
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd")
     @Column(name="startdate")
     private Date start;
 

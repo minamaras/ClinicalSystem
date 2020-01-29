@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Set;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.DTO.FilterDTO;
 import com.example.ClinicalSystem.model.ClinicAdmin;
 import com.example.ClinicalSystem.model.Doctor;
 import com.sun.mail.iap.Response;
@@ -60,6 +62,15 @@ public class ClinicController {
 	public ResponseEntity<List<Clinic>> getAllClinics() {
 
 		List<Clinic> clinics = clinicService.findAllClinics();
+
+		return new ResponseEntity<>(clinics, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/filterclinics")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<List<ClinicDTO>> filter(@RequestBody FilterDTO filterDTO) throws ParseException {
+
+		List<ClinicDTO> clinics = clinicService.filterClinics(filterDTO);
 
 		return new ResponseEntity<>(clinics, HttpStatus.OK);
 	}
@@ -138,7 +149,8 @@ public class ClinicController {
 	@PreAuthorize("hasAuthority('PATIENT')")
 	public ResponseEntity<ClinicDTO> AboutClinic(@PathVariable String clinicname) {
 
-		Clinic clinic = clinicService.findName(clinicname);
+		String cleanText = clinicname.replaceAll("\\d+", "").replaceAll("(.)([A-Z])", "$1 $2");
+		Clinic clinic = clinicService.findName(cleanText);
 		if(clinic != null) {
 
 			ClinicDTO clinicDTO = modelMapper.map(clinic, ClinicDTO.class);

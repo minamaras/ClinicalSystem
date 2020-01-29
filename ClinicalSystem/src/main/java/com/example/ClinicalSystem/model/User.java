@@ -27,7 +27,7 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
+
 	@Column(name = "role", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
@@ -173,4 +173,5 @@ public class User implements UserDetails {
 	public void setHolidays(Set<Holiday> holidays) {
 		this.holidays = holidays;
 	}
+
 }

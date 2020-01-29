@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.model.ExamType;
 import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.UUID;
 
 @Service
@@ -82,6 +85,21 @@ public class EmailService {
         javaMailSender.send(mail);
 
     }
+
+
+    @Async
+    public void sendAdminNotificaitionAsync(User user, Patient patient, Date date, Time starttime, Time endtime, ExamType type) throws MailException, InterruptedException {
+
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Appointment request");
+        mail.setText("Hello " + user.getName() + ",\n\nYou have a new  appointment request from patient "+patient.getName()+" "+patient.getLastname() +" for appointment type "+type.getName()+" "+date +" "+" at "+starttime+ "\n\n\n Clinical System");
+        javaMailSender.send(mail);
+
+    }
+
 
 
 }
