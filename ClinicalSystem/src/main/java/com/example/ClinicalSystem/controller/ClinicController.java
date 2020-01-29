@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -67,7 +68,7 @@ public class ClinicController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/filterclinics")
 	@PreAuthorize("hasAuthority('PATIENT')")
-	public ResponseEntity<List<ClinicDTO>> filter(@RequestBody FilterDTO filterDTO) {
+	public ResponseEntity<List<ClinicDTO>> filter(@RequestBody FilterDTO filterDTO) throws ParseException {
 
 		List<ClinicDTO> clinics = clinicService.filterClinics(filterDTO);
 
