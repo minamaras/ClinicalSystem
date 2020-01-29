@@ -6,6 +6,7 @@ import com.example.ClinicalSystem.DTO.ReportDTO;
 import com.example.ClinicalSystem.model.MedicalRecord;
 import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.model.Report;
+import com.example.ClinicalSystem.model.User;
 import com.example.ClinicalSystem.service.MedicalRecordService;
 import com.example.ClinicalSystem.service.PatientService;
 import com.example.ClinicalSystem.service.ReportService;
@@ -40,20 +41,10 @@ public class ReportController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/info")
     @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
-    public ResponseEntity<List<ReportDTO>> allReports(@RequestBody String patientemail) {
+    public ResponseEntity<List<ReportDTO>> allReports(@RequestBody String patientemail, Principal p) {
 
-        Patient patient = patientService.findPatient(patientemail);
+        List<ReportDTO> reportsDTO = reportService.getAllForPatient(patientemail, p);
 
-        MedicalRecord medicalRecord = medicalRecordService.findById(patient.getMedicalRecord().getId());
-        Set<Report> reports = medicalRecord.getReports();
-        List<ReportDTO> reportsDTO = new ArrayList<>();
-
-        for(Report r: reports){
-            ReportDTO rep = new ReportDTO(r);
-            reportsDTO.add(rep);
-        }
-
-        //  return new ResponseEntity<>(modelMapper.map(medicalRecord, MedicalRecordDTO.class), HttpStatus.OK);
         return ResponseEntity.ok(reportsDTO);
     }
 
@@ -63,10 +54,20 @@ public class ReportController {
     public ResponseEntity<?> addReport(@RequestBody ReportDTO reportdto, Principal p) {
 
         boolean isAdded = reportService.addNew(reportdto, p);
-        if(!isAdded){
+        if (!isAdded) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/editreport")
+    @PreAuthorize("hasAnyAuthority('DOCTOR','NURSE')")
+    public ResponseEntity<ReportDTO> editReport(@RequestBody ReportDTO reportdto) {
+
+        ReportDTO dto = reportService.edit(reportdto);
+
+        return ResponseEntity.ok(dto);
+    }
+
 }
