@@ -47,7 +47,7 @@ insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-8,'ocni lekar','9',-7,-10,-5, true);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-11,'Dermatolog','7',-2,-2,-7, true);
 
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-20,'imunolog','10',-5,-9,-20, true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-20,'imunolog','10',-5,-9,-20, false);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-21,'radiolog','10',-7,-10,-21, true);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id, firstlogin) values (-22,'doktor opste prakse','10',-2,-2,-22, true);
 
