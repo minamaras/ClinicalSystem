@@ -17,8 +17,8 @@ public class ClinicAdminDTO {
 
 	public ClinicAdminDTO() {
 		super();
-	}	
-	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, Clinic clinic,Role role, boolean firstLogin) {
+	}
+	public ClinicAdminDTO(Long id, String firstName, String lastName, String email, String password, ClinicDTO clinic,Role role, boolean firstLogin) {
 
 		super();
 		this.id = id;
