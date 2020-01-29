@@ -57,7 +57,7 @@ insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type
 (-11,'Dermatolog','7',-2,-2,-7,'8:00:00','16:00:00',true);
 
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
-(-20,'imunolog','10',-5,-9,-20,'8:00:00','16:00:00',true);
+(-20,'imunolog','10',-5,-9,-20,'8:00:00','16:00:00',false);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
  (-21,'radiolog','10',-7,-10,-21,'12:00:00','20:00:00',true);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
