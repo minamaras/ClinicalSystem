@@ -23,7 +23,6 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into op_room (id,name,number,reserved) values
 (-3,'or1',2,'nesto');
 
-
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika Sunce', 'Bulevar Oslobodjenja 22','9');
 INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika broj 2', 'Dentalend', 'Njegoseva 3','6');
 INSERT INTO clinic (id, description, name, adress,rating) values (-7, 'Klinika broj 3', 'Klinika Nada Diva', 'Safarikova 11','7');
@@ -186,3 +185,9 @@ INSERT INTO user_authority (user_id,authority_id) values (-20,2);
 INSERT INTO user_authority (user_id,authority_id) values (-21,2);
 INSERT INTO user_authority (user_id,authority_id) values (-22,2);
 INSERT INTO user_authority (user_id,authority_id) values (-23,2);
+
+insert into holidays(id,enddate,reason,startdate,typeholiday,user_id,holidaystatus)
+values (-5,'2020-02-05','dsad','2020-02-15',1,-8,'ACCEPTED');
+
+insert into users_holidays(user_id,holidays_id) values(-8,-5);
+
