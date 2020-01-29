@@ -3,7 +3,7 @@ package com.example.ClinicalSystem.controller;
 import com.example.ClinicalSystem.DTO.MedicalRecordDTO;
 import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.DTO.ReportDTO;
-import com.example.ClinicalSystem.model.*
+import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.service.MedicalRecordService;
 import com.example.ClinicalSystem.service.PatientService;
 import com.example.ClinicalSystem.service.ReportService;

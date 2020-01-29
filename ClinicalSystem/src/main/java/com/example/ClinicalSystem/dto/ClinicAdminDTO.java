@@ -12,6 +12,7 @@ public class ClinicAdminDTO {
 	private String email;
 	private String password;
 	private ClinicDTO clinic;
+	private String clinicName;
 	private Role role = Role.CLINICADMIN;
 	private boolean firstLogin;
 
@@ -29,6 +30,17 @@ public class ClinicAdminDTO {
 		this.clinic = clinic;
 		this.role=role;
 		this.firstLogin = firstLogin;
+	}
+
+	public ClinicAdminDTO(ClinicAdmin clinicAdmin){
+		this.id = clinicAdmin.getId();
+		this.name = clinicAdmin.getName();
+		this.lastname = clinicAdmin.getLastname();
+		this.email = clinicAdmin.getEmail();
+		this.password = clinicAdmin.getPassword();
+		this.clinicName = clinicAdmin.getClinic().getName();
+		this.role = clinicAdmin.getRole();
+		this.firstLogin = clinicAdmin.isFirstlogin();
 	}
 
 
