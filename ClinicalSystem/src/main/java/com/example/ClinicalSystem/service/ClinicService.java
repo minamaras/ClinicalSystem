@@ -1,6 +1,11 @@
 package com.example.ClinicalSystem.service;
 
 import java.lang.reflect.Type;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -147,7 +152,7 @@ public class ClinicService {
 		return false;
 	}
 
-	public List<ClinicDTO> filterClinics(FilterDTO filter){
+	public List<ClinicDTO> filterClinics(FilterDTO filter) throws ParseException {
 
 		if(filter.getTime() != null){
 			LocalTime time = new LocalTime(filter.getTime());
@@ -162,11 +167,41 @@ public class ClinicService {
 				List<Clinic> clinics = findAllClinics();
 				List<ClinicDTO> returnc = new ArrayList<>();
 
+
+				String inputString =  filter.getDate();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+				LocalDate inputDate = LocalDate.parse(inputString);
+				java.sql.Date finaldateFilter = java.sql.Date.valueOf(inputDate);
+
 				for(Clinic c :clinics){
 					List<String> lista = new ArrayList<>();
 
 						for(Doctor d : c.getDoctors()) {
+
+							Set<Holiday> doctorholidays = d.getHolidays();
+							ArrayList<String> holidays = new ArrayList<>();
+
 							if (d.getExamType().getName().equals(filter.getExamtype())) {
+
+								for(Holiday h : doctorholidays){
+
+									String starth = h.getStart().toString().substring(0,10);
+									String endh = h.getEnd().toString().substring(0,10);
+
+									DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+									LocalDate inputDates = LocalDate.parse(starth);
+									LocalDate inputDatee = LocalDate.parse(endh);
+
+									java.sql.Date finaldateStart = java.sql.Date.valueOf(inputDates);
+									java.sql.Date finaldateEnd = java.sql.Date.valueOf(inputDatee);
+
+
+
+									if(finaldateStart.equals(finaldateFilter) || finaldateEnd.equals(finaldateFilter) || finaldateStart.compareTo(finaldateFilter) > 0 ||  finaldateEnd.compareTo(finaldateFilter) <0){
+										break;
+									}
+								}
+
 
 								LocalTime Dtimestart = new LocalTime(d.getStart());
 								LocalTime Dtimeend = new LocalTime(d.getEnd());
