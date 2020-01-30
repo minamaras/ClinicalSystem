@@ -32,7 +32,13 @@ public class Appointment {
 	@Column(name = "endtime", nullable = false )
 	private Time endTime;
 
+	@Column(name="status",nullable = false)
+	@Enumerated(EnumType.STRING)
+	private AppointmentStatus status;
 
+	@Column(name="class",nullable = false)
+	@Enumerated(EnumType.STRING)
+	private AppointmentClassification classification;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ExamType type;
@@ -53,22 +59,18 @@ public class Appointment {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Report report;
 
-	@Column(name = "hasHappend", nullable = false)
-	private boolean hasHappend;
-
 	public Appointment() {
 		super();
 	}
 
 	public Appointment(Long id, Date start, ExamType type, Patient patient, Doctor doctor,
-					   boolean hasHappend, OR room, String name) {
+					   OR room, String name) {
 		super();
 		this.id = id;
 		this.start = start;
 		this.type = type;
 		this.patient = patient;
 		this.doctor = doctor;
-		this.hasHappend = hasHappend;
 		this.or = room;
 		this.name = name;
 	}
@@ -106,13 +108,12 @@ public class Appointment {
 	}
 
 
-
-	public boolean isHasHappend() {
-		return hasHappend;
+	public AppointmentStatus getStatus() {
+		return status;
 	}
 
-	public void setHasHappend(boolean hasHappend) {
-		this.hasHappend = hasHappend;
+	public void setStatus(AppointmentStatus status) {
+		this.status = status;
 	}
 
 	public void setCalendar(Calendar calendar) {
@@ -169,5 +170,13 @@ public class Appointment {
 
 	public void setEndTime(Time endTime) {
 		this.endTime = endTime;
+	}
+
+	public AppointmentClassification getClassification() {
+		return classification;
+	}
+
+	public void setClassification(AppointmentClassification classification) {
+		this.classification = classification;
 	}
 }
