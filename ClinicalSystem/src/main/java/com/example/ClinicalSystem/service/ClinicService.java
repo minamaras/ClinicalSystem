@@ -227,7 +227,9 @@ public class ClinicService {
 									}
 
 									for (Appointment a : d.getAppointments()) {
-
+										if(a.getStatus() == AppointmentStatus.HAS_HAPPEND){
+											continue;
+										}
 										String date = a.getStart().toString().substring(0, 10);
 										if (a.getStart().toString().substring(0, 10).equals(filter.getDate())) {
 
