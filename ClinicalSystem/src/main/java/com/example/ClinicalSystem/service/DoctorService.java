@@ -54,7 +54,9 @@ public class DoctorService {
 
 		Set<DoctorDTO> doctorsDTO = new HashSet<>();
 		for (Doctor d : doctors) {
-			doctorsDTO.add(new DoctorDTO(d));
+			DoctorDTO doctorDTO = modelMapper.map(d,DoctorDTO.class);
+			doctorDTO.setExamType(modelMapper.map(d.getExamType(),ExamTypeDTO.class));
+			doctorsDTO.add(doctorDTO);
 		}
 		
 		return doctorsDTO;
