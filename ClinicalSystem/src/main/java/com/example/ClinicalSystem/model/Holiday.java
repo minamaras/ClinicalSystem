@@ -15,6 +15,7 @@ public class Holiday {
     private Long id;
 
     @Column(name="typeholiday")
+    @Enumerated(EnumType.STRING)
     private HolidayType type;
 
     public enum HolidayType {

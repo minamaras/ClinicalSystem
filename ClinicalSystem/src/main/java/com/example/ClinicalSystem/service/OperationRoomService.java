@@ -46,6 +46,9 @@ public class OperationRoomService {
             return false;
         }
 
+        String date =room.getDateReserved().toString().substring(0,10);
+        roomDto.setDateR(date);
+
         roomDto.setAvailable(false);
         roomDto.setReserved("No");
 

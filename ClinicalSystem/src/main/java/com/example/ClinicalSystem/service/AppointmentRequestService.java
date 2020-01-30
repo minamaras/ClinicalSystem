@@ -121,12 +121,18 @@ public class AppointmentRequestService {
         }
     }
 
-    public List<AppointmentRequestDTO> findAll() {
+    public List<AppointmentRequestDTO> findAll() throws ParseException {
         List<AppointmentRequest> requests = appointmentRequestRepository.findAll();
 
         List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
         for (AppointmentRequest c : requests) {
+            String startDate=c.getDate();
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
+            java.util.Date date = sdf1.parse(startDate);
+            java.sql.Date finaldate = new java.sql.Date(date.getTime());
+            c.setStart(finaldate);
             appointmentRequestDTOS.add(modelMapper.map(c,AppointmentRequestDTO.class));
+
         }
 
         return appointmentRequestDTOS;

@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.AppointmentDTO;
 import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
+import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.model.AppointmentRequest;
 import com.example.ClinicalSystem.service.AppointmentRequestService;
 import com.example.ClinicalSystem.service.AppointmentService;
@@ -37,17 +38,18 @@ public class AppointmentRequestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")
     @PreAuthorize("hasAnyAuthority('CLINICADMIN')")
-    public ResponseEntity<?> getAll() {
+    public ResponseEntity<?> getAll() throws ParseException {
         return new ResponseEntity<>(appointmentRequestService.findAll(), HttpStatus.OK);
     }
 
     //vraca sobe koje mogu da se rezervisu za exam
-    @RequestMapping(method = RequestMethod.GET, value = "/check")
-    @PreAuthorize("hasAnyAuthority('CLINICADMIN')")
-    public ResponseEntity<?> checkRooms(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+    @RequestMapping(method = RequestMethod.POST, value = "/check")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<List<OperationRoomDTO>> checkRooms(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
 
         if( appointmentRequestService.checkAvailableRooms(appointmentRequestDTO) != null) {
-            return new ResponseEntity<>(appointmentRequestDTO, HttpStatus.OK);
+            List<OperationRoomDTO> rooms = appointmentRequestService.checkAvailableRooms(appointmentRequestDTO);
+            return new ResponseEntity<List<OperationRoomDTO>>(rooms, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

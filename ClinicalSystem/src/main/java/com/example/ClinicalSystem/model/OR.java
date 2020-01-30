@@ -38,12 +38,12 @@ public class OR {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "reservedFrom")
+	@Column(name = "reservedfrom")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	private Time reservedFrom;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	@Column(name = "reservedTill")
+	@Column(name = "reservedtill")
 	private Time reservedTill;
 
 	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -52,11 +52,16 @@ public class OR {
 	@Column(name="date_reserved")
 	private Date dateReserved;
 
+	@Column(name="dater")
+	private String dateR;
+
+
 	public OR() {
 		super();
+		isAvailable = false;
 	}
 
-	public OR(Long id, int number, boolean isAvailable, String name, String reserved, Date dateReserved, Time reservedFrom,Time reservedTill) {
+	public OR(Long id, int number, boolean isAvailable, String name, String reserved, Date dateReserved, Time reservedFrom,Time reservedTill, String dateR) {
 		super();
 		this.id = id;
 		this.number = number;
@@ -66,6 +71,7 @@ public class OR {
 		this.reserved = reserved;
 		this.reservedFrom = reservedFrom;
 		this.reservedTill = reservedTill;
+		this.dateR = dateR;
 	}
 
 
@@ -143,5 +149,13 @@ public class OR {
 
 	public void setReservedTill(Time reservedTill) {
 		this.reservedTill = reservedTill;
+	}
+
+	public String getDateR() {
+		return dateR;
+	}
+
+	public void setDateR(String dateR) {
+		this.dateR = dateR;
 	}
 }

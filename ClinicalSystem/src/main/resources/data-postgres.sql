@@ -20,8 +20,10 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-23,'Pera', 'Markovic', 'doktorMarkovic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
 
-insert into op_room (id,name,number,reserved) values
-(-3,'or1',2,'nesto');
+insert into op_room (id,name,number,reserved, isavailable) values
+(-3,'or1',2,'nesto', false);
+
+insert into op_room (id, name, number, reserved, isavailable, reservedfrom, reservedtill, date_reserved) values (-7, 'soba', 102, 'No', false, '10:00:00', '10:30:00', '2020-02-02');
 
 
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika Sunce', 'Bulevar Oslobodjenja 22','9');
@@ -114,9 +116,13 @@ insert into clinic_doctors (clinic_id,doctors_id) values (-7,-21);
 insert into clinic_doctors (clinic_id,doctors_id) values (-2,-22);
 insert into clinic_doctors (clinic_id,doctors_id) values (-3,-23);
 
+insert into holidays (id,email, enddate, startdate, holidaystatus, reason,typeholiday, user_id) values (-5, 'jelena.bojanic97@gmail.com', '2020-03-05','2020-03-01','INPROGRESS', 'Ide mi se na more','Holiday',-5);
+
 insert into calendar(id,doctor_id) values (-1,-4);
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
 (-5,'10:15:00',false,'pregled1','2020-12-20','10:00:00',-1,-4,-3,-5,-4);
+
+insert into appointment_request(id, examdate, startdate,starttime,endtime,doctor_id,patient_id,type_id) values (-1,'2020-01-02', '2020-01-02','12:30:00', '13:00:00',-7,-5,-4);
 
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
 (-3,'13:00:00',false,'pregled2','2020-01-20' ,'12:30:00',-1,-7,-3,-5,-4);

@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.OR;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class OperationRoomDTO {
@@ -12,14 +13,20 @@ public class OperationRoomDTO {
     private boolean isAvailable;
     private String reserved;
     private Date dateReserved;
+    private Time reservedFrom;
+    private Time reservedTill;
+    String dateR;
 
-    public OperationRoomDTO(Long id, int number, String name, boolean isAvailable, String reserved, Date dateReserved) {
+    public OperationRoomDTO(Long id, int number, String name, boolean isAvailable, String reserved, Date dateReserved, Time reservedFrom, Time reservedTill, String dateR) {
         this.id = id;
         this.number = number;
         this.name = name;
         this.isAvailable = isAvailable;
         this.reserved = reserved;
         this.dateReserved = dateReserved;
+        this.reservedFrom = reservedFrom;
+        this.reservedTill = reservedTill;
+        this.dateR = dateR;
     }
 
     public OperationRoomDTO() {
@@ -29,7 +36,7 @@ public class OperationRoomDTO {
     }
 
     public OperationRoomDTO(OR room) {
-        this(room.getId(), room.getNumber(), room.getName(), room.isAvailable(), room.getReserved(), room.getDateReserved());
+        this(room.getId(), room.getNumber(), room.getName(), room.isAvailable(), room.getReserved(), room.getDateReserved(), room.getReservedFrom(), room.getReservedTill(), room.getDateR());
     }
 
     public Long getId() {
@@ -78,5 +85,29 @@ public class OperationRoomDTO {
 
     public void setDateReserved(Date dateReserved) {
         this.dateReserved = dateReserved;
+    }
+
+    public Time getReservedFrom() {
+        return reservedFrom;
+    }
+
+    public void setReservedFrom(Time reservedFrom) {
+        this.reservedFrom = reservedFrom;
+    }
+
+    public Time getReservedTill() {
+        return reservedTill;
+    }
+
+    public void setReservedTill(Time reservedTill) {
+        this.reservedTill = reservedTill;
+    }
+
+    public String getDateR() {
+        return dateR;
+    }
+
+    public void setDateR(String dateR) {
+        this.dateR = dateR;
     }
 }
