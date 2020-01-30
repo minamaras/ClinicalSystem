@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
@@ -31,7 +32,7 @@ public class AppointmentController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/savepredefined")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity<AppointmentDTO> savePredefiend(@RequestBody AppointmentDTO appointmentDTO) {
+    public ResponseEntity<AppointmentDTO> savePredefiend(@RequestBody AppointmentDTO appointmentDTO) throws ParseException {
 
         if(appointmentService.savePredefined(appointmentDTO))
             return new ResponseEntity<>(appointmentDTO, HttpStatus.OK);
