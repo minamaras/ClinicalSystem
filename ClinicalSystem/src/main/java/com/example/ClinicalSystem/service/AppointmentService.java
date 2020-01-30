@@ -9,6 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +47,7 @@ public class AppointmentService {
         return appointmentDTOS;
     }
 
-    public boolean savePredefined(AppointmentDTO appointmentDTO) {
+    public boolean savePredefined(AppointmentDTO appointmentDTO) throws ParseException {
 
         if(appointmentRepository.findByName(appointmentDTO.getName()) != null)
             return false;
@@ -57,6 +61,15 @@ public class AppointmentService {
         appointment.setDoctor(doctor);
         appointment.setOr(operationRoom);
         appointment.setType(examType);
+
+        String startDate=appointmentDTO.getDate();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
+        java.util.Date date = sdf1.parse(appointmentDTO.getDate());
+        java.sql.Date finaldate = new java.sql.Date(date.getTime());
+        appointment.setStart(finaldate);
+
+        appointment.setClassification(AppointmentClassification.PREDEFINED);
+        appointment.setStatus(AppointmentStatus.AVALIABLE);
 
         appointmentRepository.save(appointment);
 
