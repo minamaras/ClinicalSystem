@@ -126,13 +126,18 @@ public class AppointmentRequestService {
 
         List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
         for (AppointmentRequest c : requests) {
+            AppointmentRequestDTO appointmentRequestDTO =modelMapper.map(c,AppointmentRequestDTO.class);
+
             String startDate=c.getDate();
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
             java.util.Date date = sdf1.parse(startDate);
             java.sql.Date finaldate = new java.sql.Date(date.getTime());
-            c.setStart(finaldate);
-            appointmentRequestDTOS.add(modelMapper.map(c,AppointmentRequestDTO.class));
 
+            appointmentRequestDTO.setStart(finaldate);
+            appointmentRequestDTO.setStartTime(c.getStartTime());
+            appointmentRequestDTO.setEndTime(c.getEndTime());
+
+            appointmentRequestDTOS.add(appointmentRequestDTO);
         }
 
         return appointmentRequestDTOS;
