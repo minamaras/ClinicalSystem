@@ -45,7 +45,7 @@ public class AppointmentRequestController {
     //vraca sobe koje mogu da se rezervisu za exam
     @RequestMapping(method = RequestMethod.POST, value = "/check")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity<List<OperationRoomDTO>> checkRooms(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+    public ResponseEntity<List<OperationRoomDTO>> checkRooms(@RequestBody AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
 
         if( appointmentRequestService.checkAvailableRooms(appointmentRequestDTO) != null) {
             List<OperationRoomDTO> rooms = appointmentRequestService.checkAvailableRooms(appointmentRequestDTO);
