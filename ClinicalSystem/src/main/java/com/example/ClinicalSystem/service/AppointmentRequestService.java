@@ -79,6 +79,7 @@ public class AppointmentRequestService {
         appointmentRequest.setStart(finaldate);
         appointmentRequestDTO.setDate(startDate.toString().substring(0,10));
 
+
         String decoded = URLDecoder.decode(appointmentRequestDTO.getExamTypeName(), "UTF-8");
         ExamType examType =examTypeService.findOne(decoded);
         if(examType != null){
@@ -128,12 +129,12 @@ public class AppointmentRequestService {
         for (AppointmentRequest c : requests) {
             AppointmentRequestDTO appointmentRequestDTO =modelMapper.map(c,AppointmentRequestDTO.class);
 
-            String startDate=c.getDate();
+            /*String startDate=c.getDate();
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
             java.util.Date date = sdf1.parse(startDate);
-            java.sql.Date finaldate = new java.sql.Date(date.getTime());
+            java.sql.Date finaldate = new java.sql.Date(date.getTime());*/
 
-            appointmentRequestDTO.setStart(finaldate);
+            appointmentRequestDTO.setStart(c.getStart());
             appointmentRequestDTO.setStartTime(c.getStartTime());
             appointmentRequestDTO.setEndTime(c.getEndTime());
 
@@ -143,15 +144,24 @@ public class AppointmentRequestService {
         return appointmentRequestDTOS;
     }
 
-    public List<OperationRoomDTO> checkAvailableRooms(AppointmentRequestDTO appointmentRequestDTO) {
+    public List<OperationRoomDTO> checkAvailableRooms(AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
 
         AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
 
+        /*String startDate=appointmentRequestDTO.getDate();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
+        java.util.Date date = sdf1.parse(startDate);
+        java.sql.Date finaldate = new java.sql.Date(date.getTime());*/
+
+        //appointmentRequest.setStart(finaldate);
+
+
         List<Appointment> appointments = appointmentRepository.findAll();
+
 
         for(Appointment a : appointments) {
             //ako je u pitanju pregled koji je istog dana kao i onaj u zahtevu
-            if(a.getStart().compareTo(appointmentRequest.getStart()) == 0) {
+            if(a.getStart().toString().substring(0,10).compareTo(appointmentRequestDTO.getDate()) == 0) {
                 //ako je u pitanju isto vreme
                 if(a.getStartTime() == appointmentRequest.getStartTime() && a.getEndTime() == appointmentRequest.getEndTime()){
                     //mora da se definise druga soba i nikako ista zato moramo iz liste soba da izbacimo tu sobu
