@@ -191,3 +191,15 @@ values (-5,'2020-02-05','dsad','2020-02-15',1,-8,'ACCEPTED');
 
 insert into users_holidays(user_id,holidays_id) values(-8,-5);
 
+insert into appointment(id,name,startdate,startTime,endTime,status,class,
+type_id,doctor_id,or_id)
+values(-4,'pregledneki','2020-05-01','10:00:00','10:40:00','AVALIABLE','PREDEFINED',
+-20,-20,-3);
+
+insert into appointment(id,name,startdate,startTime,endTime,status,class,
+type_id,doctor_id,or_id)
+values(-2,'pregledneki2','2020-06-01','12:00:00','12:15:00','AVALIABLE','PREDEFINED',
+-4,-4,-3);
+
+insert into doctor_appointments(doctor_id,appointments_id) values (-20,-4);
+insert into doctor_appointments(doctor_id,appointments_id) values (-4,-2);
