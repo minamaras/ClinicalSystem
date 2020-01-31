@@ -122,7 +122,8 @@ insert into calendar(id,doctor_id) values (-1,-4);
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
 (-5,'10:15:00',false,'pregled1','2020-12-20','10:00:00',-1,-4,-3,-5,-4);
 
-insert into appointment_request(id, examdate, startdate,starttime,endtime,doctor_id,patient_id,type_id) values (-1,'2020-01-02', '2020-01-02','12:30:00', '13:00:00',-7,-5,-4);
+insert into appointment_request(id, examdate, startdate,starttime,endtime,doctor_id,patient_id,type_id) values
+(-1,'2020-02-12', '2020-01-02','12:30:00', '12:45:00',-7,-5,-4);
 
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
 (-3,'13:00:00',false,'pregled2','2020-01-20' ,'12:30:00',-1,-7,-3,-5,-4);
