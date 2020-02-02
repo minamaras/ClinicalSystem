@@ -179,8 +179,29 @@ public class DoctorService {
 
 	public DoctorDTO findOneByPrincipal(Principal p){
 		Doctor doctor = (Doctor) userService.findByUsername(p.getName());
+
+		List<AppointmentDTO> lista = new ArrayList<>();
+		Set<HolidayDTO> holidayDTOS = new HashSet<>();
+
+		for(Appointment a : doctor.getAppointments()){
+			AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
+			appointmentDTO.setDate(a.getStart().toString().substring(0,10));
+			appointmentDTO.setStartTime(a.getStartTime());
+			appointmentDTO.setEndTime(a.getEndTime());
+			lista.add(appointmentDTO);
+		}
+
+		for ( Holiday h : doctor.getHolidays()){
+
+			HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
+			holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
+			holidayDTOS.add(holidayDTO);
+		}
+		lista.sort(Comparator.comparing(AppointmentDTO::getStart));
+
 		DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
-		
+		doctorDTO.setAppointments(lista);
+		doctorDTO.setHolidays(holidayDTOS);
 
 		return doctorDTO;
 	}
