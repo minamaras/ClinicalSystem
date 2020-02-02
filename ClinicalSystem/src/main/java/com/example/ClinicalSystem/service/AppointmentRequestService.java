@@ -86,6 +86,7 @@ public class AppointmentRequestService {
 
         if(doctor != null){
             appointmentRequest.setDoctor(doctor);
+            appointmentRequestDTO.setDoctorEmail(doctor.getEmail());
         }
 
         Clinic clinic = doctor.getClinic();
@@ -123,6 +124,23 @@ public class AppointmentRequestService {
 
 
         }
+    }
+
+    public List<AppointmentRequestDTO> findAll() throws ParseException {
+        List<AppointmentRequest> requests = appointmentRequestRepository.findAll();
+
+        List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
+        for (AppointmentRequest c : requests) {
+            AppointmentRequestDTO appointmentRequestDTO =modelMapper.map(c,AppointmentRequestDTO.class);
+
+            appointmentRequestDTO.setStart(c.getStart());
+            appointmentRequestDTO.setStartTime(c.getStartTime());
+            appointmentRequestDTO.setEndTime(c.getEndTime());
+
+            appointmentRequestDTOS.add(appointmentRequestDTO);
+        }
+
+        return appointmentRequestDTOS;
     }
 }
 
