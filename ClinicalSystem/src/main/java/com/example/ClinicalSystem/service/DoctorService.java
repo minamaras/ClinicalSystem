@@ -159,4 +159,12 @@ public class DoctorService {
 
 		return  doctorsret;
 	}
+
+	public DoctorDTO findOneByPrincipal(Principal p){
+		Doctor doctor = (Doctor) userService.findByUsername(p.getName());
+		DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+		
+
+		return doctorDTO;
+	}
 }

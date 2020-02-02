@@ -134,5 +134,13 @@ public class DoctorController {
 
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/getdates")
+	@PreAuthorize("hasAuthority('DOCTOR')")
+	public ResponseEntity<DoctorDTO> getDoctorsShift(Principal p) {
+
+		DoctorDTO doctorDTO = doctorService.findOneByPrincipal(p);
+
+		return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
+	}
 
 }
