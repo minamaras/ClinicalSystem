@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -39,4 +40,35 @@ public class AppointmentController {
 
         return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/save")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDTO appointmentDTO) throws ParseException {
+
+        if(appointmentService.saveAppointment(appointmentDTO)){
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
+    @PreAuthorize("hasAnyAuthority('PATIENT')")
+    public ResponseEntity<Set<AppointmentDTO>> getAllPatientsExams() {
+
+        Set<AppointmentDTO> exams = appointmentService.getAllExams();
+
+        return new ResponseEntity<>(exams, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/allold")
+    @PreAuthorize("hasAnyAuthority('PATIENT')")
+    public ResponseEntity<Set<AppointmentDTO>> getAllPatientsExamsOld() {
+
+        Set<AppointmentDTO> exams = appointmentService.getAllExamsOld();
+
+        return new ResponseEntity<>(exams, HttpStatus.OK);
+    }
+
 }
