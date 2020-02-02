@@ -15,12 +15,14 @@ public class AppointmentRequestDTO {
     private Time startTime;
     private Time endTime;
     private Long doctorid;
+    private String doctorEmail;
 
     public AppointmentRequestDTO(Long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
         this.id = id;
         this.start = start;
         this.examTypeName = examTypeName;
         this.name = name;
+        this.doctorEmail = doctorEmail;
     }
 
     public AppointmentRequestDTO() {
@@ -90,6 +92,14 @@ public class AppointmentRequestDTO {
 
     public void setDoctorid(Long doctorid) {
         this.doctorid = doctorid;
+    }
+
+    public String getDoctorEmail() {
+        return doctorEmail;
+    }
+
+    public void setDoctorEmail(String doctorEmail) {
+        this.doctorEmail = doctorEmail;
     }
 }
 
