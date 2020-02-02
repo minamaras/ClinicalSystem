@@ -18,8 +18,8 @@ import javax.print.Doc;
 public class Patient extends User {
 
 
-	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Appointment> appointment = new HashSet<Appointment>();
+	@OneToMany(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Appointment> appointments = new HashSet<Appointment>();
 
 	@OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private MedicalRecord medicalRecord;
@@ -56,9 +56,9 @@ public class Patient extends User {
 
 
 
-	public Patient(Set<Appointment> appointment, MedicalRecord medicalRecord, Set<Doctor> doctors) {
+	public Patient(Set<Appointment> appointments, MedicalRecord medicalRecord, Set<Doctor> doctors) {
 		super();
-		this.appointment = appointment;
+		this.appointments = appointments;
 		this.medicalRecord = medicalRecord;
 		this.doctors = doctors;
 		this.setRole(Role.PATIENT);
@@ -111,12 +111,12 @@ public class Patient extends User {
 		this.socialSecurityNumber = socialSecurityNumber;
 	}
 
-	public Set<Appointment> getAppointment() {
-		return appointment;
+	public Set<Appointment> getAppointments() {
+		return appointments;
 	}
 
-	public void setAppointment(Set<Appointment> appointment) {
-		this.appointment = appointment;
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 
 	public MedicalRecord getMedicalRecord() {
