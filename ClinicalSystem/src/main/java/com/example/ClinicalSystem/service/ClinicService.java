@@ -184,21 +184,24 @@ public class ClinicService {
 							if (d.getExamType().getName().equals(filter.getExamtype())) {
 
 								for(Holiday h : doctorholidays){
+									if(h.getHolidayRequestStatus() ==  HolidayRequestStatus.ACCEPTED) {
 
-									String starth = h.getStart().toString().substring(0,10);
-									String endh = h.getEnd().toString().substring(0,10);
+										String starth = h.getStart().toString().substring(0,10);
+										String endh = h.getEnd().toString().substring(0,10);
 
-									DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-									LocalDate inputDates = LocalDate.parse(starth);
-									LocalDate inputDatee = LocalDate.parse(endh);
+										DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+										LocalDate inputDates = LocalDate.parse(starth);
+										LocalDate inputDatee = LocalDate.parse(endh);
 
-									java.sql.Date finaldateStart = java.sql.Date.valueOf(inputDates);
-									java.sql.Date finaldateEnd = java.sql.Date.valueOf(inputDatee);
+										java.sql.Date finaldateStart = java.sql.Date.valueOf(inputDates);
+										java.sql.Date finaldateEnd = java.sql.Date.valueOf(inputDatee);
 
 
 
 									if(finaldateStart.equals(finaldateFilter) || finaldateEnd.equals(finaldateFilter) || finaldateStart.compareTo(finaldateFilter) > 0 ||  finaldateEnd.compareTo(finaldateFilter) <0){
 										break;
+									}
+
 									}
 								}
 
@@ -250,7 +253,7 @@ public class ClinicService {
 
 												for(Appointment otherappointments : d.getAppointments()){
 
-													if(otherappointments != a){
+													if(otherappointments != a && otherappointments.getStart().toString().substring(0, 10).equals(filter.getDate())){
 
 														LocalTime otherStart = new LocalTime(otherappointments.getStartTime());
 														LocalTime otherEnd = new LocalTime(otherappointments.getEndTime());
