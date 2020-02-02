@@ -20,8 +20,8 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-23,'Pera', 'Markovic', 'doktorMarkovic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
 
-insert into op_room (id,name,number,reserved) values
-(-3,'or1',2,'nesto');
+insert into op_room (id,name,number) values
+(-3,'or1',2);
 
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika Sunce', 'Bulevar Oslobodjenja 22','9');
 INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika broj 2', 'Dentalend', 'Njegoseva 3','6');
@@ -35,7 +35,7 @@ insert into clinic_admin (id,clinic_id, firstlogin) values (-9,-5, true);
 insert into clinic_admin (id,clinic_id, firstlogin) values (-10,-7, true);
 insert into clinic_admin (id,clinic_id, firstlogin) values (-2,-2, true);
 
-insert into clinic_admin (id,clinic_id, firstlogin) values (-3,-3, true);
+insert into clinic_admin (id,clinic_id, firstlogin) values (-3,-3, false);
 insert into exam_type (id,name,price, duration) values (-4,'Stomatoloski pregled',1500, 15);
 
 insert into exam_type (id,name,price, duration) values (-6,'Ginekoloski pregled',1500, 20);
@@ -152,6 +152,9 @@ insert into clinic_doctors (clinic_id,doctors_id) values (-2,-22);
 insert into clinic_doctors (clinic_id,doctors_id) values (-3,-23);
 
 insert into calendar(id,doctor_id) values (-1,-4);
+
+insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id) values (-1, '2020-02-02', '12:30:00', '12:45:00',-4,-5,-4);
+
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
 (-5,'10:15:00',false,'pregled1','2020-12-20','10:00:00',-1,-4,-3,-5,-4);
 
