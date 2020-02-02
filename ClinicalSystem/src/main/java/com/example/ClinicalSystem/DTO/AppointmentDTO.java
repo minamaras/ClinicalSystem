@@ -1,7 +1,12 @@
 package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Appointment;
+import com.example.ClinicalSystem.model.AppointmentClassification;
+import com.example.ClinicalSystem.model.AppointmentStatus;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.sql.Time;
 import java.util.Date;
 
@@ -17,6 +22,8 @@ public class AppointmentDTO {
     private Time startTime;
     private Time endTime;
     private ExamTypeDTO type;
+    private AppointmentStatus status;
+    private AppointmentClassification classification;
 
     public AppointmentDTO(Long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
         this.id = id;
@@ -113,6 +120,22 @@ public class AppointmentDTO {
 
     public void setType(ExamTypeDTO type) {
         this.type = type;
+    }
+
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
+
+    public AppointmentClassification getClassification() {
+        return classification;
+    }
+
+    public void setClassification(AppointmentClassification classification) {
+        this.classification = classification;
     }
 }
 

@@ -3,9 +3,7 @@ package com.example.ClinicalSystem.DTO;
 import com.example.ClinicalSystem.model.*;
 
 import java.sql.Time;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class DoctorDTO {
 
@@ -22,8 +20,10 @@ public class DoctorDTO {
     private ExamTypeDTO examType;
     private Time start;
     private Time end;
-    private Set<AppointmentDTO> appointments = new HashSet<>();
+    private List<AppointmentDTO> appointments = new ArrayList<>();
     private boolean firstLogin;
+    private Set<HolidayDTO> holidays = new HashSet<>();
+
 
 
     public DoctorDTO() {
@@ -158,11 +158,12 @@ public class DoctorDTO {
 
     }
 
-    public Set<AppointmentDTO> getAppointments() {
+    public List<AppointmentDTO> getAppointments() {
+
         return appointments;
     }
 
-    public void setAppointments(Set<AppointmentDTO> appointments) {
+    public void setAppointments(List<AppointmentDTO> appointments) {
         this.appointments = appointments;
     }
 
@@ -174,4 +175,11 @@ public class DoctorDTO {
         this.firstLogin = firstLogin;
     }
 
+    public Set<HolidayDTO> getHolidays() {
+        return holidays;
+    }
+
+    public void setHolidays(Set<HolidayDTO> holidays) {
+        this.holidays = holidays;
+    }
 }

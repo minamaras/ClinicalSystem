@@ -54,7 +54,9 @@ public class DoctorService {
 
 		Set<DoctorDTO> doctorsDTO = new HashSet<>();
 		for (Doctor d : doctors) {
-			doctorsDTO.add(new DoctorDTO(d));
+			DoctorDTO doctorDTO = modelMapper.map(d,DoctorDTO.class);
+			doctorDTO.setExamType(modelMapper.map(d.getExamType(),ExamTypeDTO.class));
+			doctorsDTO.add(doctorDTO);
 		}
 		
 		return doctorsDTO;
@@ -142,17 +144,32 @@ public class DoctorService {
 			ExamTypeDTO examTypeDTO = modelMapper.map(doctor.getExamType(),ExamTypeDTO.class);
 			doctorDTO.setClinicid(clinic.getId());
 			doctorDTO.setExamType(examTypeDTO);
-			Set<AppointmentDTO> appointmentDTOS = new HashSet<>();
+
+
+			List<AppointmentDTO> lista = new ArrayList<>();
+			Set<HolidayDTO> holidayDTOS = new HashSet<>();
+
 
 			for(Appointment a : doctor.getAppointments()){
 				AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
 				appointmentDTO.setDate(a.getStart().toString().substring(0,10));
 				appointmentDTO.setStartTime(a.getStartTime());
 				appointmentDTO.setEndTime(a.getEndTime());
-				appointmentDTOS.add(appointmentDTO);
+				lista.add(appointmentDTO);
 
 			}
-			doctorDTO.setAppointments(appointmentDTOS);
+
+			for ( Holiday h : doctor.getHolidays()){
+
+				HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
+				holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
+				holidayDTOS.add(holidayDTO);
+			}
+
+			lista.sort(Comparator.comparing(AppointmentDTO::getStart));
+
+			doctorDTO.setAppointments(lista);
+			doctorDTO.setHolidays(holidayDTOS);
 			doctorsret.add(doctorDTO);
 
 		}
