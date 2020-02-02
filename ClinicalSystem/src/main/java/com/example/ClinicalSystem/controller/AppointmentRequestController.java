@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.AppointmentDTO;
 import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
+import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.model.AppointmentRequest;
 import com.example.ClinicalSystem.service.AppointmentRequestService;
 import com.example.ClinicalSystem.service.AppointmentService;
@@ -34,6 +35,16 @@ public class AppointmentRequestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<List<AppointmentRequestDTO>> getAll() throws ParseException {
+
+       List<AppointmentRequestDTO> appointmentRequestDTOS = appointmentRequestService.findAll();
+
+        return new ResponseEntity<>(appointmentRequestDTOS, HttpStatus.OK);
+    }
+
 
 
 }
