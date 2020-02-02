@@ -28,7 +28,7 @@ public class OperationRoomService {
 
         List<OperationRoomDTO> roomsDTO = new ArrayList<>();
         for (OR r : rooms) {
-            roomsDTO.add(new OperationRoomDTO(r));
+            roomsDTO.add(modelMapper.map(r, OperationRoomDTO.class));
         }
 
         return roomsDTO;
@@ -41,10 +41,7 @@ public class OperationRoomService {
 
             return false;
         }
-
-        roomDto.setAvailable(false);
-        roomDto.setReserved("No");
-
+        roomDto.setExamTypeName(room.getExamType().getName());
         repo.save(room);
         return true;
     }
@@ -54,16 +51,12 @@ public class OperationRoomService {
 
         if(repo.findByNumber(roomDTO.getNumber()) != null) {
 
-            if(roomDTO.isAvailable()) {
-
-                return false;
-            }
-
             OR room = modelMapper.map(roomDTO, OR.class);
 
-            repo.deleteByNumber(room.getNumber());
-
-            return true;
+            if(room.getAppointments().isEmpty()) {
+                repo.deleteByNumber(room.getNumber());
+                return true;
+            }
         }
 
         return false;
