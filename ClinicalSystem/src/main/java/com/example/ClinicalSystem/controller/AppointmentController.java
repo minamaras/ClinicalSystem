@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
@@ -69,6 +70,15 @@ public class AppointmentController {
         Set<AppointmentDTO> exams = appointmentService.getAllExamsOld();
 
         return new ResponseEntity<>(exams, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/startappoint/{id}")
+    @PreAuthorize("hasAnyAuthority('DOCTOR')")
+    public ResponseEntity<AppointmentDTO> getOneExam(@PathVariable long id) {
+
+        AppointmentDTO appDTO = appointmentService.getOneAppoint(id);
+
+        return new ResponseEntity<>(appDTO, HttpStatus.OK);
     }
 
 }
