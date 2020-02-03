@@ -1,26 +1,30 @@
 package com.example.ClinicalSystem.DTO;
 
+import com.example.ClinicalSystem.model.ExamType;
 import com.example.ClinicalSystem.model.OR;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class OperationRoomDTO {
 
     private Long id;
     private int number;
     private String name;
-    private String examTypeName;
     private Date dateReserved;
     private Time start;
     private Time end;
     private ExamTypeDTO examType;
+    private Set<AppointmentDTO> appointments = new HashSet<>();
+    private Long clinicid;
+    private String clinicname;
 
-    public OperationRoomDTO(Long id, int number, String name, String examTypeName, Time start, Time end, ExamTypeDTO examType) {
+    public OperationRoomDTO(Long id, int number, String name, Time start, Time end, ExamTypeDTO examType) {
         this.id = id;
         this.number = number;
         this.name = name;
-        this.examTypeName = examTypeName;
         this.dateReserved = dateReserved;
         this.start = start;
         this.end = end;
@@ -55,14 +59,6 @@ public class OperationRoomDTO {
         this.name = name;
     }
 
-    public String getExamTypeName() {
-        return examTypeName;
-    }
-
-    public void setExamTypeName(String examTypeName) {
-        this.examTypeName = examTypeName;
-    }
-
     public Date getDateReserved() {
         return dateReserved;
     }
@@ -94,4 +90,29 @@ public class OperationRoomDTO {
     public void setExamType(ExamTypeDTO examType) {
         this.examType = examType;
     }
+
+    public Set<AppointmentDTO> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<AppointmentDTO> appointments) {
+        this.appointments = appointments;
+    }
+
+    public Long getClinicid() {
+        return clinicid;
+    }
+
+    public void setClinicid(Long clinicid) {
+        this.clinicid = clinicid;
+    }
+
+    public String getClinicname() {
+        return clinicname;
+    }
+
+    public void setClinicname(String clinicname) {
+        this.clinicname = clinicname;
+    }
+
 }

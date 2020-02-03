@@ -45,6 +45,13 @@ public class AppointmentRequestController {
         return new ResponseEntity<>(appointmentRequestDTOS, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getone/{id}")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity <AppointmentRequestDTO> getOnebyId(@PathVariable String id) throws ParseException {
 
+        AppointmentRequestDTO appointmentRequestDTO = appointmentRequestService.findById(Long.parseLong(id));
+
+        return new ResponseEntity<>(appointmentRequestDTO, HttpStatus.OK);
+    }
 
 }

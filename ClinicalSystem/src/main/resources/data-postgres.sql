@@ -19,10 +19,6 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-23,'Pera', 'Markovic', 'doktorMarkovic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
-
-insert into op_room (id,name,number) values
-(-3,'or1',2);
-
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika Sunce', 'Bulevar Oslobodjenja 22','9');
 INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika broj 2', 'Dentalend', 'Njegoseva 3','6');
 INSERT INTO clinic (id, description, name, adress,rating) values (-7, 'Klinika broj 3', 'Klinika Nada Diva', 'Safarikova 11','7');
@@ -45,6 +41,12 @@ insert into exam_type (id,name,price, duration) values (-7,'Dermatoloski pregled
 insert into exam_type (id,name,price, duration) values (-20,'Imunoloski pregled',3000, 40);
 insert into exam_type (id,name,price, duration) values (-21,'MRI pregled',40000, 60);
 insert into exam_type (id,name,price, duration) values (-22,'Opsti pregled',5000, 30);
+
+insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-3,'or1',2,'07:00:00','23:00:00', -4,-3);
+insert into clinic_roomlist(room_id,clinic_id) values(-3,-3);
+
+
+insert into exam_type_rooms(exam_type_id, rooms_id) values (-4,-3);
 
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
   (-4,'zubar','10',-3,-3,-4,'8:00:00','15:45:00',true);
@@ -166,6 +168,10 @@ insert into appointment (id,endtime,has_happend,name,startdate,starttime,calenda
 
 insert into appointment (id,endtime,has_happend,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id) values
 (-8,'12:00:00',false,'pregled4','2020-02-02','11:20:00',-1,-20,-3,-5,-6);
+
+insert into room_app(op_id,appointment_id) values (-3,-5);
+insert into room_app(op_id,appointment_id) values (-3, -3);
+insert into room_app(op_id,appointment_id) values (-3, -8);
 
 insert into doctor_appointments(doctor_id,appointments_id) values (-4,-5);
 insert into doctor_appointments(doctor_id,appointments_id) values (-7,-3);

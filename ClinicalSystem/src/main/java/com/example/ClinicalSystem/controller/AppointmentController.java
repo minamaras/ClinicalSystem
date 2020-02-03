@@ -1,9 +1,11 @@
 package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.AppointmentDTO;
+import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.model.Appointment;
 import com.example.ClinicalSystem.service.AppointmentService;
+import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,4 +40,16 @@ public class AppointmentController {
 
         return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/createappointmentfromrequest/{roomid}/{examdate}/{examtime}")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<?> createAppointmentFromRequest(@PathVariable("roomid") String roomId, @PathVariable("examdate") String examdate, @PathVariable("examtime") String examtime, @RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+
+        if(appointmentService.IsCreated(roomId, examdate, examtime, appointmentRequestDTO)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

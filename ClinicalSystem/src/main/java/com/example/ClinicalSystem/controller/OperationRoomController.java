@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.model.OR;
 import com.example.ClinicalSystem.service.OperationRoomService;
@@ -12,7 +13,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 
 @CrossOrigin("http://localhost:3000")
@@ -37,9 +40,9 @@ public class OperationRoomController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/add")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity<OperationRoomDTO> addRoom(@RequestBody OperationRoomDTO roomDTO) {
+    public ResponseEntity<OperationRoomDTO> addRoom(@RequestBody OperationRoomDTO roomDTO, Principal p) {
 
-        if(roomService.save(roomDTO))
+        if(roomService.save(roomDTO, p))
             return new ResponseEntity<>(roomDTO, HttpStatus.CREATED);
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -75,4 +78,15 @@ public class OperationRoomController {
         return new ResponseEntity<>(modelMapper.map(room, OperationRoomDTO.class), HttpStatus.OK);
 
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/clinicsrooms/{clinicname}")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<Set<OperationRoomDTO>>RoomsOfClinic(@PathVariable String clinicname) {
+
+
+        Set<OperationRoomDTO> roomDTOS = roomService.findAllRoomsFromAClinic(clinicname);
+        return new ResponseEntity<>(roomDTOS, HttpStatus.OK);
+
+    }
+
 }

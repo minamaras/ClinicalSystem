@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.DTO.AppointmentDTO;
+import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
 import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.model.*;
@@ -61,5 +62,12 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
 
         return true;
+    }
+
+    public boolean IsCreated(String roomId, String examdate, String examtime, AppointmentRequestDTO appointmentRequestDTO) {
+
+        
+
+        return false;
     }
 }

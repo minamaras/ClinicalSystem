@@ -40,14 +40,14 @@ public class OR {
 	@JoinTable(name = "room_app", joinColumns = @JoinColumn(name="op_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name="appointment_id", referencedColumnName = "id"))
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@Column(name="date_reserved")
-	private Date dateReserved;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Clinic clinic;
 
 	public OR() {
 		super();
 	}
 
-	public OR(Long id, int number, ExamType examType, Time start, Time end) {
+	public OR(Long id, int number, ExamType examType, Time start, Time end, Clinic clinic) {
 		super();
 		this.id = id;
 		this.number = number;
@@ -55,7 +55,7 @@ public class OR {
 		this.examType = examType;
 		this.start = start;
 		this.end = end;
-
+		this.clinic = clinic;
 	}
 
 
@@ -95,14 +95,6 @@ public class OR {
 		this.appointments = appointments;
 	}
 
-	public Date getDateReserved() {
-		return dateReserved;
-	}
-
-	public void setDateReserved(Date dateReserved) {
-		this.dateReserved = dateReserved;
-	}
-
 	public ExamType getExamType() {
 		return examType;
 	}
@@ -125,5 +117,13 @@ public class OR {
 
 	public void setEnd(Time end) {
 		this.end = end;
+	}
+
+	public Clinic getClinic() {
+		return clinic;
+	}
+
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
 	}
 }

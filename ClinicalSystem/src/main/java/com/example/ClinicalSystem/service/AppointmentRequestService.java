@@ -23,10 +23,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -141,6 +138,12 @@ public class AppointmentRequestService {
         }
 
         return appointmentRequestDTOS;
+    }
+
+
+    public AppointmentRequestDTO findById(Long id){
+        Optional<AppointmentRequest> ap =appointmentRequestRepository.findById(id);
+        return modelMapper.map(ap.get(),AppointmentRequestDTO.class);
     }
 }
 
