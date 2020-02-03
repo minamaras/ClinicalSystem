@@ -195,6 +195,8 @@ public class DoctorService {
 
 			HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
 			holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
+			holidayDTO.setStartHoliday(h.getStart().toString().substring(0,10));
+			holidayDTO.setEndHoliday(h.getEnd().toString().substring(0,10));
 			holidayDTOS.add(holidayDTO);
 		}
 		lista.sort(Comparator.comparing(AppointmentDTO::getStart));
