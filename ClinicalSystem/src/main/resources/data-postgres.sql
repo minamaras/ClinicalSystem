@@ -87,7 +87,7 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-22,-22);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-5,-25);
 
 
-insert into nurse (id, clinic_id, firstlogin) values (-12, -5, true);
+insert into nurse (id, clinic_id, firstlogin) values (-12, -5, false);
 
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-14,'true','Fruskogorska 12','Novi Sad','Srbija','062332324','0301997805111');
@@ -210,7 +210,11 @@ INSERT INTO user_authority (user_id,authority_id) values (-8,2);
 insert into holidays(id,startdate,reason,enddate,typeholiday,user_id,holidaystatus)
 values (-5,'2020-02-05','dsad','2020-02-15',1,-8,'ACCEPTED');
 
+insert into holidays(id,startdate,reason,enddate,typeholiday,user_id,holidaystatus)
+values (-4,'2020-03-01','dsad','2020-03-10',1,-12,'ACCEPTED');
+
 insert into users_holidays(user_id,holidays_id) values(-8,-5);
+insert into users_holidays(user_id,holidays_id) values(-12,-4);
 
 insert into appointment(id,name,startdate,startTime,endTime,status,class,
 type_id,doctor_id,or_id)
