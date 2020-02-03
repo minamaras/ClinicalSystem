@@ -81,4 +81,16 @@ public class AppointmentController {
         return new ResponseEntity<>(appDTO, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/endappoint/{id}")
+    @PreAuthorize("hasAnyAuthority('DOCTOR')")
+    public ResponseEntity endExam(@PathVariable long id) {
+
+        boolean isDone = appointmentService.endAppoint(id);
+
+        if(isDone){
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
