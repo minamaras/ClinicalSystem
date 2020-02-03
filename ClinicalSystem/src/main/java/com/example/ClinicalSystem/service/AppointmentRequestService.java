@@ -1,9 +1,6 @@
 package com.example.ClinicalSystem.service;
 
-import com.example.ClinicalSystem.DTO.AppointmentDTO;
-import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
-import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.DTO.PatientDTO;
+import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.AppointmentRequestRepository;
 import org.modelmapper.ModelMapper;
@@ -50,6 +47,9 @@ public class AppointmentRequestService {
 
     @Autowired
     private ClinicService clinicService;
+
+    @Autowired
+    private OperationRoomService operationRoomService;
 
 
     public boolean saveAppointmentRequest(AppointmentRequestDTO appointmentRequestDTO) throws ParseException, UnsupportedEncodingException {
@@ -144,6 +144,69 @@ public class AppointmentRequestService {
     public AppointmentRequestDTO findById(Long id){
         Optional<AppointmentRequest> ap =appointmentRequestRepository.findById(id);
         return modelMapper.map(ap.get(),AppointmentRequestDTO.class);
+    }
+
+    public boolean IsCreated(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
+        AppointmentRequest apreq = modelMapper.map(findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
+
+        Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(appointmentRequestDTO.getId());
+
+        if(appointmentRequest.isPresent()) {
+            apreq.setPatient(appointmentRequest.get().getPatient());
+        }
+
+        Doctor doctor = appointmentRequest.get().getDoctor();
+
+        Long id = Long.parseLong(roomId);
+
+        OperationRoomDTO roomDTO = operationRoomService.findById(id);
+
+        apreq.setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
+
+        if(roomDTO != null) {
+
+            apreq.setDoctor(doctor);
+
+            Time t = Time.valueOf(examtime);
+            apreq.setStartTime(t);
+
+            Time endtimeTime = Time.valueOf(endtime);
+            apreq.setEndTime(endtimeTime);
+
+            Date date = Date.valueOf(examdate);
+            apreq.setStart(date);
+
+            apreq.setRoomNumber(roomDTO.getNumber());
+
+            apreq = appointmentRequestRepository.save(apreq);
+
+            return true;
+
+        }
+
+        return  false;
+
+    }
+
+    public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, String id) {
+
+        /*AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
+        Patient patient = appointmentRequest.getPatient();
+
+        if(patient != null) {
+            try {
+                emailService.sendAppointmentRequest(patient, examdate, examtime, endtime, );
+            } catch (Exception e) {
+                return false;
+            }
+
+            appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
+            appointmentRequestRepository.save(appointmentRequest);
+            return  true;
+        }*/
+
+        return false;
+
     }
 }
 

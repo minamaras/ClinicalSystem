@@ -54,4 +54,27 @@ public class AppointmentRequestController {
         return new ResponseEntity<>(appointmentRequestDTO, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/updateappointmentrequest/{roomid}/{examdate}/{examtime}/{endtime}")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<?> createAppointmentFromRequest(@PathVariable("roomid") String roomId, @PathVariable("examdate") String examdate, @PathVariable("examtime") String examtime, @PathVariable("endtime") String endtime,@RequestBody AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
+
+        if(appointmentRequestService.IsCreated(roomId, examdate, examtime, endtime, appointmentRequestDTO)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/sendrequest/{doctoremail}/{examdate}/{examtime}/{endtime}/{id}")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<?> sendRequestForAppointment(@PathVariable("doctoremail") String roomId, @PathVariable("examdate") String examdate, @PathVariable("examtime") String examtime, @PathVariable("endtime") String endtime, @PathVariable("id") String id,@RequestBody AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
+
+        if(appointmentRequestService.sendRequest(roomId, examdate, examtime, endtime, appointmentRequestDTO, id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }

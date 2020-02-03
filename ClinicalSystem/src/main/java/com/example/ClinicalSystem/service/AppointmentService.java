@@ -43,6 +43,9 @@ public class AppointmentService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AppointmentRequestService appointmentRequestService;
+
     public boolean saveAppointment(AppointmentDTO appointmentDTO){
 
         //fsdgsdgs
@@ -113,12 +116,58 @@ public class AppointmentService {
         return true;
     }
 
-    public boolean IsCreated(String roomId, String examdate, String examtime, AppointmentRequestDTO appointmentRequestDTO) {
+    public boolean IsCreated(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO) {
 
-        
+        AppointmentRequest apreq = modelMapper.map(appointmentRequestService.findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
 
-        return false;
+        Doctor doctor = doctorService.findOne(appointmentRequestDTO.getDoctorEmail());
+
+        Long id = Long.parseLong(roomId);
+
+        OperationRoomDTO roomDTO = operationRoomService.findById(id);
+        Appointment appointment = new Appointment();
+        appointment.setStatus(AppointmentStatus.SHEDULED);
+        appointment.setClassification(AppointmentClassification.NORMAL);
+
+        if(roomDTO != null) {
+            OR room = modelMapper.map(roomDTO, OR.class);
+
+            appointment.setDoctor(doctor);
+
+            Time t = Time.valueOf(examtime);
+            appointment.setStartTime(t);
+
+            Time endtimeTime = Time.valueOf(endtime);
+            appointment.setEndTime(endtimeTime);
+
+            appointment.setOr(room);
+
+            appointment.setPatient(apreq.getPatient());
+
+            Patient patient = patientService.findPatient(apreq.getPatient().getEmail());
+
+            patient.getAppointments().add(appointment);
+            doctor.getAppointments().add(appointment);
+            room.getAppointments().add(appointment);
+
+            appointmentRepository.save(appointment);
+
+            patientService.updatePatient(patient);
+            doctorService.updateDoctor(doctor);
+            operationRoomService.update(room);
+
+            return true;
+
+        }
+
+        return  false;
+
     }
+
+    public Patient findByEmail(String email) {
+        return null;
+    }
+
     public Set<AppointmentDTO> getAllExams(){
 
         Authentication a = SecurityContextHolder.getContext().getAuthentication();

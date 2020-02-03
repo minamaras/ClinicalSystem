@@ -21,10 +21,6 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-23,'Pera', 'Markovic', 'doktorMarkovic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-25,'Lazar', 'Lazarevic', 'doktor25@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
-
-insert into op_room (id,name,number,reserved,isavailable) values
-(-3,'or1',2,'nesto',true);
-
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika Sunce', 'Bulevar Oslobodjenja 22','9');
 INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika broj 2', 'Dentalend', 'Njegoseva 3','6');
 INSERT INTO clinic (id, description, name, adress,rating) values (-7, 'Klinika broj 3', 'Klinika Nada Diva', 'Safarikova 11','7');

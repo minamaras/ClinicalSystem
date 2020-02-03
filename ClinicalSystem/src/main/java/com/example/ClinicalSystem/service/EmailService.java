@@ -101,5 +101,6 @@ public class EmailService {
     }
 
 
-
+    public void sendAppointmentRequest(Patient patient) {
+    }
 }

@@ -43,17 +43,6 @@ public class AppointmentController {
         return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/createappointmentfromrequest/{roomid}/{examdate}/{examtime}")
-    @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity<?> createAppointmentFromRequest(@PathVariable("roomid") String roomId, @PathVariable("examdate") String examdate, @PathVariable("examtime") String examtime, @RequestBody AppointmentRequestDTO appointmentRequestDTO) {
-
-        if(appointmentService.IsCreated(roomId, examdate, examtime, appointmentRequestDTO)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/save")
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDTO appointmentDTO) throws ParseException {

@@ -126,4 +126,5 @@ public class OR {
 	public void setClinic(Clinic clinic) {
 		this.clinic = clinic;
 	}
+
 }

@@ -1,9 +1,6 @@
 package com.example.ClinicalSystem.service;
 
-import com.example.ClinicalSystem.DTO.AppointmentDTO;
-import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.DTO.ExamTypeDTO;
-import com.example.ClinicalSystem.DTO.OperationRoomDTO;
+import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.OperationRoomRepository;
 import org.modelmapper.ModelMapper;
@@ -15,10 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -143,6 +137,11 @@ public class OperationRoomService {
         }
 
         return  roomsToReturn;
+    }
+
+    public OperationRoomDTO findById(Long id){
+        Optional<OR> ap =repo.findById(id);
+        return modelMapper.map(ap.get(),OperationRoomDTO.class);
     }
 
 }
