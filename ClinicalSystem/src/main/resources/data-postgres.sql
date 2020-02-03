@@ -133,7 +133,8 @@ insert into report(id,text,appointment_id,diagnosis_id,doctor_id,medical_record_
 insert into medical_record_reports(medical_record_id,reports_id) values (-32,-2);
 insert into medical_record_reports(medical_record_id,reports_id) values (-32,-3);
 insert into recipe_medication (recipe_id, medication_id) values (-121,-1);
-
+insert into recipe_medication (recipe_id, medication_id) values (-121,-2);
+insert into recipe_medication (recipe_id, medication_id) values (-121,-8);
 
 insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-3,-4);
 
