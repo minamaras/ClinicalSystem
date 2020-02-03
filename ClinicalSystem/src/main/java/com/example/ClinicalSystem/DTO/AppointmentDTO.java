@@ -24,6 +24,7 @@ public class AppointmentDTO {
     private ExamTypeDTO type;
     private AppointmentStatus status;
     private AppointmentClassification classification;
+    private String patientemail;
 
     public AppointmentDTO(Long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
         this.id = id;
@@ -136,6 +137,14 @@ public class AppointmentDTO {
 
     public void setClassification(AppointmentClassification classification) {
         this.classification = classification;
+    }
+
+    public String getPatientemail() {
+        return patientemail;
+    }
+
+    public void setPatientemail(String patientemail) {
+        this.patientemail = patientemail;
     }
 }
 
