@@ -188,6 +188,11 @@ public class DoctorService {
 			appointmentDTO.setDate(a.getStart().toString().substring(0,10));
 			appointmentDTO.setStartTime(a.getStartTime());
 			appointmentDTO.setEndTime(a.getEndTime());
+			if (a.getPatient() != null) {
+				appointmentDTO.setPatientemail(a.getPatient().getName());
+				appointmentDTO.setPatientName(a.getPatient().getName());
+				appointmentDTO.setPatientLastname(a.getPatient().getLastname());
+			}
 			lista.add(appointmentDTO);
 		}
 
