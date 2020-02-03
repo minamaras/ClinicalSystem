@@ -172,4 +172,17 @@ public class AppointmentService {
         return appDTO;
     }
 
+    public boolean endAppoint(long id){
+        Appointment app = appointmentRepository.findById(id);
+
+        if(app == null){
+            return false;
+        }
+        if(app.getStatus().equals(AppointmentStatus.HAPPENING)) {
+            app.setStatus(AppointmentStatus.HAS_HAPPEND);
+            appointmentRepository.save(app);
+        }
+        return true;
+    }
+
 }
