@@ -15,6 +15,9 @@ public class HolidayDTO {
     private Date end;
     private String email;
     private HolidayRequestStatus holidayRequestStatus;
+    private String fromto;
+    private String startHoliday;
+    private String endHoliday;
 
     public HolidayDTO(Long id, Holiday.HolidayType type, String reason, Date start, Date end, String email, HolidayRequestStatus holidayRequestStatus){
         super();
@@ -89,5 +92,29 @@ public class HolidayDTO {
 
     public void setHolidayRequestStatus(HolidayRequestStatus holidayRequestStatus) {
         this.holidayRequestStatus = holidayRequestStatus;
+    }
+
+    public String getFromto() {
+        return fromto;
+    }
+
+    public void setFromto(String fromto) {
+        this.fromto = fromto;
+    }
+
+    public String getStartHoliday() {
+        return startHoliday;
+    }
+
+    public void setStartHoliday(String startHoliday) {
+        this.startHoliday = startHoliday;
+    }
+
+    public String getEndHoliday() {
+        return endHoliday;
+    }
+
+    public void setEndHoliday(String endHoliday) {
+        this.endHoliday = endHoliday;
     }
 }

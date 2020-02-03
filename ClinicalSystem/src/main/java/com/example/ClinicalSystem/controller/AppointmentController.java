@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -31,11 +34,63 @@ public class AppointmentController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/savepredefined")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity<AppointmentDTO> savePredefiend(@RequestBody AppointmentDTO appointmentDTO) {
+    public ResponseEntity<AppointmentDTO> savePredefiend(@RequestBody AppointmentDTO appointmentDTO) throws ParseException {
 
         if(appointmentService.savePredefined(appointmentDTO))
             return new ResponseEntity<>(appointmentDTO, HttpStatus.OK);
 
         return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/save")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDTO appointmentDTO) throws ParseException {
+
+        if(appointmentService.saveAppointment(appointmentDTO)){
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
+    @PreAuthorize("hasAnyAuthority('PATIENT')")
+    public ResponseEntity<Set<AppointmentDTO>> getAllPatientsExams() {
+
+        Set<AppointmentDTO> exams = appointmentService.getAllExams();
+
+        return new ResponseEntity<>(exams, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/allold")
+    @PreAuthorize("hasAnyAuthority('PATIENT')")
+    public ResponseEntity<Set<AppointmentDTO>> getAllPatientsExamsOld() {
+
+        Set<AppointmentDTO> exams = appointmentService.getAllExamsOld();
+
+        return new ResponseEntity<>(exams, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/startappoint/{id}")
+    @PreAuthorize("hasAnyAuthority('DOCTOR')")
+    public ResponseEntity<AppointmentDTO> getOneExam(@PathVariable long id) {
+
+        AppointmentDTO appDTO = appointmentService.getOneAppoint(id);
+
+        return new ResponseEntity<>(appDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/endappoint/{id}")
+    @PreAuthorize("hasAnyAuthority('DOCTOR')")
+    public ResponseEntity endExam(@PathVariable long id) {
+
+        boolean isDone = appointmentService.endAppoint(id);
+
+        if(isDone){
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
