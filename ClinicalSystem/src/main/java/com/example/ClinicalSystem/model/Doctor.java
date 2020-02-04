@@ -20,6 +20,10 @@ public class Doctor extends User {
 	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
 
+	@ManyToMany
+	@JoinTable(name = "doctor_patient_ratings", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
+	private Set<Patient> patientsThatRated = new HashSet<Patient>();
+
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
@@ -193,6 +197,18 @@ public class Doctor extends User {
 
 	public void setReports(Set<Report> reports) {
 		this.reports = reports;
+	}
+
+	public Set<Patient> getPatientsThatRated() {
+		return patientsThatRated;
+	}
+
+	public void setPatientsThatRated(Set<Patient> patientsThatRated) {
+		this.patientsThatRated = patientsThatRated;
+	}
+
+	public void addPatientThatRated(Patient p){
+		this.patientsThatRated.add(p);
 	}
 
 	public void addNewSingleRating(Rating r){
