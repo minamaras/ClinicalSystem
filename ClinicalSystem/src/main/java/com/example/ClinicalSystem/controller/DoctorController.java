@@ -63,6 +63,7 @@ public class DoctorController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+
 	@RequestMapping(method = RequestMethod.GET, value = "/doctorabout/{id}")
 	@PreAuthorize("hasAuthority('PATIENT')")
 	public ResponseEntity<DoctorDTO> AboutDoctor(@PathVariable String id) {
@@ -77,6 +78,29 @@ public class DoctorController {
 			doctorDTO.setClinicname(clinic.getName());
 			ExamTypeDTO examTypeDTO = modelMapper.map(doctor.getExamType(), ExamTypeDTO.class);
 			doctorDTO.setExamType(examTypeDTO);
+
+			List<String> patients = new ArrayList<>();
+
+			for(Appointment a : doctor.getAppointments()){
+				if(a.getStatus().equals(AppointmentStatus.HAS_HAPPEND) && a.getClassification().equals(AppointmentClassification.NORMAL)) {
+					patients.add(a.getPatient().getEmail());
+				}
+			}
+			doctorDTO.setPatients(patients);
+
+			if(doctor.getSingleratings().size() == 0){
+				doctorDTO.setRating(0);
+			}else{
+
+				double suma=0;
+
+				for(Rating r : doctor.getSingleratings()){
+					suma = suma + r.getValue();
+				}
+				double rating = suma/(doctor.getSingleratings().size());
+				doctorDTO.setRating(rating);
+
+			}
 
 			return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
 		}
