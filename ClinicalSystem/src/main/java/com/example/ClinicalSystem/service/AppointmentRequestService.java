@@ -190,20 +190,21 @@ public class AppointmentRequestService {
 
     public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, String id) {
 
-        /*AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
-        Patient patient = appointmentRequest.getPatient();
+        Long requestId = Long.parseLong(id);
+        Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(requestId);
+        Patient patient = appointmentRequest.get().getPatient();
 
         if(patient != null) {
             try {
-                emailService.sendAppointmentRequest(patient, examdate, examtime, endtime, );
+                emailService.sendAppointmentRequest(patient, examdate, examtime, endtime);
             } catch (Exception e) {
                 return false;
             }
 
-            appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
-            appointmentRequestRepository.save(appointmentRequest);
-            return  true;
-        }*/
+            appointmentRequest.get().setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
+            appointmentRequestRepository.save(appointmentRequest.get());
+            return true;
+        }
 
         return false;
 
