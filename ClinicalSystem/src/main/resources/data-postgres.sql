@@ -256,3 +256,11 @@ type_id,doctor_id,or_id,patient_id)
 values(-12,'preglednekistari','2019-01-01','12:00:00','12:15:00',' HAS_HAPPEND','NORMAL',
 -4,-4,-3,-5);
 insert into doctor_appointments(doctor_id,appointments_id) values (-4,-12);
+
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id) values (-2,'2020-02-22','09:00:00','11:00:00','Operacija slepog creva',-14);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id) values (-3,'2020-02-12','08:00:00','11:00:00','Operacija ociju',-14);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id) values (-4,'2020-03-02','14:00:00','16:00:00','Operacija zuba',-5);
+
+insert into requestoperation_patient (patient_id, request_id) values (-14,-2);
+insert into requestoperation_patient (patient_id, request_id) values (-14,-3);
+insert into requestoperation_patient (patient_id, request_id) values (-5,-4);
