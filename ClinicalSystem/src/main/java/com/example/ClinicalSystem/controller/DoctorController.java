@@ -33,6 +33,19 @@ public class DoctorController {
 	@Autowired
 	ModelMapper modelMapper;
 
+	@RequestMapping(method = RequestMethod.GET, value = "/updaterating/{email}/{rating}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<DoctorDTO> updaterating(@PathVariable("email") String email,@PathVariable("rating") String rating) {
+		DoctorDTO saved = null;
+		if(rating != null)
+		{
+			int rating1 = Integer.parseInt(rating);
+			saved =  doctorService.updatedrating(email,rating1);
+		}
+
+		return new ResponseEntity<>( saved,HttpStatus.OK);
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<Set<DoctorDTO>> getAllDoctors(Principal p) {
