@@ -19,4 +19,15 @@ public class OperationRequestService {
         return operationRequestRepository.findById(id);
     }
 
+    public List<OperationRequestDTO> allRequests(){
+        List<OperationRequest> operationRequests = operationRequestRepository.findAll();
+        List<OperationRequestDTO> operationRequestDTOS = new ArrayList<>();
+
+        for(OperationRequest or : operationRequests){
+            OperationRequestDTO orDTO = new OperationRequestDTO(or);
+            operationRequestDTOS.add(orDTO);
+        }
+        return operationRequestDTOS;
+    }
+
 }
