@@ -3,6 +3,7 @@ package com.example.ClinicalSystem.service;
 import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.AppointmentRequestRepository;
+import org.joda.time.LocalDate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -155,7 +156,7 @@ public class AppointmentRequestService {
             apreq.setPatient(appointmentRequest.get().getPatient());
         }
 
-        Doctor doctor = appointmentRequest.get().getDoctor();
+        //Doctor doctor = appointmentRequest.get().getDoctor();
 
         Long id = Long.parseLong(roomId);
 
@@ -165,7 +166,7 @@ public class AppointmentRequestService {
 
         if(roomDTO != null) {
 
-            apreq.setDoctor(doctor);
+            //apreq.setDoctor(doctor);
 
             Time t = Time.valueOf(examtime);
             apreq.setStartTime(t);
@@ -177,6 +178,73 @@ public class AppointmentRequestService {
             apreq.setStart(date);
 
             apreq.setRoomNumber(roomDTO.getNumber());
+
+            LocalDate requestDate = LocalDate.fromDateFields(date);
+
+            if(appointmentRequest.get().getDoctor().getAppointments().isEmpty()) {
+
+                apreq.setDoctor(appointmentRequest.get().getDoctor());
+
+            } else {
+                List<Doctor> doctors = doctorService.findAllDoctors();
+
+                List<Doctor> typeDoctors = new ArrayList<>();
+
+                for(Doctor d : doctors) {
+                    if(d.getExamType().getName().equals(apreq.getType().getName())) {
+                        Set<Holiday> doctorHolidays = d.getHolidays();
+                        for(Holiday h : doctorHolidays) {
+
+                            org.joda.time.LocalTime holidayStart = org.joda.time.LocalTime.fromDateFields(h.getStart());
+                            org.joda.time.LocalTime holidayEnd = org.joda.time.LocalTime.fromDateFields(h.getEnd());
+
+                            if((!holidayStart.equals(requestDate)) || (holidayStart.isBefore(requestDate) && holidayEnd.isBefore(requestDate)) || (holidayStart.isAfter(requestDate))) {
+                                typeDoctors.add(d);
+                            }
+                        }
+
+                    }
+                }
+
+                for(Doctor d : typeDoctors) {
+
+                        for(Appointment a : d.getAppointments()) {
+
+                            org.joda.time.LocalTime requestStartTime = org.joda.time.LocalTime.fromDateFields(t);
+                            org.joda.time.LocalTime requestEndTime = org.joda.time.LocalTime.fromDateFields(endtimeTime);
+
+                            org.joda.time.LocalTime appointmentStartTime = org.joda.time.LocalTime.fromDateFields(a.getStartTime());
+                            org.joda.time.LocalTime appointmentEndTime = org.joda.time.LocalTime.fromDateFields(a.getEndTime());
+
+                            LocalDate appointmentDate = LocalDate.fromDateFields(a.getStart());
+
+                            if(appointmentDate.isEqual(requestDate)) {
+                                if(appointmentStartTime.isEqual(requestStartTime)) {
+
+                                    typeDoctors.remove(d);
+
+                                } else if(appointmentStartTime.isBefore(requestStartTime) && appointmentEndTime.isBefore(requestEndTime)) {
+
+                                    continue;
+
+                                } else if(appointmentStartTime.isAfter(requestStartTime) && appointmentEndTime.isAfter(requestEndTime)) {
+
+                                    continue;
+
+                                } else if(appointmentStartTime.isBefore(requestStartTime) && appointmentStartTime.isBefore(requestEndTime)) {
+
+                                    typeDoctors.remove(d);
+
+                                }
+                            }
+
+                        }
+
+                }
+
+                int randomDoctor = (int)(Math.random() * typeDoctors.size());
+                apreq.setDoctor(typeDoctors.get(randomDoctor));
+            }
 
             apreq = appointmentRequestRepository.save(apreq);
 
