@@ -101,6 +101,13 @@ public class EmailService {
     }
 
 
-    public void sendAppointmentRequest(Patient patient) {
+    public void sendAppointmentRequest(Patient patient, String examdate, String examtime, String endtime) {
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(patient.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Appointment request");
+        mail.setText("Hello " + patient.getName() + ",\n\n Please confirm or decline this appointment request. Appointment is on "+ examdate +" from  "+ examtime +" till "+ endtime +" "+ "\n\n\n Clinical System");
+        javaMailSender.send(mail);
     }
 }
