@@ -13,11 +13,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.repository.DoctorRepository;
 
+import javax.print.Doc;
 import javax.transaction.Transactional;
 
 @Service
@@ -25,6 +28,9 @@ public class DoctorService {
 	
 	@Autowired
 	private DoctorRepository doctorRepository;
+
+	@Autowired
+	private RatingService ratingService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -43,6 +49,9 @@ public class DoctorService {
 
 	@Autowired
 	private ExamTypeService examTypeService;
+
+	@Autowired
+	private PatientService patientService;
 
 
 	public Set<DoctorDTO> findAll(Principal p) {
@@ -120,6 +129,7 @@ public class DoctorService {
 	public Doctor findOne(String email) {
 		return doctorRepository.findByEmail(email);
 	}
+
 	public Doctor findOneById(Long id) {
 
 		Optional<User> user = userService.findById(id);
@@ -148,13 +158,17 @@ public class DoctorService {
 
 			List<AppointmentDTO> lista = new ArrayList<>();
 			Set<HolidayDTO> holidayDTOS = new HashSet<>();
-
+			List<String> patients = new ArrayList<>();
 
 			for(Appointment a : doctor.getAppointments()){
 				AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
 				appointmentDTO.setDate(a.getStart().toString().substring(0,10));
 				appointmentDTO.setStartTime(a.getStartTime());
 				appointmentDTO.setEndTime(a.getEndTime());
+
+				if(a.getStatus().equals(AppointmentStatus.HAS_HAPPEND) && a.getClassification().equals(AppointmentClassification.NORMAL)){
+					patients.add(a.getPatient().getEmail());
+				}
 				lista.add(appointmentDTO);
 
 			}
@@ -166,14 +180,62 @@ public class DoctorService {
 				holidayDTOS.add(holidayDTO);
 			}
 
+			if(doctor.getSingleratings().size() == 0){
+				doctorDTO.setRating(0);
+			}else{
+
+				double suma=0;
+
+			for(Rating r : doctor.getSingleratings()){
+				suma = suma + r.getValue();
+			}
+			double rating = suma/(doctor.getSingleratings().size());
+			doctorDTO.setRating(rating);
+
+			}
+
 			lista.sort(Comparator.comparing(AppointmentDTO::getStart));
 
 			doctorDTO.setAppointments(lista);
 			doctorDTO.setHolidays(holidayDTOS);
+			doctorDTO.setPatients(patients);
 			doctorsret.add(doctorDTO);
 
 		}
 
 		return  doctorsret;
+	}
+
+	public DoctorDTO updatedrating(String email,int rating){
+
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) a.getPrincipal();
+		Patient p = patientService.findPatient(user.getEmail());
+
+		Doctor doctor = doctorRepository.findByEmail(email);
+		doctor.addPatientThatRated(p);
+		p.addRatedDoctor(doctor);
+
+		Rating dodatrejting = new Rating();
+		dodatrejting.setValue(rating);
+
+		ratingService.save(dodatrejting);
+
+		doctor.addNewSingleRating(dodatrejting);
+
+		double suma = 0;
+		for(Rating r : doctor.getSingleratings()){
+			suma = suma + r.getValue();
+		}
+
+		double novirejting = suma/(doctor.getSingleratings().size());
+
+		//doctor.setRating(novirejting);
+
+		if(doctorRepository.save(doctor) != null){
+			return modelMapper.map(doctor,DoctorDTO.class);
+		}else{
+			return  null;
+		}
 	}
 }

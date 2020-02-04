@@ -65,6 +65,19 @@ public class ReportService {
         return reportsDTO;
     }
 
+    public List<ReportDTO> findPatientsReports(Patient p){
+
+        List<ReportDTO> returnReports = new ArrayList<>();
+
+        MedicalRecord medicalRecord = p.getMedicalRecord();
+
+        for( Report report : medicalRecord.getReports()){
+
+            returnReports.add(modelMapper.map(report,ReportDTO.class));
+        }
+        return  returnReports;
+    }
+
     public boolean addNew(ReportDTO reportDTO, Principal p) {
         Doctor doctor = (Doctor) userService.findByUsername(p.getName());
         Patient patient = patientService.findPatient(reportDTO.getPatientemail());

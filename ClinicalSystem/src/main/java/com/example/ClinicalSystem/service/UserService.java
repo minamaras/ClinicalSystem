@@ -55,7 +55,6 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-
 	@Override
 	public Optional<User> findById(Long id) {
 		return userRepository.findById(id);
@@ -160,6 +159,10 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 				ClinicAdmin ca = (ClinicAdmin) user;
 				ca.setFirstlogin(false);
 				clinicAdminRepository.save(ca);
+
+			}else if(user.getRole().equals(Role.PATIENT)) {
+				Patient p = (Patient) user;
+				patientService.updatePatient(p);
 
 			}
 

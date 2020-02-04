@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -16,8 +17,16 @@ import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.FilterDTO;
 import com.example.ClinicalSystem.model.*;
 import org.joda.time.LocalTime;
+import org.modelmapper.Converter;
+import org.modelmapper.Converters;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.DTO.ClinicDTO;
@@ -43,7 +52,13 @@ public class ClinicService {
 	@Autowired
 	private DoctorService doctorService;
 
-	
+	@Autowired
+	private PatientService patientService;
+
+	@Autowired
+	private RatingService ratingService;
+
+
 	public boolean addClinic(Clinic clinic) {
 
 		if(findName(clinic.getName()) != null){
@@ -67,6 +82,21 @@ public class ClinicService {
 
 		if(clinicRepo.findByName(clinicDTO.getName()) != null) {
 			Clinic clinic = modelMapper.map(clinicDTO, Clinic.class);
+
+
+			if(clinic.getSingleratings().size() == 0){
+				clinicDTO.setRating(0);
+			}else {
+
+				double suma = 0;
+
+				for (Rating r : clinic.getSingleratings()) {
+					suma = suma + r.getValue();
+				}
+				double rating = suma / (clinic.getSingleratings().size());
+				clinicDTO.setRating(rating);
+			}
+
 			return clinic;
 		}
 
@@ -75,6 +105,7 @@ public class ClinicService {
 
 	public Clinic findName(String name) {
 		if(clinicRepo.findByName(name) != null) {
+
 			return clinicRepo.findByName(name);
 		}
 
@@ -96,8 +127,25 @@ public class ClinicService {
 	}
 
 	public ClinicDTO findClinic(String name) {
+
 		Clinic clinic = clinicRepo.findByName(name);
 		ClinicDTO clinicDTO = modelMapper.map(clinic, ClinicDTO.class);
+
+		if(clinic.getSingleratings().size() == 0){
+			clinicDTO.setRating(0);
+		}else {
+
+			double suma = 0;
+
+			for (Rating r : clinic.getSingleratings()) {
+				suma = suma + r.getValue();
+			}
+			double rating = suma / (clinic.getSingleratings().size());
+			clinicDTO.setRating(rating);
+		}
+
+
+
 		return clinicDTO;
 	}
 
@@ -154,6 +202,8 @@ public class ClinicService {
 
 	public List<ClinicDTO> filterClinics(FilterDTO filter) throws ParseException {
 
+
+
 		if(filter.getTime() != null){
 			LocalTime time = new LocalTime(filter.getTime());
 			filter.setStartAppointmentFilter(time);
@@ -164,7 +214,7 @@ public class ClinicService {
 		if(filter.getFilter() == null || filter.getFilter() == "" ){
 			if(filter.getDate() != null && filter.getTime() != null && filter.getExamtype() != null){
 
-				List<Clinic> clinics = findAllClinics();
+				List<Clinic> clinics = clinicRepo.findAllByOrderByNameAsc();
 				List<ClinicDTO> returnc = new ArrayList<>();
 
 
@@ -173,7 +223,9 @@ public class ClinicService {
 				LocalDate inputDate = LocalDate.parse(inputString);
 				java.sql.Date finaldateFilter = java.sql.Date.valueOf(inputDate);
 
-				for(Clinic c :clinics){
+
+
+					for(Clinic c :clinics){
 					List<String> lista = new ArrayList<>();
 
 						for(Doctor d : c.getDoctors()) {
@@ -212,6 +264,20 @@ public class ClinicService {
 								if ((Dtimestart.isBefore(filter.getStartAppointmentFilter()) || Dtimestart.isEqual(filter.getStartAppointmentFilter())) && (Dtimeend.isAfter(filter.getStartAppointmentFilter()))) {
 									if(d.getAppointments().size() == 0){
 										ClinicDTO clinicDTO = modelMapper.map(c,ClinicDTO.class);
+
+										if(c.getSingleratings().size() == 0){
+											clinicDTO.setRating(0);
+										}else {
+
+											double suma = 0;
+
+											for (Rating r : c.getSingleratings()) {
+												suma = suma + r.getValue();
+											}
+											double rating = suma / (c.getSingleratings().size());
+											clinicDTO.setRating(rating);
+										}
+
 										clinicDTO.setExamprice(String.valueOf(d.getExamType().getPrice()));
 										returnc.add(clinicDTO);
 										break;
@@ -224,6 +290,20 @@ public class ClinicService {
 
 									if (!datelist.contains(filter.getDate())){
 										ClinicDTO clinicDTO = modelMapper.map(c,ClinicDTO.class);
+
+										if(c.getSingleratings().size() == 0){
+											clinicDTO.setRating(0);
+										}else {
+
+											double suma = 0;
+
+											for (Rating r : c.getSingleratings()) {
+												suma = suma + r.getValue();
+											}
+											double rating = suma / (c.getSingleratings().size());
+											clinicDTO.setRating(rating);
+										}
+
 										clinicDTO.setExamprice(String.valueOf(d.getExamType().getPrice()));
 										returnc.add(clinicDTO);
 										break;
@@ -271,6 +351,20 @@ public class ClinicService {
 														else{
 															lista.add("da");
 															ClinicDTO clinicDTO = modelMapper.map(c,ClinicDTO.class);
+
+															if(c.getSingleratings().size() == 0){
+																clinicDTO.setRating(0);
+															}else {
+
+																double suma = 0;
+
+																for (Rating r : c.getSingleratings()) {
+																	suma = suma + r.getValue();
+																}
+																double rating = suma / (c.getSingleratings().size());
+																clinicDTO.setRating(rating);
+															}
+
 															clinicDTO.setExamprice(String.valueOf(d.getExamType().getPrice()));
 
 															if(returnc.size() == 0){
@@ -288,6 +382,20 @@ public class ClinicService {
 													}if(otherappointments == a && d.getAppointments().size() == 1){
 														lista.add("da");
 														ClinicDTO clinicDTO = modelMapper.map(c,ClinicDTO.class);
+
+														if(c.getSingleratings().size() == 0){
+															clinicDTO.setRating(0);
+														}else {
+
+															double suma = 0;
+
+															for (Rating r : c.getSingleratings()) {
+																suma = suma + r.getValue();
+															}
+															double rating = suma / (c.getSingleratings().size());
+															clinicDTO.setRating(rating);
+														}
+
 														clinicDTO.setExamprice(String.valueOf(d.getExamType().getPrice()));
 														returnc.add(clinicDTO);
 													}
@@ -321,6 +429,7 @@ public class ClinicService {
 					finallist.add(c);
 
 				}
+
 
 				return finallist;
 
@@ -358,12 +467,21 @@ public class ClinicService {
 		}
 
 		for(Clinic c : allclinics) {
+
+			double suma = 0;
+			for(Rating r : c.getSingleratings()){
+				suma = suma + r.getValue();
+			}
+
+			double rejting = suma/(c.getSingleratings().size());
+
+
 			if (c.getName().toLowerCase().contains(filter.getFilter().toLowerCase())) {
 				clinics.add(c);
 
 			} else if (c.getAdress().toLowerCase().contains(filter.getFilter().toLowerCase())){
 				clinics.add(c);
-			} else if (c.getRating() == broj) {
+			} else if (rejting == broj) {
 
 				clinics.add(c);
 			}
@@ -481,5 +599,42 @@ public class ClinicService {
 		}
 
 	return returnc;
+	}
+
+
+
+	public ClinicDTO updatedrating(Long id,int rating){
+
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) a.getPrincipal();
+		Patient p = patientService.findPatient(user.getEmail());
+
+		Optional<Clinic> clinicop = clinicRepo.findById(id);
+		Clinic clinic = clinicop.get();
+
+		clinic.getPatientsThatRated().add(p);
+		p.getRatedClinics().add(clinic);
+
+		Rating dodatrejting = new Rating();
+		dodatrejting.setValue(rating);
+
+		ratingService.save(dodatrejting);
+
+		clinic.getSingleratings().add(dodatrejting);
+
+		double suma = 0;
+		for(Rating r : clinic.getSingleratings()){
+			suma = suma + r.getValue();
+		}
+
+		double novirejting = suma/(clinic.getSingleratings().size());
+
+		//doctor.setRating(novirejting);
+
+		if(clinicRepo.save(clinic) != null){
+			return modelMapper.map(clinic,ClinicDTO.class);
+		}else{
+			return  null;
+		}
 	}
 }

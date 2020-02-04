@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.AppointmentDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.DTO.OldExamDTO;
 import com.example.ClinicalSystem.model.Appointment;
 import com.example.ClinicalSystem.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +65,9 @@ public class AppointmentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/allold")
     @PreAuthorize("hasAnyAuthority('PATIENT')")
-    public ResponseEntity<Set<AppointmentDTO>> getAllPatientsExamsOld() {
+    public ResponseEntity<Set<OldExamDTO>> getAllPatientsExamsOld() {
 
-        Set<AppointmentDTO> exams = appointmentService.getAllExamsOld();
+        Set<OldExamDTO> exams = appointmentService.getAllExamsOld();
 
         return new ResponseEntity<>(exams, HttpStatus.OK);
     }
