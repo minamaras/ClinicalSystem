@@ -13,7 +13,7 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-8,'doktor2', 'doktor2', 'doktor2@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-11,'doktor3', 'doktor3', 'doktor3@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
-insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-20,'Petar', 'Zivkovic', 'doktor20@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-20,'Nikola', 'Zivkovic', 'doktor20@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-21,'Snezana', 'Jankovic', 'doktor21@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-22,'Slobodan', 'Petrovic', 'doktor22@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-24,'Ivan', 'Bojanic', 'doktor24@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
@@ -58,7 +58,7 @@ insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
 (-24,'imunolog','10',-5,-9,-20,'8:00:00','20:00:00',true);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
-(-8,'ocni lekar','9',-7,-10,-5,'12:00:00','18:00:00',true);
+(-8,'ocni lekar','9',-7,-10,-5,'12:00:00','18:00:00',false);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
 (-11,'Dermatolog','7',-2,-2,-7,'8:00:00','16:00:00',true);
 insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
@@ -89,7 +89,7 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-22,-22);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-5,-25);
 
 
-insert into nurse (id, clinic_id, firstlogin) values (-12, -5, true);
+insert into nurse (id, clinic_id, firstlogin) values (-12, -5, false);
 
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-14,'true','Fruskogorska 12','Novi Sad','Srbija','062332324','0301997805111');
@@ -135,7 +135,8 @@ insert into report(id,text,appointment_id,diagnosis_id,doctor_id,medical_record_
 insert into medical_record_reports(medical_record_id,reports_id) values (-32,-2);
 insert into medical_record_reports(medical_record_id,reports_id) values (-32,-3);
 insert into recipe_medication (recipe_id, medication_id) values (-121,-1);
-
+insert into recipe_medication (recipe_id, medication_id) values (-121,-2);
+insert into recipe_medication (recipe_id, medication_id) values (-121,-8);
 
 insert into clinic_admin_doctors(clinic_admin_id,doctors_id) values(-3,-4);
 
@@ -171,16 +172,19 @@ insert into calendar(id,doctor_id) values (-1,-4);
 insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id) values (-1, '2020-02-02', '12:30:00', '12:45:00',-4,-5,-4);
 
 insert into appointment (id,endtime,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id,status,class) values
-(-5,'10:15:00','pregled1','2020-12-20','10:00:00',-1,-4,-3,-5,-4,'SHEDULED','NORMAL');
+(-5,'10:15:00','pregled1','2020-12-20','10:00:00',-1,-4,-3,-14,-4,'SHEDULED','NORMAL');
 
 insert into appointment (id,endtime,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id,status,class) values
 (-3,'13:00:00','pregled2','2020-01-20' ,'12:30:00',-1,-7,-3,-5,-4,'SHEDULED','NORMAL');
 
 insert into appointment (id,endtime,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id,status,class) values
-(-7,'10:40:00','pregled3','2020-02-02','10:00:00',-1,-20,-3,-5,-20,'SHEDULED','NORMAL');
+(-7,'10:40:00','pregled3','2020-02-02','10:00:00',-1,-20,-3,-14,-20,'SHEDULED','NORMAL');
 
 insert into appointment (id,endtime,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id,status,class) values
 (-8,'12:00:00','pregled4','2020-02-02','11:20:00',-1,-20,-3,-5,-20,'SHEDULED','NORMAL');
+
+insert into appointment (id,endtime,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id,status,class) values
+(-13,'12:40:00','pregled01','2020-02-21','12:00:00',-1,-20,-3,-14,-20,'SHEDULED','NORMAL');
 
 
 
@@ -193,6 +197,7 @@ insert into doctor_appointments(doctor_id,appointments_id) values (-7,-3);
 
 insert into doctor_appointments(doctor_id,appointments_id) values (-20,-7);
 insert into doctor_appointments(doctor_id,appointments_id) values (-20,-8);
+insert into doctor_appointments(doctor_id,appointments_id) values (-20,-13);
 
 INSERT INTO authority (id,name) values (1,'PATIENT');
 INSERT INTO authority (id,name) values (2,'DOCTOR');
@@ -210,12 +215,16 @@ INSERT INTO user_authority (user_id,authority_id) values (-21,2);
 INSERT INTO user_authority (user_id,authority_id) values (-22,2);
 INSERT INTO user_authority (user_id,authority_id) values (-23,2);
 INSERT INTO user_authority (user_id,authority_id) values (-24,2);
+INSERT INTO user_authority (user_id,authority_id) values (-8,2);
 
-
-insert into holidays(id,enddate,reason,startdate,typeholiday,user_id,holidaystatus)
+insert into holidays(id,startdate,reason,enddate,typeholiday,user_id,holidaystatus)
 values (-5,'2020-02-05','dsad','2020-02-15',1,-8,'ACCEPTED');
 
+insert into holidays(id,startdate,reason,enddate,typeholiday,user_id,holidaystatus)
+values (-4,'2020-03-01','dsad','2020-03-10',1,-12,'ACCEPTED');
+
 insert into users_holidays(user_id,holidays_id) values(-8,-5);
+insert into users_holidays(user_id,holidays_id) values(-12,-4);
 
 insert into appointment(id,name,startdate,startTime,endTime,status,class,
 type_id,doctor_id,or_id)

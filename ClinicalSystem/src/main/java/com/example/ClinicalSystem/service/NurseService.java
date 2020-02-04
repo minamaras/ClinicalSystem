@@ -2,12 +2,9 @@ package com.example.ClinicalSystem.service;
 
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
-import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.DTO.NurseDTO;
+import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,9 @@ public class NurseService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	private DoctorService doctorService;
 
 	@Transactional
 	public List<NurseDTO> findAll(){
@@ -86,6 +86,37 @@ public class NurseService {
 
 	public Nurse updateNurse(Nurse nurse) {
 		return nurseRepository.save(nurse);
+	}
+
+	public NurseCalendarDTO getAllAppoints(Principal p){
+		Nurse nurse = (Nurse) userService.findByUsername(p.getName());
+
+		String clinicName = nurse.getClinic().getName();
+		Set<DoctorDTO> doctors = doctorService.findAllDoctorsFromAClinic(clinicName);
+
+		NurseCalendarDTO nurseCalendarDTO = new NurseCalendarDTO(nurse);
+
+		List<AppointmentDTO> appoints = new ArrayList<>();
+		for (DoctorDTO doc: doctors){
+			for(AppointmentDTO appDTO : doc.getAppointments()){
+				appoints.add(appDTO);
+			}
+		}
+
+		Set<HolidayDTO> holidayDTOS = new HashSet<>();
+		for ( Holiday h : nurse.getHolidays()){
+
+			HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
+			holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
+			holidayDTO.setStartHoliday(h.getStart().toString().substring(0,10));
+			holidayDTO.setEndHoliday(h.getEnd().toString().substring(0,10));
+			holidayDTOS.add(holidayDTO);
+		}
+
+		nurseCalendarDTO.setAppointments(appoints);
+		nurseCalendarDTO.setHolidays(holidayDTOS);
+
+		return nurseCalendarDTO;
 	}
 	
 }

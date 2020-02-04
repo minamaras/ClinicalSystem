@@ -40,7 +40,7 @@ public class ReportController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/info")
 
-    @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
+    @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR','PATIENT')")
     public ResponseEntity<List<ReportDTO>> allReports(@RequestBody String patientemail, Principal p) {
 
         List<ReportDTO> reportsDTO = reportService.getAllForPatient(patientemail, p);

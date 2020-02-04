@@ -15,7 +15,7 @@ public class Appointment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 
 	@Column(name = "name" , nullable = false)
 	private String name;
@@ -43,7 +43,7 @@ public class Appointment {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private ExamType type;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Patient patient;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

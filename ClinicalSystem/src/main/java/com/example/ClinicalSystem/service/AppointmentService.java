@@ -219,4 +219,29 @@ public class AppointmentService {
         return returnAppointments;
     }
 
+    public AppointmentDTO getOneAppoint(long id){
+        Appointment app = appointmentRepository.findById(id);
+        if(app.getStatus().equals(AppointmentStatus.SHEDULED)) {
+            app.setStatus(AppointmentStatus.HAPPENING);
+            appointmentRepository.save(app);
+        }
+        AppointmentDTO appDTO = modelMapper.map(app, AppointmentDTO.class);
+        appDTO.setPatientemail(app.getPatient().getEmail());
+
+        return appDTO;
+    }
+
+    public boolean endAppoint(long id){
+        Appointment app = appointmentRepository.findById(id);
+
+        if(app == null){
+            return false;
+        }
+        if(app.getStatus().equals(AppointmentStatus.HAPPENING)) {
+            app.setStatus(AppointmentStatus.HAS_HAPPEND);
+            appointmentRepository.save(app);
+        }
+        return true;
+    }
+
 }

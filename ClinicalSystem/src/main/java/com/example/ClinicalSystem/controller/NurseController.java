@@ -4,8 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
-import com.example.ClinicalSystem.DTO.DoctorDTO;
+import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.Doctor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.ClinicalSystem.DTO.NurseDTO;
 import com.example.ClinicalSystem.model.Nurse;
 import com.example.ClinicalSystem.service.NurseService;
 @CrossOrigin("http://localhost:3000")
@@ -43,7 +41,7 @@ public class NurseController {
 	public ResponseEntity<?> addNurse(@RequestBody NurseDTO nurseDTO, Principal p) {
 
 		boolean isAdded = nurseService.save(nurseDTO, p);
-		if(!isAdded){
+		if (!isAdded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
 			return new ResponseEntity<>(HttpStatus.CREATED);
@@ -77,4 +75,15 @@ public class NurseController {
 		}
 
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/getdates")
+	@PreAuthorize("hasAuthority('NURSE')")
+	public ResponseEntity<NurseCalendarDTO> getAllAppoints(Principal p) {
+
+		NurseCalendarDTO nurseCalendarDTO = nurseService.getAllAppoints(p);
+
+		return new ResponseEntity<>(nurseCalendarDTO, HttpStatus.OK);
+
+	}
+
 }
