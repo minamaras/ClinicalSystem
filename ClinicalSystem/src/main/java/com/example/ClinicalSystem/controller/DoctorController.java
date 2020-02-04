@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.example.ClinicalSystem.DTO.ExamTypeDTO;
-import com.example.ClinicalSystem.DTO.NurseDTO;
+import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -19,8 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.ClinicalSystem.DTO.ClinicDTO;
-import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.service.DoctorService;
 
 import javax.transaction.Transactional;
@@ -87,6 +84,54 @@ public class DoctorController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+
+
+
+	@RequestMapping(method = RequestMethod.GET, value = "/doctoraboutemail/{email}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<DoctorDTO> AboutDoctorEmail(@PathVariable String email) {
+
+
+		Doctor doctor = doctorService.findOne(email);
+		if(doctor != null) {
+
+			DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+			Clinic clinic = doctor.getClinic();
+			doctorDTO.setClinicid(clinic.getId());
+			doctorDTO.setClinicname(clinic.getName());
+			ExamTypeDTO examTypeDTO = modelMapper.map(doctor.getExamType(), ExamTypeDTO.class);
+			doctorDTO.setExamType(examTypeDTO);
+
+			List<String> patients = new ArrayList<>();
+
+			for(Appointment a : doctor.getAppointments()){
+				if(a.getStatus().equals(AppointmentStatus.HAS_HAPPEND) && a.getClassification().equals(AppointmentClassification.NORMAL)) {
+					patients.add(a.getPatient().getEmail());
+				}
+			}
+			doctorDTO.setPatients(patients);
+
+			if(doctor.getSingleratings().size() == 0){
+				doctorDTO.setRating(0);
+			}else{
+
+				double suma=0;
+
+				for(Rating r : doctor.getSingleratings()){
+					suma = suma + r.getValue();
+				}
+				double rating = suma/(doctor.getSingleratings().size());
+				doctorDTO.setRating(rating);
+
+			}
+
+			return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+
 	@RequestMapping(method = RequestMethod.GET, value = "/aboutclinicdoctors/{clinicname}")
 	@PreAuthorize("hasAuthority('PATIENT')")
 	public ResponseEntity<Set<DoctorDTO>>DoctorsOfClinic(@PathVariable String clinicname) {
@@ -121,9 +166,9 @@ public class DoctorController {
 				doctor.setSpecialization(doctorDTO.getSpecialization());
 			}
 
-			if(doctorDTO.getRating() < 0 && doctorDTO.getRating() > 10) {
+			/*if(doctorDTO.getRating() < 0 && doctorDTO.getRating() > 10) {
 				doctor.setRating(doctorDTO.getRating());
-			}
+			}*/
 			DoctorDTO drdto = modelMapper.map(doctor,DoctorDTO.class);
 			drdto.setClinicid(doctor.getClinic().getId());
 			drdto.setClinicname(doctor.getClinic().getName());
