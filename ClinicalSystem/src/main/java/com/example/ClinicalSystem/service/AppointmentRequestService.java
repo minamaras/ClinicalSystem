@@ -192,16 +192,8 @@ public class AppointmentRequestService {
 
                 for(Doctor d : doctors) {
                     if(d.getExamType().getName().equals(apreq.getType().getName())) {
-                        Set<Holiday> doctorHolidays = d.getHolidays();
-                        for(Holiday h : doctorHolidays) {
 
-                            org.joda.time.LocalTime holidayStart = org.joda.time.LocalTime.fromDateFields(h.getStart());
-                            org.joda.time.LocalTime holidayEnd = org.joda.time.LocalTime.fromDateFields(h.getEnd());
-
-                            if((!holidayStart.equals(requestDate)) || (holidayStart.isBefore(requestDate) && holidayEnd.isBefore(requestDate)) || (holidayStart.isAfter(requestDate))) {
-                                typeDoctors.add(d);
-                            }
-                        }
+                       typeDoctors.add(d);
 
                     }
                 }
