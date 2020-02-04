@@ -45,6 +45,9 @@ public class Clinic {
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Patient> patients = new HashSet<Patient>();
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Patient> patientsThatRated = new HashSet<Patient>();
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private BusinessReport report;
 
@@ -188,6 +191,14 @@ public class Clinic {
 		this.clinicAdmins.add(clinicAdmin);
 	}
 
+
+	public Set<Patient> getPatientsThatRated() {
+		return patientsThatRated;
+	}
+
+	public void setPatientsThatRated(Set<Patient> patientsThatRated) {
+		this.patientsThatRated = patientsThatRated;
+	}
 
 	public Set<Rating> getSingleratings() {
 		return singleratings;
