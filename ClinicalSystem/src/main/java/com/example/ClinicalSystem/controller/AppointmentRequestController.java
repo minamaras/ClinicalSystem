@@ -76,5 +76,14 @@ public class AppointmentRequestController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/allmyexams")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<List<AppointmentRequestDTO>> getMyExams() throws ParseException {
+
+        List<AppointmentRequestDTO> appointmentRequestDTOS = appointmentRequestService.findMyExams();
+
+        return new ResponseEntity<>(appointmentRequestDTOS, HttpStatus.OK);
+    }
+
 
 }

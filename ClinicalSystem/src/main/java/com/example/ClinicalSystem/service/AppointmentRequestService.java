@@ -209,6 +209,22 @@ public class AppointmentRequestService {
         return false;
 
     }
+
+    public List<AppointmentRequestDTO> findMyExams() {
+
+        List<AppointmentRequest> appointmentRequests = appointmentRequestRepository.findAll();
+
+        List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<AppointmentRequestDTO>();
+        for (AppointmentRequest h : appointmentRequests) {
+            if(h.getAppointmentRequestStatus() == AppointmentRequestStatus.WAITING)
+            {
+                appointmentRequestDTOS.add(modelMapper.map(h, AppointmentRequestDTO.class));
+            }
+
+        }
+
+        return appointmentRequestDTOS;
+    }
 }
 
 

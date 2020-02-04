@@ -107,7 +107,7 @@ public class EmailService {
         mail.setTo(patient.getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
         mail.setSubject("Clinical System: Appointment request");
-        mail.setText("Hello " + patient.getName() + ",\n\n Please confirm or decline this appointment request. Appointment is on "+ examdate +" from  "+ examtime +" till "+ endtime +" "+ "\n\n\n Clinical System");
+        mail.setText("Hello " + patient.getName() + ",\n\n Please confirm or decline this appointment request. Appointment is on "+ examdate +" from  "+ examtime +" till "+ endtime +" . Click the following link: "+ "http://localhost:3000/patientrequeststatus" + "\n\n\n Clinical System");
         javaMailSender.send(mail);
     }
 }
