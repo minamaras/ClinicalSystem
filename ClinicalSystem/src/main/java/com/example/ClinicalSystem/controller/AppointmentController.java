@@ -1,6 +1,5 @@
 package com.example.ClinicalSystem.controller;
 
-import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.Appointment;
 import com.example.ClinicalSystem.model.AppointmentRequest;
@@ -114,9 +113,6 @@ public class AppointmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/saverequesttoappointment/{id}")
     public ResponseEntity<?> saveRequestToAppointment(@PathVariable String id) throws URISyntaxException {
 
-        if(appointmentService.saveFromReqToAppointment(appointmentRequestDTO)){
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
         boolean issaved = appointmentService.saveFromReqToAppointment(id);
         if(issaved) {
             URI newUri = new URI("http://localhost:3000/confirmedappreq");
@@ -132,9 +128,6 @@ public class AppointmentController {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "/declinerequesttoappointment")
-    @PreAuthorize("hasAuthority('PATIENT')")
-    public ResponseEntity<?> declineRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
     @RequestMapping(method = RequestMethod.GET, value = "/declinerequesttoappointment/{id}")
     public ResponseEntity<?> declineRequestToAppointment(@PathVariable String id) throws URISyntaxException {
 
