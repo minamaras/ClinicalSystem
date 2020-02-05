@@ -90,4 +90,15 @@ public class OperationRoomController {
 
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/clinicsoperationrooms")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<Set<OperationRoomDTO>> roomsForOperation(Principal p) throws ParseException {
+
+
+        Set<OperationRoomDTO> roomDTOS = roomService.allRoomsForOperationFromAClinic(p);
+        return new ResponseEntity<>(roomDTOS, HttpStatus.OK);
+
+    }
+
+
 }
