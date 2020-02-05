@@ -52,6 +52,10 @@ public class OperationRoomService {
         return roomsDTO;
     }
 
+    public List<OR> findAllModels(){
+        return repo.findAll();
+    }
+
     public boolean save(OperationRoomDTO roomDto, Principal p) {
 
         ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
@@ -162,5 +166,6 @@ public class OperationRoomService {
         Optional<OR> ap =repo.findById(id);
         return modelMapper.map(ap.get(),OperationRoomDTO.class);
     }
+
 
 }
