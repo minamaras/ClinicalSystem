@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.*;
 
 
@@ -32,6 +33,9 @@ public class OperationRoomService {
 
     @Autowired
     private ClinicAdminService clinicAdminService;
+
+    @Autowired
+    private AppointmentRequestService appointmentRequestService;
 
     @Autowired
     private ExamTypeService examTypeService;
@@ -100,7 +104,10 @@ public class OperationRoomService {
         return repo.save(or);
     }
 
-    public Set<OperationRoomDTO> findAllRoomsFromAClinic(String clinicname){
+    public Set<OperationRoomDTO> findAllRoomsFromAClinic(String clinicname) throws ParseException {
+
+
+        List<AppointmentRequestDTO> waitingreq = appointmentRequestService.findAllWaiting();
 
         HashSet<OperationRoomDTO> roomsToReturn = new HashSet<>();
         Clinic clinic = null;
@@ -131,6 +138,18 @@ public class OperationRoomService {
                 appointmentDTOS.add(appointmentDTO);
 
             }
+            List<AppointmentRequestDTO> roomrequests = new ArrayList<>();
+
+            for(AppointmentRequestDTO apr : waitingreq)
+            {
+                        if(room.getNumber() == apr.getRoomNumber()){
+                            apr.setDate(apr.getStart().toString().substring(0,10));
+                            roomrequests.add(apr);
+                    }
+
+            }
+
+            operationRoomDTO.setAppointmentRequests(roomrequests);
             operationRoomDTO.setAppointments(appointmentDTOS);
             roomsToReturn.add(operationRoomDTO);
 
