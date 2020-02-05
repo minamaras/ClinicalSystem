@@ -163,4 +163,8 @@ public class OperationRoomService {
         return modelMapper.map(ap.get(),OperationRoomDTO.class);
     }
 
+    public List<OR> findAllRoomsModel() {
+        return repo.findAll();
+    }
+
 }

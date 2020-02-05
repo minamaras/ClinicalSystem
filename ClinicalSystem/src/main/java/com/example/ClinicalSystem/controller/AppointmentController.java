@@ -38,20 +38,20 @@ public class AppointmentController {
     @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<AppointmentDTO> savePredefiend(@RequestBody AppointmentDTO appointmentDTO) throws ParseException {
 
-        if(appointmentService.savePredefined(appointmentDTO))
+        if (appointmentService.savePredefined(appointmentDTO))
             return new ResponseEntity<>(appointmentDTO, HttpStatus.OK);
 
-        return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/save")
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDTO appointmentDTO) throws ParseException {
 
-        if(appointmentService.saveAppointment(appointmentDTO)){
-            return  new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (appointmentService.saveAppointment(appointmentDTO)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -88,10 +88,10 @@ public class AppointmentController {
 
         boolean isDone = appointmentService.endAppoint(id);
 
-        if(isDone){
-            return  new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (isDone) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -101,9 +101,20 @@ public class AppointmentController {
 
         DoctorDTO doctorDTO = appointmentService.currentDoctor();
 
-        if(doctorDTO != null)
+        if (doctorDTO != null)
             return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/createappointment/{roomid}/{examdate}/{examtime}/{endtime}")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<?> createAppointmentFromRequest(@PathVariable("roomid") String roomId, @PathVariable("examdate") String examdate, @PathVariable("examtime") String examtime, @PathVariable("endtime") String endtime, @RequestBody AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
+
+        if (appointmentService.IsCreated(roomId, examdate, examtime, endtime, appointmentRequestDTO)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

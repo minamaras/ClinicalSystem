@@ -1,8 +1,6 @@
 package com.example.ClinicalSystem.service;
 
-import com.example.ClinicalSystem.model.ExamType;
-import com.example.ClinicalSystem.model.Patient;
-import com.example.ClinicalSystem.model.User;
+import com.example.ClinicalSystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,6 +11,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -108,6 +108,22 @@ public class EmailService {
         mail.setFrom(env.getProperty("spring.mail.username"));
         mail.setSubject("Clinical System: Appointment request");
         mail.setText("Hello " + patient.getName() + ",\n\n Please confirm or decline this appointment request. Appointment is on "+ examdate +" from  "+ examtime +" till "+ endtime +" . Click the following link: "+ "http://localhost:3000/patientrequeststatus" + "\n\n\n Clinical System");
+        javaMailSender.send(mail);
+    }
+
+    public void sendDoctorRequest(Doctor doctor, Patient patient, String examdate, String examtime, String endtime, Long idRequest) {
+        Clinic clinic = doctor.getClinic();
+        List<ClinicAdmin> admins = new ArrayList<>();
+        for(ClinicAdmin ca : clinic.getClinicAdmins()){
+            admins.add(ca);
+        }
+
+        int randomNumberAdmin = (int)(Math.random() * admins.size());
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(admins.get(randomNumberAdmin).getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Appointment request");
+        mail.setText("Hello " + admins.get(randomNumberAdmin).getName() + ",\n\n Please assign a room for this appointment request. Appointment is on "+ examdate +" from  "+ examtime +" till "+ endtime +" " + "\n\n\n Clinical System");
         javaMailSender.send(mail);
     }
 }

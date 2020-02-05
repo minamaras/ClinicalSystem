@@ -85,5 +85,16 @@ public class AppointmentRequestController {
         return new ResponseEntity<>(appointmentRequestDTOS, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/scheduleanother/{doctor}/{examdate}/{patient}/{startexam}/{endexam}")
+    @PreAuthorize("hasAuthority('DOCTOR')")
+    public ResponseEntity<?> scheduleAnotherAppointmentRequest(@PathVariable("doctor") int doctorId, @PathVariable("examdate") String examDate, @PathVariable("patient") String patientEmail, @PathVariable("startexam") String startExam, @PathVariable("endexam") String endExam, AppointmentDTO appointmentDTO) throws ParseException {
+
+        if(appointmentRequestService.scheduleAnother(doctorId, examDate, patientEmail, startExam, endExam)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }
