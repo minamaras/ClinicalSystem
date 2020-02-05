@@ -15,6 +15,7 @@ public class ClinicAdminDTO {
 	private String clinicName;
 	private Role role = Role.CLINICADMIN;
 	private boolean firstLogin;
+	private double clinicRating;
 
 	public ClinicAdminDTO() {
 		super();
@@ -102,5 +103,21 @@ public class ClinicAdminDTO {
 
 	public void setFirstLogin(boolean firstLogin) {
 		this.firstLogin = firstLogin;
+	}
+
+	public String getClinicName() {
+		return clinicName;
+	}
+
+	public void setClinicName(String clinicName) {
+		this.clinicName = clinicName;
+	}
+
+	public double getClinicRating() {
+		return clinicRating;
+	}
+
+	public void setClinicRating(double clinicRating) {
+		this.clinicRating = clinicRating;
 	}
 }
