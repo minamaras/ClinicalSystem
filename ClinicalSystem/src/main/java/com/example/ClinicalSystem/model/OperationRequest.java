@@ -3,6 +3,7 @@ package com.example.ClinicalSystem.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import javax.print.Doc;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.HashSet;
@@ -21,6 +22,9 @@ public class OperationRequest {
     @Column(name = "startdate" , nullable = false)
     private Date start;
 
+    @Column(name = "isScheduled", nullable = false)
+    private boolean isScheduled;
+
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @Column(name = "starttime", nullable = false )
     private Time startTime;
@@ -32,17 +36,24 @@ public class OperationRequest {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Patient patient;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Doctor> doctors = new HashSet<Doctor>();
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private OR or;
+
     public OperationRequest() {
         super();
     }
 
-    public OperationRequest(long id, String name, Date start, Time startTime, Time endTime, Patient patient){
+    public OperationRequest(long id, String name, Date start, Time startTime, Time endTime, Patient patient, boolean isScheduled){
         this.id = id;
         this.name = name;
         this.start = start;
         this.startTime = startTime;
         this.endTime = endTime;
         this.patient = patient;
+        this.isScheduled = isScheduled;
     }
 
     public long getId() {
@@ -91,5 +102,29 @@ public class OperationRequest {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public boolean isScheduled() {
+        return isScheduled;
+    }
+
+    public void setScheduled(boolean scheduled) {
+        isScheduled = scheduled;
+    }
+
+    public Set<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(Set<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
+    public OR getOr() {
+        return or;
+    }
+
+    public void setOr(OR or) {
+        this.or = or;
     }
 }
