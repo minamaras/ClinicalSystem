@@ -37,6 +37,10 @@ public class Doctor extends User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
+	@ManyToMany
+	@JoinTable(name = "doctor_operation", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "operation_id", referencedColumnName = "id"))
+	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
+
 	@ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<MedicalRecord> medicalRecords = new HashSet<MedicalRecord>();
 
@@ -202,5 +206,13 @@ public class Doctor extends User {
 
 	public void setReports(Set<Report> reports) {
 		this.reports = reports;
+	}
+
+	public Set<OperationRequest> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<OperationRequest> operations) {
+		this.operations = operations;
 	}
 }
