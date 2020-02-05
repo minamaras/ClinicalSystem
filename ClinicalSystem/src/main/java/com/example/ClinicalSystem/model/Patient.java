@@ -195,9 +195,9 @@ public class Patient extends User {
 		this.ratedClinics = ratedClinics;
 	}
 
-	public void addRatedDoctor(Doctor d){
+	public void addRatedDoctor(Doctor d) {
 		this.ratedDoctors.add(d);
-
+	}
 	public Set<AppointmentRequest> getAppointmentRequests() {
 		return appointmentRequests;
 	}
