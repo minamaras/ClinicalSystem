@@ -1,8 +1,9 @@
 package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.DTO.OldExamDTO;
+import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.Appointment;
+import com.example.ClinicalSystem.model.AppointmentRequest;
 import com.example.ClinicalSystem.service.AppointmentService;
 import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
