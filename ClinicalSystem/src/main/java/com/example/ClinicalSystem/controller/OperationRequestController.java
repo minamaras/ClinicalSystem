@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +31,15 @@ public class OperationRequestController {
         List<OperationRequestDTO> requestsDTO = operationRequestService.allRequests();
 
         return new ResponseEntity<>(requestsDTO, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/one/{id}")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<OperationRequestDTO> getOneRequest(@PathVariable long id) {
+
+        OperationRequestDTO requestDTO = operationRequestService.getOne(id);
+
+        return new ResponseEntity<>(requestDTO, HttpStatus.OK);
     }
 }
