@@ -4,9 +4,7 @@ import com.example.ClinicalSystem.model.ExamType;
 import com.example.ClinicalSystem.model.OR;
 
 import java.sql.Time;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class OperationRoomDTO {
 
@@ -20,6 +18,7 @@ public class OperationRoomDTO {
     private Set<AppointmentDTO> appointments = new HashSet<>();
     private Long clinicid;
     private String clinicname;
+    private List<AppointmentRequestDTO> appointmentRequests =  new ArrayList<>();
 
     public OperationRoomDTO(Long id, int number, String name, Time start, Time end, ExamTypeDTO examType) {
         this.id = id;
@@ -115,4 +114,11 @@ public class OperationRoomDTO {
         this.clinicname = clinicname;
     }
 
+    public List<AppointmentRequestDTO> getAppointmentRequests() {
+        return appointmentRequests;
+    }
+
+    public void setAppointmentRequests(List<AppointmentRequestDTO> appointmentRequests) {
+        this.appointmentRequests = appointmentRequests;
+    }
 }
