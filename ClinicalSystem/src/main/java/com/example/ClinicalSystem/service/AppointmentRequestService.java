@@ -291,7 +291,6 @@ public class AppointmentRequestService {
 
     }
 
-    public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, Long id) {
     public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, Long id,AppointmentRequestDTO apDTO) {
 
         //Long requestId = Long.parseLong(id);
@@ -300,7 +299,6 @@ public class AppointmentRequestService {
 
         if(patient != null) {
             try {
-                emailService.sendAppointmentRequest(patient, examdate, examtime, endtime);
                 emailService.sendAppointmentRequest(patient, examdate, examtime, endtime,apDTO);
             } catch (Exception e) {
                 return false;
