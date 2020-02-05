@@ -106,4 +106,20 @@ public class AppointmentController {
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
+    @RequestMapping(method = RequestMethod.POST, value = "/declinerequesttoappointment")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<?> declineRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+
+        boolean changedstatus = appointmentService.declineAppRequest(appointmentRequestDTO);
+
+        if(changedstatus){
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
+
 }
