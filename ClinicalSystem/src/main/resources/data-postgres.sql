@@ -121,6 +121,7 @@ insert into medication (id, name, text) values (-16,'Ibuprofen','za ublazavanje 
 insert into medication (id, name, text) values (-17,'Kodein','za ublazavanje bolova');
 insert into medical_record(id, additional, allergies, blood_type,eyes, measures, patient_id) values (-32, 'dodatno', 'paracetamol', '0+', '-2', '170cm/60kg', -14);
 insert into medical_record(id, additional, allergies, blood_type,eyes, measures, patient_id) values (-33, null, null, null, null, null, -5);
+insert into medical_record(id, additional, allergies, blood_type,eyes, measures, patient_id) values (-34, null, null, null, null, null, -26);
 
 insert into diagnosis (id,name,text) values (-1,'Tuberkuloza','Bakterijska infekcija.');
 insert into diagnosis (id,name,text) values (-2,'Upala pluca',null);
@@ -173,9 +174,6 @@ insert into clinic_doctors (clinic_id,doctors_id) values (-3,-23);
 
 insert into calendar(id,doctor_id) values (-1,-4);
 
-<<<<<<< Updated upstream
-insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id) values (-1, '2020-02-10', '12:30:00', '12:45:00',-4,-5,-4);
-=======
 insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus)
 values (-1, '2020-03-02', '12:30:00', '12:45:00',-4,-5,-4,'PATIENTSENT');
 insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus,roomnum)
@@ -187,7 +185,6 @@ insert into appointment (id,endtime,name,startdate,starttime,calendar_id,doctor_
 insert into doctor_appointments(doctor_id,appointments_id) values (-4,-21);
 insert into room_app(op_id,appointment_id) values (-3,-21);
 
->>>>>>> Stashed changes
 
 insert into appointment (id,endtime,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id,status,class) values
 (-5,'10:15:00','pregled1','2020-12-20','10:00:00',-1,-4,-3,-14,-4,'SHEDULED','NORMAL');

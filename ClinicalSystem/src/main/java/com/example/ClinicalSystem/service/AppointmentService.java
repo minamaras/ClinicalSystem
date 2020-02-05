@@ -250,6 +250,19 @@ public class AppointmentService {
 
         DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
 
+        List<AppointmentDTO> lista = new ArrayList<>();
+
+        for(Appointment a : doctor.getAppointments()){
+            AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
+            appointmentDTO.setDate(a.getStart().toString().substring(0,10));
+            appointmentDTO.setStartTime(a.getStartTime());
+            appointmentDTO.setEndTime(a.getEndTime());
+            lista.add(appointmentDTO);
+
+        }
+
+        doctorDTO.setAppointments(lista);
+
         return doctorDTO;
     }
 
