@@ -106,6 +106,22 @@ public class AppointmentController {
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/saverequesttoappointment")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<?> saveRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+
+        if(appointmentService.saveFromReqToAppointment(appointmentRequestDTO)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
+    }
+
+
     @RequestMapping(method = RequestMethod.POST, value = "/declinerequesttoappointment")
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<?> declineRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
