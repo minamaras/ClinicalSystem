@@ -292,6 +292,7 @@ public class AppointmentRequestService {
     }
 
     public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, Long id) {
+    public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, Long id,AppointmentRequestDTO apDTO) {
 
         //Long requestId = Long.parseLong(id);
         Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(id);
