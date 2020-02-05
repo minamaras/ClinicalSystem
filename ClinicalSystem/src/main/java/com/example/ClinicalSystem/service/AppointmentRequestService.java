@@ -279,7 +279,7 @@ public class AppointmentRequestService {
             apreq = appointmentRequestRepository.save(apreq);
             if(apreq != null)
               {
-                  sendRequest(roomId,examdate,examtime,endtime,appointmentRequestDTO,apreq.getId());
+                  sendRequest(roomId,examdate,examtime,endtime,appointmentRequestDTO,apreq.getId(),appointmentRequestDTO);
                   return true;
               }
 
