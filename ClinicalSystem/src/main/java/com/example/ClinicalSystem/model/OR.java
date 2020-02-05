@@ -1,18 +1,14 @@
 package com.example.ClinicalSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="OpRoom")
@@ -25,35 +21,41 @@ public class OR {
 	@Column(name = "number", nullable = false)
 	private int number;
 
-	@Column(name = "isavailable")
-	private boolean isAvailable;
-
-	@Column(name = "reserved")
-	private String reserved;
-
 	@Column(name = "name", nullable = false)
 	private String name;
 
+	@Column(name="starttime")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	private Time start;
 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+	@Column(name="endtime")
+	private Time end;
 
-	@OneToMany(mappedBy = "or", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private ExamType examType;
+
+	@OneToMany
+	@JoinTable(name = "room_app", joinColumns = @JoinColumn(name="op_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name="appointment_id", referencedColumnName = "id"))
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@Column(name="date_reserved")
-	private Date dateReserved;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Clinic clinic;
 
 	public OR() {
 		super();
 	}
 
-	public OR(Long id, int number, boolean isAvailable, String name, String reserved, Date dateReserved) {
+	public OR(Long id, int number, ExamType examType, Time start, Time end, Clinic clinic) {
 		super();
 		this.id = id;
 		this.number = number;
-		this.isAvailable = isAvailable;
 		this.name = name;
-		this.dateReserved = dateReserved;
-		this.reserved = reserved;
+		this.examType = examType;
+		this.start = start;
+		this.end = end;
+		this.clinic = clinic;
 	}
 
 
@@ -73,14 +75,6 @@ public class OR {
 		this.number = number;
 	}
 
-	public boolean isAvailable() {
-		return isAvailable;
-	}
-
-	public void setAvailable(boolean isAvailable) {
-		this.isAvailable = isAvailable;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -97,23 +91,40 @@ public class OR {
 		this.appointments = appointments;
 	}
 
-	public String getReserved() {
-		return reserved;
-	}
-
-	public void setReserved(String reserved) {
-		this.reserved = reserved;
-	}
-
 	public void setAppointments(Set<Appointment> appointments) {
 		this.appointments = appointments;
 	}
 
-	public Date getDateReserved() {
-		return dateReserved;
+	public ExamType getExamType() {
+		return examType;
 	}
 
-	public void setDateReserved(Date dateReserved) {
-		this.dateReserved = dateReserved;
+	public void setExamType(ExamType examType) {
+		this.examType = examType;
 	}
+
+	public Time getStart() {
+		return start;
+	}
+
+	public void setStart(Time start) {
+		this.start = start;
+	}
+
+	public Time getEnd() {
+		return end;
+	}
+
+	public void setEnd(Time end) {
+		this.end = end;
+	}
+
+	public Clinic getClinic() {
+		return clinic;
+	}
+
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
+	}
+
 }

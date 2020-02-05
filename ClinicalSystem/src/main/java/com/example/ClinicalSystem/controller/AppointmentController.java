@@ -1,16 +1,19 @@
 package com.example.ClinicalSystem.controller;
 
 import com.example.ClinicalSystem.DTO.AppointmentDTO;
+import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.OldExamDTO;
 import com.example.ClinicalSystem.model.Appointment;
 import com.example.ClinicalSystem.service.AppointmentService;
+import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +45,6 @@ public class AppointmentController {
         return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-
     @RequestMapping(method = RequestMethod.POST, value = "/save")
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDTO appointmentDTO) throws ParseException {
@@ -71,5 +73,70 @@ public class AppointmentController {
 
         return new ResponseEntity<>(exams, HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/startappoint/{id}")
+    @PreAuthorize("hasAnyAuthority('DOCTOR')")
+    public ResponseEntity<AppointmentDTO> getOneExam(@PathVariable long id) {
+
+        AppointmentDTO appDTO = appointmentService.getOneAppoint(id);
+
+        return new ResponseEntity<>(appDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/endappoint/{id}")
+    @PreAuthorize("hasAnyAuthority('DOCTOR')")
+    public ResponseEntity endExam(@PathVariable long id) {
+
+        boolean isDone = appointmentService.endAppoint(id);
+
+        if(isDone){
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getcurrent")
+    @PreAuthorize("hasAuthority('DOCTOR')")
+    public ResponseEntity<DoctorDTO> getCurrent() {
+
+        DoctorDTO doctorDTO = appointmentService.currentDoctor();
+
+        if(doctorDTO != null)
+            return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/saverequesttoappointment")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<?> saveRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+
+        if(appointmentService.saveFromReqToAppointment(appointmentRequestDTO)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/declinerequesttoappointment")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<?> declineRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+
+        boolean changedstatus = appointmentService.declineAppRequest(appointmentRequestDTO);
+
+        if(changedstatus){
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
 
 }

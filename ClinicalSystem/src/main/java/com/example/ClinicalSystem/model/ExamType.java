@@ -23,6 +23,9 @@ public class ExamType {
     @Column(name = "duration",nullable = false)
     private int duration;
 
+    @OneToMany
+    private Set<OR> rooms = new HashSet<OR>();
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Appointment> exams = new HashSet<Appointment>();
@@ -73,5 +76,13 @@ public class ExamType {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public Set<OR> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Set<OR> rooms) {
+        this.rooms = rooms;
     }
 }

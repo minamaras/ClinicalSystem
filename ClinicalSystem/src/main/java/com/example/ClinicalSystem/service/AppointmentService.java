@@ -1,5 +1,9 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.DTO.AppointmentDTO;
+import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
+import com.example.ClinicalSystem.DTO.NurseDTO;
+import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.AppointmentRepository;
@@ -36,8 +40,12 @@ public class AppointmentService {
     @Autowired
     private OperationRoomService operationRoomService;
 
+
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private AppointmentRequestService appointmentRequestService;
 
     public boolean saveAppointment(AppointmentDTO appointmentDTO){
 
@@ -96,7 +104,7 @@ public class AppointmentService {
         appointment.setType(examType);
 
         String startDate=appointmentDTO.getDate();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = sdf1.parse(appointmentDTO.getDate());
         java.sql.Date finaldate = new java.sql.Date(date.getTime());
         appointment.setStart(finaldate);
@@ -107,6 +115,58 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
 
         return true;
+    }
+
+    public boolean IsCreated(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO) {
+
+        AppointmentRequest apreq = modelMapper.map(appointmentRequestService.findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
+
+        Doctor doctor = doctorService.findOne(appointmentRequestDTO.getDoctorEmail());
+
+        Long id = Long.parseLong(roomId);
+
+        OperationRoomDTO roomDTO = operationRoomService.findById(id);
+        Appointment appointment = new Appointment();
+        appointment.setStatus(AppointmentStatus.SHEDULED);
+        appointment.setClassification(AppointmentClassification.NORMAL);
+
+        if(roomDTO != null) {
+            OR room = modelMapper.map(roomDTO, OR.class);
+
+            appointment.setDoctor(doctor);
+
+            Time t = Time.valueOf(examtime);
+            appointment.setStartTime(t);
+
+            Time endtimeTime = Time.valueOf(endtime);
+            appointment.setEndTime(endtimeTime);
+
+            appointment.setOr(room);
+
+            appointment.setPatient(apreq.getPatient());
+
+            Patient patient = patientService.findPatient(apreq.getPatient().getEmail());
+
+            patient.getAppointments().add(appointment);
+            doctor.getAppointments().add(appointment);
+            room.getAppointments().add(appointment);
+
+            appointmentRepository.save(appointment);
+
+            patientService.updatePatient(patient);
+            doctorService.updateDoctor(doctor);
+            operationRoomService.update(room);
+
+            return true;
+
+        }
+
+        return  false;
+
+    }
+
+    public Patient findByEmail(String email) {
+        return null;
     }
 
     public Set<AppointmentDTO> getAllExams(){
@@ -222,6 +282,105 @@ public class AppointmentService {
             }
         }
         return returnExams;
+    }
+
+    public AppointmentDTO getOneAppoint(long id){
+        Appointment app = appointmentRepository.findById(id);
+        if(app.getStatus().equals(AppointmentStatus.SHEDULED)) {
+            app.setStatus(AppointmentStatus.HAPPENING);
+            appointmentRepository.save(app);
+        }
+        AppointmentDTO appDTO = modelMapper.map(app, AppointmentDTO.class);
+        appDTO.setPatientemail(app.getPatient().getEmail());
+
+        return appDTO;
+    }
+
+    public boolean endAppoint(long id){
+        Appointment app = appointmentRepository.findById(id);
+
+        if(app == null){
+            return false;
+        }
+        if(app.getStatus().equals(AppointmentStatus.HAPPENING)) {
+            app.setStatus(AppointmentStatus.HAS_HAPPEND);
+            appointmentRepository.save(app);
+        }
+        return true;
+    }
+
+    public DoctorDTO currentDoctor() {
+        Authentication aut = SecurityContextHolder.getContext().getAuthentication();
+        Doctor doctor = (Doctor) aut.getPrincipal();
+
+        DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+
+        List<AppointmentDTO> lista = new ArrayList<>();
+
+        for(Appointment a : doctor.getAppointments()){
+            AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
+            appointmentDTO.setDate(a.getStart().toString().substring(0,10));
+            appointmentDTO.setStartTime(a.getStartTime());
+            appointmentDTO.setEndTime(a.getEndTime());
+            lista.add(appointmentDTO);
+
+        }
+
+        doctorDTO.setAppointments(lista);
+
+        return doctorDTO;
+    }
+
+
+    public boolean saveFromReqToAppointment(AppointmentRequestDTO appointmentRequestDTO){
+
+        Optional<AppointmentRequest> apreqop = appointmentRequestService.findByIdModel(appointmentRequestDTO.getId());
+
+        AppointmentRequest apreq = apreqop.get();
+        apreq.setAppointmentRequestStatus(AppointmentRequestStatus.CONFIRMED);
+        appointmentRequestService.update(apreq);
+
+        Appointment appointment = new Appointment();
+        appointment.setName("Appointment");
+        appointment.setStart(appointmentRequestDTO.getStart());
+        appointment.setStartTime(appointmentRequestDTO.getStartTime());
+        appointment.setEndTime(appointmentRequestDTO.getEndTime());
+        appointment.setStatus(AppointmentStatus.SHEDULED);
+        appointment.setClassification(AppointmentClassification.NORMAL);
+
+        appointment.setType(examTypeService.findOne(appointmentRequestDTO.getExamTypeName()));
+        appointment.setOr(operationRoomService.findByIdModel(appointmentRequestDTO.getRoomId()));
+        appointment.setDoctor(doctorService.findOne(appointmentRequestDTO.getDoctorEmail()));
+        appointment.setPatient(patientService.findPatient(apreq.getPatient().getEmail()));
+
+
+        Appointment saved = appointmentRepository.save(appointment);
+
+        apreq.getPatient().getAppointments().add(appointment);
+        doctorService.findOne(appointmentRequestDTO.getDoctorEmail()).getAppointments().add(appointment);
+        operationRoomService.findByIdModel(appointmentRequestDTO.getRoomId()).getAppointments().add(appointment);
+
+        patientService.savePatient(apreq.getPatient());
+        doctorService.updateDoctor(doctorService.findOne(appointmentRequestDTO.getDoctorEmail()));
+        operationRoomService.saveModel(operationRoomService.findByIdModel(appointmentRequestDTO.getRoomId()));
+
+        if(saved == null){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+
+
+    public boolean declineAppRequest(AppointmentRequestDTO appointmentRequestDTO){
+
+        Optional<AppointmentRequest> appointmentRequestop = appointmentRequestService.findByIdModel(appointmentRequestDTO.getId());
+        AppointmentRequest appointmentRequest = appointmentRequestop.get();
+
+        appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.DECLINED);
+
+       return  appointmentRequestService.updateAppRequest(appointmentRequest);
     }
 
 }

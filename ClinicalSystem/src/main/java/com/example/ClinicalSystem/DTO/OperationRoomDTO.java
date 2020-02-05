@@ -1,35 +1,37 @@
 package com.example.ClinicalSystem.DTO;
 
+import com.example.ClinicalSystem.model.ExamType;
 import com.example.ClinicalSystem.model.OR;
 
-import java.util.Date;
+import java.sql.Time;
+import java.util.*;
 
 public class OperationRoomDTO {
 
     private Long id;
     private int number;
     private String name;
-    private boolean isAvailable;
-    private String reserved;
     private Date dateReserved;
+    private Time start;
+    private Time end;
+    private ExamTypeDTO examType;
+    private Set<AppointmentDTO> appointments = new HashSet<>();
+    private Long clinicid;
+    private String clinicname;
+    private List<AppointmentRequestDTO> appointmentRequests =  new ArrayList<>();
 
-    public OperationRoomDTO(Long id, int number, String name, boolean isAvailable, String reserved, Date dateReserved) {
+    public OperationRoomDTO(Long id, int number, String name, Time start, Time end, ExamTypeDTO examType) {
         this.id = id;
         this.number = number;
         this.name = name;
-        this.isAvailable = isAvailable;
-        this.reserved = reserved;
         this.dateReserved = dateReserved;
+        this.start = start;
+        this.end = end;
+        this.examType = examType;
     }
 
     public OperationRoomDTO() {
         super();
-        this.setReserved("No");
-        this.setAvailable(false);
-    }
-
-    public OperationRoomDTO(OR room) {
-        this(room.getId(), room.getNumber(), room.getName(), room.isAvailable(), room.getReserved(), room.getDateReserved());
     }
 
     public Long getId() {
@@ -56,27 +58,67 @@ public class OperationRoomDTO {
         this.name = name;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-    public String getReserved() {
-        return reserved;
-    }
-
-    public void setReserved(String reserved) {
-        this.reserved = reserved;
-    }
-
     public Date getDateReserved() {
         return dateReserved;
     }
 
     public void setDateReserved(Date dateReserved) {
         this.dateReserved = dateReserved;
+    }
+
+    public Time getStart() {
+        return start;
+    }
+
+    public void setStart(Time start) {
+        this.start = start;
+    }
+
+    public Time getEnd() {
+        return end;
+    }
+
+    public void setEnd(Time end) {
+        this.end = end;
+    }
+
+    public ExamTypeDTO getExamType() {
+        return examType;
+    }
+
+    public void setExamType(ExamTypeDTO examType) {
+        this.examType = examType;
+    }
+
+    public Set<AppointmentDTO> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<AppointmentDTO> appointments) {
+        this.appointments = appointments;
+    }
+
+    public Long getClinicid() {
+        return clinicid;
+    }
+
+    public void setClinicid(Long clinicid) {
+        this.clinicid = clinicid;
+    }
+
+    public String getClinicname() {
+        return clinicname;
+    }
+
+    public void setClinicname(String clinicname) {
+        this.clinicname = clinicname;
+    }
+
+    public List<AppointmentRequestDTO> getAppointmentRequests() {
+        return appointmentRequests;
+    }
+
+    public void setAppointmentRequests(List<AppointmentRequestDTO> appointmentRequests) {
+        this.appointmentRequests = appointmentRequests;
     }
 }

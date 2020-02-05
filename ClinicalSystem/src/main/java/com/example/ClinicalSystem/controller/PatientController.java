@@ -114,6 +114,23 @@ public class PatientController {
 
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/aboutpatient/{id}")
+	@PreAuthorize("hasAuthority('DOCTOR')")
+	public ResponseEntity<PatientDTO> AboutPatient(@PathVariable String id) {
+
+
+		Patient patient = patientService.findOneBySocialSecurityNumber(id);
+		if(patient != null) {
+
+			PatientDTO patientDTO = modelMapper.map(patient, PatientDTO.class);
+
+			return new ResponseEntity<>(patientDTO, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+
 
 
 }

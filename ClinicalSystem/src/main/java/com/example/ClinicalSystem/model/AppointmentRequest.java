@@ -27,15 +27,21 @@ public class AppointmentRequest {
     @Column(name = "endtime", nullable = false )
     private Time endTime;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Column(name="appreqstatus")
+    @Enumerated(EnumType.STRING)
+    private AppointmentRequestStatus appointmentRequestStatus;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ExamType type;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Patient patient;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Doctor doctor;
 
+    @Column(name="roomnum")
+    private Long roomId;
 
     public AppointmentRequest() {
         super();
@@ -115,6 +121,22 @@ public class AppointmentRequest {
 
     public void setEndTime(Time endTime) {
         this.endTime = endTime;
+    }
+
+    public AppointmentRequestStatus getAppointmentRequestStatus() {
+        return appointmentRequestStatus;
+    }
+
+    public void setAppointmentRequestStatus(AppointmentRequestStatus appointmentRequestStatus) {
+        this.appointmentRequestStatus = appointmentRequestStatus;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomNumber) {
+        this.roomId = roomNumber;
     }
 }
 

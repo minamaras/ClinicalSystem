@@ -25,16 +25,16 @@ import javax.transaction.Transactional;
 
 @Service
 public class DoctorService {
-	
+
 	@Autowired
 	private DoctorRepository doctorRepository;
 
 	@Autowired
 	private RatingService ratingService;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -63,11 +63,26 @@ public class DoctorService {
 
 		Set<DoctorDTO> doctorsDTO = new HashSet<>();
 		for (Doctor d : doctors) {
+
 			DoctorDTO doctorDTO = modelMapper.map(d,DoctorDTO.class);
 			doctorDTO.setExamType(modelMapper.map(d.getExamType(),ExamTypeDTO.class));
+
+			List<AppointmentDTO> lista = new ArrayList<>();
+
+			for(Appointment a : d.getAppointments()){
+				AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
+				appointmentDTO.setDate(a.getStart().toString().substring(0,10));
+				appointmentDTO.setStartTime(a.getStartTime());
+				appointmentDTO.setEndTime(a.getEndTime());
+				lista.add(appointmentDTO);
+
+			}
+			doctorDTO.setStart(d.getStart());
+			doctorDTO.setEnd(d.getEnd());
+			doctorDTO.setAppointments(lista);
 			doctorsDTO.add(doctorDTO);
 		}
-		
+
 		return doctorsDTO;
 	}
 
@@ -206,6 +221,7 @@ public class DoctorService {
 		return  doctorsret;
 	}
 
+
 	public DoctorDTO updatedrating(String email,int rating){
 
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
@@ -238,4 +254,50 @@ public class DoctorService {
 			return  null;
 		}
 	}
+
+	public List<Doctor> findAllDoctors() {
+
+		List<Doctor> doctors = doctorRepository.findAll();
+
+		return doctors;
+	}
+
+	public DoctorDTO findOneByPrincipal(Principal p){
+		Doctor doctor = (Doctor) userService.findByUsername(p.getName());
+
+		List<AppointmentDTO> lista = new ArrayList<>();
+		Set<HolidayDTO> holidayDTOS = new HashSet<>();
+
+		for(Appointment a : doctor.getAppointments()){
+			AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
+			appointmentDTO.setDate(a.getStart().toString().substring(0,10));
+			appointmentDTO.setStartTime(a.getStartTime());
+			appointmentDTO.setEndTime(a.getEndTime());
+			if (a.getPatient() != null) {
+				appointmentDTO.setPatientemail(a.getPatient().getName());
+				appointmentDTO.setPatientName(a.getPatient().getName());
+				appointmentDTO.setPatientLastname(a.getPatient().getLastname());
+			}
+			lista.add(appointmentDTO);
+		}
+
+		for ( Holiday h : doctor.getHolidays()){
+
+			HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
+			holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
+			holidayDTO.setStartHoliday(h.getStart().toString().substring(0,10));
+			holidayDTO.setEndHoliday(h.getEnd().toString().substring(0,10));
+			holidayDTOS.add(holidayDTO);
+		}
+		lista.sort(Comparator.comparing(AppointmentDTO::getStart));
+
+		DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+		doctorDTO.setAppointments(lista);
+		doctorDTO.setHolidays(holidayDTOS);
+
+		return doctorDTO;
+	}
+
+
+
 }

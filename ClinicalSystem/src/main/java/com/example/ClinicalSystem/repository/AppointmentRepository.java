@@ -10,4 +10,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     Appointment save(Appointment a);
     Appointment findByName(String name);
+    Appointment findById(long id);
 }

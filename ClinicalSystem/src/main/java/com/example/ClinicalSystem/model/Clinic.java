@@ -53,6 +53,12 @@ public class Clinic {
 
 	@OneToMany(mappedBy = "clinic", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ClinicAdmin> clinicAdmins = new HashSet<ClinicAdmin>();
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "clinic_roomlist", joinColumns = @JoinColumn(name = "clinic_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"))
+	private Set<OR> rooms = new HashSet<OR>();
+
 	public Clinic() {
 
 	}
@@ -78,7 +84,7 @@ public class Clinic {
 	}
 
 	public Clinic(Long id, String name, String adress, String description, String freeAppointment, String price,
-				  HashSet<Doctor> doctors, HashSet<Nurse> nurses, HashSet<Patient> patients) {
+				  HashSet<Doctor> doctors, HashSet<Nurse> nurses, HashSet<Patient> patients, HashSet<OR> rooms) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -89,6 +95,7 @@ public class Clinic {
 		this.doctors = doctors;
 		this.nurses = nurses;
 		this.patients = patients;
+		this.rooms = rooms;
 	}
 
 
@@ -206,5 +213,13 @@ public class Clinic {
 
 	public void setSingleratings(Set<Rating> singleratings) {
 		this.singleratings = singleratings;
+	}
+
+	public Set<OR> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(Set<OR> rooms) {
+		this.rooms = rooms;
 	}
 }

@@ -78,7 +78,7 @@ public class DoctorController {
 
 
 	@RequestMapping(method = RequestMethod.GET, value = "/doctorabout/{id}")
-	@PreAuthorize("hasAuthority('PATIENT')")
+	@PreAuthorize("hasAnyAuthority('PATIENT','DOCTOR')")
 	public ResponseEntity<DoctorDTO> AboutDoctor(@PathVariable String id) {
 
 
@@ -214,6 +214,15 @@ public class DoctorController {
 			return new ResponseEntity<>(drdto,HttpStatus.OK);
 		}
 
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/getdates")
+	@PreAuthorize("hasAuthority('DOCTOR')")
+	public ResponseEntity<DoctorDTO> getDoctorsShift(Principal p) {
+
+		DoctorDTO doctorDTO = doctorService.findOneByPrincipal(p);
+
+		return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
 	}
 
 
