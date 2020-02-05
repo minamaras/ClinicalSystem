@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.AppointmentRequest;
+import com.example.ClinicalSystem.model.AppointmentRequestStatus;
 
 import java.sql.Time;
 import java.util.Date;
@@ -16,6 +17,8 @@ public class AppointmentRequestDTO {
     private Time endTime;
     private Long doctorid;
     private String doctorEmail;
+    private AppointmentRequestStatus appointmentRequestStatus;
+    private int roomNumber;
 
     public AppointmentRequestDTO(Long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
         this.id = id;
@@ -100,6 +103,22 @@ public class AppointmentRequestDTO {
 
     public void setDoctorEmail(String doctorEmail) {
         this.doctorEmail = doctorEmail;
+    }
+
+    public AppointmentRequestStatus getAppointmentRequestStatus() {
+        return appointmentRequestStatus;
+    }
+
+    public void setAppointmentRequestStatus(AppointmentRequestStatus appointmentRequestStatus) {
+        this.appointmentRequestStatus = appointmentRequestStatus;
+    }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 }
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
 
@@ -81,7 +82,7 @@ public class OperationRoomController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/clinicsrooms/{clinicname}")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity<Set<OperationRoomDTO>>RoomsOfClinic(@PathVariable String clinicname) {
+    public ResponseEntity<Set<OperationRoomDTO>>RoomsOfClinic(@PathVariable String clinicname) throws ParseException {
 
 
         Set<OperationRoomDTO> roomDTOS = roomService.findAllRoomsFromAClinic(clinicname);

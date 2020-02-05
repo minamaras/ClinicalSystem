@@ -54,8 +54,23 @@ public class DoctorService {
 
 		Set<DoctorDTO> doctorsDTO = new HashSet<>();
 		for (Doctor d : doctors) {
+
 			DoctorDTO doctorDTO = modelMapper.map(d,DoctorDTO.class);
 			doctorDTO.setExamType(modelMapper.map(d.getExamType(),ExamTypeDTO.class));
+
+			List<AppointmentDTO> lista = new ArrayList<>();
+
+			for(Appointment a : d.getAppointments()){
+				AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
+				appointmentDTO.setDate(a.getStart().toString().substring(0,10));
+				appointmentDTO.setStartTime(a.getStartTime());
+				appointmentDTO.setEndTime(a.getEndTime());
+				lista.add(appointmentDTO);
+
+			}
+			doctorDTO.setStart(d.getStart());
+			doctorDTO.setEnd(d.getEnd());
+			doctorDTO.setAppointments(lista);
 			doctorsDTO.add(doctorDTO);
 		}
 		

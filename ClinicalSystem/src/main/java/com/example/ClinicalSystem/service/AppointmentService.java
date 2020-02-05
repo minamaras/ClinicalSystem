@@ -103,7 +103,7 @@ public class AppointmentService {
         appointment.setType(examType);
 
         String startDate=appointmentDTO.getDate();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = sdf1.parse(appointmentDTO.getDate());
         java.sql.Date finaldate = new java.sql.Date(date.getTime());
         appointment.setStart(finaldate);
