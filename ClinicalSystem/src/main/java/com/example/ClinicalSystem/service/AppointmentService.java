@@ -309,4 +309,14 @@ public class AppointmentService {
     }
 
 
+    public boolean declineAppRequest(AppointmentRequestDTO appointmentRequestDTO){
+
+        Optional<AppointmentRequest> appointmentRequestop = appointmentRequestService.findByIdModel(appointmentRequestDTO.getId());
+        AppointmentRequest appointmentRequest = appointmentRequestop.get();
+
+        appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.DECLINED);
+
+       return  appointmentRequestService.updateAppRequest(appointmentRequest);
+    }
+
 }
