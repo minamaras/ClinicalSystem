@@ -158,6 +158,10 @@ public class OperationRoomService {
         return  roomsToReturn;
     }
 
+    public void saveModel(OR or){
+        repo.save(or);
+    }
+
     public OperationRoomDTO findById(Long id){
         Optional<OR> ap =repo.findById(id);
         return modelMapper.map(ap.get(),OperationRoomDTO.class);
