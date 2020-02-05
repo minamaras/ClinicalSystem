@@ -142,7 +142,7 @@ public class OperationRoomService {
 
             for(AppointmentRequestDTO apr : waitingreq)
             {
-                        if(room.getNumber() == apr.getRoomNumber()){
+                        if(room.getId() == apr.getRoomId()){
                             apr.setDate(apr.getStart().toString().substring(0,10));
                             roomrequests.add(apr);
                     }
