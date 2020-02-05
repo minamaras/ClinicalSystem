@@ -167,4 +167,9 @@ public class OperationRoomService {
         return modelMapper.map(ap.get(),OperationRoomDTO.class);
     }
 
+    public OR findByIdModel(Long id){
+        Optional<OR> ap =repo.findById(id);
+        return ap.get();
+    }
+
 }
