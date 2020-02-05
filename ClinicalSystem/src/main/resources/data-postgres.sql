@@ -77,8 +77,6 @@ insert into clinic_roomlist(room_id,clinic_id) values(-3,-3);
 
 insert into exam_type_rooms(exam_type_id, rooms_id) values (-4,-3);
 
-insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
-  (-4,'zubar','10',-3,-3,-4,'8:00:00','15:45:00',false);
 
 --insert into clinical_centre_admin (id) values (-6);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-4,-4);
@@ -178,8 +176,15 @@ insert into clinic_doctors (clinic_id,doctors_id) values (-3,-23);
 insert into calendar(id,doctor_id) values (-1,-4);
 
 insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus,roomnum)
-values (-1, '2020-03-02', '12:30:00', '12:45:00',-4,-5,-4,'WAITING',-3);
+values (-1, '2020-03-02', '12:30:00', '12:45:00',-4,-5,-4,'PATIENTSENT',-3);
+
+insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus,roomnum)
+values (-5, '2020-04-02', '12:45:00', '13:00:00',-4,-5,-4,'WAITING',-3);
+
 insert into request_patient (patient_id,request_id) values (-5,-1);
+insert into request_patient (patient_id,request_id) values (-5,-5);
+
+
 insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus,roomnum)
 values (-2, '2020-03-02', '12:00:00', '12:15:00',-4,-14,-4,'WAITING',2);
 
@@ -285,9 +290,9 @@ insert into doctor_appointments(doctor_id,appointments_id) values (-4,-12);
 
 insert into appointment(id,name,startdate,startTime,endTime,status,class,
 type_id,doctor_id,or_id,patient_id)
-values(-13,'preglednekistari1','2018-09-01','12:00:00','12:15:00',' HAS_HAPPEND','NORMAL',
+values(-14,'preglednekistari1','2018-09-01','12:00:00','12:15:00',' HAS_HAPPEND','NORMAL',
 -4,-23,-3,-5);
-insert into doctor_appointments(doctor_id,appointments_id) values (-23,-13);
+insert into doctor_appointments(doctor_id,appointments_id) values (-23,-14);
 
 insert into doctor_patient_ratings(doctor_id,patient_id) values(-4,-5);
 insert into rating(id,onevalue) values (-1,'2');
