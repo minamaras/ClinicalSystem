@@ -113,6 +113,14 @@ public class AppointmentController {
         if(appointmentService.saveFromReqToAppointment(appointmentRequestDTO)){
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
+        boolean issaved = appointmentService.saveFromReqToAppointment(id);
+        if(issaved) {
+            URI newUri = new URI("http://localhost:3000/confirmedappreq");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(newUri);
+            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
+        }
+         else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
