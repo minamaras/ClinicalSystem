@@ -19,22 +19,24 @@ public class OperationRequestDTO {
     private String patientemail;
     private boolean isScheduled;
     private List<DoctorDTO> doctorDTOS = new ArrayList<>();
+    private String examTypeName;
 
     public OperationRequestDTO(){
 
     }
 
-    public OperationRequestDTO(long id, String name, String start, String patientemail, boolean isScheduled) {
+    public OperationRequestDTO(long id, String name, String start, String patientemail, boolean isScheduled, String examTypeName) {
         this.id = id;
         this.name = name;
         this.start = start;
         this.patientemail = patientemail;
         this.isScheduled = isScheduled;
+        this.examTypeName = examTypeName;
 
     }
 
     public OperationRequestDTO(OperationRequest or){
-        this(or.getId(),or.getName(),or.getStart().toString().substring(0,10),or.getPatient().getEmail(), or.isScheduled());
+        this(or.getId(),or.getName(),or.getStart().toString().substring(0,10),or.getPatient().getEmail(), or.isScheduled(), or.getType().getName());
 
     }
 
@@ -108,5 +110,13 @@ public class OperationRequestDTO {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getExamTypeName() {
+        return examTypeName;
+    }
+
+    public void setExamTypeName(String examTypeName) {
+        this.examTypeName = examTypeName;
     }
 }
