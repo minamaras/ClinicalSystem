@@ -1,34 +1,41 @@
 package com.example.ClinicalSystem.DTO;
 
+import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.OperationRequest;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OperationRequestDTO {
 
     private long id;
     private String name;
     private String start;
+    private String date;
     private Time startTime;
     private Time endTime;
     private String patientemail;
+    private boolean isScheduled;
+    private List<DoctorDTO> doctorDTOS = new ArrayList<>();
 
     public OperationRequestDTO(){
 
     }
 
-    public OperationRequestDTO(long id, String name, String start, Time startTime, Time endTime, String patientemail) {
+    public OperationRequestDTO(long id, String name, String start, String patientemail, boolean isScheduled) {
         this.id = id;
         this.name = name;
         this.start = start;
-        this.startTime = startTime;
-        this.endTime = endTime;
         this.patientemail = patientemail;
+        this.isScheduled = isScheduled;
+
     }
 
     public OperationRequestDTO(OperationRequest or){
-        this(or.getId(),or.getName(),or.getStart().toString().substring(0,10),or.getStartTime(),or.getEndTime(),or.getPatient().getEmail());
+        this(or.getId(),or.getName(),or.getStart().toString().substring(0,10),or.getPatient().getEmail(), or.isScheduled());
+
     }
 
     public long getId() {
@@ -77,5 +84,29 @@ public class OperationRequestDTO {
 
     public void setPatientemail(String patientemail) {
         this.patientemail = patientemail;
+    }
+
+    public boolean isScheduled() {
+        return isScheduled;
+    }
+
+    public void setScheduled(boolean scheduled) {
+        isScheduled = scheduled;
+    }
+
+    public List<DoctorDTO> getDoctorDTOS() {
+        return doctorDTOS;
+    }
+
+    public void setDoctorDTOS(List<DoctorDTO> doctorDTOS) {
+        this.doctorDTOS = doctorDTOS;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
