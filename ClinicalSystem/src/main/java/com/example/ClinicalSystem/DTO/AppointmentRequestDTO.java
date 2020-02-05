@@ -18,7 +18,7 @@ public class AppointmentRequestDTO {
     private Long doctorid;
     private String doctorEmail;
     private AppointmentRequestStatus appointmentRequestStatus;
-    private int roomNumber;
+    private Long roomId;
 
     public AppointmentRequestDTO(Long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
         this.id = id;
@@ -113,12 +113,12 @@ public class AppointmentRequestDTO {
         this.appointmentRequestStatus = appointmentRequestStatus;
     }
 
-    public int getRoomNumber() {
-        return roomNumber;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 }
 

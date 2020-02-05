@@ -107,14 +107,34 @@ public class AppointmentController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/createappointment/{roomid}/{examdate}/{examtime}/{endtime}")
-    @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity<?> createAppointmentFromRequest(@PathVariable("roomid") String roomId, @PathVariable("examdate") String examdate, @PathVariable("examtime") String examtime, @PathVariable("endtime") String endtime, @RequestBody AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
 
-        if (appointmentService.IsCreated(roomId, examdate, examtime, endtime, appointmentRequestDTO)) {
+    @RequestMapping(method = RequestMethod.POST, value = "/saverequesttoappointment")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<?> saveRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+
+        if(appointmentService.saveFromReqToAppointment(appointmentRequestDTO)){
+
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/declinerequesttoappointment")
+    @PreAuthorize("hasAuthority('PATIENT')")
+    public ResponseEntity<?> declineRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+
+        boolean changedstatus = appointmentService.declineAppRequest(appointmentRequestDTO);
+
+        if(changedstatus){
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
+
 }
