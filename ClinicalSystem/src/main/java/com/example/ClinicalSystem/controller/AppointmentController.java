@@ -1,7 +1,5 @@
 package com.example.ClinicalSystem.controller;
 
-import com.example.ClinicalSystem.DTO.AppointmentDTO;
-import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.OldExamDTO;
 import com.example.ClinicalSystem.model.Appointment;
@@ -109,9 +107,8 @@ public class AppointmentController {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "/saverequesttoappointment")
-    @PreAuthorize("hasAuthority('PATIENT')")
-    public ResponseEntity<?> saveRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+    @RequestMapping(method = RequestMethod.GET, value = "/saverequesttoappointment/{id}")
+    public ResponseEntity<?> saveRequestToAppointment(@PathVariable String id) throws URISyntaxException {
 
         if(appointmentService.saveFromReqToAppointment(appointmentRequestDTO)){
             return new ResponseEntity<>(HttpStatus.OK);
@@ -126,11 +123,16 @@ public class AppointmentController {
     @RequestMapping(method = RequestMethod.POST, value = "/declinerequesttoappointment")
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<?> declineRequestToAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+    @RequestMapping(method = RequestMethod.GET, value = "/declinerequesttoappointment/{id}")
+    public ResponseEntity<?> declineRequestToAppointment(@PathVariable String id) throws URISyntaxException {
 
-        boolean changedstatus = appointmentService.declineAppRequest(appointmentRequestDTO);
+        boolean changedstatus = appointmentService.declineAppRequest(id);
 
         if(changedstatus){
-            return  new ResponseEntity<>(HttpStatus.OK);
+            URI newUri = new URI("http://localhost:3000/declinedappreq");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(newUri);
+            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
         }else{
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
