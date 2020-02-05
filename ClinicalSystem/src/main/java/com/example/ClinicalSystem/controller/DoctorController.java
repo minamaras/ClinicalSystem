@@ -67,7 +67,7 @@ public class DoctorController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/doctorabout/{id}")
-	@PreAuthorize("hasAuthority('PATIENT')")
+	@PreAuthorize("hasAnyAuthority('PATIENT','DOCTOR')")
 	public ResponseEntity<DoctorDTO> AboutDoctor(@PathVariable String id) {
 
 
@@ -142,5 +142,6 @@ public class DoctorController {
 
 		return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
 	}
+
 
 }

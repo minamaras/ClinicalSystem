@@ -244,4 +244,13 @@ public class AppointmentService {
         return true;
     }
 
+    public DoctorDTO currentDoctor() {
+        Authentication aut = SecurityContextHolder.getContext().getAuthentication();
+        Doctor doctor = (Doctor) aut.getPrincipal();
+
+        DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+
+        return doctorDTO;
+    }
+
 }

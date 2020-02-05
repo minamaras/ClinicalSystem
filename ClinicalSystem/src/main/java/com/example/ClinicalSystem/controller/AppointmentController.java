@@ -94,4 +94,16 @@ public class AppointmentController {
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getcurrent")
+    @PreAuthorize("hasAuthority('DOCTOR')")
+    public ResponseEntity<DoctorDTO> getCurrent() {
+
+        DoctorDTO doctorDTO = appointmentService.currentDoctor();
+
+        if(doctorDTO != null)
+            return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+    }
 }
