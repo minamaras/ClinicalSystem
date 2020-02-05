@@ -40,6 +40,7 @@ public class AppointmentService {
     @Autowired
     private OperationRoomService operationRoomService;
 
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -265,5 +266,47 @@ public class AppointmentService {
 
         return doctorDTO;
     }
+
+
+    public boolean saveFromReqToAppointment(AppointmentRequestDTO appointmentRequestDTO){
+
+        Optional<AppointmentRequest> apreqop = appointmentRequestService.findByIdModel(appointmentRequestDTO.getId());
+
+        AppointmentRequest apreq = apreqop.get();
+        apreq.setAppointmentRequestStatus(AppointmentRequestStatus.CONFIRMED);
+        appointmentRequestService.update(apreq);
+
+        Appointment appointment = new Appointment();
+        appointment.setName("Appointment");
+        appointment.setStart(appointmentRequestDTO.getStart());
+        appointment.setStartTime(appointmentRequestDTO.getStartTime());
+        appointment.setEndTime(appointmentRequestDTO.getEndTime());
+        appointment.setStatus(AppointmentStatus.SHEDULED);
+        appointment.setClassification(AppointmentClassification.NORMAL);
+
+        appointment.setType(examTypeService.findOne(appointmentRequestDTO.getExamTypeName()));
+        appointment.setOr(operationRoomService.findByIdModel(appointmentRequestDTO.getRoomId()));
+        appointment.setDoctor(doctorService.findOne(appointmentRequestDTO.getDoctorEmail()));
+        appointment.setPatient(patientService.findPatient(apreq.getPatient().getEmail()));
+
+
+        Appointment saved = appointmentRepository.save(appointment);
+
+        apreq.getPatient().getAppointments().add(appointment);
+        doctorService.findOne(appointmentRequestDTO.getDoctorEmail()).getAppointments().add(appointment);
+        operationRoomService.findByIdModel(appointmentRequestDTO.getRoomId()).getAppointments().add(appointment);
+
+        patientService.savePatient(apreq.getPatient());
+        doctorService.updateDoctor(doctorService.findOne(appointmentRequestDTO.getDoctorEmail()));
+        operationRoomService.saveModel(operationRoomService.findByIdModel(appointmentRequestDTO.getRoomId()));
+
+        if(saved == null){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+
 
 }
