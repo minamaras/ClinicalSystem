@@ -30,6 +30,24 @@ public class OperationRoomDTO {
         this.examType = examType;
     }
 
+    public OperationRoomDTO(Long id, int number, String name, Time start, Time end) {
+        this.id = id;
+        this.number = number;
+        this.name = name;
+        this.dateReserved = dateReserved;
+        this.start = start;
+        this.end = end;
+    }
+
+    public OperationRoomDTO(OR or){
+
+        this(or.getId(), or.getNumber(), or.getName(), or.getStart(), or.getEnd());
+        ExamTypeDTO examTypeDTO = new ExamTypeDTO(or.getExamType());
+
+        this.examType = examTypeDTO;
+    }
+
+
     public OperationRoomDTO() {
         super();
     }
