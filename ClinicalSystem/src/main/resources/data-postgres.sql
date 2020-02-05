@@ -21,6 +21,9 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-23,'Pera', 'Markovic', 'doktorMarkovic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-25,'Lazar', 'Lazarevic', 'doktor25@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-26,'Ana', 'Lakic', 'analakic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'PATIENT','2019-12-01 09:00:01');
+
+
 INSERT INTO clinic (id, description, name, adress,rating) values (-3, 'Klinika broj 1', 'Klinika Sunce', 'Bulevar Oslobodjenja 22','9');
 INSERT INTO clinic (id, description, name, adress,rating) values (-5, 'Klinika broj 2', 'Dentalend', 'Njegoseva 3','6');
 INSERT INTO clinic (id, description, name, adress,rating) values (-7, 'Klinika broj 3', 'Klinika Nada Diva', 'Safarikova 11','7');
@@ -44,7 +47,7 @@ insert into exam_type (id,name,price, duration) values (-20,'Imunoloski pregled'
 insert into exam_type (id,name,price, duration) values (-21,'MRI pregled',40000, 60);
 insert into exam_type (id,name,price, duration) values (-22,'Opsti pregled',5000, 30);
 
-insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-3,'or1',2,'07:00:00','23:00:00', -4,-3);
+insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-3,'OR 1',2,'07:00:00','23:00:00', -4,-3);
 insert into clinic_roomlist(room_id,clinic_id) values(-3,-3);
 
 
@@ -93,6 +96,7 @@ insert into nurse (id, clinic_id, firstlogin) values (-12, -5, false);
 
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-14,'true','Fruskogorska 12','Novi Sad','Srbija','062332324','0301997805111');
+insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-26,'true','Balzakova 11','Novi Sad','Srbija','061223355','0301997805043');
 
 
 insert into recipe (id, is_authenthicated, content, doctor_id, nurse_id, patient_id) values (-121, false, 'prvi recept', -4, null, -5);
@@ -169,7 +173,21 @@ insert into clinic_doctors (clinic_id,doctors_id) values (-3,-23);
 
 insert into calendar(id,doctor_id) values (-1,-4);
 
+<<<<<<< Updated upstream
 insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id) values (-1, '2020-02-10', '12:30:00', '12:45:00',-4,-5,-4);
+=======
+insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus)
+values (-1, '2020-03-02', '12:30:00', '12:45:00',-4,-5,-4,'PATIENTSENT');
+insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus,roomnum)
+values (-2, '2020-03-02', '12:00:00', '12:15:00',-4,-14,-4,'WAITING',2);
+
+insert into appointment (id,endtime,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id,status,class) values
+(-21,'10:15:00','pregled3','2020-03-02','10:00:00',-1,-4,-3,-26,-4,'SHEDULED','NORMAL');
+
+insert into doctor_appointments(doctor_id,appointments_id) values (-4,-21);
+insert into room_app(op_id,appointment_id) values (-3,-21);
+
+>>>>>>> Stashed changes
 
 insert into appointment (id,endtime,name,startdate,starttime,calendar_id,doctor_id,or_id,patient_id,type_id,status,class) values
 (-5,'10:15:00','pregled1','2020-12-20','10:00:00',-1,-4,-3,-14,-4,'SHEDULED','NORMAL');

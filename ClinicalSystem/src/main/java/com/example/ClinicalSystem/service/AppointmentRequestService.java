@@ -62,6 +62,7 @@ public class AppointmentRequestService {
 
         AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
         appointmentRequest.setPatient(p);
+        appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.PATIENTSENT);
 
         String startDate=appointmentRequestDTO.getDate();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
@@ -129,17 +130,45 @@ public class AppointmentRequestService {
 
         List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
         for (AppointmentRequest c : requests) {
-            AppointmentRequestDTO appointmentRequestDTO =modelMapper.map(c,AppointmentRequestDTO.class);
+            if(c.getAppointmentRequestStatus().equals(AppointmentRequestStatus.PATIENTSENT)){
 
-            appointmentRequestDTO.setStart(c.getStart());
-            appointmentRequestDTO.setStartTime(c.getStartTime());
-            appointmentRequestDTO.setEndTime(c.getEndTime());
+                AppointmentRequestDTO appointmentRequestDTO =modelMapper.map(c,AppointmentRequestDTO.class);
+                appointmentRequestDTO.setStart(c.getStart());
+                appointmentRequestDTO.setStartTime(c.getStartTime());
+                appointmentRequestDTO.setEndTime(c.getEndTime());
 
-            appointmentRequestDTOS.add(appointmentRequestDTO);
+                appointmentRequestDTOS.add(appointmentRequestDTO);
+            }
         }
 
         return appointmentRequestDTOS;
     }
+
+
+
+    public List<AppointmentRequestDTO> findAllWaiting() throws ParseException {
+
+        List<AppointmentRequest> requests = appointmentRequestRepository.findAll();
+
+        List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
+        for (AppointmentRequest c : requests) {
+
+            if (c.getAppointmentRequestStatus().equals(AppointmentRequestStatus.WAITING)) {
+
+                AppointmentRequestDTO appointmentRequestDTO = modelMapper.map(c, AppointmentRequestDTO.class);
+                appointmentRequestDTO.setStart(c.getStart());
+                appointmentRequestDTO.setStartTime(c.getStartTime());
+                appointmentRequestDTO.setEndTime(c.getEndTime());
+
+                appointmentRequestDTOS.add(appointmentRequestDTO);
+            }
+
+        }
+
+
+        return appointmentRequestDTOS;
+    }
+
 
 
     public AppointmentRequestDTO findById(Long id){
@@ -162,7 +191,6 @@ public class AppointmentRequestService {
 
         OperationRoomDTO roomDTO = operationRoomService.findById(id);
 
-        apreq.setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
 
         if(roomDTO != null) {
 
@@ -178,6 +206,7 @@ public class AppointmentRequestService {
             apreq.setStart(date);
 
             apreq.setRoomNumber(roomDTO.getNumber());
+            apreq.setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
 
             LocalDate requestDate = LocalDate.fromDateFields(date);
 

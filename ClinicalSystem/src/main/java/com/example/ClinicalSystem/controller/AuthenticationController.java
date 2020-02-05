@@ -137,7 +137,7 @@ public class AuthenticationController {
 
             ClinicAdmin clinicAdmin = clinicAdminService.findByEmail(user.getEmail());
             ClinicAdminDTO clinicAdminDTO = modelMapper.map(clinicAdmin, ClinicAdminDTO.class);
-            //clinicAdminDTO.setClinic();
+
             return new ResponseEntity<>(clinicAdminDTO, HttpStatus.OK);
 
         } else if ( user.getRole() == Role.NURSE){
