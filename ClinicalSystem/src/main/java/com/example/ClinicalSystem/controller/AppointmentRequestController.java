@@ -65,7 +65,7 @@ public class AppointmentRequestController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/sendrequest/{doctoremail}/{examdate}/{examtime}/{endtime}/{id}")
+    /*@RequestMapping(method = RequestMethod.POST, value = "/sendrequest/{doctoremail}/{examdate}/{examtime}/{endtime}/{id}")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<?> sendRequestForAppointment(@PathVariable("doctoremail") String roomId, @PathVariable("examdate") String examdate, @PathVariable("examtime") String examtime, @PathVariable("endtime") String endtime, @PathVariable("id") String id,@RequestBody AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
 
@@ -74,7 +74,7 @@ public class AppointmentRequestController {
         } else {
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.GET, value = "/allmyexams")
     @PreAuthorize("hasAuthority('PATIENT')")
