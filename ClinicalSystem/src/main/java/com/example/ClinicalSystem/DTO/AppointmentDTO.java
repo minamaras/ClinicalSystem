@@ -150,7 +150,7 @@ public class AppointmentDTO {
 
     public void setDoctorid(Long doctorid) {
         this.doctorid = doctorid;
-
+    }
     public String getPatientemail() {
         return patientemail;
     }
