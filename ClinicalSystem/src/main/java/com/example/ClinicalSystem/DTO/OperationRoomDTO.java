@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.ExamType;
 import com.example.ClinicalSystem.model.OR;
+import com.example.ClinicalSystem.model.OperationRequest;
 
 import java.sql.Time;
 import java.util.*;
@@ -19,6 +20,7 @@ public class OperationRoomDTO {
     private Long clinicid;
     private String clinicname;
     private List<AppointmentRequestDTO> appointmentRequests =  new ArrayList<>();
+    private List<OperationRequestDTO> operationReq =  new ArrayList<>();
 
     public OperationRoomDTO(Long id, int number, String name, Time start, Time end, ExamTypeDTO examType) {
         this.id = id;
@@ -138,5 +140,13 @@ public class OperationRoomDTO {
 
     public void setAppointmentRequests(List<AppointmentRequestDTO> appointmentRequests) {
         this.appointmentRequests = appointmentRequests;
+    }
+
+    public List<OperationRequestDTO> getOperationReq() {
+        return operationReq;
+    }
+
+    public void setOperationReq(List<OperationRequestDTO> operationReq) {
+        this.operationReq = operationReq;
     }
 }
