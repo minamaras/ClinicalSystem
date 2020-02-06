@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
+import com.example.ClinicalSystem.model.Appointment;
 import com.example.ClinicalSystem.model.ExamType;
 import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.model.User;
@@ -128,4 +129,23 @@ public class EmailService {
 
         javaMailSender.send(msg);
     }
+
+    @Async
+    public void sendEmailAboutAppointment(User p, Appointment a) throws MailException, InterruptedException {
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(p.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Scheduled appointment");
+        mail.setText("Hello " + p.getName() + ",\n\nYour successfully scheduled predefined appointment. Here is some information about you upcoming appointment: " +
+                "\n Appointment date "+a.getStart().toString().substring(0,10)+
+                "\n Appointment time "+a.getStartTime()+
+                "\n Appointment type "+a.getType().getName()+
+                "\n Appointment or "+a.getOr().getName()+
+                "\n Appointment doctor "+a.getDoctor().getName()+" "+a.getDoctor().getLastname()+
+                "\n\n\nClinical System Team");
+        javaMailSender.send(mail);
+
+    }
+
 }
