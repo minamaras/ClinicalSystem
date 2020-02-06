@@ -14,11 +14,13 @@ public class OperationRequestDTO {
     private String name;
     private String start;
     private String date;
+    private int roomNumber;
     private Time startTime;
     private Time endTime;
     private String patientemail;
     private boolean isScheduled;
     private List<DoctorDTO> doctorDTOS = new ArrayList<>();
+    private List<String> doctorNames = new ArrayList<>();
 
     public OperationRequestDTO(){
 
@@ -30,6 +32,17 @@ public class OperationRequestDTO {
         this.start = start;
         this.patientemail = patientemail;
         this.isScheduled = isScheduled;
+
+    }
+
+    public OperationRequestDTO(long id, String name, String start, String patientemail, boolean isScheduled, List doctorNames, int roomNumber, Time startTime) {
+        this.id = id;
+        this.name = name;
+        this.start = start;
+        this.patientemail = patientemail;
+        this.isScheduled = isScheduled;
+        this.doctorNames = doctorNames;
+        this.roomNumber = roomNumber;
 
     }
 
@@ -108,5 +121,21 @@ public class OperationRequestDTO {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public List<String> getDoctorNames() {
+        return doctorNames;
+    }
+
+    public void setDoctorNames(List<String> doctorNames) {
+        this.doctorNames = doctorNames;
+    }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 }
