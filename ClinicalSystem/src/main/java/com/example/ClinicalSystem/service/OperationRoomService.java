@@ -230,5 +230,10 @@ public class OperationRoomService {
     }
 
 
+    public OR save(OR or){
+        return repo.save(or);
+    }
+
+
 
 }
