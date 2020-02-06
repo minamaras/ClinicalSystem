@@ -42,4 +42,17 @@ public class OperationRequestController {
 
         return new ResponseEntity<>(requestDTO, HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/schedule")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity scheduleOperation(@RequestBody OperationRequestDTO operationRequestDTO) {
+
+        boolean isScheduled = operationRequestService.scheduleOperation(operationRequestDTO);
+
+        if(isScheduled) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
