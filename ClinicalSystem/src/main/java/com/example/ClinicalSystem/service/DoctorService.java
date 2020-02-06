@@ -1,6 +1,10 @@
 package com.example.ClinicalSystem.service;
 
 import java.security.Principal;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +47,9 @@ public class DoctorService {
 
 	@Autowired
 	private ExamTypeService examTypeService;
+
+	@Autowired
+	private OperationRequestService operationRequestService;
 
 
 	public Set<DoctorDTO> findAll(Principal p) {
@@ -234,4 +241,95 @@ public class DoctorService {
 
 		return doctorDTO;
 	}
+
+
+
+	public List<DoctorDTO> getFreeDoctorsForOperation(OperationParamsDTO opParams){
+
+		List<Doctor> doctors = doctorRepository.findAll();
+
+		List<Doctor> operationDoctors = new ArrayList<>();
+		for(Doctor doctor : doctors){
+			if(doctor.getSpecialization().equals("Hirurg") || doctor.getSpecialization().equals("Anesteziolog")){
+				operationDoctors.add(doctor);
+			}
+		}
+
+		List<DoctorDTO> doctorDTOS = new ArrayList<>();
+
+		String inputDateString = opParams.getDateOperation();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+		LocalDate inputDate = LocalDate.parse(inputDateString);
+		java.sql.Date finalDate = java.sql.Date.valueOf(inputDate);
+
+		LocalTime finalStartTime = LocalTime.parse(opParams.getTimeOperation());
+		LocalTime finalEndTime = finalStartTime.plusHours(2);
+
+		OperationRequest operation = operationRequestService.findOne(opParams.getRequestId());
+
+
+		for(Doctor doctor : operationDoctors) {
+
+			boolean isAvailable = true;
+
+
+			//proveravam za godisnje odmore da li se preklapaju sa operacijom
+			if(doctor.getHolidays() != null){
+				for(Holiday h : doctor.getHolidays()){
+
+					if((h.getStart().compareTo(finalDate)) == 0 || h.getEnd().compareTo(finalDate) ==0){
+						isAvailable = false;
+
+					} else if ((h.getStart().compareTo(finalDate) < 0) && (h.getEnd().compareTo(finalDate) > 0)){
+						isAvailable = false;
+
+					}
+				}
+			}
+
+			//provera za radno vreme
+			LocalTime startWork = doctor.getStart().toLocalTime();
+			LocalTime endWork = doctor.getEnd().toLocalTime();
+
+			if((finalStartTime.compareTo(startWork) < 0) || (finalEndTime.compareTo(endWork) > 0)){
+				isAvailable = false;
+			}
+
+			//provera za ostale operacije
+			if (doctor.getOperations() != null) {
+				for (OperationRequest oprequest : doctor.getOperations()) {
+
+					LocalTime opStart = oprequest.getStartTime().toLocalTime();
+					LocalTime opEnd = oprequest.getEndTime().toLocalTime();
+
+					if (oprequest.getStart().compareTo(finalDate) == 0) {
+
+						//neka operacija pocinje pre kraja ove sto zelim i zavrsava
+						if (((opStart.compareTo(finalStartTime) < 0) || (opStart.compareTo(finalStartTime) == 0))
+								&& (opEnd.compareTo(finalStartTime) > 0) ) {
+							isAvailable = false;
+							break;
+							//DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+							//doctorDTOS.add(doctorDTO);
+						}
+
+						if((opStart.compareTo(finalEndTime) < 0)
+								&& (opEnd.compareTo(finalEndTime) > 0)) {
+							isAvailable = false;
+							break;
+						}
+
+					}
+
+				}
+			}
+			if(isAvailable) {
+				DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+				doctorDTOS.add(doctorDTO);
+			}
+		}
+
+		return doctorDTOS;
+	}
+
 }
