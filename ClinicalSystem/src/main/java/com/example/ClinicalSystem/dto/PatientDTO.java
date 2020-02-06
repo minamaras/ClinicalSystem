@@ -3,6 +3,9 @@ package com.example.ClinicalSystem.DTO;
 import com.example.ClinicalSystem.model.Patient;
 import com.example.ClinicalSystem.model.Role;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PatientDTO {
 	
 	private Long Id;
@@ -19,6 +22,9 @@ public class PatientDTO {
 
 	private String adress;
 
+	private List<DoctorDTO> ratedDoctors = new ArrayList<>();
+
+	private List<ClinicDTO> ratedClinics = new ArrayList<>();
 
 	private String city;
 
@@ -158,5 +164,21 @@ public class PatientDTO {
 
 	public void setRepatedPassword(String repatedPassword) {
 		this.repatedPassword = repatedPassword;
+	}
+
+	public List<DoctorDTO> getRatedDoctors() {
+		return ratedDoctors;
+	}
+
+	public void setRatedDoctors(List<DoctorDTO> ratedDoctors) {
+		this.ratedDoctors = ratedDoctors;
+	}
+
+	public List<ClinicDTO> getRatedClinics() {
+		return ratedClinics;
+	}
+
+	public void setRatedClinics(List<ClinicDTO> ratedClinics) {
+		this.ratedClinics = ratedClinics;
 	}
 }

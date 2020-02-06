@@ -47,6 +47,13 @@ public class MedicalRecordController {
         if(user.getRole() == Role.PATIENT) {
             Patient loggedinpatient = patientService.findPatient(user.getEmail());
             MedicalRecord medicalRecord = medicalRecordService.findById(loggedinpatient.getMedicalRecord().getId());
+
+            if(medicalRecord == null){
+                MedicalRecord mr = new MedicalRecord();
+                mr.setPatient(loggedinpatient);
+                medicalRecordService.saveRecord(mr);
+                loggedinpatient.setMedicalRecord(mr);
+            }
             MedicalRecordDTO dto = new MedicalRecordDTO(medicalRecord);
             return ResponseEntity.ok(dto);
         }

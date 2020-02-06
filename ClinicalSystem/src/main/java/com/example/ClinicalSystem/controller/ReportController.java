@@ -43,6 +43,15 @@ public class ReportController {
     @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR','PATIENT')")
     public ResponseEntity<List<ReportDTO>> allReports(@RequestBody String patientemail, Principal p) {
 
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) a.getPrincipal();
+
+        if(user.getRole() == Role.PATIENT) {
+            Patient loggedinpatient = patientService.findPatient(user.getEmail());
+            List<ReportDTO> reports = reportService.findPatientsReports(loggedinpatient);
+            return ResponseEntity.ok(reports);
+        }
+
         List<ReportDTO> reportsDTO = reportService.getAllForPatient(patientemail, p);
 
         return ResponseEntity.ok(reportsDTO);

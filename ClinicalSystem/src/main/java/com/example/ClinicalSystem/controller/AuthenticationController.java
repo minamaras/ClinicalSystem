@@ -137,6 +137,22 @@ public class AuthenticationController {
 
             ClinicAdmin clinicAdmin = clinicAdminService.findByEmail(user.getEmail());
             ClinicAdminDTO clinicAdminDTO = modelMapper.map(clinicAdmin, ClinicAdminDTO.class);
+            double rejting ;
+
+            if(clinicAdmin.getClinic().getSingleratings().size() == 0){
+                rejting = 0;
+            }else {
+
+                double suma = 0;
+
+                for (Rating r : clinicAdmin.getClinic().getSingleratings()) {
+                    suma = suma + r.getValue();
+                }
+                double rating = suma / (clinicAdmin.getClinic().getSingleratings().size());
+                rejting = rating;
+            }
+
+            clinicAdminDTO.setClinicRating(rejting);
 
             return new ResponseEntity<>(clinicAdminDTO, HttpStatus.OK);
 

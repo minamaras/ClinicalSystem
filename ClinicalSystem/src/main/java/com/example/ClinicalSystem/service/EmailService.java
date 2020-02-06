@@ -1,14 +1,21 @@
 package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.model.*;
+import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
+import com.example.ClinicalSystem.model.ExamType;
+import com.example.ClinicalSystem.model.Patient;
+import com.example.ClinicalSystem.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -101,14 +108,28 @@ public class EmailService {
     }
 
 
-    public void sendAppointmentRequest(Patient patient, String examdate, String examtime, String endtime) {
+    public void sendAppointmentRequest(Patient patient, String examdate, String examtime, String endtime, AppointmentRequestDTO apdto) throws MessagingException {
 
-        SimpleMailMessage mail = new SimpleMailMessage();
+        /*SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(patient.getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
         mail.setSubject("Clinical System: Appointment request");
-        mail.setText("Hello " + patient.getName() + ",\n\n Please confirm or decline this appointment request. Appointment is on "+ examdate +" from  "+ examtime +" till "+ endtime +" . Click the following link: "+ "http://localhost:3000/patientrequeststatus" + "\n\n\n Clinical System");
-        javaMailSender.send(mail);
+        mail.setText("Hello " + patient.getName() + ",\n\n Please confirm or decline this appointment request. Appointment is on "+ examdate +" from  "+ examtime +" till "+ endtime +" . Click the following link to accept: "+ "<html> <a href='http://localhost:8081/saverequesttoappointment'"+"></a></html>" + "\n\n\n Clinical System");
+        javaMailSender.send(mail);*/
+
+        MimeMessage msg = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(msg,true);
+        helper.setTo(patient.getEmail());
+
+        String accept = "http://localhost:8081/api/appointments/saverequesttoappointment/";
+        String decline = "http://localhost:8081/api/appointments/declinerequesttoappointment/";
+
+        String content = "Hello " + patient.getName() + ",\n\n Please confirm or decline this appointment request. Appointment is on "+ examdate +" from  "+ examtime +" till "+ endtime +" ." +
+                "<a href="+accept+apdto.getId()+">Click here</a>"+"to confirm this request. To decline request click"+"<a href="+decline+apdto.getId()+">Click here</a>"+
+                "\n\n\n Clinical System";
+        helper.setText(content,true);
+
+        javaMailSender.send(msg);
     }
 
     public void sendDoctorRequest(Doctor doctor, Patient patient, String examdate, String examtime, String endtime, Long idRequest) {

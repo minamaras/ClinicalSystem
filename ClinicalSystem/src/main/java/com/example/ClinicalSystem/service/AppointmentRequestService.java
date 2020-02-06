@@ -279,7 +279,7 @@ public class AppointmentRequestService {
             apreq = appointmentRequestRepository.save(apreq);
             if(apreq != null)
               {
-                  sendRequest(roomId,examdate,examtime,endtime,appointmentRequestDTO,apreq.getId());
+                  sendRequest(roomId,examdate,examtime,endtime,appointmentRequestDTO,apreq.getId(),appointmentRequestDTO);
                   return true;
               }
 
@@ -291,7 +291,7 @@ public class AppointmentRequestService {
 
     }
 
-    public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, Long id) {
+    public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, Long id,AppointmentRequestDTO apDTO) {
 
         //Long requestId = Long.parseLong(id);
         Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(id);
@@ -299,7 +299,7 @@ public class AppointmentRequestService {
 
         if(patient != null) {
             try {
-                emailService.sendAppointmentRequest(patient, examdate, examtime, endtime);
+                emailService.sendAppointmentRequest(patient, examdate, examtime, endtime,apDTO);
             } catch (Exception e) {
                 return false;
             }

@@ -31,8 +31,9 @@ public class Clinic {
 	@Column(name = "price")
 	private String price;
 
-	@Column(name = "rating", nullable = false)
-	private int rating;
+	@ManyToMany
+	@JoinTable(name = "clinic_ratings", joinColumns = @JoinColumn(name = "clinic_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rating_id", referencedColumnName = "id"))
+	private Set<Rating> singleratings = new HashSet<>();
 
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -43,6 +44,9 @@ public class Clinic {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Patient> patients = new HashSet<Patient>();
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Patient> patientsThatRated = new HashSet<Patient>();
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private BusinessReport report;
@@ -194,12 +198,21 @@ public class Clinic {
 		this.clinicAdmins.add(clinicAdmin);
 	}
 
-	public int getRating() {
-		return rating;
+
+	public Set<Patient> getPatientsThatRated() {
+		return patientsThatRated;
 	}
 
-	public void setRating(int rating) {
-		this.rating = rating;
+	public void setPatientsThatRated(Set<Patient> patientsThatRated) {
+		this.patientsThatRated = patientsThatRated;
+	}
+
+	public Set<Rating> getSingleratings() {
+		return singleratings;
+	}
+
+	public void setSingleratings(Set<Rating> singleratings) {
+		this.singleratings = singleratings;
 	}
 
 	public Set<OR> getRooms() {
