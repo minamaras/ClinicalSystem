@@ -68,6 +68,7 @@ public class DoctorService {
 			doctorDTO.setExamType(modelMapper.map(d.getExamType(),ExamTypeDTO.class));
 
 			List<AppointmentDTO> lista = new ArrayList<>();
+			Set<HolidayDTO> holidayDTOS = new HashSet<>();
 
 			for(Appointment a : d.getAppointments()){
 				AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
@@ -77,9 +78,19 @@ public class DoctorService {
 				lista.add(appointmentDTO);
 
 			}
+
+			for ( Holiday h : d.getHolidays()){
+
+				HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
+				holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
+				holidayDTOS.add(holidayDTO);
+			}
+
+
 			doctorDTO.setStart(d.getStart());
 			doctorDTO.setEnd(d.getEnd());
 			doctorDTO.setAppointments(lista);
+			doctorDTO.setHolidays(holidayDTOS);
 			doctorsDTO.add(doctorDTO);
 		}
 
