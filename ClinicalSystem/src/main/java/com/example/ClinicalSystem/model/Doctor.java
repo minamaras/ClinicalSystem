@@ -37,11 +37,10 @@ public class Doctor extends User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@ManyToMany
-	@JoinTable(name = "doctor_operation", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "operation_id", referencedColumnName = "id"))
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
 
-	@ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<MedicalRecord> medicalRecords = new HashSet<MedicalRecord>();
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
