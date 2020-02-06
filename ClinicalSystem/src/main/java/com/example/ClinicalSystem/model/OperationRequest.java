@@ -37,6 +37,7 @@ public class OperationRequest {
     private Patient patient;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "doctor_operations", joinColumns = @JoinColumn(name = "operations_id"), inverseJoinColumns = @JoinColumn(name = "doctor_id"))
     private Set<Doctor> doctors = new HashSet<Doctor>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
