@@ -2,19 +2,30 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.OperationRequestDTO;
-import com.example.ClinicalSystem.model.OperationRequest;
+import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.OperationRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OperationRequestService {
 
+
     @Autowired
     private OperationRequestRepository operationRequestRepository;
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private OperationRoomService operationRoomService;
 
     public OperationRequest findOne(long id){
         return operationRequestRepository.findById(id);
@@ -45,6 +56,58 @@ public class OperationRequestService {
         oprDTO.setEndTime(or.getEndTime());
 
         return oprDTO;
+    }
+
+    public OperationRequest save(OperationRequest operationRequest){
+       return operationRequestRepository.save(operationRequest);
+    }
+
+
+    public boolean scheduleOperation(OperationRequestDTO operationRequestDTO){
+
+        OperationRequest operation = operationRequestRepository.findById(operationRequestDTO.getId());
+
+        if(operation == null){
+            return false;
+        }
+
+
+        String inputDateString = operationRequestDTO.getStart();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+        LocalDate inputDate = LocalDate.parse(inputDateString);
+        java.sql.Date finalDate = java.sql.Date.valueOf(inputDate);
+
+        LocalTime startTime = operationRequestDTO.getStartTime().toLocalTime();
+        LocalTime endTime = startTime.plusHours(2);
+        Time finalStartTime = Time.valueOf(startTime);
+        Time finalEndTime = Time.valueOf(endTime);
+
+
+        operation.setStart(finalDate);
+        operation.setStartTime(finalStartTime);
+        operation.setEndTime(finalEndTime);
+
+
+
+        OR oroom = operationRoomService.findOne(operationRequestDTO.getRoomNumber());
+        operation.setOr(oroom);
+        //save(operation);
+
+        oroom.getOperations().add(operation);
+
+
+        for(String name : operationRequestDTO.getDoctorNames()){
+            Doctor doctor = doctorService.findOne(name);
+            operation.getDoctors().add(doctor);
+            //doctor.getOperations().add(operation);
+        }
+
+        operation.setScheduled(true);
+        save(operation);
+        operationRoomService.save(oroom);
+
+        return true;
+
     }
 
 }
