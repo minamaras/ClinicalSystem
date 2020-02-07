@@ -302,7 +302,7 @@ INSERT INTO user_authority (user_id,authority_id) values (-28,2);
 INSERT INTO user_authority (user_id,authority_id) values (-29,2);
 INSERT INTO user_authority (user_id,authority_id) values (-30,2);
 INSERT INTO user_authority (user_id,authority_id) values (-26,1);
-
+INSERT INTO user_authority (user_id,authority_id) values (-9,4);
 
 
 insert into holidays(id,startdate,reason,enddate,typeholiday,user_id,holidaystatus)
