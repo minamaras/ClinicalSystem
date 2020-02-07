@@ -27,6 +27,9 @@ public class OperationRequestService {
     @Autowired
     private OperationRoomService operationRoomService;
 
+    @Autowired
+    private EmailService emailService;
+
     public OperationRequest findOne(long id){
         return operationRequestRepository.findById(id);
     }
@@ -63,7 +66,7 @@ public class OperationRequestService {
     }
 
 
-    public boolean scheduleOperation(OperationRequestDTO operationRequestDTO){
+    public boolean scheduleOperation(OperationRequestDTO operationRequestDTO) throws InterruptedException {
 
         OperationRequest operation = operationRequestRepository.findById(operationRequestDTO.getId());
 
@@ -71,6 +74,7 @@ public class OperationRequestService {
             return false;
         }
 
+        java.util.Date originalDate = operation.getStart();
 
         String inputDateString = operationRequestDTO.getStart();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
@@ -82,6 +86,8 @@ public class OperationRequestService {
         Time finalStartTime = Time.valueOf(startTime);
         Time finalEndTime = Time.valueOf(endTime);
 
+        String thisD = finalDate.toString().substring(0,10);
+        String starts = finalStartTime.toString();
 
         operation.setStart(finalDate);
         operation.setStartTime(finalStartTime);
@@ -96,15 +102,29 @@ public class OperationRequestService {
         oroom.getOperations().add(operation);
 
 
+
         for(String name : operationRequestDTO.getDoctorNames()){
             Doctor doctor = doctorService.findOne(name);
             operation.getDoctors().add(doctor);
+            emailService.sendOperationInfoDoctor(doctor,thisD,starts);
             //doctor.getOperations().add(operation);
         }
 
         operation.setScheduled(true);
         save(operation);
         operationRoomService.save(oroom);
+
+        Patient patient = operation.getPatient();
+
+        if(originalDate.compareTo(finalDate) > 0 ||  originalDate.compareTo(finalDate) < 0){
+
+            emailService.sendOperationDateChange(patient,thisD,starts);
+        } else {
+
+            emailService.sendOperationInfo(patient,thisD,starts);
+        }
+
+
 
         return true;
 
