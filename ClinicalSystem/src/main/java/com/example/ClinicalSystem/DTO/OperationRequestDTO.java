@@ -39,9 +39,9 @@ public class OperationRequestDTO {
 
     }
 
-    public OperationRequestDTO(OperationRequest or){
+    /*public OperationRequestDTO(OperationRequest or){
         this(or.getId(),or.getName(),or.getStart().toString().substring(0,10),or.getPatient().getEmail(), or.isScheduled(), or.getType().getName());
-    }
+    }*/
 
     public OperationRequestDTO(long id, String name, String patientemail, boolean isScheduled, int roomNumber) {
         this.id = id;
