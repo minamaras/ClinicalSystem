@@ -225,6 +225,7 @@ public class AppointmentService {
                     upcomingExamDTO.setEndTime(ap.getEndTime());
                     upcomingExamDTO.setType(modelMapper.map(ap.getType(),ExamTypeDTO.class));
                     upcomingExamDTO.setRoomNumber(ap.getOr().getNumber());
+                    upcomingExamDTO.setId(ap.getId());
 
                     returnAppointments.add(upcomingExamDTO);
 
@@ -286,6 +287,7 @@ public class AppointmentService {
                     oldExamDTO.setStartTime(ap.getStartTime());
                     oldExamDTO.setEndTime(ap.getEndTime());
                     oldExamDTO.setType(modelMapper.map(ap.getType(),ExamTypeDTO.class));
+                    oldExamDTO.setId(ap.getId());
 
                     ClinicDTO clinicDTO =modelMapper.map(ap.getDoctor().getClinic(),ClinicDTO.class);
 
