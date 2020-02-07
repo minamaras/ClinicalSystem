@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.security.Principal;
+import java.sql.Time;
 import java.text.ParseException;
 import java.util.*;
 
@@ -171,26 +172,27 @@ public class OperationRoomService {
 
 
 
-    public Set<OperationRoomDTO> allRoomsForOperationFromAClinic(Principal p) throws ParseException {
+    public Set<OperationRoomDTO> allRoomsForOperation() throws ParseException {
 
 
         HashSet<OperationRoomDTO> roomsToReturn = new HashSet<>();
-        Clinic clinic = null;
+        //Clinic clinic = null;
 
-        User user = userService.findByUsername(p.getName());
-
+      // User user = userService.findByUsername(p.getName());
+/*
         if(user.getRole().equals(Role.CLINICADMIN)){
             ClinicAdmin ca = clinicAdminService.findByEmail(user.getEmail());
             clinic = clinicService.findClinic(ca.getClinic());
         }
-
-        List<OR> rooms = repo.findAllByClinic(clinic);
+*/
+        //List<OR> rooms = repo.findAllByClinic(clinic);
         Set<Long> setOfIds = new HashSet<>();
+        List<OR> rooms = repo.findAll();
         for(OR room : rooms){
             setOfIds.add(room.getId());
             OperationRoomDTO operationRoomDTO = modelMapper.map(room, OperationRoomDTO.class);
             ExamTypeDTO examTypeDTO = modelMapper.map(room.getExamType(),ExamTypeDTO.class);
-            operationRoomDTO.setClinicid(clinic.getId());
+            //operationRoomDTO.setClinicid(clinic.getId());
             operationRoomDTO.setExamType(examTypeDTO);
 
             List<OperationRequestDTO> opreqDTOs = new ArrayList<>();
@@ -204,22 +206,7 @@ public class OperationRoomService {
             }
             operationRoomDTO.setOperationReq(opreqDTOs);
 
-            //Set<AppointmentDTO> appointmentDTOS = new HashSet<>();
-/*
-            for(Appointment a : room.getAppointments()){
-                AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
-                appointmentDTO.setDate(a.getStart().toString().substring(0,10));
-                appointmentDTO.setStartTime(a.getStartTime());
-                appointmentDTO.setEndTime(a.getEndTime());
-                appointmentDTOS.add(appointmentDTO);
 
-            }
-            List<AppointmentRequestDTO> roomrequests = new ArrayList<>();
-
-           */
-
-           // operationRoomDTO.setAppointmentRequests(roomrequests);
-            // operationRoomDTO.setAppointments(appointmentDTOS);
             if(operationRoomDTO.getExamType().getName().equals("Operation")) {
                 roomsToReturn.add(operationRoomDTO);
             }
@@ -235,5 +222,61 @@ public class OperationRoomService {
     }
 
 
+
+    public List<OperationRoomDTO> allRoomsForOperationRandom(Date dateOp, Time timeOp, Time timeOpEnd) throws ParseException {
+
+
+        List<OperationRoomDTO> roomsToReturn = new ArrayList<>();
+        boolean isAvailable = true;
+
+        Set<Long> setOfIds = new HashSet<>();
+        List<OR> rooms = repo.findAll();
+        for(OR room : rooms){
+            setOfIds.add(room.getId());
+            //OperationRoomDTO operationRoomDTO = modelMapper.map(room, OperationRoomDTO.class);
+            OperationRoomDTO operationRoomDTO = new OperationRoomDTO(room);
+            ExamTypeDTO examTypeDTO = modelMapper.map(room.getExamType(),ExamTypeDTO.class);
+
+            //operationRoomDTO.setClinicid(clinic.getId());
+            operationRoomDTO.setExamType(examTypeDTO);
+
+            List<OperationRequestDTO> opreqDTOs = new ArrayList<>();
+
+            for(OperationRequest orequest : room.getOperations()){
+
+                if(orequest.getStart().compareTo(dateOp) == 0) {
+                    if ((orequest.getStartTime().compareTo(timeOp) == 0) || (orequest.getStartTime().compareTo(timeOp) < 0) &&
+                            ((orequest.getEndTime().compareTo(timeOp) > 0))) {
+                            isAvailable = false;
+                            break;
+                    }
+
+                    if(orequest.getStartTime().compareTo(timeOpEnd) < 0 && orequest.getEndTime().compareTo(timeOp) > 0){
+                        isAvailable = false;
+                        break;
+                    }
+                }
+
+                if(isAvailable) {
+                    OperationRequestDTO opreq = new OperationRequestDTO(orequest);
+                    opreq.setDate(orequest.getStart().toString().substring(0, 10));
+                    opreq.setStartTime(orequest.getStartTime());
+                    opreq.setEndTime(orequest.getEndTime());
+                    opreqDTOs.add(opreq);
+                }
+            }
+            operationRoomDTO.setOperationReq(opreqDTOs);
+
+
+
+
+            if(operationRoomDTO.getExamType().getName().equals("Operation")) {
+                roomsToReturn.add(operationRoomDTO);
+            }
+
+        }
+
+        return  roomsToReturn;
+    }
 
 }
