@@ -8,9 +8,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
@@ -55,4 +57,11 @@ public class OperationRequestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    //@Scheduled(fixedRate = 100000)
+    @Scheduled(cron = "0 0 0 * * *")
+    public void assignOrdinationAutomatically() throws ParseException, InterruptedException {
+        operationRequestService.assignOperationAutomatically();
+    }
+
 }
