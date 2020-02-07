@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.DTO.AppointmentDTO;
 import com.example.ClinicalSystem.DTO.OperationRequestDTO;
 import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.model.OperationRequest;
@@ -45,9 +46,21 @@ public class OperationRequestController {
         return new ResponseEntity<>(requestDTO, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/schedule/{doctor}/{examdate}/{patient}/{startexam}/{endexam}")
+    @PreAuthorize("hasAuthority('DOCTOR')")
+    public ResponseEntity<?> scheduleOperation(@PathVariable("doctor") int doctorId, @PathVariable("examdate") String examDate, @PathVariable("patient") String patientEmail, @PathVariable("startexam") String startExam, @PathVariable("endexam") String endExam, @RequestBody OperationRequestDTO operationRequestDTO) throws ParseException {
+
+        if(operationRequestService.scheduleOperation(doctorId, examDate, patientEmail, startExam, endExam, operationRequestDTO)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+     }
+  
+
     @RequestMapping(method = RequestMethod.POST, value = "/schedule")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity scheduleOperation(@RequestBody OperationRequestDTO operationRequestDTO) throws InterruptedException {
+    public ResponseEntity approveOperation(@RequestBody OperationRequestDTO operationRequestDTO) throws InterruptedException {
 
         boolean isScheduled = operationRequestService.scheduleOperation(operationRequestDTO);
 

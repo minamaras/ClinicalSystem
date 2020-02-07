@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.LocalTime;
 
+import java.util.Date;
 import java.sql.Time;
 import java.util.*;
 
@@ -16,16 +17,21 @@ public class Doctor extends User {
 	@Column(name = "specialization", nullable = false)
 	private String specialization;
 
-	@Column(name = "rating")
-	private int rating;
-
 	@ManyToMany
 	@JoinTable(name = "doctor_patient", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patients = new HashSet<Patient>();
 
+	@ManyToMany
+	@JoinTable(name = "doctor_patient_ratings", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
+	private Set<Patient> patientsThatRated = new HashSet<Patient>();
+
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
+
+	@ManyToMany
+	@JoinTable(name = "doctor_ratings", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rating_id", referencedColumnName = "id"))
+	private Set<Rating> singleratings = new HashSet<>();
 
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -34,8 +40,9 @@ public class Doctor extends User {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private ClinicAdmin clinicAdmin;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
+
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
@@ -65,15 +72,13 @@ public class Doctor extends User {
 	public Doctor() {
 		super();
 		this.setRole(Role.DOCTOR);
-		this.setRating(0);
 		this.firstLogin = true;
 
 	}
 
-	public Doctor(String specialization, int rating, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Time end, Time start, boolean firstLogin) {
+	public Doctor(String specialization, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Time end, Time start, boolean firstLogin) {
 		super();
 		this.specialization = specialization;
-		this.rating = rating;
 		this.patients = patients;
 		this.clinic = clinic;
 		this.calendar = calendar;
@@ -123,14 +128,6 @@ public class Doctor extends User {
 
 	public void setSpecialization(String specialization) {
 		this.specialization = specialization;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
 	}
 
 	public Set<Patient> getPatients() {
@@ -213,5 +210,28 @@ public class Doctor extends User {
 
 	public void setOperations(Set<OperationRequest> operations) {
 		this.operations = operations;
+	}
+	public Set<Patient> getPatientsThatRated() {
+		return patientsThatRated;
+	}
+
+	public void setPatientsThatRated(Set<Patient> patientsThatRated) {
+		this.patientsThatRated = patientsThatRated;
+	}
+
+	public void addPatientThatRated(Patient p){
+		this.patientsThatRated.add(p);
+	}
+
+	public void addNewSingleRating(Rating r){
+		this.singleratings.add(r);
+	}
+
+	public Set<Rating> getSingleratings() {
+		return singleratings;
+	}
+
+	public void setSingleratings(Set<Rating> singleratings) {
+		this.singleratings = singleratings;
 	}
 }

@@ -39,9 +39,17 @@ public class ReportController {
     private ModelMapper modelMapper;
 
     @RequestMapping(method = RequestMethod.POST, value = "/info")
-
     @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR','PATIENT')")
     public ResponseEntity<List<ReportDTO>> allReports(@RequestBody String patientemail, Principal p) {
+
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) a.getPrincipal();
+
+        if(user.getRole() == Role.PATIENT) {
+            Patient loggedinpatient = patientService.findPatient(user.getEmail());
+            List<ReportDTO> reports = reportService.findPatientsReports(loggedinpatient);
+            return ResponseEntity.ok(reports);
+        }
 
         List<ReportDTO> reportsDTO = reportService.getAllForPatient(patientemail, p);
 
@@ -68,6 +76,24 @@ public class ReportController {
         ReportDTO dto = reportService.edit(reportdto);
 
         return ResponseEntity.ok(dto);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/infoo/{email:.+}")
+    @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR','PATIENT')")
+    public ResponseEntity<List<ReportDTO>> reports(@PathVariable String email) {
+
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) a.getPrincipal();
+
+        if(user.getRole() == Role.PATIENT) {
+            Patient loggedinpatient = patientService.findPatient(user.getEmail());
+            List<ReportDTO> reports = reportService.findPatientsReports(loggedinpatient);
+            return ResponseEntity.ok(reports);
+        }
+
+        List<ReportDTO> reportsDTO = reportService.getAllReports(email);
+
+        return ResponseEntity.ok(reportsDTO);
     }
 
 }

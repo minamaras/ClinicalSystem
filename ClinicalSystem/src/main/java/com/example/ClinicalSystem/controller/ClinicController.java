@@ -6,11 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
-import com.example.ClinicalSystem.DTO.DoctorDTO;
-import com.example.ClinicalSystem.DTO.FilterDTO;
-import com.example.ClinicalSystem.model.ClinicAdmin;
-import com.example.ClinicalSystem.model.Doctor;
+import com.example.ClinicalSystem.DTO.*;
+import com.example.ClinicalSystem.model.*;
 import com.sun.mail.iap.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import com.example.ClinicalSystem.DTO.ClinicDTO;
-import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.service.ClinicService;
 
 @CrossOrigin("http://localhost:3000")
@@ -156,10 +151,32 @@ public class ClinicController {
 			ClinicDTO clinicDTO = modelMapper.map(clinic, ClinicDTO.class);
 			Set<Doctor> docs =clinic.getDoctors();
 			Set<Long> setOfIds = new HashSet<>();
+			List<PatientDTO> patients = new ArrayList<>();
+
 			for(Doctor doctor : docs){
 				setOfIds.add(doctor.getId());
+				for(Appointment a : doctor.getAppointments()){
+					if(a.getStatus().equals(AppointmentStatus.HAS_HAPPEND) && a.getClassification().equals(AppointmentClassification.NORMAL)){
+					}
+				}
 			}
 			clinicDTO.setDoctorsId(setOfIds);
+
+			if(clinic.getSingleratings().size() == 0){
+				clinicDTO.setRating(0);
+			}else {
+
+				double suma = 0;
+
+				for (Rating r : clinic.getSingleratings()) {
+					suma = suma + r.getValue();
+				}
+				double rating = suma / (clinic.getSingleratings().size());
+				clinicDTO.setRating(rating);
+			}
+
+
+
 			return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
 		}
 
@@ -195,7 +212,20 @@ public class ClinicController {
 
 
 
+	@RequestMapping(method = RequestMethod.GET, value = "/updaterating/{id}/{rating}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public ResponseEntity<ClinicDTO> updateclinicrating(@PathVariable("id") String id,@PathVariable("rating") String rating) {
 
+		ClinicDTO saved = null;
+		if(rating != null && id != null)
+		{
+			int rating1 = Integer.parseInt(rating);
+			long id1 = Long.parseLong(id);
+			saved =  clinicService.updatedrating(id1,rating1);
+		}
+
+		return new ResponseEntity<>( saved,HttpStatus.OK);
+	}
 
 
 

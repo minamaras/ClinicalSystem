@@ -43,6 +43,9 @@ public class OperationRequest {
     @ManyToOne(fetch = FetchType.EAGER)
     private OR or;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private ExamType type;
+
     public OperationRequest() {
         super();
     }
@@ -127,5 +130,13 @@ public class OperationRequest {
 
     public void setOr(OR or) {
         this.or = or;
+    }
+
+    public ExamType getType() {
+        return type;
+    }
+
+    public void setType(ExamType type) {
+        this.type = type;
     }
 }
