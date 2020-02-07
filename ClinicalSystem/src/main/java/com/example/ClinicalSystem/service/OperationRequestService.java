@@ -9,6 +9,8 @@ import com.example.ClinicalSystem.repository.OperationRequestRepository;
 //import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.text.ParseException;
@@ -75,6 +77,7 @@ public class OperationRequestService {
         return oprDTO;
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public boolean scheduleOperation(int doctorId, String examDate, String patientEmail, String startExam, String endExam, OperationRequestDTO operationRequestDTO) {
         Doctor doctor = doctorService.findOneById(Long.valueOf(doctorId));
         Patient patient = patientService.findPatient(patientEmail);
