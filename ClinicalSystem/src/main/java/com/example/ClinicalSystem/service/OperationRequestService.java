@@ -4,7 +4,7 @@ import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.OperationRequestDTO;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.OperationRequestRepository;
-import org.joda.time.LocalDate;
+//import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +69,7 @@ public class OperationRequestService {
         return oprDTO;
     }
 
-    public boolean scheduleOperation(int doctorId, String examDate, String patientEmail, String startExam, String endExam) {
+    public boolean scheduleOperation(int doctorId, String examDate, String patientEmail, String startExam, String endExam, OperationRequestDTO operationRequestDTO) {
         Doctor doctor = doctorService.findOneById(Long.valueOf(doctorId));
         Patient patient = patientService.findPatient(patientEmail);
 
@@ -87,6 +87,8 @@ public class OperationRequestService {
         operationRequest.setPatient(patient);
 
         operationRequest.setType(doctor.getExamType());
+
+        operationRequest.setName(operationRequestDTO.getName());
 
         if(operationRequestRepository.save(operationRequest) != null) {
             return true;
