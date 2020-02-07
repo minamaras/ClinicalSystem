@@ -15,6 +15,7 @@ public class UpcomingExamDTO {
     private Time endTime;
     private ExamTypeDTO type;
     private int roomNumber;
+    private Long id;
 
 
     public UpcomingExamDTO(Date start, DoctorDTO doctor, String date, Time startTime, Time endTime, ExamTypeDTO type) {
@@ -75,5 +76,13 @@ public class UpcomingExamDTO {
 
     public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
