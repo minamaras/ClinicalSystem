@@ -316,6 +316,7 @@ public class DoctorService {
 				}
 			}
 
+
 			//provera za radno vreme
 			LocalTime startWork = doctor.getStart().toLocalTime();
 			LocalTime endWork = doctor.getEnd().toLocalTime();
@@ -353,7 +354,8 @@ public class DoctorService {
 				}
 			}
 			if(isAvailable) {
-				DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+				//DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+				DoctorDTO doctorDTO = new DoctorDTO(doctor);
 				doctorDTOS.add(doctorDTO);
 			}
 		}
