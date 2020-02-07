@@ -17,6 +17,8 @@ public class OperationRequestDTO {
     private int roomNumber;
     private Time startTime;
     private Time endTime;
+    private String patientName;
+    private String patientLastname;
     private String patientemail;
     private boolean isScheduled;
     private List<DoctorDTO> doctorDTOS = new ArrayList<>();
@@ -35,20 +37,23 @@ public class OperationRequestDTO {
 
     }
 
-    public OperationRequestDTO(long id, String name, String start, String patientemail, boolean isScheduled, List doctorNames, int roomNumber, Time startTime) {
+    public OperationRequestDTO(long id, String name, String patientemail, boolean isScheduled, int roomNumber) {
         this.id = id;
         this.name = name;
-        this.start = start;
         this.patientemail = patientemail;
         this.isScheduled = isScheduled;
-        this.doctorNames = doctorNames;
         this.roomNumber = roomNumber;
 
     }
 
     public OperationRequestDTO(OperationRequest or){
-        this(or.getId(),or.getName(),or.getStart().toString().substring(0,10),or.getPatient().getEmail(), or.isScheduled());
-
+        this.id = or.getId();
+        this.name = or.getName();
+        this.patientemail = or.getPatient().getEmail();
+        this.isScheduled = or.isScheduled();
+        if(or.getOr() != null) {
+            this.roomNumber = or.getOr().getNumber();
+        }
     }
 
     public long getId() {
@@ -137,5 +142,21 @@ public class OperationRequestDTO {
 
     public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    public String getPatientLastname() {
+        return patientLastname;
+    }
+
+    public void setPatientLastname(String patientLastname) {
+        this.patientLastname = patientLastname;
     }
 }
