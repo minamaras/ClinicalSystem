@@ -177,6 +177,9 @@ public class DoctorService {
 				appointmentDTO.setDate(a.getStart().toString().substring(0,10));
 				appointmentDTO.setStartTime(a.getStartTime());
 				appointmentDTO.setEndTime(a.getEndTime());
+				if(a.getPatient() != null) {
+					appointmentDTO.setPatientemail(a.getPatient().getEmail());
+				}
 				lista.add(appointmentDTO);
 
 			}
@@ -211,6 +214,7 @@ public class DoctorService {
 
 		List<AppointmentDTO> lista = new ArrayList<>();
 		Set<HolidayDTO> holidayDTOS = new HashSet<>();
+		List<OperationCalendarDTO> operationsDTO = new ArrayList<>();
 
 		for(Appointment a : doctor.getAppointments()){
 			AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
@@ -233,11 +237,36 @@ public class DoctorService {
 			holidayDTO.setEndHoliday(h.getEnd().toString().substring(0,10));
 			holidayDTOS.add(holidayDTO);
 		}
+
+		for(OperationRequest operationRequest : doctor.getOperations()){
+			//OperationRequestDTO orDTO = modelMapper.map(operationRequest,OperationRequestDTO.class);
+			OperationCalendarDTO orDTO = new OperationCalendarDTO();
+			orDTO.setId(operationRequest.getId());
+			orDTO.setName(operationRequest.getName());
+			orDTO.setStartTime(operationRequest.getStartTime());
+			orDTO.setEndTime(operationRequest.getEndTime());
+			orDTO.setDate(operationRequest.getStart().toString().substring(0,10));
+			if(operationRequest.getPatient() != null) {
+				orDTO.setPatientName(operationRequest.getPatient().getName());
+				orDTO.setPatientLastname(operationRequest.getPatient().getLastname());
+			}
+			if(operationRequest.getDoctors() != null){
+				List <String> docListName = new ArrayList<>();
+				for(Doctor doc : operationRequest.getDoctors()){
+					String docName = doc.getName() + " " + doc.getLastname();
+					docListName.add(docName);
+				}
+				orDTO.setDoctorNames(docListName);
+			}
+			operationsDTO.add(orDTO);
+		}
+
 		lista.sort(Comparator.comparing(AppointmentDTO::getStart));
 
 		DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
 		doctorDTO.setAppointments(lista);
 		doctorDTO.setHolidays(holidayDTOS);
+		doctorDTO.setOperations(operationsDTO);
 
 		return doctorDTO;
 	}
