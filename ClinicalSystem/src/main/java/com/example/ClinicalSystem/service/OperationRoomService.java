@@ -254,6 +254,19 @@ public class OperationRoomService {
         return repo.save(or);
     }
 
+    @Transactional
+    public boolean removeOR(OR r) {
+
+        if(r.getAppointments().size() == 0) {
+
+            repo.deleteByNumber(r.getNumber());
+            return true;
+        }
+
+        return  false;
+
+    }
+
 
 
 }
