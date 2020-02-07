@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.LocalTime;
 
+import java.util.Date;
 import java.sql.Time;
 import java.util.*;
 
@@ -42,7 +43,10 @@ public class Doctor extends User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<MedicalRecord> medicalRecords = new HashSet<MedicalRecord>();
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -199,6 +203,13 @@ public class Doctor extends User {
 		this.reports = reports;
 	}
 
+	public Set<OperationRequest> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<OperationRequest> operations) {
+		this.operations = operations;
+	}
 	public Set<Patient> getPatientsThatRated() {
 		return patientsThatRated;
 	}

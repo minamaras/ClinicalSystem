@@ -6,30 +6,15 @@ import com.example.ClinicalSystem.model.Role;
 public class PatientRequestDTO {
 	
 	private Long Id;
-	
 	private String name;
-	
 	private String lastname;
-	
 	private String email;
-	
 	private String password;
-	
 	private Role role;
-
-
 	private String adress;
-
-
 	private String city;
-
-
 	private String country;
-
-
 	private String phone;
-
-
 	private String socialSecurityNumber;
 
 	public PatientRequestDTO(Long id, String name, String lastname, String email, String password, Role role) {

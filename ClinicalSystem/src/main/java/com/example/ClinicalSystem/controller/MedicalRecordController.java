@@ -80,6 +80,20 @@ public class MedicalRecordController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/infoo/{email:.+}")
+    @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR','PATIENT')")
+    public ResponseEntity<MedicalRecordDTO> medicalRecordInfoDoctor(@PathVariable String email) {
+
+
+        Patient patient = patientService.findPatient(email);
+
+        MedicalRecord medicalRecord = medicalRecordService.findById(patient.getMedicalRecord().getId());
+
+        MedicalRecordDTO dto = new MedicalRecordDTO(medicalRecord);
+        //  return new ResponseEntity<>(modelMapper.map(medicalRecord, MedicalRecordDTO.class), HttpStatus.OK);
+        return ResponseEntity.ok(dto);
+    }
+
 
 
 

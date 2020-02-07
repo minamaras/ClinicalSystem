@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
+import com.example.ClinicalSystem.repository.DoctorRepository;
 import com.example.ClinicalSystem.repository.OperationRoomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class OperationRoomService {
     @Autowired
     private ExamTypeService examTypeService;
 
+    @Autowired
+    private DoctorRepository doctorRepository;
+
     public List<OperationRoomDTO> findAll() {
 
         List<OR> rooms = repo.findAll();
@@ -50,6 +54,10 @@ public class OperationRoomService {
         }
 
         return roomsDTO;
+    }
+
+    public List<OR> findAllModels(){
+        return repo.findAll();
     }
 
     public boolean save(OperationRoomDTO roomDto, Principal p) {
@@ -101,6 +109,9 @@ public class OperationRoomService {
     }
 
     public OR update(OR or) {
+
+
+
         return repo.save(or);
     }
 
@@ -151,7 +162,9 @@ public class OperationRoomService {
 
             operationRoomDTO.setAppointmentRequests(roomrequests);
             operationRoomDTO.setAppointments(appointmentDTOS);
-            roomsToReturn.add(operationRoomDTO);
+            if(!operationRoomDTO.getExamType().getName().equals("Operation")) {
+                roomsToReturn.add(operationRoomDTO);
+            }
 
         }
 
@@ -167,9 +180,80 @@ public class OperationRoomService {
         return modelMapper.map(ap.get(),OperationRoomDTO.class);
     }
 
+    public List<OR> findAllRoomsModel() {
+    
+        return repo.findAll();
+    }
     public OR findByIdModel(Long id){
         Optional<OR> ap =repo.findById(id);
         return ap.get();
     }
+
+
+
+    public Set<OperationRoomDTO> allRoomsForOperationFromAClinic(Principal p) throws ParseException {
+
+
+        HashSet<OperationRoomDTO> roomsToReturn = new HashSet<>();
+        Clinic clinic = null;
+
+        User user = userService.findByUsername(p.getName());
+
+        if(user.getRole().equals(Role.CLINICADMIN)){
+            ClinicAdmin ca = clinicAdminService.findByEmail(user.getEmail());
+            clinic = clinicService.findClinic(ca.getClinic());
+        }
+
+        List<OR> rooms = repo.findAllByClinic(clinic);
+        Set<Long> setOfIds = new HashSet<>();
+        for(OR room : rooms){
+            setOfIds.add(room.getId());
+            OperationRoomDTO operationRoomDTO = modelMapper.map(room, OperationRoomDTO.class);
+            ExamTypeDTO examTypeDTO = modelMapper.map(room.getExamType(),ExamTypeDTO.class);
+            operationRoomDTO.setClinicid(clinic.getId());
+            operationRoomDTO.setExamType(examTypeDTO);
+
+            List<OperationRequestDTO> opreqDTOs = new ArrayList<>();
+
+            for(OperationRequest orequest : room.getOperations()){
+                OperationRequestDTO opreq = new OperationRequestDTO(orequest);
+                opreq.setDate(orequest.getStart().toString().substring(0,10));
+                opreq.setStartTime(orequest.getStartTime());
+                opreq.setEndTime(orequest.getEndTime());
+                opreqDTOs.add(opreq);
+            }
+            operationRoomDTO.setOperationReq(opreqDTOs);
+
+            //Set<AppointmentDTO> appointmentDTOS = new HashSet<>();
+/*
+            for(Appointment a : room.getAppointments()){
+                AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
+                appointmentDTO.setDate(a.getStart().toString().substring(0,10));
+                appointmentDTO.setStartTime(a.getStartTime());
+                appointmentDTO.setEndTime(a.getEndTime());
+                appointmentDTOS.add(appointmentDTO);
+
+            }
+            List<AppointmentRequestDTO> roomrequests = new ArrayList<>();
+
+           */
+
+           // operationRoomDTO.setAppointmentRequests(roomrequests);
+            // operationRoomDTO.setAppointments(appointmentDTOS);
+            if(operationRoomDTO.getExamType().getName().equals("Operation")) {
+                roomsToReturn.add(operationRoomDTO);
+            }
+
+        }
+
+        return  roomsToReturn;
+    }
+
+
+    public OR save(OR or){
+        return repo.save(or);
+    }
+
+
 
 }

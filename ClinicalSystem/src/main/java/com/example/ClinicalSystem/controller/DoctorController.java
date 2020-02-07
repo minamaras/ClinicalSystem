@@ -225,5 +225,13 @@ public class DoctorController {
 		return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/operation/free")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
+	public ResponseEntity<List<DoctorDTO>> getFreeDoctorsForOperation(@RequestBody OperationParamsDTO operationParamsDTO) {
+
+		List<DoctorDTO> doctorDTOs = doctorService.getFreeDoctorsForOperation(operationParamsDTO);
+
+		return new ResponseEntity<>(doctorDTOs, HttpStatus.OK);
+	}
 
 }

@@ -4,11 +4,13 @@ import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.ExamTypeDTO;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.ExamType;
+import com.example.ClinicalSystem.repository.DoctorRepository;
 import com.example.ClinicalSystem.repository.ExamTypeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,9 @@ public class ExamTypeService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     public List<ExamTypeDTO> findAll() {
 
@@ -47,6 +52,7 @@ public class ExamTypeService {
         ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
 
         examTypeRepository.save(examType);
+
 
         return true;
 
