@@ -113,10 +113,6 @@ public class AppointmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/saverequesttoappointment/{id}")
     public ResponseEntity<?> saveRequestToAppointment(@PathVariable String id) throws URISyntaxException {
 
-        if(appointmentService.saveFromReqToAppointment(appointmentRequestDTO)){
-
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
         boolean issaved = appointmentService.saveFromReqToAppointment(id);
         if(issaved) {
             URI newUri = new URI("http://localhost:3000/confirmedappreq");
@@ -124,10 +120,11 @@ public class AppointmentController {
             headers.setLocation(newUri);
             return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
         }
-         else {
+        else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        }
+
+
     }
 
 
@@ -145,6 +142,17 @@ public class AppointmentController {
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/createappointment/{roomid}/{examdate}/{examtime}/{endtime}")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity<?> createAppointmentFromRequest(@PathVariable("roomid") String roomId, @PathVariable("examdate") String examdate, @PathVariable("examtime") String examtime, @PathVariable("endtime") String endtime, @RequestBody AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
+
+        if (appointmentService.IsCreated(roomId, examdate, examtime, endtime, appointmentRequestDTO)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 
