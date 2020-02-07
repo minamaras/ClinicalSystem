@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.LocalTime;
 
+import java.util.Date;
 import java.sql.Time;
 import java.util.*;
 
@@ -42,7 +43,7 @@ public class Doctor extends User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
