@@ -4,6 +4,7 @@ import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.DTO.ExamTypeDTO;
 import com.example.ClinicalSystem.model.Doctor;
 import com.example.ClinicalSystem.model.ExamType;
+import com.example.ClinicalSystem.model.OR;
 import com.example.ClinicalSystem.repository.DoctorRepository;
 import com.example.ClinicalSystem.repository.ExamTypeRepository;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,9 @@ public class ExamTypeService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private OperationRoomService operationRoomService;
 
     @Autowired
     private DoctorRepository doctorRepository;
@@ -66,6 +70,13 @@ public class ExamTypeService {
             ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
 
             if(examType.getExams().isEmpty()) {
+
+                List<OR> rooms = operationRoomService.findAllRoomsModel();
+
+                for(OR r : rooms) {
+                    if(r.getExamType().getName().equals(examType.getName()))
+                        operationRoomService.removeOR(r);
+                }
 
                 examTypeRepository.deleteByName(examType.getName());
                 return true;
