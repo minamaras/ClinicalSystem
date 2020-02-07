@@ -47,9 +47,9 @@ public class OperationRequestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/schedule/{doctor}/{examdate}/{patient}/{startexam}/{endexam}")
     @PreAuthorize("hasAuthority('DOCTOR')")
-    public ResponseEntity<?> scheduleOperation(@PathVariable("doctor") int doctorId, @PathVariable("examdate") String examDate, @PathVariable("patient") String patientEmail, @PathVariable("startexam") String startExam, @PathVariable("endexam") String endExam, OperationRequestDTO operationRequestDTO) throws ParseException {
+    public ResponseEntity<?> scheduleOperation(@PathVariable("doctor") int doctorId, @PathVariable("examdate") String examDate, @PathVariable("patient") String patientEmail, @PathVariable("startexam") String startExam, @PathVariable("endexam") String endExam, @RequestBody OperationRequestDTO operationRequestDTO) throws ParseException {
 
-        if(operationRequestService.scheduleOperation(doctorId, examDate, patientEmail, startExam, endExam)) {
+        if(operationRequestService.scheduleOperation(doctorId, examDate, patientEmail, startExam, endExam, operationRequestDTO)) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
