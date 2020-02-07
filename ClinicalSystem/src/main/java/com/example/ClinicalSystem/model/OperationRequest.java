@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import javax.print.Doc;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
