@@ -154,6 +154,7 @@ insert into report(id,text,appointment_id,diagnosis_id,doctor_id,medical_record_
 insert into report(id,text,appointment_id,diagnosis_id,doctor_id,medical_record_id) values (-3,'Drugi izvestaj sa drugog pregleda', null,-1, -7, -32);
 insert into medical_record_reports(medical_record_id,reports_id) values (-32,-2);
 insert into medical_record_reports(medical_record_id,reports_id) values (-32,-3);
+
 insert into recipe_medication (recipe_id, medication_id) values (-121,-1);
 insert into recipe_medication (recipe_id, medication_id) values (-121,-2);
 insert into recipe_medication (recipe_id, medication_id) values (-121,-8);
@@ -196,14 +197,14 @@ insert into appointment_request (id, startdate, starttime,endtime, doctor_id, pa
 values (-3, '2020-03-02', '12:30:00', '12:45:00',-4,-5,-4,'PATIENTSENT');
 
 insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus) 
-values (-1, '2020-03-02', '12:30:00', '12:45:00',-4,-5,-4,'PATIENTSENT',-3);
+values (-11, '2020-03-02', '12:30:00', '12:45:00',-4,-5,-4,'PATIENTSENT');
 
 insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus,roomnum)
 values (-5, '2020-04-02', '12:45:00', '13:00:00',-4,-5,-4,'WAITING',-3);
 
 insert into request_patient (patient_id,request_id) values (-5,-1);
 insert into request_patient (patient_id,request_id) values (-5,-5);
-
+insert into request_patient (patient_id,request_id) values (-5,-11);
 
 insert into appointment_request (id, startdate, starttime,endtime, doctor_id, patient_id, type_id,appreqstatus,roomnum)
 values (-2, '2020-03-02', '12:00:00', '12:15:00',-4,-14,-4,'WAITING',2);
