@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 import java.util.Optional;
 
 public interface AppointmentRequestRepository extends JpaRepository<AppointmentRequest, Long> {
@@ -14,7 +15,7 @@ public interface AppointmentRequestRepository extends JpaRepository<AppointmentR
     AppointmentRequest save(AppointmentRequest a);
     Long removeById(Long id);
     AppointmentRequest findByName(String name);
-    AppointmentRequest findByPatient(Patient p);
+    List<AppointmentRequest> findByPatient(Patient p);
     AppointmentRequest findByStart(Date start);
     AppointmentRequest findByStartTime(Time starttime);
     AppointmentRequest findByType(ExamType type);

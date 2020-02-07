@@ -129,6 +129,22 @@ public class EmailService {
         javaMailSender.send(msg);
     }
 
+
+    @Async
+    public void sendEmailAboutAppointment(User p, Appointment a) throws MailException, InterruptedException {
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(p.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Scheduled appointment");
+        mail.setText("Hello " + p.getName() + ",\n\nYour successfully scheduled predefined appointment. Here is some information about you upcoming appointment: " +
+                "\n Appointment date "+a.getStart().toString().substring(0,10)+
+                "\n Appointment time "+a.getStartTime()+
+                "\n Appointment type "+a.getType().getName()+
+                "\n Appointment or "+a.getOr().getName()+
+                "\n Appointment doctor "+a.getDoctor().getName()+" "+a.getDoctor().getLastname()+
+                "\n\n\nClinical System Team");
+
     public void sendDoctorRequest(Doctor doctor, Patient patient, String examdate, String examtime, String endtime, Long idRequest) {
         Clinic clinic = doctor.getClinic();
         List<ClinicAdmin> admins = new ArrayList<>();
@@ -172,6 +188,8 @@ public class EmailService {
 
     }
 
+
+
     @Async
     public void sendOperationInfoDoctor(Doctor doctor, String opDate, String opTime) throws MailException, InterruptedException {
 
@@ -183,4 +201,5 @@ public class EmailService {
         javaMailSender.send(mail);
 
     }
+
 }
