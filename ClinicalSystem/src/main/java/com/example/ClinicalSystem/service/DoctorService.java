@@ -130,21 +130,17 @@ public class DoctorService {
 
     @Transactional
     public boolean removeDoctor(DoctorDTO doctorDto) {
-		UserDTO userDto = modelMapper.map(doctorDto, UserDTO.class);
+		Doctor doctor = findOne(doctorDto.getEmail());
 
-		if(userService.existsInDB(userDto)) {
-			Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
-
-			if(doctor.getAppointments().size() >= 1) {
-				return  false;
-			}
-
-			doctorRepository.deleteByEmail(doctor.getEmail());
-
-			return true;
+		if(doctor.getAppointments().size() > 0) {
+			return false;
 		}
 
-		return false;
+		Clinic clinic = doctor.getClinic();
+		clinic.getDoctors().remove(doctor);
+		doctorRepository.delete(doctor);
+
+		return true;
 
 	}
 
