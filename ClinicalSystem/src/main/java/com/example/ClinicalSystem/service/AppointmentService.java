@@ -326,7 +326,11 @@ public class AppointmentService {
         Authentication aut = SecurityContextHolder.getContext().getAuthentication();
         Doctor doctor = (Doctor) aut.getPrincipal();
 
-        DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+        //DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+        DoctorDTO doctorDTO = new DoctorDTO(doctor);
+        ExamType examType = examTypeService.findOne(doctor.getExamType().getName());
+        ExamTypeDTO examTypeDTO = new ExamTypeDTO(examType);
+        doctorDTO.setExamType(examTypeDTO);
 
         List<AppointmentDTO> lista = new ArrayList<>();
 
