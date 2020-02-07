@@ -1,5 +1,9 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.DTO.AppointmentDTO;
+import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
+import com.example.ClinicalSystem.DTO.NurseDTO;
+import com.example.ClinicalSystem.DTO.OperationRoomDTO;
 import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.AppointmentRepository;
@@ -38,6 +42,9 @@ public class AppointmentService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private AppointmentRequestService appointmentRequestService;
 
     public boolean saveAppointment(AppointmentDTO appointmentDTO){
 
@@ -96,7 +103,7 @@ public class AppointmentService {
         appointment.setType(examType);
 
         String startDate=appointmentDTO.getDate();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = sdf1.parse(appointmentDTO.getDate());
         java.sql.Date finaldate = new java.sql.Date(date.getTime());
         appointment.setStart(finaldate);
@@ -107,6 +114,58 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
 
         return true;
+    }
+
+    public boolean IsCreated(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO) {
+
+        AppointmentRequest apreq = modelMapper.map(appointmentRequestService.findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
+
+        Doctor doctor = doctorService.findOne(appointmentRequestDTO.getDoctorEmail());
+
+        Long id = Long.parseLong(roomId);
+
+        OperationRoomDTO roomDTO = operationRoomService.findById(id);
+        Appointment appointment = new Appointment();
+        appointment.setStatus(AppointmentStatus.SHEDULED);
+        appointment.setClassification(AppointmentClassification.NORMAL);
+
+        if(roomDTO != null) {
+            OR room = modelMapper.map(roomDTO, OR.class);
+
+            appointment.setDoctor(doctor);
+
+            Time t = Time.valueOf(examtime);
+            appointment.setStartTime(t);
+
+            Time endtimeTime = Time.valueOf(endtime);
+            appointment.setEndTime(endtimeTime);
+
+            appointment.setOr(room);
+
+            appointment.setPatient(apreq.getPatient());
+
+            Patient patient = patientService.findPatient(apreq.getPatient().getEmail());
+
+            patient.getAppointments().add(appointment);
+            doctor.getAppointments().add(appointment);
+            room.getAppointments().add(appointment);
+
+            appointmentRepository.save(appointment);
+
+            patientService.updatePatient(patient);
+            doctorService.updateDoctor(doctor);
+            operationRoomService.update(room);
+
+            return true;
+
+        }
+
+        return  false;
+
+    }
+
+    public Patient findByEmail(String email) {
+        return null;
     }
 
     public Set<AppointmentDTO> getAllExams(){

@@ -33,6 +33,14 @@ public class Patient extends User {
 	@OneToMany(mappedBy = "patient",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Recipe> recipes = new HashSet<Recipe>();
 
+	@OneToMany
+	@JoinTable(name = "request_patient", joinColumns = @JoinColumn(name="patient_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name="request_id", referencedColumnName = "id"))
+	private Set<AppointmentRequest> appointmentRequests = new HashSet<AppointmentRequest>();
+
+	@OneToMany
+	@JoinTable(name = "requestoperation_patient", joinColumns = @JoinColumn(name="patient_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name="request_id", referencedColumnName = "id"))
+	private Set<OperationRequest> operationRequests = new HashSet<OperationRequest>();
+
 	@Column(name = "active")
 	private boolean active = false;
 
@@ -165,5 +173,21 @@ public class Patient extends User {
 
 	public void setClinics(Set<Clinic> clinics) {
 		this.clinics = clinics;
+	}
+
+	public Set<AppointmentRequest> getAppointmentRequests() {
+		return appointmentRequests;
+	}
+
+	public void setAppointmentRequests(Set<AppointmentRequest> appointmentRequests) {
+		this.appointmentRequests = appointmentRequests;
+	}
+
+	public Set<OperationRequest> getOperationRequests() {
+		return operationRequests;
+	}
+
+	public void setOperationRequests(Set<OperationRequest> operationRequests) {
+		this.operationRequests = operationRequests;
 	}
 }

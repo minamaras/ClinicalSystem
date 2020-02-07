@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.example.ClinicalSystem.DTO.ExamTypeDTO;
-import com.example.ClinicalSystem.DTO.NurseDTO;
+import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -19,8 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.ClinicalSystem.DTO.ClinicDTO;
-import com.example.ClinicalSystem.DTO.DoctorDTO;
 import com.example.ClinicalSystem.service.DoctorService;
 
 import javax.transaction.Transactional;
@@ -141,6 +138,15 @@ public class DoctorController {
 		DoctorDTO doctorDTO = doctorService.findOneByPrincipal(p);
 
 		return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/operation/free")
+	@PreAuthorize("hasAuthority('CLINICADMIN')")
+	public ResponseEntity<List<DoctorDTO>> getFreeDoctorsForOperation(@RequestBody OperationParamsDTO operationParamsDTO) {
+
+		List<DoctorDTO> doctorDTOs = doctorService.getFreeDoctorsForOperation(operationParamsDTO);
+
+		return new ResponseEntity<>(doctorDTOs, HttpStatus.OK);
 	}
 
 }

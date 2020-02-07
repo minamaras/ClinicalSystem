@@ -37,7 +37,10 @@ public class Doctor extends User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<MedicalRecord> medicalRecords = new HashSet<MedicalRecord>();
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -202,5 +205,13 @@ public class Doctor extends User {
 
 	public void setReports(Set<Report> reports) {
 		this.reports = reports;
+	}
+
+	public Set<OperationRequest> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<OperationRequest> operations) {
+		this.operations = operations;
 	}
 }

@@ -23,6 +23,7 @@ public class DoctorDTO {
     private List<AppointmentDTO> appointments = new ArrayList<>();
     private boolean firstLogin;
     private Set<HolidayDTO> holidays = new HashSet<>();
+    private List<OperationCalendarDTO> operations = new ArrayList<>();
 
 
 
@@ -181,5 +182,13 @@ public class DoctorDTO {
 
     public void setHolidays(Set<HolidayDTO> holidays) {
         this.holidays = holidays;
+    }
+
+    public List<OperationCalendarDTO> getOperations() {
+        return operations;
+    }
+
+    public void setOperations(List<OperationCalendarDTO> operations) {
+        this.operations = operations;
     }
 }
