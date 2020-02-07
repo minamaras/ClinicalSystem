@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
+import com.example.ClinicalSystem.repository.DoctorRepository;
 import com.example.ClinicalSystem.repository.OperationRoomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class OperationRoomService {
 
     @Autowired
     private ExamTypeService examTypeService;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     public List<OperationRoomDTO> findAll() {
 
@@ -105,6 +109,9 @@ public class OperationRoomService {
     }
 
     public OR update(OR or) {
+
+
+
         return repo.save(or);
     }
 
