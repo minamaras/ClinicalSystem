@@ -26,7 +26,7 @@ public class Doctor extends User {
 	private Set<Patient> patientsThatRated = new HashSet<Patient>();
 
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Clinic clinic;
 
 	@ManyToMany
@@ -37,10 +37,10 @@ public class Doctor extends User {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private ExamType examType;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private ClinicAdmin clinicAdmin;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
