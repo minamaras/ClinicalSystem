@@ -16,6 +16,7 @@ public class OldExamDTO {
     private ClinicDTO clinic;
 
 
+
     public OldExamDTO(Long id, DoctorDTO doctor, int roomNumber, String name, String date, Time startTime, Time endTime, ExamTypeDTO type, ClinicDTO clinic) {
         this.id = id;
         this.doctor = doctor;

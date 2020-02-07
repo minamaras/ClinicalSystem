@@ -45,6 +45,9 @@ public class AppointmentService {
     private ModelMapper modelMapper;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private AppointmentRequestService appointmentRequestService;
 
     public boolean saveAppointment(AppointmentDTO appointmentDTO){
@@ -70,8 +73,22 @@ public class AppointmentService {
             appointment.setStatus(AppointmentStatus.SHEDULED);
 
 
-            appointmentRepository.save(appointment);
-            return true;
+            Appointment saved = appointmentRepository.save(appointment);
+
+            if (saved != null) {
+
+                try {
+                    emailService.sendEmailAboutAppointment(user,appointment);
+                } catch (Exception e) {
+                    return false;
+                }
+
+                return true;
+            } else {
+                return false;
+
+
+            }
     }
 
     }
@@ -93,7 +110,8 @@ public class AppointmentService {
         if(appointmentRepository.findByName(appointmentDTO.getName()) != null)
             return false;
 
-        Appointment appointment = modelMapper.map(appointmentDTO, Appointment.class);
+        //Appointment appointment = modelMapper.map(appointmentDTO, Appointment.class);
+        Appointment appointment = new Appointment();
 
         Doctor doctor = doctorService.findOne(appointmentDTO.getDoctorEmail());
         ExamType examType = examTypeService.findOne(appointmentDTO.getExamTypeName());
@@ -102,6 +120,9 @@ public class AppointmentService {
         appointment.setDoctor(doctor);
         appointment.setOr(operationRoom);
         appointment.setType(examType);
+        appointment.setStartTime(appointmentDTO.getStartTime());
+        appointment.setEndTime(appointmentDTO.getEndTime());
+        appointment.setName(appointmentDTO.getName());
 
         String startDate=appointmentDTO.getDate();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -111,8 +132,15 @@ public class AppointmentService {
 
         appointment.setClassification(AppointmentClassification.PREDEFINED);
         appointment.setStatus(AppointmentStatus.SHEDULED);
-
         appointmentRepository.save(appointment);
+
+        doctor.getAppointments().add(appointment);
+        operationRoom.getAppointments().add(appointment);
+
+
+        doctorService.updateDoctor(doctor);
+        operationRoomService.saveModel(operationRoom);
+
 
         return true;
     }
@@ -197,6 +225,7 @@ public class AppointmentService {
                     upcomingExamDTO.setEndTime(ap.getEndTime());
                     upcomingExamDTO.setType(modelMapper.map(ap.getType(),ExamTypeDTO.class));
                     upcomingExamDTO.setRoomNumber(ap.getOr().getNumber());
+                    upcomingExamDTO.setId(ap.getId());
 
                     returnAppointments.add(upcomingExamDTO);
 
@@ -258,6 +287,7 @@ public class AppointmentService {
                     oldExamDTO.setStartTime(ap.getStartTime());
                     oldExamDTO.setEndTime(ap.getEndTime());
                     oldExamDTO.setType(modelMapper.map(ap.getType(),ExamTypeDTO.class));
+                    oldExamDTO.setId(ap.getId());
 
                     ClinicDTO clinicDTO =modelMapper.map(ap.getDoctor().getClinic(),ClinicDTO.class);
 

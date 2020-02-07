@@ -17,6 +17,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -64,18 +65,29 @@ public class AppointmentRequestService {
 
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) a.getPrincipal();
-
         Patient p = patientService.findPatient(user.getEmail());
+
+       /* String startDate=appointmentRequestDTO.getDate();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
+        java.util.Date date = sdf1.parse(startDate);
+        java.sql.Date finaldate = new java.sql.Date(date.getTime());*/
+
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+        java.time.LocalDate inputDates = java.time.LocalDate.parse(appointmentRequestDTO.getDate());
+        java.sql.Date finaldate = java.sql.Date.valueOf(inputDates);
+
+        for(AppointmentRequest r: p.getAppointmentRequests()){
+
+            if((r.getDoctor().getId().equals(appointmentRequestDTO.getDoctorid()) )&& (r.getStartTime().equals(appointmentRequestDTO.getStartTime()))
+                    && (r.getStart().equals(finaldate)) && (r.getType().getName().equals(appointmentRequestDTO.getExamTypeName()))){
+
+                    return  false;
+            }
+        }
 
         AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
         appointmentRequest.setPatient(p);
         appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.PATIENTSENT);
-
-
-        String startDate=appointmentRequestDTO.getDate();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
-        java.util.Date date = sdf1.parse(startDate);
-        java.sql.Date finaldate = new java.sql.Date(date.getTime());
         appointmentRequest.setStart(finaldate);
 
         String decoded = URLDecoder.decode(appointmentRequestDTO.getExamTypeName(), "UTF-8");
@@ -108,15 +120,13 @@ public class AppointmentRequestService {
 
         //provera da li postoji vec taj u bazi
 
-        AppointmentRequest reqpatient = appointmentRequestRepository.findByPatient(p);
-        AppointmentRequest reqdate = appointmentRequestRepository.findByStart((Date) appointmentRequest.getStart());
-        AppointmentRequest reqtime = appointmentRequestRepository.findByStartTime(appointmentRequest.getStartTime());
-        AppointmentRequest reqtype = appointmentRequestRepository.findByType(appointmentRequest.getType());
+        //List<AppointmentRequest> reqpatient = appointmentRequestRepository.findByPatient(p);
 
 
-        if(reqpatient != null && reqdate != null & reqtime != null && reqtype != null){
-            return false;
-        }
+
+        //AppointmentRequest reqdate = appointmentRequestRepository.findByStart((Date) appointmentRequest.getStart());
+        //AppointmentRequest reqtime = appointmentRequestRepository.findByStartTime(appointmentRequest.getStartTime());
+        //AppointmentRequest reqtype = appointmentRequestRepository.findByType(appointmentRequest.getType());
 
         if (appointmentRequestRepository.save(appointmentRequest) != null) {
 

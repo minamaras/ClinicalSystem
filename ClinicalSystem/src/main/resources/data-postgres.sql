@@ -76,6 +76,11 @@ insert into doctor (id,specialization,clinic_id,clinic_admin_id,exam_type_id,sta
  insert into doctor (id,specialization,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
  (-23,'Zubar',-3,-3,-4,'8:00:00','17:00:00',true);
 
+
+insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-8,'OR 1',2,'08:00:00','20:00:00', -4,-3);
+insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-9,'OR 2',3,'08:00:00','20:00:00', -5,-3);
+insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-10,'OR 3',4,'08:00:00','20:00:00', -7,-3);
+
 insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-3,'OR 1',2,'07:00:00','23:00:00', -4,-3);
 insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-4,'OR 2',3,'07:00:00','23:00:00', -6,-3);
 insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-5,'OR 3',4,'07:00:00','23:00:00', -21,-3);
@@ -88,6 +93,9 @@ insert into clinic_roomlist(room_id,clinic_id) values(-4,-3);
 insert into clinic_roomlist(room_id,clinic_id) values(-5,-3);
 insert into clinic_roomlist(room_id,clinic_id) values(-6,-3);
 insert into clinic_roomlist(room_id,clinic_id) values(-7,-3);
+insert into clinic_roomlist(room_id,clinic_id) values(-8,-3);
+insert into clinic_roomlist(room_id,clinic_id) values(-9,-3);
+insert into clinic_roomlist(room_id,clinic_id) values(-10,-3);
 
 insert into exam_type_rooms(exam_type_id, rooms_id) values (-4,-3);
 insert into exam_type_rooms(exam_type_id, rooms_id) values (-6,-4);
@@ -95,7 +103,9 @@ insert into exam_type_rooms(exam_type_id, rooms_id) values (-21,-5);
 insert into exam_type_rooms(exam_type_id, rooms_id) values (-23,-6);
 insert into exam_type_rooms(exam_type_id, rooms_id) values (-23,-7);
 
-
+insert into exam_type_rooms(exam_type_id, rooms_id) values (-4,-8);
+insert into exam_type_rooms(exam_type_id, rooms_id) values (-5,-9);
+insert into exam_type_rooms(exam_type_id, rooms_id) values (-7,-10);
 
 insert into doctor (id,specialization,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
  (-27,'Anesteziolog',-7,-10,-23,'12:00:00','20:00:00',true);
@@ -291,6 +301,8 @@ INSERT INTO user_authority (user_id,authority_id) values (-27,2);
 INSERT INTO user_authority (user_id,authority_id) values (-28,2);
 INSERT INTO user_authority (user_id,authority_id) values (-29,2);
 INSERT INTO user_authority (user_id,authority_id) values (-30,2);
+INSERT INTO user_authority (user_id,authority_id) values (-26,1);
+
 
 
 insert into holidays(id,startdate,reason,enddate,typeholiday,user_id,holidaystatus)
