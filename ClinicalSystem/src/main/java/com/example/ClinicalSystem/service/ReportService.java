@@ -5,6 +5,8 @@ import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.ReportRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -65,6 +67,19 @@ public class ReportService {
         return reportsDTO;
     }
 
+    public List<ReportDTO> findPatientsReports(Patient p){
+
+        List<ReportDTO> returnReports = new ArrayList<>();
+
+        MedicalRecord medicalRecord = p.getMedicalRecord();
+
+        for( Report report : medicalRecord.getReports()){
+
+            returnReports.add(modelMapper.map(report,ReportDTO.class));
+        }
+        return  returnReports;
+    }
+
     public boolean addNew(ReportDTO reportDTO, Principal p) {
         Doctor doctor = (Doctor) userService.findByUsername(p.getName());
         Patient patient = patientService.findPatient(reportDTO.getPatientemail());
@@ -109,5 +124,29 @@ public class ReportService {
         ReportDTO dto = new ReportDTO(report);
         return dto;
 
+    }
+
+    public List<ReportDTO> getAllReports(String patientemail) {
+
+        Patient patient = patientService.findPatient(patientemail);
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) a.getPrincipal();
+
+        MedicalRecord medicalRecord = medicalRecordService.findById(patient.getMedicalRecord().getId());
+        Set<Report> reports = medicalRecord.getReports();
+        List<ReportDTO> reportsDTO = new ArrayList<>();
+
+        for(Report r: reports){
+
+            ReportDTO rep = new ReportDTO(r);
+            if(r.getDoctor().getEmail().equals(user.getEmail())){
+                rep.setEditable(true);
+            }
+
+            reportsDTO.add(rep);
+
+        }
+
+        return reportsDTO;
     }
 }

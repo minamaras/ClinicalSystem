@@ -136,5 +136,12 @@ public class PatientService {
 		return patientDTOS;
 	}
 
+	public Patient findOneBySocialSecurityNumber(String id) {
+		Patient patient = patientRepository.findBySocialSecurityNumber(id);
+
+		return patient;
+
+	}
+
 
 }

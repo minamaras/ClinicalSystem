@@ -102,6 +102,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/register").permitAll()
                 .antMatchers("/api/users/getrole/**").permitAll()
                 .antMatchers("/api/patients/confirm-account/**").permitAll()
+                .antMatchers("/api/appointments/saverequesttoappointment/**").permitAll()
+                .antMatchers("/api/appointments/declinerequesttoappointment/**").permitAll()
+
+
+
 
                 /*
                 .antMatchers("/api/hotels").hasAnyRole("USER")

@@ -65,7 +65,7 @@ public class AppointmentRequestController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/sendrequest/{doctoremail}/{examdate}/{examtime}/{endtime}/{id}")
+    /*@RequestMapping(method = RequestMethod.POST, value = "/sendrequest/{doctoremail}/{examdate}/{examtime}/{endtime}/{id}")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<?> sendRequestForAppointment(@PathVariable("doctoremail") String roomId, @PathVariable("examdate") String examdate, @PathVariable("examtime") String examtime, @PathVariable("endtime") String endtime, @PathVariable("id") String id,@RequestBody AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
 
@@ -74,7 +74,7 @@ public class AppointmentRequestController {
         } else {
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.GET, value = "/allmyexams")
     @PreAuthorize("hasAuthority('PATIENT')")
@@ -83,6 +83,17 @@ public class AppointmentRequestController {
         List<AppointmentRequestDTO> appointmentRequestDTOS = appointmentRequestService.findMyExams();
 
         return new ResponseEntity<>(appointmentRequestDTOS, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/scheduleanother/{doctor}/{examdate}/{patient}/{startexam}/{endexam}")
+    @PreAuthorize("hasAuthority('DOCTOR')")
+    public ResponseEntity<?> scheduleAnotherAppointmentRequest(@PathVariable("doctor") int doctorId, @PathVariable("examdate") String examDate, @PathVariable("patient") String patientEmail, @PathVariable("startexam") String startExam, @PathVariable("endexam") String endExam, AppointmentDTO appointmentDTO) throws ParseException {
+
+        if(appointmentRequestService.scheduleAnother(doctorId, examDate, patientEmail, startExam, endExam)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 

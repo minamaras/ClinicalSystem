@@ -2,5 +2,5 @@ package com.example.ClinicalSystem.model;
 
 public enum AppointmentRequestStatus {
 
-    PATIENTSENT,WAITING, CONFIRMED, DECLINED
+    PATIENTSENT,WAITING, CONFIRMED, DECLINED, DOCTORSENT
 }

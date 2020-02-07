@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.DTO;
 
 import com.example.ClinicalSystem.model.Clinic;
 import com.example.ClinicalSystem.model.Doctor;
+import com.example.ClinicalSystem.model.Patient;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,8 +16,9 @@ public class ClinicDTO {
 	private String adress;
 	private String description;
 	private Set<Long> doctorsId = new HashSet<Long>();
-	private int rating;
+	private double rating;
 	private String examprice="";
+	private List<String> patients;
 	
 	public ClinicDTO() {
 		super();
@@ -74,11 +76,11 @@ public class ClinicDTO {
 		this.doctorsId = doctorsId;
 	}
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 
@@ -88,5 +90,13 @@ public class ClinicDTO {
 
 	public void setExamprice(String examprice) {
 		this.examprice = examprice;
+	}
+
+	public List<String> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(List<String> patients) {
+		this.patients = patients;
 	}
 }

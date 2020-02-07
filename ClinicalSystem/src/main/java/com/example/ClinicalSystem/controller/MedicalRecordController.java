@@ -47,6 +47,13 @@ public class MedicalRecordController {
         if(user.getRole() == Role.PATIENT) {
             Patient loggedinpatient = patientService.findPatient(user.getEmail());
             MedicalRecord medicalRecord = medicalRecordService.findById(loggedinpatient.getMedicalRecord().getId());
+
+            if(medicalRecord == null){
+                MedicalRecord mr = new MedicalRecord();
+                mr.setPatient(loggedinpatient);
+                medicalRecordService.saveRecord(mr);
+                loggedinpatient.setMedicalRecord(mr);
+            }
             MedicalRecordDTO dto = new MedicalRecordDTO(medicalRecord);
             return ResponseEntity.ok(dto);
         }
@@ -71,6 +78,20 @@ public class MedicalRecordController {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/infoo/{email:.+}")
+    @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR','PATIENT')")
+    public ResponseEntity<MedicalRecordDTO> medicalRecordInfoDoctor(@PathVariable String email) {
+
+
+        Patient patient = patientService.findPatient(email);
+
+        MedicalRecord medicalRecord = medicalRecordService.findById(patient.getMedicalRecord().getId());
+
+        MedicalRecordDTO dto = new MedicalRecordDTO(medicalRecord);
+        //  return new ResponseEntity<>(modelMapper.map(medicalRecord, MedicalRecordDTO.class), HttpStatus.OK);
+        return ResponseEntity.ok(dto);
     }
 
 

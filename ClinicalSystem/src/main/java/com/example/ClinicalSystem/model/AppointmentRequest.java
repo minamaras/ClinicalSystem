@@ -41,7 +41,7 @@ public class AppointmentRequest {
     private Doctor doctor;
 
     @Column(name="roomnum")
-    private Integer roomNumber;
+    private Long roomId;
 
     public AppointmentRequest() {
         super();
@@ -131,12 +131,12 @@ public class AppointmentRequest {
         this.appointmentRequestStatus = appointmentRequestStatus;
     }
 
-    public Integer getRoomNumber() {
-        return roomNumber;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setRoomNumber(Integer roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setRoomId(Long roomNumber) {
+        this.roomId = roomNumber;
     }
 }
 

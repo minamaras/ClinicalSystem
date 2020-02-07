@@ -27,6 +27,12 @@ public class Patient extends User {
 	@ManyToMany(mappedBy = "patients")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 
+	@ManyToMany(mappedBy = "patientsThatRated")
+	private Set<Doctor> ratedDoctors = new HashSet<Doctor>();
+
+	@ManyToMany(mappedBy = "patientsThatRated")
+	private Set<Clinic> ratedClinics = new HashSet<Clinic>();
+
 	@ManyToMany(mappedBy = "patients")
 	private Set<Clinic> clinics = new HashSet<Clinic>();
 
@@ -61,6 +67,7 @@ public class Patient extends User {
 
 	@Column(name = "socialsecuritynumber")
 	private String socialSecurityNumber;
+
 
 
 
@@ -175,12 +182,33 @@ public class Patient extends User {
 		this.clinics = clinics;
 	}
 
+
+	public Set<Doctor> getRatedDoctors() {
+		return ratedDoctors;
+	}
+
+	public void setRatedDoctors(Set<Doctor> ratedDoctors) {
+		this.ratedDoctors = ratedDoctors;
+	}
+
+	public Set<Clinic> getRatedClinics() {
+		return ratedClinics;
+	}
+
+	public void setRatedClinics(Set<Clinic> ratedClinics) {
+		this.ratedClinics = ratedClinics;
+	}
+
+	public void addRatedDoctor(Doctor d) {
+		this.ratedDoctors.add(d);
+	}
 	public Set<AppointmentRequest> getAppointmentRequests() {
 		return appointmentRequests;
 	}
 
 	public void setAppointmentRequests(Set<AppointmentRequest> appointmentRequests) {
 		this.appointmentRequests = appointmentRequests;
+
 	}
 
 	public Set<OperationRequest> getOperationRequests() {

@@ -6,16 +6,12 @@ import com.example.ClinicalSystem.repository.AppointmentRequestRepository;
 import org.joda.time.LocalDate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.security.Principal;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
@@ -53,6 +49,17 @@ public class AppointmentRequestService {
     private OperationRoomService operationRoomService;
 
 
+    public Optional<AppointmentRequest> findByIdModel(Long id){
+
+        return appointmentRequestRepository.findById(id);
+    }
+
+    public void update(AppointmentRequest ap){
+
+        appointmentRequestRepository.save(ap);
+    }
+
+
     public boolean saveAppointmentRequest(AppointmentRequestDTO appointmentRequestDTO) throws ParseException, UnsupportedEncodingException {
 
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
@@ -63,6 +70,7 @@ public class AppointmentRequestService {
         AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
         appointmentRequest.setPatient(p);
         appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.PATIENTSENT);
+
 
         String startDate=appointmentRequestDTO.getDate();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
@@ -82,6 +90,7 @@ public class AppointmentRequestService {
         }
 
         Doctor doctor = doctorService.findOneById(appointmentRequestDTO.getDoctorid());
+        p.getAppointmentRequests().add(appointmentRequest);
 
         if(doctor != null){
             appointmentRequest.setDoctor(doctor);
@@ -130,7 +139,7 @@ public class AppointmentRequestService {
 
         List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
         for (AppointmentRequest c : requests) {
-            if(c.getAppointmentRequestStatus().equals(AppointmentRequestStatus.PATIENTSENT)){
+            if(c.getAppointmentRequestStatus().equals(AppointmentRequestStatus.PATIENTSENT) || c.getAppointmentRequestStatus().equals(AppointmentRequestStatus.DOCTORSENT)){
 
                 AppointmentRequestDTO appointmentRequestDTO =modelMapper.map(c,AppointmentRequestDTO.class);
                 appointmentRequestDTO.setStart(c.getStart());
@@ -177,6 +186,7 @@ public class AppointmentRequestService {
     }
 
     public boolean IsCreated(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
+
         AppointmentRequest apreq = modelMapper.map(findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
 
         Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(appointmentRequestDTO.getId());
@@ -205,7 +215,7 @@ public class AppointmentRequestService {
             Date date = Date.valueOf(examdate);
             apreq.setStart(date);
 
-            apreq.setRoomNumber(roomDTO.getNumber());
+            apreq.setRoomId(id);
             apreq.setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
 
             LocalDate requestDate = LocalDate.fromDateFields(date);
@@ -268,8 +278,13 @@ public class AppointmentRequestService {
             }
 
             apreq = appointmentRequestRepository.save(apreq);
+            if(apreq != null)
+              {
+                  sendRequest(roomId,examdate,examtime,endtime,appointmentRequestDTO,apreq.getId(),appointmentRequestDTO);
+                  return true;
+              }
 
-            return true;
+            return false;
 
         }
 
@@ -277,15 +292,15 @@ public class AppointmentRequestService {
 
     }
 
-    public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, String id) {
+    public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, Long id,AppointmentRequestDTO apDTO) {
 
-        Long requestId = Long.parseLong(id);
-        Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(requestId);
+        //Long requestId = Long.parseLong(id);
+        Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(id);
         Patient patient = appointmentRequest.get().getPatient();
 
         if(patient != null) {
             try {
-                emailService.sendAppointmentRequest(patient, examdate, examtime, endtime);
+                emailService.sendAppointmentRequest(patient, examdate, examtime, endtime,apDTO);
             } catch (Exception e) {
                 return false;
             }
@@ -299,20 +314,94 @@ public class AppointmentRequestService {
 
     }
 
+    public boolean updateAppRequest(AppointmentRequest appointmentRequest){
+      AppointmentRequest ap =  appointmentRequestRepository.save(appointmentRequest);
+
+      if( ap !=  null){
+          return true;
+      }else{
+          return  false;
+      }
+    }
+
     public List<AppointmentRequestDTO> findMyExams() {
 
-        List<AppointmentRequest> appointmentRequests = appointmentRequestRepository.findAll();
-
         List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<AppointmentRequestDTO>();
-        for (AppointmentRequest h : appointmentRequests) {
-            if(h.getAppointmentRequestStatus() == AppointmentRequestStatus.WAITING)
-            {
-                appointmentRequestDTOS.add(modelMapper.map(h, AppointmentRequestDTO.class));
+
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) a.getPrincipal();
+
+        if(user.getRole() == Role.PATIENT) {
+
+            Patient p = patientService.findPatient(user.getEmail());
+
+            Set<AppointmentRequest> appointmentRequests = p.getAppointmentRequests();
+
+            for (AppointmentRequest apreq : appointmentRequests) {
+
+                if (apreq.getAppointmentRequestStatus().equals(AppointmentRequestStatus.WAITING)) {
+                    AppointmentRequestDTO appointmentRequestDTO = modelMapper.map(apreq, AppointmentRequestDTO.class);
+                    appointmentRequestDTO.setExamTypeName(apreq.getType().getName());
+                    appointmentRequestDTO.setDoctorEmail(apreq.getDoctor().getEmail());
+                    appointmentRequestDTO.setRoomId(apreq.getRoomId());
+                    appointmentRequestDTO.setName(apreq.getName());
+                    appointmentRequestDTOS.add(appointmentRequestDTO);
+                }
+
+            }
+        }
+        return appointmentRequestDTOS;
+    }
+
+    public boolean scheduleAnother(int doctorId, String examDate, String patientEmail, String startExam, String endExam) {
+
+        Doctor doctor = doctorService.findOneById(Long.valueOf(doctorId));
+        Patient patient = patientService.findPatient(patientEmail);
+
+        AppointmentRequest appointmentRequest = new AppointmentRequest();
+
+        Time t = Time.valueOf(startExam);
+        appointmentRequest.setStartTime(t);
+
+        Time endtimeTime = Time.valueOf(endExam);
+        appointmentRequest.setEndTime(endtimeTime);
+
+        Date date = Date.valueOf(examDate);
+        appointmentRequest.setStart(date);
+
+        appointmentRequest.setDoctor(doctor);
+
+        appointmentRequest.setPatient(patient);
+
+        appointmentRequest.setType(doctor.getExamType());
+
+        appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.DOCTORSENT);
+
+        appointmentRequestRepository.save(appointmentRequest);
+
+        //sendDoctorRequest(doctor,patient,examDate,startExam, endExam, appointmentRequest.getId());
+        return true;
+
+    }
+
+    public boolean sendDoctorRequest(Doctor doctor, Patient patient, String examdate, String examtime, String endtime, Long idRequest) {
+
+        Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(idRequest);
+
+        if(doctor != null) {
+            try {
+                emailService.sendDoctorRequest(doctor, patient, examdate, examtime, endtime, idRequest);
+            } catch (Exception e) {
+                return false;
             }
 
+            appointmentRequest.get().setAppointmentRequestStatus(AppointmentRequestStatus.PATIENTSENT);
+            appointmentRequestRepository.save(appointmentRequest.get());
+            return true;
         }
 
-        return appointmentRequestDTOS;
+        return false;
+
     }
 }
 

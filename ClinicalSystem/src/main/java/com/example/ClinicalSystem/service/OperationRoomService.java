@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
+import com.example.ClinicalSystem.repository.DoctorRepository;
 import com.example.ClinicalSystem.repository.OperationRoomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class OperationRoomService {
 
     @Autowired
     private ExamTypeService examTypeService;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     public List<OperationRoomDTO> findAll() {
 
@@ -105,6 +109,9 @@ public class OperationRoomService {
     }
 
     public OR update(OR or) {
+
+
+
         return repo.save(or);
     }
 
@@ -146,7 +153,7 @@ public class OperationRoomService {
 
             for(AppointmentRequestDTO apr : waitingreq)
             {
-                        if(room.getNumber() == apr.getRoomNumber()){
+                        if(room.getId() == apr.getRoomId()){
                             apr.setDate(apr.getStart().toString().substring(0,10));
                             roomrequests.add(apr);
                     }
@@ -164,9 +171,22 @@ public class OperationRoomService {
         return  roomsToReturn;
     }
 
+    public void saveModel(OR or){
+        repo.save(or);
+    }
+
     public OperationRoomDTO findById(Long id){
         Optional<OR> ap =repo.findById(id);
         return modelMapper.map(ap.get(),OperationRoomDTO.class);
+    }
+
+    public List<OR> findAllRoomsModel() {
+    
+        return repo.findAll();
+    }
+    public OR findByIdModel(Long id){
+        Optional<OR> ap =repo.findById(id);
+        return ap.get();
     }
 
 
