@@ -2,9 +2,6 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
-import com.example.ClinicalSystem.model.ExamType;
-import com.example.ClinicalSystem.model.Patient;
-import com.example.ClinicalSystem.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -146,5 +143,44 @@ public class EmailService {
         mail.setSubject("Clinical System: Appointment request");
         mail.setText("Hello " + admins.get(randomNumberAdmin).getName() + ",\n\n Please assign a room for this appointment request. Appointment is on "+ examdate +" from  "+ examtime +" till "+ endtime +" " + "\n\n\n Clinical System");
         javaMailSender.send(mail);
+    }
+
+
+    @Async
+    public void sendOperationDateChange(Patient patient, String opDate, String opTime) throws MailException, InterruptedException {
+
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(patient.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Operation date changed");
+        mail.setText("Hello " + patient.getName() + ",\n\nYour operation date is changed and it is scheduled on " + opDate + " at " + opTime + "." + "\n\n\n Clinical System");
+        javaMailSender.send(mail);
+
+    }
+
+    @Async
+    public void sendOperationInfo(Patient patient, String opDate, String opTime) throws MailException, InterruptedException {
+
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(patient.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Operation information");
+        mail.setText("Hello " + patient.getName() + ",\n\nYour operation is scheduled on " + opDate + " at " + opTime + "." + "\n\n\n Clinical System");
+        javaMailSender.send(mail);
+
+    }
+
+    @Async
+    public void sendOperationInfoDoctor(Doctor doctor, String opDate, String opTime) throws MailException, InterruptedException {
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(doctor.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Clinical System: Operation");
+        mail.setText("Hello " + doctor.getName() + ",\n\nYou have been charged for operation. It starts on " + opDate + " at " + opTime + "." + "\n\n\n Clinical System");
+        javaMailSender.send(mail);
+
     }
 }

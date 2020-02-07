@@ -21,7 +21,11 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-23,'Pera', 'Markovic', 'doktorMarkovic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-25,'Lazar', 'Lazarevic', 'doktor25@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
-insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-26,'Ana', 'Lakic', 'analakic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'PATIENT','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-26,'Jana', 'Lakic', 'jana@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'PATIENT','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-27,'Igor', 'Bojanic', 'doktor27@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-28,'Bojan', 'Ilic', 'doktor28@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-29,'Aleksa', 'Milic', 'tamaraa.jancic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-30,'Elena', 'Lalic', 'doktor30@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 
 
 INSERT INTO clinic (id, description, name, adress) values (-3, 'Klinika broj 1', 'Klinika Sunce', 'Bulevar Oslobodjenja 22');
@@ -91,6 +95,37 @@ insert into exam_type_rooms(exam_type_id, rooms_id) values (-21,-5);
 insert into exam_type_rooms(exam_type_id, rooms_id) values (-23,-6);
 insert into exam_type_rooms(exam_type_id, rooms_id) values (-23,-7);
 
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+  (-4,'zubar','10',-3,-3,-4,'8:00:00','15:45:00',false);
+
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-7,'zubar','10',-5,-9,-4,'15:00:00','20:00:00',true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-24,'imunolog','10',-5,-9,-20,'8:00:00','20:00:00',true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-8,'ocni lekar','9',-7,-10,-5,'12:00:00','18:00:00',false);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-11,'Dermatolog','7',-2,-2,-7,'8:00:00','16:00:00',true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-25,'ocni lekar','10',-7,-10,-5,'08:00:00','20:00:00',false);
+
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+(-20,'imunolog','10',-5,-9,-20,'8:00:00','16:00:00',false);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-21,'radiolog','10',-7,-10,-21,'12:00:00','20:00:00',true);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-22,'doktor opste prakse','10',-2,-2,-22,'15:00:00','20:00:00',true);
+ insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-23,'Zubar','10',-3,-3,-4,'8:00:00','17:00:00',true);
+
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-27,'Anesteziolog','10',-7,-10,-23,'12:00:00','20:00:00',false);
+insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-28,'Hirurg','7',-2,-2,-23,'15:00:00','20:00:00',false);
+ insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-29,'Hirurg','10',-3,-3,-23,'8:00:00','17:00:00',false);
+ insert into doctor (id,specialization,rating,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
+ (-30,'Anesteziolog','9',-3,-3,-23,'8:00:00','17:00:00',false);
 
 --insert into clinical_centre_admin (id) values (-6);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-4,-4);
@@ -106,6 +141,10 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-21,-21);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-22,-22);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-5,-25);
 
+insert into exam_type_doctors (exam_type_id,doctors_id) values (-23,-27);
+insert into exam_type_doctors (exam_type_id,doctors_id) values (-23,-28);
+insert into exam_type_doctors (exam_type_id,doctors_id) values (-23,-29);
+insert into exam_type_doctors (exam_type_id,doctors_id) values (-23,-30);
 
 insert into nurse (id, clinic_id, firstlogin) values (-12, -5, false);
 
@@ -269,6 +308,12 @@ INSERT INTO user_authority (user_id,authority_id) values (-23,2);
 INSERT INTO user_authority (user_id,authority_id) values (-24,2);
 INSERT INTO user_authority (user_id,authority_id) values (-8,2);
 
+INSERT INTO user_authority (user_id,authority_id) values (-27,2);
+INSERT INTO user_authority (user_id,authority_id) values (-28,2);
+INSERT INTO user_authority (user_id,authority_id) values (-29,2);
+INSERT INTO user_authority (user_id,authority_id) values (-30,2);
+
+
 insert into holidays(id,startdate,reason,enddate,typeholiday,user_id,holidaystatus)
 values (-5,'2020-02-05','dsad','2020-02-15',1,-8,'ACCEPTED');
 
@@ -309,11 +354,11 @@ values(-12,'preglednekistari','2019-01-01','12:00:00','12:15:00',' HAS_HAPPEND',
 -4,-4,-3,-5);
 insert into doctor_appointments(doctor_id,appointments_id) values (-4,-12);
 
-insert into operation_request (id, startdate, starttime, endtime, name, patient_id, is_scheduled) values (-2,'2020-02-22','08:00:00','10:00:00','Operacija slepog creva',-14,false);
-insert into operation_request (id, startdate, starttime, endtime, name, patient_id, is_scheduled) values (-3,'2020-02-12','08:00:00','10:00:00','Operacija ociju',-14,false);
-insert into operation_request (id, startdate, starttime, endtime, name, patient_id, is_scheduled) values (-4,'2020-03-02','14:00:00','16:00:00','Operacija zuba',-5,false);
-insert into operation_request (id, startdate, starttime, endtime, name, patient_id, is_scheduled) values (-5,'2020-02-22','12:00:00','14:00:00','Operacija srca',-14,true);
-insert into operation_request (id, startdate, starttime, endtime, name, patient_id, is_scheduled) values (-6,'2020-03-02','14:00:00','16:00:00','Operacija bubrega',-5,true);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled) values (-2,'2020-02-22','08:00:00','10:00:00','Operacija slepog creva',-14,null,false);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled) values (-3,'2020-02-12','08:00:00','10:00:00','Operacija ociju',-14,null,false);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled) values (-4,'2020-03-02','14:00:00','16:00:00','Operacija zuba',-5,null,false);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled) values (-5,'2020-02-22','12:00:00','14:00:00','Operacija srca',-14, -6,true);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled) values (-6,'2020-03-02','14:00:00','16:00:00','Operacija bubrega',-5, -7,true);
 
 
 
@@ -346,3 +391,11 @@ insert into doctor_ratings (doctor_id,rating_id) values(-4,-2);
 insert into doctor_patient_ratings(doctor_id,patient_id) values (-4,-14);
 insert into doctor_patient_ratings(doctor_id,patient_id) values (-23,-14);
 insert into doctor_ratings (doctor_id,rating_id) values(-23,-2);
+
+insert into doctor_operations (operations_id, doctor_id) values (-5,-27);
+insert into doctor_operations (operations_id, doctor_id) values (-5,-29);
+insert into doctor_operations (operations_id, doctor_id) values (-6,-27);
+insert into doctor_operations (operations_id, doctor_id) values (-6,-29);
+--insert into operation_request_doctors (operation_request_id, doctors_id) values (-5,-27);
+--insert into operation_request_doctors (operation_request_id, doctors_id) values (-5,-29);
+--insert into operation_request_doctors (operation_request_id, doctors_id) values (-6,-27);

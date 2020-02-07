@@ -54,5 +54,19 @@ public class OperationRequestController {
         } else {
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+     }
+  
+
+    @RequestMapping(method = RequestMethod.POST, value = "/schedule")
+    @PreAuthorize("hasAuthority('CLINICADMIN')")
+    public ResponseEntity approveOperation(@RequestBody OperationRequestDTO operationRequestDTO) throws InterruptedException {
+
+        boolean isScheduled = operationRequestService.scheduleOperation(operationRequestDTO);
+
+        if(isScheduled) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -24,6 +24,7 @@ public class DoctorDTO {
     private boolean firstLogin;
     private Set<HolidayDTO> holidays = new HashSet<>();
     private List<String> patients = new ArrayList<>();
+    private List<OperationCalendarDTO> operations = new ArrayList<>();
 
 
     public DoctorDTO() {
@@ -186,5 +187,12 @@ public class DoctorDTO {
 
     public void setPatients(List<String> patients) {
         this.patients = patients;
+    }
+    public List<OperationCalendarDTO> getOperations() {
+        return operations;
+    }
+
+    public void setOperations(List<OperationCalendarDTO> operations) {
+        this.operations = operations;
     }
 }

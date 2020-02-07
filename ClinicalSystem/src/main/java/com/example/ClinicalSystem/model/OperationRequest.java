@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import javax.print.Doc;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,6 +37,7 @@ public class OperationRequest {
     private Patient patient;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "doctor_operations", joinColumns = @JoinColumn(name = "operations_id"), inverseJoinColumns = @JoinColumn(name = "doctor_id"))
     private Set<Doctor> doctors = new HashSet<Doctor>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

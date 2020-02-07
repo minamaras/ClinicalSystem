@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.Set;
 
 @Service
 public class OperationRequestService {
+
 
     @Autowired
     private OperationRequestRepository operationRequestRepository;
@@ -27,7 +32,13 @@ public class OperationRequestService {
     @Autowired
     private PatientService patientService;
 
-    public OperationRequest findOne(long id) {
+    @Autowired
+    private OperationRoomService operationRoomService;
+
+    @Autowired
+    private EmailService emailService;
+
+    public OperationRequest findOne(long id){
         return operationRequestRepository.findById(id);
     }
 
@@ -58,7 +69,6 @@ public class OperationRequestService {
         return oprDTO;
     }
 
-
     public boolean scheduleOperation(int doctorId, String examDate, String patientEmail, String startExam, String endExam) {
         Doctor doctor = doctorService.findOneById(Long.valueOf(doctorId));
         Patient patient = patientService.findPatient(patientEmail);
@@ -84,5 +94,75 @@ public class OperationRequestService {
 
         return false;
     }
+      
+    public OperationRequest save(OperationRequest operationRequest){
+       return operationRequestRepository.save(operationRequest);
+    }
+
+
+    public boolean scheduleOperation(OperationRequestDTO operationRequestDTO) throws InterruptedException {
+
+        OperationRequest operation = operationRequestRepository.findById(operationRequestDTO.getId());
+
+        if(operation == null){
+            return false;
+        }
+
+        java.util.Date originalDate = operation.getStart();
+
+        String inputDateString = operationRequestDTO.getStart();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+        LocalDate inputDate = LocalDate.parse(inputDateString);
+        java.sql.Date finalDate = java.sql.Date.valueOf(inputDate);
+
+        LocalTime startTime = operationRequestDTO.getStartTime().toLocalTime();
+        LocalTime endTime = startTime.plusHours(2);
+        Time finalStartTime = Time.valueOf(startTime);
+        Time finalEndTime = Time.valueOf(endTime);
+
+        String thisD = finalDate.toString().substring(0,10);
+        String starts = finalStartTime.toString();
+
+        operation.setStart(finalDate);
+        operation.setStartTime(finalStartTime);
+        operation.setEndTime(finalEndTime);
+
+
+
+        OR oroom = operationRoomService.findOne(operationRequestDTO.getRoomNumber());
+        operation.setOr(oroom);
+        //save(operation);
+
+        oroom.getOperations().add(operation);
+
+
+
+        for(String name : operationRequestDTO.getDoctorNames()){
+            Doctor doctor = doctorService.findOne(name);
+            operation.getDoctors().add(doctor);
+            emailService.sendOperationInfoDoctor(doctor,thisD,starts);
+            //doctor.getOperations().add(operation);
+        }
+
+        operation.setScheduled(true);
+        save(operation);
+        operationRoomService.save(oroom);
+
+        Patient patient = operation.getPatient();
+
+        if(originalDate.compareTo(finalDate) > 0 ||  originalDate.compareTo(finalDate) < 0){
+
+            emailService.sendOperationDateChange(patient,thisD,starts);
+        } else {
+
+            emailService.sendOperationInfo(patient,thisD,starts);
+        }
+
+
+
+        return true;
+
+    }
+
 }
 
