@@ -68,7 +68,7 @@ insert into doctor (id,specialization,clinic_id,clinic_admin_id,exam_type_id,sta
 (-25,'ocni lekar',-7,-10,-5,'08:00:00','20:00:00',false);
 
 insert into doctor (id,specialization,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
-(-20,'imunolog',-5,-9,-20,'8:00:00','16:00:00',false);
+(-20,'imunolog',-5,-9,-20,'8:00:00','16:00:00',true);
 insert into doctor (id,specialization,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
  (-21,'radiolog',-7,-10,-21,'12:00:00','20:00:00',true);
 insert into doctor (id,specialization,clinic_id,clinic_admin_id,exam_type_id,starttime,endtime,firstlogin) values
