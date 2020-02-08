@@ -9,6 +9,9 @@ import com.example.ClinicalSystem.repository.OperationRequestRepository;
 //import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.text.ParseException;
@@ -64,6 +67,7 @@ public class OperationRequestService {
         return operationRequestDTOS;
     }
 
+
     public OperationRequestDTO getOne(long id) {
         OperationRequest or = operationRequestRepository.findById(id);
 
@@ -102,28 +106,34 @@ public class OperationRequestService {
 
         return false;
     }
-      
+
+    @Transactional(readOnly = false)
     public OperationRequest save(OperationRequest operationRequest){
+        return operationRequestRepository.save(operationRequest);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
+    public OperationRequest update(OperationRequest operationRequest){
        return operationRequestRepository.save(operationRequest);
     }
 
 
-    public boolean scheduleOperation(OperationRequestDTO operationRequestDTO) throws InterruptedException {
 
+    public boolean scheduleOperation(OperationRequestDTO operationRequestDTO) throws InterruptedException {
         OperationRequest operation = operationRequestRepository.findById(operationRequestDTO.getId());
 
-        if(operation == null){
+        if (operation == null) {
             return false;
         }
 
-        if(operation.isScheduled()){
-            return true;
+        if (operation.isScheduled()) {
+            return false;
         }
 
         java.util.Date originalDate = operation.getStart();
 
         String inputDateString;
-        if(operationRequestDTO.getStart() == null) {
+        if (operationRequestDTO.getStart() == null) {
             inputDateString = operationRequestDTO.getDate();
         } else {
             inputDateString = operationRequestDTO.getStart();
@@ -132,52 +142,81 @@ public class OperationRequestService {
         LocalDate inputDate = LocalDate.parse(inputDateString);
         java.sql.Date finalDate = java.sql.Date.valueOf(inputDate);
 
-        LocalTime startTime = operation.getStartTime().toLocalTime();
+
+        LocalTime startTime = operationRequestDTO.getStartTime().toLocalTime();
         LocalTime endTime = startTime.plusHours(2);
         Time finalStartTime = Time.valueOf(startTime);
         Time finalEndTime = Time.valueOf(endTime);
 
-        String thisD = finalDate.toString().substring(0,10);
+        String thisD = finalDate.toString().substring(0, 10);
         String starts = finalStartTime.toString();
+
+
+        List<OperationRequest> operationRequests = operationRequestRepository.findAll();
+        for(OperationRequest operationRequest : operationRequests) {
+            if (operationRequest.isScheduled()) {
+
+
+                if (operationRequest.getOr().getNumber() == operationRequestDTO.getRoomNumber()) {
+
+                    if ((operationRequest.getStart().compareTo(finalDate) == 0) && (operationRequest.getStartTime().compareTo(finalStartTime) == 0)) {
+                        return false;
+                    }
+                }
+
+
+                for (String doctorName : operationRequestDTO.getDoctorNames()) {
+                    Doctor doctor = doctorService.findOne(doctorName);
+                    if ((operationRequest.getStart().compareTo(finalDate) == 0) && operationRequest.getStartTime().compareTo(finalStartTime) == 0) {
+
+                        if (!operationRequest.getDoctors().isEmpty()) {
+
+                            if (operationRequest.getDoctors().contains(doctor)) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
 
         operation.setStart(finalDate);
         operation.setStartTime(finalStartTime);
         operation.setEndTime(finalEndTime);
 
 
-
         OR oroom = operationRoomService.findOne(operationRequestDTO.getRoomNumber());
         operation.setOr(oroom);
-        //save(operation);
 
 
         oroom.getOperations().add(operation);
 
 
-
-        for(String name : operationRequestDTO.getDoctorNames()){
+        for (String name : operationRequestDTO.getDoctorNames()) {
             Doctor doctor = doctorService.findOne(name);
-          //  if(!operation.getDoctors().contains(doctor)) {
-                operation.getDoctors().add(doctor);
-                emailService.sendOperationInfoDoctor(doctor, thisD, starts);
-                //doctor.getOperations().add(operation);
-          //  }
+
+            operation.getDoctors().add(doctor);
+            emailService.sendOperationInfoDoctor(doctor, thisD, starts);
         }
 
         operation.setScheduled(true);
-        save(operation);
+        update(operation);
+
+
+
         operationRoomService.save(oroom);
 
         Patient patient = operation.getPatient();
 
-        if(originalDate.compareTo(finalDate) > 0 ||  originalDate.compareTo(finalDate) < 0){
+        if (originalDate.compareTo(finalDate) > 0 || originalDate.compareTo(finalDate) < 0) {
 
-            emailService.sendOperationDateChange(patient,thisD,starts);
+            emailService.sendOperationDateChange(patient, thisD, starts);
         } else {
 
-            emailService.sendOperationInfo(patient,thisD,starts);
+            emailService.sendOperationInfo(patient, thisD, starts);
         }
-
 
 
         return true;
