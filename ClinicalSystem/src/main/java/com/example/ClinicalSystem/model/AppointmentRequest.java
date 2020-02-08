@@ -43,6 +43,9 @@ public class AppointmentRequest {
     @Column(name="roomnum")
     private Long roomId;
 
+    @Version
+    private Long version;
+
     public AppointmentRequest() {
         super();
     }
@@ -137,6 +140,14 @@ public class AppointmentRequest {
 
     public void setRoomId(Long roomNumber) {
         this.roomId = roomNumber;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
 
