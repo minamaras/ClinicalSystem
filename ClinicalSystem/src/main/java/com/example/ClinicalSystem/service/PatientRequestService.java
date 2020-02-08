@@ -12,8 +12,10 @@ import com.example.ClinicalSystem.model.PatientRequest;
 import com.example.ClinicalSystem.repository.PatientRequestRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,24 +115,21 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 
 	}
 
-	@Transactional
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public boolean declineUser(PatientRequestDTO requestDTO, String explanation){
 		Patient patient = modelMapper.map(requestDTO, Patient.class);
-		Long isDeleted = deletePatientRequest(requestDTO.getEmail());
-
+		deletePatientRequest(patient.getEmail());
 
 		try {
 			emailService.sendDeclineNotificaitionAsync(patient, explanation);
+			return true;
 		} catch (Exception e) {
 			return false;
 		}
-
-		if(isDeleted == 1){
-			return true;
-		} else {
-			return false;
-		}
+		
 	}
+
 
 	public Long deletePatientRequest(String email){
 		Long num = patientRequestRepository.removeByEmail(email);
