@@ -3,12 +3,16 @@ package com.example.ClinicalSystem.service;
 import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.AppointmentRequestRepository;
+import org.hibernate.annotations.Synchronize;
 import org.joda.time.LocalDate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -61,88 +65,117 @@ public class AppointmentRequestService {
     }
 
 
+
     public boolean saveAppointmentRequest(AppointmentRequestDTO appointmentRequestDTO) throws ParseException, UnsupportedEncodingException {
 
-        Authentication a = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) a.getPrincipal();
-        Patient p = patientService.findPatient(user.getEmail());
+        //synchronized (this) {
+
+            Authentication a = SecurityContextHolder.getContext().getAuthentication();
+            User user = (User) a.getPrincipal();
+            Patient p = patientService.findPatient(user.getEmail());
 
        /* String startDate=appointmentRequestDTO.getDate();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
         java.util.Date date = sdf1.parse(startDate);
         java.sql.Date finaldate = new java.sql.Date(date.getTime());*/
 
-        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-        java.time.LocalDate inputDates = java.time.LocalDate.parse(appointmentRequestDTO.getDate());
-        java.sql.Date finaldate = java.sql.Date.valueOf(inputDates);
+            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+            java.time.LocalDate inputDates = java.time.LocalDate.parse(appointmentRequestDTO.getDate());
+            java.sql.Date finaldate = java.sql.Date.valueOf(inputDates);
 
-        for(AppointmentRequest r: p.getAppointmentRequests()){
+            for (AppointmentRequest r : p.getAppointmentRequests()) {
 
-            if((r.getDoctor().getId().equals(appointmentRequestDTO.getDoctorid()) )&& (r.getStartTime().equals(appointmentRequestDTO.getStartTime()))
-                    && (r.getStart().equals(finaldate)) && (r.getType().getName().equals(appointmentRequestDTO.getExamTypeName()))){
+                if ((r.getDoctor().getId().equals(appointmentRequestDTO.getDoctorid())) && (r.getStartTime().equals(appointmentRequestDTO.getStartTime()))
+                        && (r.getStart().equals(finaldate)) && (r.getType().getName().equals(appointmentRequestDTO.getExamTypeName())) && r.getAppointmentRequestStatus().equals(AppointmentRequestStatus.PATIENTSENT)) {
 
-                    return  false;
+                    return false;
+                }
             }
-        }
 
-        AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
-        appointmentRequest.setPatient(p);
-        appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.PATIENTSENT);
-        appointmentRequest.setStart(finaldate);
+            for (AppointmentRequest ap : appointmentRequestRepository.findAll()) {
 
-        String decoded = URLDecoder.decode(appointmentRequestDTO.getExamTypeName(), "UTF-8");
-        ExamType examType =examTypeService.findOne(decoded);
-        if(examType != null){
-            appointmentRequest.setType(examType);
-            java.sql.Time startTime = java.sql.Time.valueOf(appointmentRequest.getStartTime().toString());
-            LocalTime localtime = startTime.toLocalTime();
-            localtime = localtime.plusMinutes(examType.getDuration());
-            Time endTime= Time.valueOf(localtime);
-            appointmentRequest.setEndTime(endTime);
-        }
-
-        Doctor doctor = doctorService.findOneById(appointmentRequestDTO.getDoctorid());
-        p.getAppointmentRequests().add(appointmentRequest);
-
-        if(doctor != null){
-            appointmentRequest.setDoctor(doctor);
-            appointmentRequestDTO.setDoctorEmail(doctor.getEmail());
-        }
-
-        Clinic clinic = doctor.getClinic();
-        List<ClinicAdmin> admins = new ArrayList<>();
-        for(ClinicAdmin ca : clinic.getClinicAdmins()){
-            admins.add(ca);
-        }
-
-        int randomNumberAdmin = (int)(Math.random() * admins.size());
+                if (ap.getAppointmentRequestStatus().equals(AppointmentRequestStatus.PATIENTSENT)) {
 
 
-        //provera da li postoji vec taj u bazi
+                    if ((ap.getStart().equals(finaldate)) && (ap.getStartTime().equals(appointmentRequestDTO.getStartTime())) &&
+                            (ap.getDoctor().getId().equals(appointmentRequestDTO.getDoctorid()))) {
 
-        //List<AppointmentRequest> reqpatient = appointmentRequestRepository.findByPatient(p);
+                        return false;
+                    }
+
+                }
 
 
+            }
 
-        //AppointmentRequest reqdate = appointmentRequestRepository.findByStart((Date) appointmentRequest.getStart());
-        //AppointmentRequest reqtime = appointmentRequestRepository.findByStartTime(appointmentRequest.getStartTime());
-        //AppointmentRequest reqtype = appointmentRequestRepository.findByType(appointmentRequest.getType());
+            AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
+            appointmentRequest.setPatient(p);
+            appointmentRequest.setAppointmentRequestStatus(AppointmentRequestStatus.PATIENTSENT);
+            appointmentRequest.setStart(finaldate);
 
-        if (appointmentRequestRepository.save(appointmentRequest) != null) {
+            String decoded = URLDecoder.decode(appointmentRequestDTO.getExamTypeName(), "UTF-8");
+            ExamType examType = examTypeService.findOne(decoded);
+            if (examType != null) {
+                appointmentRequest.setType(examType);
+                java.sql.Time startTime = java.sql.Time.valueOf(appointmentRequest.getStartTime().toString());
+                LocalTime localtime = startTime.toLocalTime();
+                localtime = localtime.plusMinutes(examType.getDuration());
+                Time endTime = Time.valueOf(localtime);
+                appointmentRequest.setEndTime(endTime);
+            }
 
-            try {
-                emailService.sendAdminNotificaitionAsync(admins.get(randomNumberAdmin),p,finaldate,appointmentRequest.getStartTime(),appointmentRequest.getEndTime(),appointmentRequest.getType());
-            } catch (Exception e) {
+            Doctor doctor = doctorService.findOneById(appointmentRequestDTO.getDoctorid());
+            p.getAppointmentRequests().add(appointmentRequest);
+
+            if (doctor != null) {
+                appointmentRequest.setDoctor(doctor);
+                appointmentRequestDTO.setDoctorEmail(doctor.getEmail());
+            }
+
+            Clinic clinic = doctor.getClinic();
+            List<ClinicAdmin> admins = new ArrayList<>();
+            for (ClinicAdmin ca : clinic.getClinicAdmins()) {
+                admins.add(ca);
+            }
+
+            int randomNumberAdmin = (int) (Math.random() * admins.size());
+
+
+            //provera da li postoji vec taj u bazi
+
+            //List<AppointmentRequest> reqpatient = appointmentRequestRepository.findByPatient(p);
+
+
+            //AppointmentRequest reqdate = appointmentRequestRepository.findByStart((Date) appointmentRequest.getStart());
+            //AppointmentRequest reqtime = appointmentRequestRepository.findByStartTime(appointmentRequest.getStartTime());
+            //AppointmentRequest reqtype = appointmentRequestRepository.findByType(appointmentRequest.getType());
+
+            if (saveApReq(appointmentRequest) != null) {
+
+                try {
+                    emailService.sendAdminNotificaitionAsync(admins.get(randomNumberAdmin), p, finaldate, appointmentRequest.getStartTime(), appointmentRequest.getEndTime(), appointmentRequest.getType());
+                } catch (Exception e) {
+                    return false;
+                }
+
+                return true;
+            } else {
                 return false;
-            }
 
-            return true;
-        } else {
-            return false;
+
+            }
 
 
         }
+
+    //}
+
+
+    public AppointmentRequest saveApReq(AppointmentRequest apreq){
+        return appointmentRequestRepository.save(apreq);
     }
+
+
 
     public List<AppointmentRequestDTO> findAll() throws ParseException {
         List<AppointmentRequest> requests = appointmentRequestRepository.findAll();
@@ -189,7 +222,7 @@ public class AppointmentRequestService {
     }
 
 
-
+    @Transactional(readOnly = false)
     public AppointmentRequestDTO findById(Long id){
         Optional<AppointmentRequest> ap =appointmentRequestRepository.findById(id);
         return modelMapper.map(ap.get(),AppointmentRequestDTO.class);
@@ -302,6 +335,7 @@ public class AppointmentRequestService {
 
     }
 
+
     public boolean sendRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO, Long id,AppointmentRequestDTO apDTO) {
 
         //Long requestId = Long.parseLong(id);
@@ -323,6 +357,7 @@ public class AppointmentRequestService {
         return false;
 
     }
+
 
     public boolean updateAppRequest(AppointmentRequest appointmentRequest){
       AppointmentRequest ap =  appointmentRequestRepository.save(appointmentRequest);
