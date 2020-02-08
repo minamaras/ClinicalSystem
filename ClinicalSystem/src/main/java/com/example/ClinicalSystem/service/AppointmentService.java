@@ -14,8 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.print.Doc;
+import org.springframework.transaction.annotation.Transactional;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,9 +53,9 @@ public class AppointmentService {
     @Autowired
     private AppointmentRequestService appointmentRequestService;
 
-    public boolean saveAppointment(AppointmentDTO appointmentDTO){
 
-        //fsdgsdgs
+    public boolean saveAppointment(AppointmentDTO appointmentDTO) throws Exception{
+
 
         if(appointmentRepository.findById(appointmentDTO.getId()) == null){
             return  false;
@@ -60,6 +63,11 @@ public class AppointmentService {
 
             Optional<Appointment> appointmentop = appointmentRepository.findById(appointmentDTO.getId());
             Appointment appointment = appointmentop.get();
+
+            if(appointment.getPatient() != null){
+
+                return false;
+            }
 
             Authentication a = SecurityContextHolder.getContext().getAuthentication();
             User user = (User) a.getPrincipal();
@@ -72,10 +80,7 @@ public class AppointmentService {
             appointment.setClassification(AppointmentClassification.NORMAL);
             appointment.setStatus(AppointmentStatus.SHEDULED);
 
-
-            Appointment saved = appointmentRepository.save(appointment);
-
-            if (saved != null) {
+            if (saveAp(appointment) != null) {
 
                 try {
                     emailService.sendEmailAboutAppointment(user,appointment);
@@ -91,6 +96,11 @@ public class AppointmentService {
             }
     }
 
+    }
+
+    @Transactional(readOnly = false,isolation = Isolation.REPEATABLE_READ)
+    public Appointment saveAp (Appointment a){
+        return appointmentRepository.save(a);
     }
 
     public List<AppointmentDTO> findAllPredefined() {
