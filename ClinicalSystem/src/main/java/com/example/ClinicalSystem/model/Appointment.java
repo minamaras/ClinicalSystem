@@ -182,4 +182,12 @@ public class Appointment implements Serializable {
 	public void setClassification(AppointmentClassification classification) {
 		this.classification = classification;
 	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
 }
