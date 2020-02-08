@@ -233,7 +233,7 @@ public class ClinicService {
 							Set<Holiday> doctorholidays = d.getHolidays();
 							ArrayList<String> holidays = new ArrayList<>();
 
-							if (d.getExamType().getName().equals(filter.getExamtype())) {
+							if (d.getExamType().getName().equals(filter.getExamtype()) && !(d.getExamType().getName().equals("Operation"))) {
 
 								for(Holiday h : doctorholidays){
 									if(h.getHolidayRequestStatus() ==  HolidayRequestStatus.ACCEPTED) {
