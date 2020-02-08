@@ -46,6 +46,9 @@ public class OperationRequest {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ExamType type;
 
+    @Version
+    private Long version;
+
     public OperationRequest() {
         super();
     }
@@ -139,4 +142,13 @@ public class OperationRequest {
     public void setType(ExamType type) {
         this.type = type;
     }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
 }
