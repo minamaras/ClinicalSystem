@@ -47,6 +47,10 @@ public class OR {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
 
+	@Version
+	private Long version;
+
+
 	public OR() {
 		super();
 	}
@@ -137,5 +141,13 @@ public class OR {
 
 	public void setOperations(Set<OperationRequest> operations) {
 		this.operations = operations;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 }
