@@ -16,15 +16,15 @@ public class AppointmentRequest {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "startdate" , nullable = false)
+    @Column(name = "startdate")
     private java.sql.Date start;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    @Column(name = "starttime", nullable = false )
+    @Column(name = "starttime")
     private Time startTime;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    @Column(name = "endtime", nullable = false )
+    @Column(name = "endtime")
     private Time endTime;
 
     @Column(name="appreqstatus")
@@ -52,6 +52,25 @@ public class AppointmentRequest {
         super();
         this.id = id;
         this.start = start;
+        this.type = type;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.name = name;
+    }
+
+    public AppointmentRequest(Long id,ExamType type, Patient patient, Doctor doctor, Long roomId, String name) {
+        super();
+        this.id = id;
+        this.type = type;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.name = name;
+        this.roomId = roomId;
+    }
+
+    public AppointmentRequest(Long id,ExamType type, Patient patient, Doctor doctor, String name) {
+        super();
+        this.id = id;
         this.type = type;
         this.patient = patient;
         this.doctor = doctor;

@@ -99,6 +99,11 @@ public class Clinic {
 	}
 
 
+	public Clinic(String name, String adress) {
+		super();
+		this.name = name;
+		this.adress = adress;
+	}
 
 	public BusinessReport getReport() {
 		return report;

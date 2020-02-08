@@ -62,6 +62,13 @@ public class OR {
 		this.clinic = clinic;
 	}
 
+	public OR(int number, String name, ExamType examType) {
+		super();
+		this.number = number;
+		this.name = name;
+		this.examType = examType;
+
+	}
 
 	public Long getId() {
 		return id;

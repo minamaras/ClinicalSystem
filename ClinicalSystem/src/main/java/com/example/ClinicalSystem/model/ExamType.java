@@ -30,6 +30,13 @@ public class ExamType {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Appointment> exams = new HashSet<Appointment>();
 
+    public ExamType(String name, int price, int duration) {
+        super();
+        this.name = name;
+        this.price = price;
+        this.duration = duration;
+    }
+
     public Long getId() {
         return id;
     }
