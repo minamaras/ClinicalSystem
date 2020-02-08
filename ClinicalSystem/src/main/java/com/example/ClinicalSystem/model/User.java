@@ -61,8 +61,9 @@ public class User implements UserDetails {
 	}
 
 
-	public User(Role role, String name, String lastname, String email) {
+	public User(Long id, Role role, String name, String lastname, String email) {
 		super();
+		this.id = id;
 		this.role = role;
 		this.name = name;
 		this.lastname = lastname;

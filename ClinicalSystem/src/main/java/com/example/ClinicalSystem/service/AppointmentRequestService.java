@@ -188,6 +188,9 @@ public class AppointmentRequestService {
         return appointmentRequestDTOS;
     }
 
+    public AppointmentRequest findByName(String name) {
+        return appointmentRequestRepository.findByName(name);
+    }
 
 
     public AppointmentRequestDTO findById(Long id){

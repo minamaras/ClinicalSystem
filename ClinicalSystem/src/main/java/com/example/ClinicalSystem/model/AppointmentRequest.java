@@ -68,13 +68,13 @@ public class AppointmentRequest {
         this.roomId = roomId;
     }
 
-    public AppointmentRequest(Long id,ExamType type, Patient patient, Doctor doctor, String name) {
+    public AppointmentRequest(String name,ExamType type, Long roomId, Patient patient, Doctor doctor) {
         super();
-        this.id = id;
+        this.name = name;
         this.type = type;
+        this.roomId = roomId;
         this.patient = patient;
         this.doctor = doctor;
-        this.name = name;
     }
 
     public Long getId() {

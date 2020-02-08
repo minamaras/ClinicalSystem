@@ -1,11 +1,15 @@
 package com.example.ClinicalSystem.controller;
 
+import com.example.ClinicalSystem.model.AppointmentRequest;
+import com.example.ClinicalSystem.service.AppointmentRequestService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -14,10 +18,16 @@ import org.springframework.web.context.WebApplicationContext;
 import java.nio.charset.Charset;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AppointmentRequestControllerTest {
 
     private static final String URL_PREFIX = "/api/appointmentrequest";
+
+    @Autowired
+    TestRestTemplate restTemplate;
+
+    @Autowired
+    private AppointmentRequestService appointmentRequestService;
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
@@ -42,4 +52,5 @@ public class AppointmentRequestControllerTest {
                 .andExpect(jsonPath("$.[*].lastName").value(hasItem(DB_LAST_NAME)))
                 .andExpect(jsonPath("$.[*].index").value(hasItem(DB_INDEX)));*/
     }
+
 }
