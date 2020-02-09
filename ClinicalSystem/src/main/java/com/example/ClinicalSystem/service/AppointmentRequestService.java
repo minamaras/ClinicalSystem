@@ -197,9 +197,18 @@ public class AppointmentRequestService {
         return modelMapper.map(ap.get(),AppointmentRequestDTO.class);
     }
 
+    public Optional<AppointmentRequest> findByIdModelReq(Long id) {
+        return appointmentRequestRepository.findById(id);
+    }
+
+    public AppointmentRequest findByIdMina(long id) {
+        Optional<AppointmentRequest> ap = appointmentRequestRepository.findById(id);
+        return modelMapper.map(ap.get(), AppointmentRequest.class);
+    }
+
     public boolean IsCreated(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
 
-        AppointmentRequest apreq = modelMapper.map(findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
+        AppointmentRequest apreq = findByIdMina(appointmentRequestDTO.getId());
 
         Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(appointmentRequestDTO.getId());
 
@@ -211,7 +220,10 @@ public class AppointmentRequestService {
 
         Long id = Long.parseLong(roomId);
 
-        OperationRoomDTO roomDTO = operationRoomService.findById(id);
+        OR roomDTO = operationRoomService.findByIdModelMina(id);
+        if(roomDTO == null) {
+            return  false;
+        }
 
 
         if(roomDTO != null) {
