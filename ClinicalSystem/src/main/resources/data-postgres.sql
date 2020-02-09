@@ -311,7 +311,7 @@ INSERT INTO user_authority (user_id,authority_id) values (-30,2);
 INSERT INTO user_authority (user_id,authority_id) values (-26,1);
 INSERT INTO user_authority (user_id,authority_id) values (-9,4);
 INSERT INTO user_authority (user_id,authority_id) values (-31,3);
->
+
 
 insert into holidays(id,startdate,reason,enddate,typeholiday,user_id,holidaystatus)
 values (-5,'2020-02-05','dsad','2020-02-15',1,-8,'ACCEPTED');
