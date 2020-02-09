@@ -82,9 +82,9 @@ insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id,
 insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id, version) values (-9,'OR 2',3,'08:00:00','20:00:00', -5,-3,0);
 insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id, version) values (-10,'OR 3',4,'08:00:00','20:00:00', -7,-3,0);
 
-insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id, version) values (-3,'OR 1',2,'07:00:00','23:00:00', -4,-3,0);
-insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id, version) values (-4,'OR 2',3,'07:00:00','23:00:00', -6,-3,0);
-insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id, version) values (-5,'OR 3',4,'07:00:00','23:00:00', -21,-3,0);
+insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-3,'OR 1',9,'07:00:00','23:00:00', -4,-3);
+insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-4,'OR 2',88,'07:00:00','23:00:00', -6,-3);
+insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id) values (-5,'OR 3',10,'07:00:00','23:00:00', -21,-3);
 
 insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id, version) values (-6,'OR 6',6,'07:00:00','23:00:00', -23,-3,0);
 insert into op_room (id,name,number, starttime, endtime, exam_type_id,clinic_id, version) values (-7,'OR 7',7,'07:00:00','23:00:00', -23,-3,0);

@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.service;
 
 import java.lang.reflect.Type;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -203,7 +204,6 @@ public class ClinicService {
 	public List<ClinicDTO> filterClinics(FilterDTO filter) throws ParseException {
 
 
-
 		if(filter.getTime() != null){
 			LocalTime time = new LocalTime(filter.getTime());
 			filter.setStartAppointmentFilter(time);
@@ -214,7 +214,7 @@ public class ClinicService {
 		if(filter.getFilter() == null || filter.getFilter() == "" ){
 			if(filter.getDate() != null && filter.getTime() != null && filter.getExamtype() != null){
 
-				List<Clinic> clinics = clinicRepo.findAllByOrderByNameAsc();
+				List<Clinic> clinics = clinicRepo.findAll();
 				List<ClinicDTO> returnc = new ArrayList<>();
 
 
@@ -257,9 +257,12 @@ public class ClinicService {
 									}
 								}
 
+								DateFormat format = new SimpleDateFormat("HH:mm:ss");
+								String starttime = format.format(d.getStart().getTime());
+								String endtime = format.format(d.getEnd().getTime());
 
-								LocalTime Dtimestart = new LocalTime(d.getStart());
-								LocalTime Dtimeend = new LocalTime(d.getEnd());
+								LocalTime Dtimestart = new LocalTime(starttime);
+								LocalTime Dtimeend = new LocalTime(endtime);
 
 								if ((Dtimestart.isBefore(filter.getStartAppointmentFilter()) || Dtimestart.isEqual(filter.getStartAppointmentFilter())) && (Dtimeend.isAfter(filter.getStartAppointmentFilter()))) {
 									if(d.getAppointments().size() == 0){

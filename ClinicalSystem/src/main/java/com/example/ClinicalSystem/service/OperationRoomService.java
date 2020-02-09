@@ -194,6 +194,10 @@ public class OperationRoomService {
         return ap.get();
     }
 
+    public OR findByIdModelMina(long id) {
+        return repo.findById(id);
+    }
+
 
 
     public Set<OperationRoomDTO> allRoomsForOperation() throws ParseException {
@@ -247,6 +251,12 @@ public class OperationRoomService {
         return  false;
 
     }
+
+    public OR findByIdModel(long id) {
+
+        return repo.findById(id);
+    }
+
 
 
 
