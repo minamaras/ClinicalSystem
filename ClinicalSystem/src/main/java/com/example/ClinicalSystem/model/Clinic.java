@@ -31,7 +31,7 @@ public class Clinic {
 	@Column(name = "price")
 	private String price;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
 	@JoinTable(name = "clinic_ratings", joinColumns = @JoinColumn(name = "clinic_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rating_id", referencedColumnName = "id"))
 	private Set<Rating> singleratings = new HashSet<>();
 
