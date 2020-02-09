@@ -40,12 +40,16 @@ public class OR {
 	@JoinTable(name = "room_app", joinColumns = @JoinColumn(name="op_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name="appointment_id", referencedColumnName = "id"))
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "room_operations", joinColumns = @JoinColumn(name="or_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name="operation_id", referencedColumnName = "id"))
 	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Clinic clinic;
+
+	@Version
+	private Long version;
+
 
 	public OR() {
 		super();
@@ -144,5 +148,13 @@ public class OR {
 
 	public void setOperations(Set<OperationRequest> operations) {
 		this.operations = operations;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 }

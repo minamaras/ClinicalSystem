@@ -43,6 +43,9 @@ public class AppointmentRequest {
     @Column(name="roomnum")
     private Long roomId;
 
+    @Version
+    private Long version;
+
     public AppointmentRequest() {
         super();
     }

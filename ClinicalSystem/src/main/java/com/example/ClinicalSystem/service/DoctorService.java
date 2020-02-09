@@ -21,11 +21,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ClinicalSystem.repository.DoctorRepository;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.print.Doc;
-import javax.transaction.Transactional;
 
 @Service
 public class DoctorService {
@@ -155,6 +157,7 @@ public class DoctorService {
 
 	}
 
+	//@Transactional(propagation = Propagation.)
 	public Doctor findOne(String email) {
 		return doctorRepository.findByEmail(email);
 	}
@@ -289,6 +292,7 @@ public class DoctorService {
 		}
 	}
 
+	@Transactional
 	public List<Doctor> findAllDoctors() {
 
 		List<Doctor> doctors = doctorRepository.findAll();
@@ -402,6 +406,7 @@ public class DoctorService {
 				}
 			}
 
+
 			//provera za radno vreme
 			LocalTime startWork = doctor.getStart().toLocalTime();
 			LocalTime endWork = doctor.getEnd().toLocalTime();
@@ -439,7 +444,8 @@ public class DoctorService {
 				}
 			}
 			if(isAvailable) {
-				DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+				//DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+				DoctorDTO doctorDTO = new DoctorDTO(doctor);
 				doctorDTOS.add(doctorDTO);
 			}
 		}

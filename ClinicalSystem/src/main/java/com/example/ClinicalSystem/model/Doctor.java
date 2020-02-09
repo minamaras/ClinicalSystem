@@ -43,7 +43,8 @@ public class Doctor extends User {
 	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

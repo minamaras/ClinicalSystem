@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +60,7 @@ public class OperationRequestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/schedule")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity approveOperation(@RequestBody OperationRequestDTO operationRequestDTO) throws InterruptedException {
+    public ResponseEntity approveOperation(@RequestBody OperationRequestDTO operationRequestDTO) throws InterruptedException, ParseException {
 
         boolean isScheduled = operationRequestService.scheduleOperation(operationRequestDTO);
 
@@ -69,4 +70,11 @@ public class OperationRequestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    //@Scheduled(fixedRate = 100000)
+    @Scheduled(cron = "0 0 0 * * *")
+    public void assignOrdinationAutomatically() throws ParseException, InterruptedException {
+        operationRequestService.assignOperationAutomatically();
+    }
+
 }

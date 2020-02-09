@@ -7,8 +7,10 @@ import com.example.ClinicalSystem.repository.RecipeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.*;
 
@@ -83,7 +85,7 @@ public class RecipeService {
         return recipesDTO;
     }
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
     public boolean authRecipe(String id, Principal p){
 
         long idRec = Long.parseLong(id);
@@ -103,6 +105,7 @@ public class RecipeService {
         return false;
     }
 
+   // @Transactional(propagation = Propagation.)
     public Recipe save(Recipe recipe){
         return recipeRepository.save(recipe);
     }
