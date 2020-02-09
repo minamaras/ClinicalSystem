@@ -77,6 +77,20 @@ public class AppointmentRequest {
         this.doctor = doctor;
     }
 
+    public AppointmentRequest(Long id, String name,ExamType type, Long roomId, Patient patient, Doctor doctor, java.sql.Date startdate, Time examStart, Time examEnd) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.roomId = roomId;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.start = startdate;
+        this.startTime = examStart;
+        this.endTime = examEnd;
+    }
+
+
     public Long getId() {
         return id;
     }
