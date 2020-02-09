@@ -186,7 +186,7 @@ public class DoctorService {
 			doctorDTO.setName(doctor.getName());
 			doctorDTO.setLastname(doctor.getLastname());
 			doctorDTO.setStart(doctor.getStart());
-			doctor.setEnd(doctor.getEnd());
+			doctorDTO.setEnd(doctor.getEnd());
 			doctorDTO.setId(doctor.getId());
 			doctorDTO.setEmail(doctor.getEmail());
 			doctorDTO.setSpecialization(doctor.getSpecialization());
