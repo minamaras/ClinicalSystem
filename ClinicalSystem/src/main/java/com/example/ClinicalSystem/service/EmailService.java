@@ -10,6 +10,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -145,6 +148,8 @@ public class EmailService {
                 "\n Appointment doctor " + a.getDoctor().getName() + " " + a.getDoctor().getLastname() +
                 "\n\n\nClinical System Team");
 
+
+        javaMailSender.send(mail);
     }
         public void sendDoctorRequest(Doctor doctor, Patient patient, String examdate, String examtime, String endtime, Long idRequest) {
         Clinic clinic = doctor.getClinic();

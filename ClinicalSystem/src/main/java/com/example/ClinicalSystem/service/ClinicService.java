@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
@@ -32,8 +34,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.repository.ClinicRepository;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 
 @Service
 public class ClinicService {
@@ -233,7 +234,7 @@ public class ClinicService {
 							Set<Holiday> doctorholidays = d.getHolidays();
 							ArrayList<String> holidays = new ArrayList<>();
 
-							if (d.getExamType().getName().equals(filter.getExamtype())) {
+							if (d.getExamType().getName().equals(filter.getExamtype()) && !(d.getExamType().getName().equals("Operation"))) {
 
 								for(Holiday h : doctorholidays){
 									if(h.getHolidayRequestStatus() ==  HolidayRequestStatus.ACCEPTED) {
@@ -603,7 +604,6 @@ public class ClinicService {
 
 	return returnc;
 	}
-
 
 
 	public ClinicDTO updatedrating(Long id,int rating){

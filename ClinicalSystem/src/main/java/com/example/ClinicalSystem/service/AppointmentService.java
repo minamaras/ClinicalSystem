@@ -14,8 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.print.Doc;
+import org.springframework.transaction.annotation.Transactional;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,7 +53,9 @@ public class AppointmentService {
     @Autowired
     private AppointmentRequestService appointmentRequestService;
 
-    public boolean saveAppointment(AppointmentDTO appointmentDTO){
+
+    public boolean saveAppointment(AppointmentDTO appointmentDTO) throws Exception{
+
 
         if(appointmentRepository.findById(appointmentDTO.getId()) == null){
             return  false;
@@ -59,6 +64,11 @@ public class AppointmentService {
             Appointment appointment = appointmentRepository.findById(appointmentDTO.getId());
             //Appointment appointment = appointmentop.get();
             User user = new User();
+
+            if(appointment.getPatient() != null){
+
+                return false;
+            }
 
             if(appointmentDTO.getPatientemail() != null){
 
@@ -77,10 +87,7 @@ public class AppointmentService {
             appointment.setClassification(AppointmentClassification.NORMAL);
             appointment.setStatus(AppointmentStatus.SHEDULED);
 
-
-            Appointment saved = appointmentRepository.save(appointment);
-
-            if (saved != null) {
+            if (saveAp(appointment) != null) {
 
                 try {
 
@@ -98,6 +105,11 @@ public class AppointmentService {
             }
     }
 
+    }
+
+    @Transactional(readOnly = false,isolation = Isolation.REPEATABLE_READ)
+    public Appointment saveAp (Appointment a){
+        return appointmentRepository.save(a);
     }
 
     public List<AppointmentDTO> findAllPredefined() {
@@ -341,9 +353,13 @@ public class AppointmentService {
 
     public AppointmentDTO getOneAppoint(long id){
         Appointment app = appointmentRepository.findById(id);
-        if(app.getStatus().equals(AppointmentStatus.SHEDULED)) {
+        if( app != null){
+
+            if(app.getStatus().equals(AppointmentStatus.SHEDULED)) {
             app.setStatus(AppointmentStatus.HAPPENING);
             appointmentRepository.save(app);
+        }
+
         }
         AppointmentDTO appDTO = modelMapper.map(app, AppointmentDTO.class);
         appDTO.setPatientemail(app.getPatient().getEmail());

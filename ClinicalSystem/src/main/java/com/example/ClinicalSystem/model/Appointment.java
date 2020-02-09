@@ -6,12 +6,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.joda.time.LocalTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
 
 @Entity
-public class Appointment {
+public class Appointment implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +23,6 @@ public class Appointment {
 
 	@Column(name = "startdate" , nullable = false)
 	private Date start;
-
 
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
 	@Column(name = "starttime", nullable = false )
@@ -53,11 +53,14 @@ public class Appointment {
 	private OR or;
 
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Calendar calendar;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Report report;
+
+	@Version
+	private Long version;
 
 	public Appointment() {
 		super();
@@ -188,5 +191,13 @@ public class Appointment {
 
 	public void setClassification(AppointmentClassification classification) {
 		this.classification = classification;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 }

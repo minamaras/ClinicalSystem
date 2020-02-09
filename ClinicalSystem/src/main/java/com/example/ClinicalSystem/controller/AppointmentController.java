@@ -49,7 +49,7 @@ public class AppointmentController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/save")
     @PreAuthorize("hasAuthority('PATIENT')")
-    public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDTO appointmentDTO) throws ParseException {
+    public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDTO appointmentDTO) throws Exception {
 
         if (appointmentService.saveAppointment(appointmentDTO)) {
             return new ResponseEntity<>(HttpStatus.OK);

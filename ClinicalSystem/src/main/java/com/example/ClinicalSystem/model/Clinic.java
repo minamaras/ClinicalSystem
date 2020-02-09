@@ -59,6 +59,7 @@ public class Clinic {
 	@JoinTable(name = "clinic_roomlist", joinColumns = @JoinColumn(name = "clinic_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"))
 	private Set<OR> rooms = new HashSet<OR>();
 
+
 	public Clinic() {
 
 	}
@@ -228,4 +229,6 @@ public class Clinic {
 	public void setRooms(Set<OR> rooms) {
 		this.rooms = rooms;
 	}
+
+
 }
