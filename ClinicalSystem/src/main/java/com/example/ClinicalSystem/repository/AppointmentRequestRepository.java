@@ -29,4 +29,7 @@ public interface AppointmentRequestRepository extends JpaRepository<AppointmentR
     AppointmentRequest findByStart(Date start);
     AppointmentRequest findByStartTime(Time starttime);
     AppointmentRequest findByType(ExamType type);
+    List<AppointmentRequest> findAllByOrderByStartAsc();
+
+
 }
