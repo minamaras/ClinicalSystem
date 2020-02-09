@@ -108,7 +108,7 @@ public class AppointmentServiceUnitTest {
     }
 
     @Test
-    public void testSaveAppointment() throws ParseException, InterruptedException {
+    public void testSaveAppointment() throws Exception {
 
         Date date11 = new SimpleDateFormat("yyyy-MM-dd").parse("2020-03-23");
         Time time11 = Time.valueOf("11:00:00");
