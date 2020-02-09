@@ -191,15 +191,46 @@ public class AppointmentRequestService {
         return appointmentRequestRepository.findByName(name);
     }
 
+    public List<AppointmentRequestDTO> findAllSent() throws ParseException {
+
+        List<AppointmentRequest> requests = appointmentRequestRepository.findAll();
+
+        List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
+        for (AppointmentRequest c : requests) {
+
+            if (c.getAppointmentRequestStatus().equals(AppointmentRequestStatus.PATIENTSENT) || c.getAppointmentRequestStatus().equals(AppointmentRequestStatus.DOCTORSENT)) {
+
+                AppointmentRequestDTO appointmentRequestDTO = modelMapper.map(c, AppointmentRequestDTO.class);
+                appointmentRequestDTO.setStart(c.getStart());
+                appointmentRequestDTO.setStartTime(c.getStartTime());
+                appointmentRequestDTO.setEndTime(c.getEndTime());
+
+                appointmentRequestDTOS.add(appointmentRequestDTO);
+            }
+
+        }
+
+
+        return appointmentRequestDTOS;
+    }
 
     public AppointmentRequestDTO findById(Long id){
         Optional<AppointmentRequest> ap =appointmentRequestRepository.findById(id);
         return modelMapper.map(ap.get(),AppointmentRequestDTO.class);
     }
 
+    public Optional<AppointmentRequest> findByIdModelReq(Long id) {
+        return appointmentRequestRepository.findById(id);
+    }
+
+    public AppointmentRequest findByIdMina(long id) {
+        Optional<AppointmentRequest> ap = appointmentRequestRepository.findById(id);
+        return modelMapper.map(ap.get(), AppointmentRequest.class);
+    }
+
     public boolean IsCreated(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
 
-        AppointmentRequest apreq = modelMapper.map(findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
+        AppointmentRequest apreq = findByIdMina(appointmentRequestDTO.getId());
 
         Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(appointmentRequestDTO.getId());
 
@@ -211,7 +242,10 @@ public class AppointmentRequestService {
 
         Long id = Long.parseLong(roomId);
 
-        OperationRoomDTO roomDTO = operationRoomService.findById(id);
+        OR roomDTO = operationRoomService.findByIdModelMina(id);
+        if(roomDTO == null) {
+            return  false;
+        }
 
 
         if(roomDTO != null) {
@@ -293,6 +327,7 @@ public class AppointmentRequestService {
             if(apreq != null)
               {
                   sendRequest(roomId,examdate,examtime,endtime,appointmentRequestDTO,apreq.getId(),appointmentRequestDTO);
+                  findAllSent();
                   return true;
               }
 
@@ -413,6 +448,115 @@ public class AppointmentRequestService {
         }
 
         return false;
+
+    }
+
+    public boolean assignRoomToRequest(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
+
+        AppointmentRequest apreq = findByIdMina(appointmentRequestDTO.getId());
+
+        Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(appointmentRequestDTO.getId());
+
+        if(appointmentRequest.isPresent()) {
+            apreq.setPatient(appointmentRequest.get().getPatient());
+        }
+
+        //Doctor doctor = appointmentRequest.get().getDoctor();
+
+        Long id = Long.parseLong(roomId);
+
+        OR roomDTO = operationRoomService.findByIdModelMina(id);
+        if(roomDTO == null) {
+            return  false;
+        }
+
+
+        if(roomDTO != null) {
+
+            //apreq.setDoctor(doctor);
+
+            Time t = Time.valueOf(examtime);
+            apreq.setStartTime(t);
+
+            Time endtimeTime = Time.valueOf(endtime);
+            apreq.setEndTime(endtimeTime);
+
+            Date date = Date.valueOf(examdate);
+            apreq.setStart(date);
+
+            apreq.setRoomId(id);
+            apreq.setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
+
+            LocalDate requestDate = LocalDate.fromDateFields(date);
+
+            if(appointmentRequest.get().getDoctor().getAppointments().isEmpty()) {
+
+                apreq.setDoctor(appointmentRequest.get().getDoctor());
+
+            } else {
+                List<Doctor> doctors = doctorService.findAllDoctors();
+
+                List<Doctor> typeDoctors = new ArrayList<>();
+
+                for(Doctor d : doctors) {
+                    if(d.getExamType().getName().equals(apreq.getType().getName())) {
+
+                        typeDoctors.add(d);
+
+                    }
+                }
+
+                for(Doctor d : typeDoctors) {
+
+                    for(Appointment a : d.getAppointments()) {
+
+                        org.joda.time.LocalTime requestStartTime = org.joda.time.LocalTime.fromDateFields(t);
+                        org.joda.time.LocalTime requestEndTime = org.joda.time.LocalTime.fromDateFields(endtimeTime);
+
+                        org.joda.time.LocalTime appointmentStartTime = org.joda.time.LocalTime.fromDateFields(a.getStartTime());
+                        org.joda.time.LocalTime appointmentEndTime = org.joda.time.LocalTime.fromDateFields(a.getEndTime());
+
+                        LocalDate appointmentDate = LocalDate.fromDateFields(a.getStart());
+
+                        if(appointmentDate.isEqual(requestDate)) {
+                            if(appointmentStartTime.isEqual(requestStartTime)) {
+
+                                typeDoctors.remove(d);
+
+                            } else if(appointmentStartTime.isBefore(requestStartTime) && appointmentEndTime.isBefore(requestEndTime)) {
+
+                                continue;
+
+                            } else if(appointmentStartTime.isAfter(requestStartTime) && appointmentEndTime.isAfter(requestEndTime)) {
+
+                                continue;
+
+                            } else if(appointmentStartTime.isBefore(requestStartTime) && appointmentStartTime.isBefore(requestEndTime)) {
+
+                                typeDoctors.remove(d);
+
+                            }
+                        }
+
+                    }
+
+                }
+
+                int randomDoctor = (int)(Math.random() * typeDoctors.size());
+                apreq.setDoctor(typeDoctors.get(randomDoctor));
+            }
+
+            apreq = appointmentRequestRepository.save(apreq);
+            if(apreq != null)
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+
+        return  false;
 
     }
 }

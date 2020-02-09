@@ -77,7 +77,7 @@ public class AppointmentRequest {
         this.doctor = doctor;
     }
 
-    public AppointmentRequest(Long id, String name,ExamType type, Long roomId, Patient patient, Doctor doctor, java.sql.Date startdate, Time examStart, Time examEnd) {
+    public AppointmentRequest(Long id, String name,ExamType type, Long roomId, Patient patient, Doctor doctor, java.sql.Date startdate, Time examStart, Time examEnd, AppointmentRequestStatus appointmentRequestStatus) {
         super();
         this.id = id;
         this.name = name;
@@ -88,6 +88,7 @@ public class AppointmentRequest {
         this.start = startdate;
         this.startTime = examStart;
         this.endTime = examEnd;
+        this.appointmentRequestStatus = AppointmentRequestStatus.PATIENTSENT;
     }
 
 
