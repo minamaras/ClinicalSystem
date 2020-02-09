@@ -1,5 +1,6 @@
 package com.example.ClinicalSystem.service;
 
+import com.example.ClinicalSystem.DTO.AppointmentRequestDTO;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.AppointmentRequestRepository;
 import com.example.ClinicalSystem.repository.DoctorRepository;
@@ -8,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.print.Doc;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,6 +58,7 @@ public class AppointmentRequestServiceUnitTest {
         ExamType examType1 = new ExamType("Stomatoloski pregled", 1500, 30);
 
         OR or1 = new OR(2L, 3,"Soba", examType1);
+        OR or2 = new OR(-8L, 21,"Dds", examType1);
 
         Doctor doctor1 = new Doctor();
         doctor1.setName("Tamara");
@@ -79,8 +86,8 @@ public class AppointmentRequestServiceUnitTest {
         Time examStart = Time.valueOf("14:00:00");
         Time examEnd = Time.valueOf("14:15:00");
 
-        given(operationRoomRepository.findById(2L)
-        ).willReturn(new OR(2L, 3,"Soba", examType1));
+        given(operationRoomRepository.findById(-8L)
+        ).willReturn(or2);
 
         given(doctorRepository.findByEmail("tamaraa@gmail.com")
         ).willReturn(new Doctor(doctor1.getSpecialization(), doctor1.getName(), doctor1.getLastname(), doctor1.getExamType(), doctor1.getEmail()));
@@ -92,7 +99,7 @@ public class AppointmentRequestServiceUnitTest {
         ).willReturn(new AppointmentRequest(1L,"Stomatoloski pregled", examType1, or1.getId(), patient1, doctor1, examDate, examStart, examEnd, AppointmentRequestStatus.PATIENTSENT));
 
         given(appointmentRequestService.findByIdModel(1L)
-        ).willReturn(Optional.of(new AppointmentRequest(1L, "Stomatoloski pregled", examType1, or1.getId(), patient1, doctor1, examDate, examStart, examEnd, AppointmentRequestStatus.PATIENTSENT)));
+        ).willReturn(Optional.of(new AppointmentRequest(1L, "Stomatoloski pregled", examType1, or2.getId(), patient1, doctor1, examDate, examStart, examEnd, AppointmentRequestStatus.PATIENTSENT)));
     }
 
     @Test
@@ -108,40 +115,14 @@ public class AppointmentRequestServiceUnitTest {
     }
 
     @Test
-    public void testIsCreated() {
+    public void testIsCreated() throws ParseException {
         Optional<AppointmentRequest> apreq = appointmentRequestService.findByIdModel(1L);
-        assertThat(apreq).isNotNull();
 
-        assertThat(apreq.get().getId()).isEqualTo(1L);
+        AppointmentRequestDTO appointmentRequestDTO = new AppointmentRequestDTO();
+        appointmentRequestDTO.setId(1L);
 
-        assertThat(apreq.get().getPatient().getEmail()).isEqualTo("mina@gmail.com");
-
-        apreq.get().setRoomId(8L);
-        assertThat(apreq.get().getRoomId()).isEqualTo(8L);
-
-        OR room = operationRoomRepository.findById(apreq.get().getRoomId().intValue());
-        assertThat(room).isNotNull();
-
-        assertThat(room.getId()).isEqualTo(apreq.get().getRoomId());
-
-        long strStartTime = Time.valueOf("14:00:00").getTime();
-        assertThat(apreq.get().getStartTime().getTime()).isEqualTo(strStartTime);
-
-        long strEndTime = Time.valueOf("14:15:00").getTime();
-        assertThat(apreq.get().getEndTime().getTime()).isEqualTo(strEndTime);
-
-        Date examDate = Date.valueOf("2020-03-05");
-        assertThat(apreq.get().getStart()).isEqualTo(examDate);
-
-        if(apreq.get().getAppointmentRequestStatus() == AppointmentRequestStatus.PATIENTSENT) {
-            apreq.get().setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
-        }
-
-        assertThat(apreq.get().getAppointmentRequestStatus()).isEqualTo(AppointmentRequestStatus.WAITING);
-
-        assertThat(apreq.get().getDoctor().getEmail()).isEqualTo("tamaraa@gmail.com");
-        //Doctor doctor = doctorRepository.findByEmail(apreq.get().getDoctor().getEmail());
-        //assertThat(doctor).isNotNull();
+        boolean result = appointmentRequestService.IsCreated("-8", "2020-03-02","12:30:00", "12:45:00", appointmentRequestDTO);
+        Assert.assertEquals(true, result);
 
 
 
