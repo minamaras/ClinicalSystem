@@ -115,7 +115,7 @@ public class PatientController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/aboutpatient/{id}")
-	@PreAuthorize("hasAuthority('DOCTOR')")
+	@PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
 	public ResponseEntity<PatientDTO> AboutPatient(@PathVariable String id) {
 
 
