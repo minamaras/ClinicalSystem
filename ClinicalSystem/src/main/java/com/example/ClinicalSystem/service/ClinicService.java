@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 
 import com.example.ClinicalSystem.DTO.ClinicAdminDTO;
 import com.example.ClinicalSystem.DTO.DoctorDTO;
@@ -31,8 +33,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.ClinicalSystem.DTO.ClinicDTO;
 import com.example.ClinicalSystem.repository.ClinicRepository;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 
 @Service
 public class ClinicService {
@@ -602,7 +603,7 @@ public class ClinicService {
 	}
 
 
-
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public ClinicDTO updatedrating(Long id,int rating){
 
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
