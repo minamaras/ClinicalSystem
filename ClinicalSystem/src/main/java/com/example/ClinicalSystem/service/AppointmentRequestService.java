@@ -186,7 +186,7 @@ public class AppointmentRequestService {
 
 
     public List<AppointmentRequestDTO> findAll() throws ParseException {
-        List<AppointmentRequest> requests = appointmentRequestRepository.findAll();
+        List<AppointmentRequest> requests = appointmentRequestRepository.findAllByOrderByStartAsc();
 
         List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
         for (AppointmentRequest c : requests) {
@@ -208,7 +208,7 @@ public class AppointmentRequestService {
 
     public List<AppointmentRequestDTO> findAllWaiting() throws ParseException {
 
-        List<AppointmentRequest> requests = appointmentRequestRepository.findAll();
+        List<AppointmentRequest> requests = appointmentRequestRepository.findAllByOrderByStartAsc();
 
         List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
         for (AppointmentRequest c : requests) {
@@ -238,13 +238,13 @@ public class AppointmentRequestService {
 
     public boolean IsCreated(String roomId, String examdate, String examtime, String endtime, AppointmentRequestDTO appointmentRequestDTO) throws ParseException {
 
-        AppointmentRequest apreq = modelMapper.map(findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
+        //AppointmentRequest apreq = modelMapper.map(findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
 
         Optional<AppointmentRequest> appointmentRequest = appointmentRequestRepository.findById(appointmentRequestDTO.getId());
 
-        if(appointmentRequest.isPresent()) {
+            AppointmentRequest apreq = appointmentRequest.get();
             apreq.setPatient(appointmentRequest.get().getPatient());
-        }
+
 
         //Doctor doctor = appointmentRequest.get().getDoctor();
 
@@ -328,7 +328,8 @@ public class AppointmentRequestService {
                 apreq.setDoctor(typeDoctors.get(randomDoctor));
             }
 
-            apreq = appointmentRequestRepository.save(apreq);
+            appointmentRequest.get().setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
+            apreq = saveApReq(apreq);
             if(apreq != null)
               {
                   sendRequest(roomId,examdate,examtime,endtime,appointmentRequestDTO,apreq.getId(),appointmentRequestDTO);
@@ -357,8 +358,7 @@ public class AppointmentRequestService {
                 return false;
             }
 
-            appointmentRequest.get().setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
-            appointmentRequestRepository.save(appointmentRequest.get());
+
             return true;
         }
 
