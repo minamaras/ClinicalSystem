@@ -86,6 +86,8 @@ public class AppointmentRequestServiceUnitTest {
     public void testIsCreated() {
         Optional<AppointmentRequest> apreq = appointmentRequestService.findByIdModel(1L);
         assertThat(apreq).isNotNull();
+
+        assertThat(apreq.get().getId()).isEqualTo(1L);
     }
 
 }
