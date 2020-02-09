@@ -26,6 +26,7 @@ insert into users (id,name, lastname, email, password, role,last_password_reset_
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-28,'Bojan', 'Ilic', 'doktor28@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-29,'Aleksa', 'Milic', 'tamaraa.jancic@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
 insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-30,'Elena', 'Lalic', 'doktor30@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'DOCTOR','2019-12-01 09:00:01');
+insert into users (id,name, lastname, email, password, role,last_password_reset_date) values (-31,'Milica', 'Jankovic', 'sestra2@gmail.com', '$2a$10$En99NVAv.YrTtVxJ1fssBeVO4AFnfl1OMwzFbPeaDdSBm1KLUzp12', 'NURSE','2019-12-01 09:00:01');
 
 
 INSERT INTO clinic (id, description, name, adress) values (-3, 'Klinika broj 1', 'Klinika Sunce', 'Bulevar Oslobodjenja 22');
@@ -136,6 +137,7 @@ insert into exam_type_doctors (exam_type_id,doctors_id) values (-23,-29);
 insert into exam_type_doctors (exam_type_id,doctors_id) values (-23,-30);
 
 insert into nurse (id, clinic_id, firstlogin) values (-12, -5, false);
+insert into nurse (id, clinic_id, firstlogin) values (-31, -5, false);
 
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-5,'true','Bulevar Oslobodjenja 11','Novi Sad','Srbija','064335512','0301997805089');
 insert into patient (id,active,adress,city,country,phone,socialSecurityNumber) values (-14,'true','Fruskogorska 12','Novi Sad','Srbija','062332324','0301997805111');
@@ -204,6 +206,7 @@ insert into clinic_doctors (clinic_id,doctors_id) values (-3,-4);
 insert into clinic_doctors (clinic_id,doctors_id) values (-7,-25);
 
 insert into clinic_nurses (clinic_id,nurses_id) values (-3,-12);
+insert into clinic_nurses (clinic_id,nurses_id) values (-3,-31);
 
 insert into clinic_doctors (clinic_id,doctors_id) values (-5,-7);
 insert into clinic_doctors (clinic_id,doctors_id) values (-7,-8);
@@ -303,7 +306,7 @@ INSERT INTO user_authority (user_id,authority_id) values (-29,2);
 INSERT INTO user_authority (user_id,authority_id) values (-30,2);
 INSERT INTO user_authority (user_id,authority_id) values (-26,1);
 INSERT INTO user_authority (user_id,authority_id) values (-9,4);
-
+INSERT INTO user_authority (user_id,authority_id) values (-31,3);
 
 insert into holidays(id,startdate,reason,enddate,typeholiday,user_id,holidaystatus)
 values (-5,'2020-02-05','dsad','2020-02-15',1,-8,'ACCEPTED');
