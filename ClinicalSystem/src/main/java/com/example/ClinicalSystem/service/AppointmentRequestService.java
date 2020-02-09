@@ -3,10 +3,12 @@ package com.example.ClinicalSystem.service;
 import com.example.ClinicalSystem.DTO.*;
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.AppointmentRequestRepository;
+import org.hibernate.annotations.OptimisticLock;
 import org.hibernate.annotations.Synchronize;
 import org.joda.time.LocalDate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.LockModeType;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Date;
@@ -65,7 +68,7 @@ public class AppointmentRequestService {
     }
 
 
-
+    @Transactional(readOnly = false,propagation = Propagation.REQUIRES_NEW)
     public boolean saveAppointmentRequest(AppointmentRequestDTO appointmentRequestDTO) throws ParseException, UnsupportedEncodingException {
 
         //synchronized (this) {
@@ -92,20 +95,25 @@ public class AppointmentRequestService {
                 }
             }
 
-            for (AppointmentRequest ap : appointmentRequestRepository.findAll()) {
+            try {
+                List<AppointmentRequest> reqs = appointmentRequestRepository.findAll();
 
-                if (ap.getAppointmentRequestStatus().equals(AppointmentRequestStatus.PATIENTSENT)) {
+                for (AppointmentRequest ap : reqs) {
+
+                    if (ap.getAppointmentRequestStatus().equals(AppointmentRequestStatus.PATIENTSENT)) {
 
 
-                    if ((ap.getStart().equals(finaldate)) && (ap.getStartTime().equals(appointmentRequestDTO.getStartTime())) &&
-                            (ap.getDoctor().getId().equals(appointmentRequestDTO.getDoctorid()))) {
+                        if ((ap.getStart().equals(finaldate)) && (ap.getStartTime().equals(appointmentRequestDTO.getStartTime())) &&
+                                (ap.getDoctor().getId().equals(appointmentRequestDTO.getDoctorid()))) {
 
-                        return false;
+                            return false;
+                        }
+
                     }
 
                 }
-
-
+            } catch (Exception e){
+                return false;
             }
 
             AppointmentRequest appointmentRequest = modelMapper.map(appointmentRequestDTO, AppointmentRequest.class);
@@ -150,7 +158,7 @@ public class AppointmentRequestService {
             //AppointmentRequest reqtime = appointmentRequestRepository.findByStartTime(appointmentRequest.getStartTime());
             //AppointmentRequest reqtype = appointmentRequestRepository.findByType(appointmentRequest.getType());
 
-            if (saveApReq(appointmentRequest) != null) {
+            if (appointmentRequestRepository.save(appointmentRequest) != null) {
 
                 try {
                     emailService.sendAdminNotificaitionAsync(admins.get(randomNumberAdmin), p, finaldate, appointmentRequest.getStartTime(), appointmentRequest.getEndTime(), appointmentRequest.getType());
@@ -222,7 +230,7 @@ public class AppointmentRequestService {
     }
 
 
-    @Transactional(readOnly = false)
+
     public AppointmentRequestDTO findById(Long id){
         Optional<AppointmentRequest> ap =appointmentRequestRepository.findById(id);
         return modelMapper.map(ap.get(),AppointmentRequestDTO.class);
