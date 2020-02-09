@@ -603,7 +603,6 @@ public class ClinicService {
 	}
 
 
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public ClinicDTO updatedrating(Long id,int rating){
 
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
