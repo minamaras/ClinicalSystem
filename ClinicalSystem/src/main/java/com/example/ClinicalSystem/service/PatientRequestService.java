@@ -116,18 +116,32 @@ public class PatientRequestService implements PatientRequestServiceInterface {
 	}
 
 
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-	public boolean declineUser(PatientRequestDTO requestDTO, String explanation){
+	@Transactional()
+	public boolean declineUser(PatientRequestDTO requestDTO){
+
+		Patient p = patientService.findPatient(requestDTO.getEmail());
+
+		if(p != null) {
+			return false;
+		}
+
 		Patient patient = modelMapper.map(requestDTO, Patient.class);
-		deletePatientRequest(patient.getEmail());
+
+		Long isDeleted = deletePatientRequest(patient.getEmail());
 
 		try {
-			emailService.sendDeclineNotificaitionAsync(patient, explanation);
-			return true;
+			emailService.sendDeclineNotificaitionAsync(patient, requestDTO.getDeclineReason());
 		} catch (Exception e) {
 			return false;
 		}
-		
+
+		if (isDeleted == 1){
+			return true;
+		} else {
+			return false;
+		}
+
+
 	}
 
 
