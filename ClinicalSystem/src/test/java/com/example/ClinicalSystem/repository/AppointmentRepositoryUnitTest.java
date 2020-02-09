@@ -47,6 +47,44 @@ public class AppointmentRepositoryUnitTest {
     }
 
 
+    @Test
+    public void testFindByName() {
+        Appointment appointment = appointmentRepository.findByName("Ocni pregled");
+        Assert.assertEquals("Ocni pregled", appointment.getName());
+    }
+
+    @Test
+    public void testFindByNameFail() {
+        Appointment appointment = appointmentRepository.findByName("Ocni pregled");
+        Assert.assertEquals("Stomatoloski pregled", appointment.getName());
+    }
+
+    @Test
+    public void testFindById() {
+        Appointment appointment = appointmentRepository.findById(1);
+        long id1 = Long.valueOf("1");
+        assertThat(appointment.getId()).isEqualTo(1);
+    }
+
+    @Test
+    public void testSave() throws ParseException {
+
+        Appointment appointment1 = new Appointment();
+        appointment1.setId(2L);
+        appointment1.setName("Pregled bubrega");
+        Date date11 = new SimpleDateFormat("yyyy-MM-dd").parse("2020-03-11");
+        appointment1.setStart(date11);
+        Time time11 = Time.valueOf("12:00:00");
+        appointment1.setStartTime(time11);
+        Time time21 = Time.valueOf("13:00:00");
+        appointment1.setEndTime(time21);
+        appointment1.setStatus(AppointmentStatus.SHEDULED);
+        appointment1.setClassification(AppointmentClassification.PREDEFINED);
+
+        Appointment dbappointment = appointmentRepository.save(appointment1);
+        assertThat(dbappointment).isNotNull();
+    }
+
 
 
 }
