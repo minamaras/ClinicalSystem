@@ -83,9 +83,9 @@ public class AppointmentService {
             if (saved != null) {
 
                 try {
-                    if(user != null) {
-                        emailService.sendEmailAboutAppointment(user, appointment);
-                    }
+
+                    emailService.sendEmailAboutAppointment(user, appointment);
+
                 } catch (Exception e) {
                     return false;
                 }
