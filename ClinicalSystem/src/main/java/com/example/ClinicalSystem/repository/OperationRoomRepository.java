@@ -11,5 +11,6 @@ public interface OperationRoomRepository extends JpaRepository<OR, Long> {
     OR save(OR or);
     OR findByNumber(int number);
     void deleteByNumber(int number);
+    OR findById(long id);
     List<OR> findAllByClinic(Clinic clinic);
 }

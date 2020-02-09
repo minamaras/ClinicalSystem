@@ -45,7 +45,7 @@ public class AppointmentRequestRepositoryUnitTest {
         doctor1.setSpecialization("Zubar");
         entityManager.persist(doctor1);
 
-        OR or1 = new OR(3,"Soba", examType1);
+        OR or1 = new OR(5L,3,"Soba", examType1);
         entityManager.merge(or1);
 
         AppointmentRequest appointmentRequest1 = new AppointmentRequest("Pregled ociju", examType1, or1.getId(), patient1, doctor1);

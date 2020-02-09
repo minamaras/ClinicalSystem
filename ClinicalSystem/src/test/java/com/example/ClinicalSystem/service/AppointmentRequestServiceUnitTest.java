@@ -2,6 +2,7 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.AppointmentRequestRepository;
+import com.example.ClinicalSystem.repository.OperationRoomRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +30,9 @@ public class AppointmentRequestServiceUnitTest {
     @MockBean
     private AppointmentRequestRepository appointmentRequestRepository;
 
+    @MockBean
+    private OperationRoomRepository operationRoomRepository;
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -41,7 +45,7 @@ public class AppointmentRequestServiceUnitTest {
 
         ExamType examType1 = new ExamType("Stomatoloski pregled", 1500, 30);
 
-        OR or1 = new OR(3,"Soba", examType1);
+        OR or1 = new OR(2L, 3,"Soba", examType1);
 
         Doctor doctor1 = new Doctor();
         doctor1.setName("Tamara");
@@ -69,6 +73,9 @@ public class AppointmentRequestServiceUnitTest {
         Time examStart = Time.valueOf("14:00:00");
         Time examEnd = Time.valueOf("14:15:00");
 
+        given(operationRoomRepository.findById(2L)
+        ).willReturn(new OR(2L, 3,"Soba", examType1));
+
         given(appointmentRequestRepository.findByName("Stomatoloski pregled")
         ).willReturn(new AppointmentRequest(1L,"Stomatoloski pregled", examType1, or1.getId(), patient1, doctor1, examDate, examStart, examEnd));
 
@@ -83,11 +90,39 @@ public class AppointmentRequestServiceUnitTest {
     }
 
     @Test
+    public void testFindByNameAppointmentRequestFail() {
+        AppointmentRequest result = appointmentRequestService.findByName("Stomatoloski pregled");
+        Assert.assertEquals("Sfsdcfdca pregled", result.getName());
+    }
+
+    @Test
     public void testIsCreated() {
         Optional<AppointmentRequest> apreq = appointmentRequestService.findByIdModel(1L);
         assertThat(apreq).isNotNull();
 
         assertThat(apreq.get().getId()).isEqualTo(1L);
+
+        assertThat(apreq.get().getPatient().getEmail()).isEqualTo("mina@gmail.com");
+
+        assertThat(apreq.get().getRoomId()).isEqualTo(2L);
+
+        OR room = operationRoomRepository.findById(apreq.get().getRoomId().intValue());
+        assertThat(room).isNotNull();
+
+        assertThat(room.getId()).isEqualTo(apreq.get().getRoomId());
+
+        long strStartTime = Time.valueOf("14:00:00").getTime();
+        assertThat(apreq.get().getStartTime().getTime()).isEqualTo(strStartTime);
+
+        long strEndTime = Time.valueOf("14:15:00").getTime();
+        assertThat(apreq.get().getEndTime().getTime()).isEqualTo(strEndTime);
+
+        Date examDate = Date.valueOf("2020-03-05");
+        assertThat(apreq.get().getStart()).isEqualTo(examDate);
+
+        //apreq.get().setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
+
+
     }
 
 }

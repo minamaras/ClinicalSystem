@@ -267,6 +267,12 @@ public class OperationRoomService {
 
     }
 
+    public OR findByIdModel(long id) {
+
+        return repo.findById(id);
+    }
+
+
 
 
 }
