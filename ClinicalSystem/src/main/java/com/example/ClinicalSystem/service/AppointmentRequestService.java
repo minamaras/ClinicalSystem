@@ -186,11 +186,33 @@ public class AppointmentRequestService {
 
         return appointmentRequestDTOS;
     }
-
+    
     public AppointmentRequest findByName(String name) {
         return appointmentRequestRepository.findByName(name);
     }
 
+    public List<AppointmentRequestDTO> findAllSent() throws ParseException {
+
+        List<AppointmentRequest> requests = appointmentRequestRepository.findAll();
+
+        List<AppointmentRequestDTO> appointmentRequestDTOS = new ArrayList<>();
+        for (AppointmentRequest c : requests) {
+
+            if (c.getAppointmentRequestStatus().equals(AppointmentRequestStatus.PATIENTSENT) || c.getAppointmentRequestStatus().equals(AppointmentRequestStatus.DOCTORSENT)) {
+
+                AppointmentRequestDTO appointmentRequestDTO = modelMapper.map(c, AppointmentRequestDTO.class);
+                appointmentRequestDTO.setStart(c.getStart());
+                appointmentRequestDTO.setStartTime(c.getStartTime());
+                appointmentRequestDTO.setEndTime(c.getEndTime());
+
+                appointmentRequestDTOS.add(appointmentRequestDTO);
+            }
+
+        }
+
+
+        return appointmentRequestDTOS;
+    }
 
     public AppointmentRequestDTO findById(Long id){
         Optional<AppointmentRequest> ap =appointmentRequestRepository.findById(id);
@@ -305,6 +327,7 @@ public class AppointmentRequestService {
             if(apreq != null)
               {
                   sendRequest(roomId,examdate,examtime,endtime,appointmentRequestDTO,apreq.getId(),appointmentRequestDTO);
+                  findAllSent();
                   return true;
               }
 
