@@ -35,6 +35,9 @@ public class Recipe {
 	@Column(name = "content")
 	private String content;
 
+	@Version
+	private Long version;
+
 	public Recipe() {
 		this.auth = false;
 	}
@@ -104,4 +107,15 @@ public class Recipe {
 	public void setMedications(Set<Medication> medications) {
 		this.medications = medications;
 	}
+
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+
 }

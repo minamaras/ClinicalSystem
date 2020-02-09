@@ -45,17 +45,17 @@ public class PatientRequestController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/declinerequest/{request_email:.+}")
+    @RequestMapping(method = RequestMethod.POST, value = "/declinerequest")
     @PreAuthorize("hasAuthority('CLINICALCENTREADMIN')")
-    public ResponseEntity<?> declineRequest(@PathVariable String request_email, @RequestBody String emailExplanation) {
+    public ResponseEntity<?> declineRequest(@RequestBody PatientRequestDTO patientRequestDTO) {
 
-        PatientRequestDTO requestDTO = patientRequestService.findByEmail(request_email);
-        boolean isRemoved = patientRequestService.declineUser(requestDTO, emailExplanation);
+        //PatientRequestDTO requestDTO = patientRequestService.findByEmail(request_email);
+        boolean isRemoved = patientRequestService.declineUser(patientRequestDTO);
 
         if(isRemoved) {
-            return new ResponseEntity<>(requestDTO, HttpStatus.OK);
+            return new ResponseEntity<>(patientRequestDTO, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(requestDTO, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(patientRequestDTO, HttpStatus.BAD_REQUEST);
         }
     }
 

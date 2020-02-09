@@ -16,6 +16,7 @@ public class PatientRequestDTO {
 	private String country;
 	private String phone;
 	private String socialSecurityNumber;
+	private String declineReason;
 
 	public PatientRequestDTO(Long id, String name, String lastname, String email, String password, Role role) {
 		super();
@@ -25,6 +26,17 @@ public class PatientRequestDTO {
 		this.email = email;
 		this.password = password;
 		this.role = role;
+	}
+
+	public PatientRequestDTO(Long id, String name, String lastname, String email, String password, Role role, String declineReason) {
+		super();
+		Id = id;
+		this.name = name;
+		this.lastname = lastname;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.declineReason = declineReason;
 	}
 
 	public PatientRequestDTO(PatientRequest pr) {
@@ -124,5 +136,11 @@ public class PatientRequestDTO {
 		this.role = role;
 	}
 
+	public String getDeclineReason() {
+		return declineReason;
+	}
 
+	public void setDeclineReason(String declineReason) {
+		this.declineReason = declineReason;
+	}
 }

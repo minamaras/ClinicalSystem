@@ -30,6 +30,6 @@ public interface AppointmentRequestRepository extends JpaRepository<AppointmentR
     AppointmentRequest findByStartTime(Time starttime);
     AppointmentRequest findByType(ExamType type);
     List<AppointmentRequest> findAllByOrderByStartAsc();
-
+    Optional<AppointmentRequest> findById(Long id);
 
 }

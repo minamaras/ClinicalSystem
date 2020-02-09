@@ -92,10 +92,10 @@ public class OperationRoomController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/clinicsoperationrooms")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity<Set<OperationRoomDTO>> roomsForOperation(Principal p) throws ParseException {
+    public ResponseEntity<Set<OperationRoomDTO>> roomsForOperation() throws ParseException {
 
 
-        Set<OperationRoomDTO> roomDTOS = roomService.allRoomsForOperationFromAClinic(p);
+        Set<OperationRoomDTO> roomDTOS = roomService.allRoomsForOperation();
         return new ResponseEntity<>(roomDTOS, HttpStatus.OK);
 
     }

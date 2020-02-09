@@ -16,15 +16,15 @@ public class AppointmentRequest {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "startdate" , nullable = false)
+    @Column(name = "startdate")
     private java.sql.Date start;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    @Column(name = "starttime", nullable = false )
+    @Column(name = "starttime")
     private Time startTime;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    @Column(name = "endtime", nullable = false )
+    @Column(name = "endtime")
     private Time endTime;
 
     @Column(name="appreqstatus")
@@ -60,6 +60,40 @@ public class AppointmentRequest {
         this.doctor = doctor;
         this.name = name;
     }
+
+    public AppointmentRequest(Long id,ExamType type, Patient patient, Doctor doctor, Long roomId, String name) {
+        super();
+        this.id = id;
+        this.type = type;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.name = name;
+        this.roomId = roomId;
+    }
+
+    public AppointmentRequest(String name,ExamType type, Long roomId, Patient patient, Doctor doctor) {
+        super();
+        this.name = name;
+        this.type = type;
+        this.roomId = roomId;
+        this.patient = patient;
+        this.doctor = doctor;
+    }
+
+    public AppointmentRequest(Long id, String name,ExamType type, Long roomId, Patient patient, Doctor doctor, java.sql.Date startdate, Time examStart, Time examEnd, AppointmentRequestStatus appointmentRequestStatus) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.roomId = roomId;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.start = startdate;
+        this.startTime = examStart;
+        this.endTime = examEnd;
+        this.appointmentRequestStatus = AppointmentRequestStatus.PATIENTSENT;
+    }
+
 
     public Long getId() {
         return id;

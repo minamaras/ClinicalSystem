@@ -21,11 +21,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ClinicalSystem.repository.DoctorRepository;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.print.Doc;
-import javax.transaction.Transactional;
 
 @Service
 public class DoctorService {
@@ -141,24 +143,21 @@ public class DoctorService {
 
     @Transactional
     public boolean removeDoctor(DoctorDTO doctorDto) {
-		UserDTO userDto = modelMapper.map(doctorDto, UserDTO.class);
+		Doctor doctor = findOne(doctorDto.getEmail());
 
-		if(userService.existsInDB(userDto)) {
-			Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
-
-			if(doctor.getAppointments().size() >= 1) {
-				return  false;
-			}
-
-			doctorRepository.deleteByEmail(doctor.getEmail());
-
-			return true;
+		if(doctor.getAppointments().size() > 0) {
+			return false;
 		}
 
-		return false;
+		Clinic clinic = doctor.getClinic();
+		clinic.getDoctors().remove(doctor);
+		doctorRepository.delete(doctor);
+
+		return true;
 
 	}
 
+	//@Transactional(propagation = Propagation.)
 	public Doctor findOne(String email) {
 		return doctorRepository.findByEmail(email);
 	}
@@ -183,7 +182,15 @@ public class DoctorService {
 		Set<Long> setOfIds = new HashSet<>();
 		for(Doctor doctor : docs){
 			setOfIds.add(doctor.getId());
-			DoctorDTO doctorDTO = modelMapper.map(doctor,DoctorDTO.class);
+			DoctorDTO doctorDTO = new DoctorDTO();
+			doctorDTO.setName(doctor.getName());
+			doctorDTO.setLastname(doctor.getLastname());
+			doctorDTO.setStart(doctor.getStart());
+			doctor.setEnd(doctor.getEnd());
+			doctorDTO.setId(doctor.getId());
+			doctorDTO.setEmail(doctor.getEmail());
+			doctorDTO.setSpecialization(doctor.getSpecialization());
+			doctorDTO.setClinicname(doctor.getClinic().getName());
 			ExamTypeDTO examTypeDTO = modelMapper.map(doctor.getExamType(),ExamTypeDTO.class);
 			doctorDTO.setClinicid(clinic.getId());
 			doctorDTO.setExamType(examTypeDTO);
@@ -216,6 +223,13 @@ public class DoctorService {
 				HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
 				holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
 				holidayDTOS.add(holidayDTO);
+			}
+
+			for (OperationRequest o : doctor.getOperations()) {
+
+				OperationCalendarDTO operationCalendarDTO = modelMapper.map(o, OperationCalendarDTO.class);
+				doctorDTO.getOperations().add(operationCalendarDTO);
+
 			}
 
 			if(doctor.getSingleratings().size() == 0){
@@ -278,6 +292,7 @@ public class DoctorService {
 		}
 	}
 
+	@Transactional
 	public List<Doctor> findAllDoctors() {
 
 		List<Doctor> doctors = doctorRepository.findAll();
@@ -391,6 +406,7 @@ public class DoctorService {
 				}
 			}
 
+
 			//provera za radno vreme
 			LocalTime startWork = doctor.getStart().toLocalTime();
 			LocalTime endWork = doctor.getEnd().toLocalTime();
@@ -428,7 +444,8 @@ public class DoctorService {
 				}
 			}
 			if(isAvailable) {
-				DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+				//DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
+				DoctorDTO doctorDTO = new DoctorDTO(doctor);
 				doctorDTOS.add(doctorDTO);
 			}
 		}

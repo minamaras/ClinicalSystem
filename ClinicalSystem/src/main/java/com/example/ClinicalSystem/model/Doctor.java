@@ -26,10 +26,10 @@ public class Doctor extends User {
 	private Set<Patient> patientsThatRated = new HashSet<Patient>();
 
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Clinic clinic;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "doctor_ratings", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rating_id", referencedColumnName = "id"))
 	private Set<Rating> singleratings = new HashSet<>();
 
@@ -37,13 +37,14 @@ public class Doctor extends User {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private ExamType examType;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private ClinicAdmin clinicAdmin;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -87,6 +88,14 @@ public class Doctor extends User {
 		this.end = end;
 		this.firstLogin = firstLogin;
 
+	}
+
+	public Doctor(String specialization, String name, String lastname, ExamType examType, String email) {
+		this.specialization = specialization;
+		this.setName(name);
+		this.setLastname(lastname);
+		this.setEmail(email);
+		this.examType = examType;
 	}
 
 	/*public Doctor(String specialization, Clinic clinic, Calendar calendar) {
