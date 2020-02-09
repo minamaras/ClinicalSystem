@@ -52,23 +52,28 @@ public class AppointmentService {
 
     public boolean saveAppointment(AppointmentDTO appointmentDTO){
 
-        //fsdgsdgs
-
         if(appointmentRepository.findById(appointmentDTO.getId()) == null){
             return  false;
         }else {
 
-            Optional<Appointment> appointmentop = appointmentRepository.findById(appointmentDTO.getId());
-            Appointment appointment = appointmentop.get();
+            Appointment appointment = appointmentRepository.findById(appointmentDTO.getId());
+            //Appointment appointment = appointmentop.get();
+            User user = new User();
 
-            Authentication a = SecurityContextHolder.getContext().getAuthentication();
-            User user = (User) a.getPrincipal();
+            if(appointmentDTO.getPatientemail() != null){
 
-            if(user.getRole() == Role.PATIENT) {
-                Patient loggedinpatient = patientService.findPatient(user.getEmail());
-                appointment.setPatient(loggedinpatient);
+                appointment.setPatient(patientService.findPatient(appointmentDTO.getPatientemail()));
+                user = null;
+
+            } else {
+                Authentication a = SecurityContextHolder.getContext().getAuthentication();
+                user = (User) a.getPrincipal();
+
+                if (user.getRole() == Role.PATIENT) {
+                    Patient loggedinpatient = patientService.findPatient(user.getEmail());
+                    appointment.setPatient(loggedinpatient);
+                }
             }
-
             appointment.setClassification(AppointmentClassification.NORMAL);
             appointment.setStatus(AppointmentStatus.SHEDULED);
 
@@ -78,7 +83,9 @@ public class AppointmentService {
             if (saved != null) {
 
                 try {
-                    emailService.sendEmailAboutAppointment(user,appointment);
+                    if(user != null) {
+                        emailService.sendEmailAboutAppointment(user, appointment);
+                    }
                 } catch (Exception e) {
                     return false;
                 }
@@ -104,6 +111,11 @@ public class AppointmentService {
 
         return appointmentDTOS;
     }
+
+    public List<Appointment> findAllModels(){
+        return appointmentRepository.findAll();
+    }
+
 
     public boolean savePredefined(AppointmentDTO appointmentDTO) throws ParseException {
 
