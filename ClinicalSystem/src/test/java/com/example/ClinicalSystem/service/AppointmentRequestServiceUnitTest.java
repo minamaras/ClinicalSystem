@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Mockito.*;
+import org.mockito.ArgumentMatchers.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -115,17 +117,18 @@ public class AppointmentRequestServiceUnitTest {
     }
 
     @Test
-    public void testIsCreated() throws ParseException {
+    public void testAssignRoomToRequest() throws ParseException {
         Optional<AppointmentRequest> apreq = appointmentRequestService.findByIdModel(1L);
+
+        AppointmentRequest appointmentRequest = modelMapper.map(apreq, AppointmentRequest.class);
 
         AppointmentRequestDTO appointmentRequestDTO = new AppointmentRequestDTO();
         appointmentRequestDTO.setId(1L);
 
-        boolean result = appointmentRequestService.IsCreated("-8", "2020-03-02","12:30:00", "12:45:00", appointmentRequestDTO);
+        Mockito.when(appointmentRequestRepository.save(org.mockito.ArgumentMatchers.any(AppointmentRequest.class))).thenReturn(appointmentRequest);
+
+        boolean result = appointmentRequestService.assignRoomToRequest("-8", "2020-03-02","12:30:00", "12:45:00", appointmentRequestDTO);
         Assert.assertEquals(true, result);
-
-
-
 
     }
 
