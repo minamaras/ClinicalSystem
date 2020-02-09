@@ -89,6 +89,14 @@ public class Doctor extends User {
 
 	}
 
+	public Doctor(String specialization, String name, String lastname, ExamType examType, String email) {
+		this.specialization = specialization;
+		this.setName(name);
+		this.setLastname(lastname);
+		this.setEmail(email);
+		this.examType = examType;
+	}
+
 	/*public Doctor(String specialization, Clinic clinic, Calendar calendar) {
 		super();
 		this.specialization = specialization;

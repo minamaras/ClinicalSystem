@@ -2,17 +2,20 @@ package com.example.ClinicalSystem.service;
 
 import com.example.ClinicalSystem.model.*;
 import com.example.ClinicalSystem.repository.AppointmentRequestRepository;
+import com.example.ClinicalSystem.repository.DoctorRepository;
 import com.example.ClinicalSystem.repository.OperationRoomRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.print.Doc;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Optional;
@@ -32,6 +35,9 @@ public class AppointmentRequestServiceUnitTest {
 
     @MockBean
     private OperationRoomRepository operationRoomRepository;
+
+    @MockBean
+    private DoctorRepository doctorRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -76,11 +82,17 @@ public class AppointmentRequestServiceUnitTest {
         given(operationRoomRepository.findById(2L)
         ).willReturn(new OR(2L, 3,"Soba", examType1));
 
+        given(doctorRepository.findByEmail("tamaraa@gmail.com")
+        ).willReturn(new Doctor(doctor1.getSpecialization(), doctor1.getName(), doctor1.getLastname(), doctor1.getExamType(), doctor1.getEmail()));
+
+        given(operationRoomRepository.findById(8L)
+        ).willReturn(new OR(8L, 7,"Terapija", examType1));
+
         given(appointmentRequestRepository.findByName("Stomatoloski pregled")
-        ).willReturn(new AppointmentRequest(1L,"Stomatoloski pregled", examType1, or1.getId(), patient1, doctor1, examDate, examStart, examEnd));
+        ).willReturn(new AppointmentRequest(1L,"Stomatoloski pregled", examType1, or1.getId(), patient1, doctor1, examDate, examStart, examEnd, AppointmentRequestStatus.PATIENTSENT));
 
         given(appointmentRequestService.findByIdModel(1L)
-        ).willReturn(Optional.of(new AppointmentRequest(1L, "Stomatoloski pregled", examType1, or1.getId(), patient1, doctor1, examDate, examStart, examEnd)));
+        ).willReturn(Optional.of(new AppointmentRequest(1L, "Stomatoloski pregled", examType1, or1.getId(), patient1, doctor1, examDate, examStart, examEnd, AppointmentRequestStatus.PATIENTSENT)));
     }
 
     @Test
@@ -104,7 +116,8 @@ public class AppointmentRequestServiceUnitTest {
 
         assertThat(apreq.get().getPatient().getEmail()).isEqualTo("mina@gmail.com");
 
-        assertThat(apreq.get().getRoomId()).isEqualTo(2L);
+        apreq.get().setRoomId(8L);
+        assertThat(apreq.get().getRoomId()).isEqualTo(8L);
 
         OR room = operationRoomRepository.findById(apreq.get().getRoomId().intValue());
         assertThat(room).isNotNull();
@@ -120,7 +133,17 @@ public class AppointmentRequestServiceUnitTest {
         Date examDate = Date.valueOf("2020-03-05");
         assertThat(apreq.get().getStart()).isEqualTo(examDate);
 
-        //apreq.get().setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
+        if(apreq.get().getAppointmentRequestStatus() == AppointmentRequestStatus.PATIENTSENT) {
+            apreq.get().setAppointmentRequestStatus(AppointmentRequestStatus.WAITING);
+        }
+
+        assertThat(apreq.get().getAppointmentRequestStatus()).isEqualTo(AppointmentRequestStatus.WAITING);
+
+        assertThat(apreq.get().getDoctor().getEmail()).isEqualTo("tamaraa@gmail.com");
+        //Doctor doctor = doctorRepository.findByEmail(apreq.get().getDoctor().getEmail());
+        //assertThat(doctor).isNotNull();
+
+
 
 
     }
