@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class AppointmentDTO {
 
-    private Long id;
+    private long id;
     private Date start;
     private String examTypeName;
     private String doctorEmail;
@@ -31,13 +31,21 @@ public class AppointmentDTO {
     private String patientLastname;
 
 
-    public AppointmentDTO(Long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
+    public AppointmentDTO(long id, Date start, String examTypeName, String doctorEmail, int roomNumber, String name) {
         this.id = id;
         this.start = start;
         this.roomNumber = roomNumber;
         this.doctorEmail = doctorEmail;
         this.examTypeName = examTypeName;
         this.name = name;
+    }
+
+    public AppointmentDTO(long id, String name, Date start, Time startTime, Time endTime){
+        this.id = id;
+        this.name = name;
+        this.start = start;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public AppointmentDTO() {
@@ -48,11 +56,11 @@ public class AppointmentDTO {
         this(a.getId(), a.getStart(), a.getType().getName(), a.getDoctor().getEmail(), a.getOr().getNumber(), a.getName());
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
