@@ -339,9 +339,13 @@ public class AppointmentService {
 
     public AppointmentDTO getOneAppoint(long id){
         Appointment app = appointmentRepository.findById(id);
-        if(app.getStatus().equals(AppointmentStatus.SHEDULED)) {
+        if( app != null){
+
+            if(app.getStatus().equals(AppointmentStatus.SHEDULED)) {
             app.setStatus(AppointmentStatus.HAPPENING);
             appointmentRepository.save(app);
+        }
+
         }
         AppointmentDTO appDTO = modelMapper.map(app, AppointmentDTO.class);
         appDTO.setPatientemail(app.getPatient().getEmail());
