@@ -348,11 +348,11 @@ values(-12,'preglednekistari','2019-01-01','12:00:00','12:15:00',' HAS_HAPPEND',
 -4,-4,-3,-5);
 insert into doctor_appointments(doctor_id,appointments_id) values (-4,-12);
 
-insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled, version) values (-2,'2020-02-22','08:00:00','10:00:00','Operacija slepog creva',-14,null,false,0);
-insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled, version) values (-3,'2020-02-12','08:00:00','10:00:00','Operacija ociju',-14,null,false,0);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled, version) values (-2,'2020-03-22','08:00:00','10:00:00','Operacija slepog creva',-14,null,false,0);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled, version) values (-3,'2020-04-11','08:00:00','10:00:00','Operacija ociju',-14,null,false,0);
 insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled, version) values (-4,'2020-03-02','14:00:00','16:00:00','Operacija zuba',-5,null,false,0);
-insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled, version) values (-5,'2020-02-22','12:00:00','14:00:00','Operacija srca',-14, -6,true,0);
-insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled, version) values (-6,'2020-03-02','14:00:00','16:00:00','Operacija bubrega',-5, -7,true,0);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled, version) values (-5,'2020-02-28','12:00:00','14:00:00','Operacija srca',-14, -6,true,0);
+insert into operation_request (id, startdate, starttime, endtime, name, patient_id, or_id, is_scheduled, version) values (-6,'2020-04-04','14:00:00','16:00:00','Operacija bubrega',-5, -7,true,0);
 
 
 
@@ -390,6 +390,4 @@ insert into doctor_operations (operations_id, doctor_id) values (-5,-27);
 insert into doctor_operations (operations_id, doctor_id) values (-5,-29);
 insert into doctor_operations (operations_id, doctor_id) values (-6,-27);
 insert into doctor_operations (operations_id, doctor_id) values (-6,-29);
---insert into operation_request_doctors (operation_request_id, doctors_id) values (-5,-27);
---insert into operation_request_doctors (operation_request_id, doctors_id) values (-5,-29);
---insert into operation_request_doctors (operation_request_id, doctors_id) values (-6,-27);
+
