@@ -1,6 +1,8 @@
 package com.example.ClinicalSystem.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Rating {
@@ -13,7 +15,6 @@ public class Rating {
 
     @Column
     double onevalue;
-
 
     public Rating() {
     }
