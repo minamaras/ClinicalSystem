@@ -60,7 +60,7 @@ public class OperationRequestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/schedule")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
-    public ResponseEntity approveOperation(@RequestBody OperationRequestDTO operationRequestDTO) throws InterruptedException {
+    public ResponseEntity approveOperation(@RequestBody OperationRequestDTO operationRequestDTO) throws InterruptedException, ParseException {
 
         boolean isScheduled = operationRequestService.scheduleOperation(operationRequestDTO);
 

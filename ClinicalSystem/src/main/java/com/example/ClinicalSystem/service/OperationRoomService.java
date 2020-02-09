@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.sql.Time;
@@ -105,6 +108,7 @@ public class OperationRoomService {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
     public OR findOne(int number) {
         return repo.findByNumber(number);
     }
@@ -196,23 +200,14 @@ public class OperationRoomService {
 
 
         HashSet<OperationRoomDTO> roomsToReturn = new HashSet<>();
-        //Clinic clinic = null;
 
-      // User user = userService.findByUsername(p.getName());
-/*
-        if(user.getRole().equals(Role.CLINICADMIN)){
-            ClinicAdmin ca = clinicAdminService.findByEmail(user.getEmail());
-            clinic = clinicService.findClinic(ca.getClinic());
-        }
-*/
-        //List<OR> rooms = repo.findAllByClinic(clinic);
         Set<Long> setOfIds = new HashSet<>();
         List<OR> rooms = repo.findAll();
         for(OR room : rooms){
             setOfIds.add(room.getId());
             OperationRoomDTO operationRoomDTO = modelMapper.map(room, OperationRoomDTO.class);
             ExamTypeDTO examTypeDTO = modelMapper.map(room.getExamType(),ExamTypeDTO.class);
-            //operationRoomDTO.setClinicid(clinic.getId());
+
             operationRoomDTO.setExamType(examTypeDTO);
 
             List<OperationRequestDTO> opreqDTOs = new ArrayList<>();
@@ -235,7 +230,6 @@ public class OperationRoomService {
 
         return  roomsToReturn;
     }
-
 
     public OR save(OR or){
         return repo.save(or);
