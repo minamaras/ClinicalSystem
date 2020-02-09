@@ -75,6 +75,16 @@ public class Appointment {
 		this.name = name;
 	}
 
+	public Appointment(long id, String name, Date start, Time startTime, Time endTime, AppointmentStatus status, AppointmentClassification classification){
+		this.id = id;
+		this.name = name;
+		this.start = start;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.status = status;
+		this.classification = classification;
+	}
+
 	public Long getId() {
 		return id;
 	}
