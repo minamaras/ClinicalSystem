@@ -34,45 +34,32 @@ public class DoctorService {
 
 	@Autowired
 	private DoctorRepository doctorRepository;
-
 	@Autowired
 	private RatingService ratingService;
-
 	@Autowired
 	private ModelMapper modelMapper;
-
 	@Autowired
 	private UserService userService;
-
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-
 	@Autowired
 	private AuthorityService authorityService;
-
 	@Autowired
 	private ClinicService clinicService;
-
 	@Autowired
 	private ExamTypeService examTypeService;
-
 	@Autowired
 	private PatientService patientService;
-  
-  @Autowired
+  	@Autowired
 	private OperationRequestService operationRequestService;
 
-
 	public Set<DoctorDTO> findAll(Principal p) {
-
 		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
 		Clinic clinic = cAdmin.getClinic();
-
 		Set<Doctor> doctors = clinic.getDoctors();
 
 		Set<DoctorDTO> doctorsDTO = new HashSet<>();
 		for (Doctor d : doctors) {
-
 			DoctorDTO doctorDTO = modelMapper.map(d,DoctorDTO.class);
 			doctorDTO.setExamType(modelMapper.map(d.getExamType(),ExamTypeDTO.class));
 
@@ -85,16 +72,13 @@ public class DoctorService {
 				appointmentDTO.setStartTime(a.getStartTime());
 				appointmentDTO.setEndTime(a.getEndTime());
 				lista.add(appointmentDTO);
-
 			}
 
 			for ( Holiday h : d.getHolidays()){
-
 				HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
 				holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
 				holidayDTOS.add(holidayDTO);
 			}
-
 
 			doctorDTO.setStart(d.getStart());
 			doctorDTO.setEnd(d.getEnd());
@@ -112,13 +96,10 @@ public class DoctorService {
 	}
 
 	public Doctor save(DoctorDTO doctorDTO, Principal p) {
-
 		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
 		Clinic clinic = cAdmin.getClinic();
 
-
 		Doctor doctor = modelMapper.map(doctorDTO, Doctor.class);
-
 		ExamType  examType = examTypeService.findOne(doctorDTO.getExamType().getName());
 		doctor.setExamType(examType);
 
@@ -154,16 +135,15 @@ public class DoctorService {
 		doctorRepository.delete(doctor);
 
 		return true;
-
 	}
 
 	//@Transactional(propagation = Propagation.)
 	public Doctor findOne(String email) {
+
 		return doctorRepository.findByEmail(email);
 	}
 
 	public Doctor findOneById(Long id) {
-
 		Optional<User> user = userService.findById(id);
 		User u = user.get();
 		Doctor doctor = doctorRepository.findByEmail(u.getEmail());
@@ -173,14 +153,14 @@ public class DoctorService {
 
 
 	public Set<DoctorDTO> findAllDoctorsFromAClinic(String clinicname){
-
 		HashSet<DoctorDTO> doctorsret = new HashSet<>();
 		String cleanText = clinicname.replaceAll("\\d+", "").replaceAll("(.)([A-Z])", "$1 $2");
 		Clinic clinic = clinicService.findName(cleanText);
 
 		Set<Doctor> docs =clinic.getDoctors();
 		Set<Long> setOfIds = new HashSet<>();
-		for(Doctor doctor : docs){
+
+		for(Doctor doctor : docs) {
 			setOfIds.add(doctor.getId());
 			DoctorDTO doctorDTO = new DoctorDTO();
 			doctorDTO.setName(doctor.getName());
@@ -195,7 +175,6 @@ public class DoctorService {
 			doctorDTO.setClinicid(clinic.getId());
 			doctorDTO.setExamType(examTypeDTO);
 
-
 			List<AppointmentDTO> lista = new ArrayList<>();
 			Set<HolidayDTO> holidayDTOS = new HashSet<>();
 			List<String> patients = new ArrayList<>();
@@ -208,42 +187,37 @@ public class DoctorService {
 
 				if(a.getStatus().equals(AppointmentStatus.HAS_HAPPEND) && a.getClassification().equals(AppointmentClassification.NORMAL)){
 					patients.add(a.getPatient().getEmail());
-        }
+        		}
 
 				if(a.getPatient() != null) {
 					appointmentDTO.setPatientemail(a.getPatient().getEmail());
 				}
         
 				lista.add(appointmentDTO);
-
 			}
 
 			for ( Holiday h : doctor.getHolidays()){
-
 				HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
 				holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
 				holidayDTOS.add(holidayDTO);
 			}
 
 			for (OperationRequest o : doctor.getOperations()) {
-
 				OperationCalendarDTO operationCalendarDTO = modelMapper.map(o, OperationCalendarDTO.class);
 				doctorDTO.getOperations().add(operationCalendarDTO);
-
 			}
 
 			if(doctor.getSingleratings().size() == 0){
 				doctorDTO.setRating(0);
-			}else{
-
+			} else {
 				double suma=0;
 
-			for(Rating r : doctor.getSingleratings()){
-				suma = suma + r.getValue();
-			}
-			double rating = suma/(doctor.getSingleratings().size());
-			doctorDTO.setRating(rating);
+				for(Rating r : doctor.getSingleratings()){
+					suma = suma + r.getValue();
+				}
 
+				double rating = suma/(doctor.getSingleratings().size());
+				doctorDTO.setRating(rating);
 			}
 
 			lista.sort(Comparator.comparing(AppointmentDTO::getStart));
@@ -252,7 +226,6 @@ public class DoctorService {
 			doctorDTO.setHolidays(holidayDTOS);
 			doctorDTO.setPatients(patients);
 			doctorsret.add(doctorDTO);
-
 		}
 
 		return  doctorsret;
@@ -260,7 +233,6 @@ public class DoctorService {
 
 
 	public DoctorDTO updatedrating(String email,int rating){
-
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User) a.getPrincipal();
 		Patient p = patientService.findPatient(user.getEmail());
@@ -283,26 +255,21 @@ public class DoctorService {
 
 		double novirejting = suma/(doctor.getSingleratings().size());
 
-		//doctor.setRating(novirejting);
-
 		if(doctorRepository.save(doctor) != null){
 			return modelMapper.map(doctor,DoctorDTO.class);
-		}else{
+		} else{
 			return  null;
 		}
 	}
 
 	@Transactional
 	public List<Doctor> findAllDoctors() {
-
 		List<Doctor> doctors = doctorRepository.findAll();
-
 		return doctors;
 	}
 
 	public DoctorDTO findOneByPrincipal(Principal p){
 		Doctor doctor = (Doctor) userService.findByUsername(p.getName());
-
 		List<AppointmentDTO> lista = new ArrayList<>();
 		Set<HolidayDTO> holidayDTOS = new HashSet<>();
 		List<OperationCalendarDTO> operationsDTO = new ArrayList<>();
@@ -321,7 +288,6 @@ public class DoctorService {
 		}
 
 		for ( Holiday h : doctor.getHolidays()){
-
 			HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
 			holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
 			holidayDTO.setStartHoliday(h.getStart().toString().substring(0,10));
@@ -337,10 +303,12 @@ public class DoctorService {
 			orDTO.setStartTime(operationRequest.getStartTime());
 			orDTO.setEndTime(operationRequest.getEndTime());
 			orDTO.setDate(operationRequest.getStart().toString().substring(0,10));
+
 			if(operationRequest.getPatient() != null) {
 				orDTO.setPatientName(operationRequest.getPatient().getName());
 				orDTO.setPatientLastname(operationRequest.getPatient().getLastname());
 			}
+
 			if(operationRequest.getDoctors() != null){
 				List <String> docListName = new ArrayList<>();
 				for(Doctor doc : operationRequest.getDoctors()){
@@ -362,12 +330,10 @@ public class DoctorService {
 		return doctorDTO;
 	}
 
-
 	public List<DoctorDTO> getFreeDoctorsForOperation(OperationParamsDTO opParams){
-
 		List<Doctor> doctors = doctorRepository.findAll();
-
 		List<Doctor> operationDoctors = new ArrayList<>();
+
 		for(Doctor doctor : doctors){
 			if(doctor.getSpecialization().equals("Hirurg") || doctor.getSpecialization().equals("Anesteziolog")){
 				operationDoctors.add(doctor);
@@ -380,32 +346,23 @@ public class DoctorService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
 		LocalDate inputDate = LocalDate.parse(inputDateString);
 		java.sql.Date finalDate = java.sql.Date.valueOf(inputDate);
-
 		LocalTime finalStartTime = LocalTime.parse(opParams.getTimeOperation());
 		LocalTime finalEndTime = finalStartTime.plusHours(2);
 
 		OperationRequest operation = operationRequestService.findOne(opParams.getRequestId());
 
-
 		for(Doctor doctor : operationDoctors) {
-
 			boolean isAvailable = true;
-
-
 			//proveravam za godisnje odmore da li se preklapaju sa operacijom
 			if(doctor.getHolidays() != null){
 				for(Holiday h : doctor.getHolidays()){
-
 					if((h.getStart().compareTo(finalDate)) == 0 || h.getEnd().compareTo(finalDate) ==0){
 						isAvailable = false;
-
 					} else if ((h.getStart().compareTo(finalDate) < 0) && (h.getEnd().compareTo(finalDate) > 0)){
 						isAvailable = false;
-
 					}
 				}
 			}
-
 
 			//provera za radno vreme
 			LocalTime startWork = doctor.getStart().toLocalTime();
@@ -418,12 +375,10 @@ public class DoctorService {
 			//provera za ostale operacije
 			if (doctor.getOperations() != null) {
 				for (OperationRequest oprequest : doctor.getOperations()) {
-
 					LocalTime opStart = oprequest.getStartTime().toLocalTime();
 					LocalTime opEnd = oprequest.getEndTime().toLocalTime();
 
 					if (oprequest.getStart().compareTo(finalDate) == 0) {
-
 						//neka operacija pocinje pre kraja ove sto zelim i zavrsava
 						if (((opStart.compareTo(finalStartTime) < 0) || (opStart.compareTo(finalStartTime) == 0))
 								&& (opEnd.compareTo(finalStartTime) > 0) ) {
@@ -438,18 +393,16 @@ public class DoctorService {
 							isAvailable = false;
 							break;
 						}
-
 					}
-
 				}
 			}
+
 			if(isAvailable) {
 				//DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
 				DoctorDTO doctorDTO = new DoctorDTO(doctor);
 				doctorDTOS.add(doctorDTO);
 			}
 		}
-
 		return doctorDTOS;
 	}
 }
