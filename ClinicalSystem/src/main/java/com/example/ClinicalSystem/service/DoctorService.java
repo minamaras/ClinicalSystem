@@ -53,7 +53,7 @@ public class DoctorService {
   	@Autowired
 	private OperationRequestService operationRequestService;
 
-	public Set<DoctorDTO> findAll(Principal p) {
+	public Set<DoctorDTO> findAllDoctorsFromClinic(Principal p) {
 		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
 		Clinic clinic = cAdmin.getClinic();
 		Set<Doctor> doctors = clinic.getDoctors();

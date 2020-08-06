@@ -50,7 +50,7 @@ public class DoctorController {
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<Set<DoctorDTO>> getAllDoctors(Principal p) {
 
-		Set<DoctorDTO> doctors = doctorService.findAll(p);
+		Set<DoctorDTO> doctors = doctorService.findAllDoctorsFromClinic(p);
 
 		return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
