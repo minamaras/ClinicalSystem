@@ -109,7 +109,7 @@ public class DoctorService {
 		}
 
 		addDoctorToClinic(doctor, clinic);
-		doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
+		encodePasswordForNewDoctor(doctor);
 
 		Authority authoritie = authorityService.findByname("DOCTOR");
 		List<Authority> authorities = new ArrayList<>();
@@ -129,6 +129,10 @@ public class DoctorService {
 	private Clinic getClinicFromLoggedInClinicAdmin(Principal p) {
 		ClinicAdmin clinicAdmin = getLoggedInClinicAdmin(p.getName());
 		return clinicAdmin.getClinic();
+	}
+
+	private void encodePasswordForNewDoctor(Doctor doctor) {
+		doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
 	}
 
 	@Transactional
