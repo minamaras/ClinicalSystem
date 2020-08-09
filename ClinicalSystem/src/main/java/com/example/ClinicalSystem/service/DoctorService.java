@@ -169,10 +169,7 @@ public class DoctorService {
 	}
 
 	private boolean canDoctorBeRemoved(Doctor doctor) {
-		if(doctor.getAppointments().size() > 0) {
-			return false;
-		}
-		return true;
+		return doctor.getAppointments().size() > 0 ? false : true;
 	}
 
 	//@Transactional(propagation = Propagation.)
