@@ -104,15 +104,17 @@ public class DoctorService {
 		ExamType examTypeThatDoctorProvides = examTypeService.findOne(doctorDTO.getExamType().getName());
 		doctor.setExamType(examTypeThatDoctorProvides);
 
-		if(doctor.getStart().compareTo(doctor.getEnd()) > 0 || doctor.getStart().compareTo(doctor.getEnd()) == 0 ) {
-			return null;
-		}
-
 		addDoctorToClinic(doctor, clinic);
+		checkDoctorWorkingHours(doctor);
 		encodePasswordForNewDoctor(doctor);
 		assignAuthorityForDoctor(doctor);
 
 		return doctorRepository.save(doctor);
+	}
+
+	private boolean checkDoctorWorkingHours(Doctor doctor) {
+		return doctor.getStart().compareTo(doctor.getEnd()) > 0 ||
+				doctor.getStart().compareTo(doctor.getEnd()) == 0;
 	}
 
 	private void addDoctorToClinic(Doctor doctor, Clinic clinic) {
