@@ -48,11 +48,9 @@ public class DoctorController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/alldoctors")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
-	public ResponseEntity<Set<DoctorDTO>> getAllDoctors(Principal p) {
-
-		Set<DoctorDTO> doctors = doctorService.findAllDoctorsFromClinic(p);
-
-		return new ResponseEntity<>(doctors, HttpStatus.OK);
+	public ResponseEntity<Set<DoctorDTO>> getAllDoctorsFromClinic(Principal p) {
+		Set<DoctorDTO> doctorsFromClinic = doctorService.findAllDoctorsFromClinic(p);
+		return new ResponseEntity<>(doctorsFromClinic, HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/savedoctor")
