@@ -111,11 +111,21 @@ public class DoctorService {
 	}
 
 	private void setUpNewDoctor(Doctor doctor) {
+		setExamTypeForDoctor(doctor);
 		checkDoctorWorkingHours(doctor);
 		encodePasswordForNewDoctor(doctor);
 		assignAuthorityForDoctor(doctor);
 	}
 
+	private void setExamTypeForDoctor(Doctor doctor) {
+		ExamType examTypeThatDoctorProvides = examTypeService
+				.findOne(modelMapper.map(doctor, DoctorDTO.class)
+						.getExamType()
+						.getName());
+
+		doctor.setExamType(examTypeThatDoctorProvides);
+	}
+	
 	private boolean checkDoctorWorkingHours(Doctor doctor) {
 		return doctor.getStart().compareTo(doctor.getEnd()) > 0 ||
 				doctor.getStart().compareTo(doctor.getEnd()) == 0;
