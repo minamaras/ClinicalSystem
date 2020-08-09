@@ -125,7 +125,7 @@ public class DoctorService {
 
 		doctor.setExamType(examTypeThatDoctorProvides);
 	}
-	
+
 	private boolean checkDoctorWorkingHours(Doctor doctor) {
 		return doctor.getStart().compareTo(doctor.getEnd()) > 0 ||
 				doctor.getStart().compareTo(doctor.getEnd()) == 0;
@@ -157,16 +157,21 @@ public class DoctorService {
 
 	@Transactional
     public boolean removeDoctor(DoctorDTO doctorDto) {
-		Doctor doctor = findOne(doctorDto.getEmail());
+		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
 
-		if(doctor.getAppointments().size() > 0) {
-			return false;
-		}
+		if (!canDoctorBeRemoved(doctor)) return false;
 
 		Clinic clinic = doctor.getClinic();
 		clinic.getDoctors().remove(doctor);
 		doctorRepository.delete(doctor);
 
+		return true;
+	}
+
+	private boolean canDoctorBeRemoved(Doctor doctor) {
+		if(doctor.getAppointments().size() > 0) {
+			return false;
+		}
 		return true;
 	}
 
