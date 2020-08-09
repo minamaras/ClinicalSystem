@@ -1,8 +1,6 @@
 package com.example.ClinicalSystem.service;
 
 import java.security.Principal;
-import java.sql.Array;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -16,19 +14,13 @@ import java.util.*;
 import com.example.ClinicalSystem.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ClinicalSystem.repository.DoctorRepository;
-import org.springframework.transaction.annotation.Propagation;
-
-import javax.print.Doc;
 
 @Service
 public class DoctorService {
@@ -100,9 +92,9 @@ public class DoctorService {
 		return doctorsHolidayDto;
 	}
 
-	public Doctor updateDoctor(Doctor doctor)
+	public void updateDoctor(Doctor doctor)
 	{
-		return doctorRepository.save(doctor);
+		doctorRepository.save(doctor);
 	}
 
 	public Doctor save(DoctorDTO doctorDTO, Principal p) {
