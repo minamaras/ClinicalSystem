@@ -174,7 +174,6 @@ public class DoctorService {
 		return doctor.getAppointments().size() > 0 ? false : true;
 	}
 
-	//@Transactional(propagation = Propagation.)
 	public Doctor findDoctorByEmail(String email) {
 		return doctorRepository.findByEmail(email);
 	}
@@ -182,8 +181,7 @@ public class DoctorService {
 	public Doctor findDoctorById(Long id) {
 		return doctorRepository.findByEmail(userService.findById(id).get().getEmail());
 	}
-
-
+	
 	public Set<DoctorDTO> findAllDoctorsFromAClinic(String clinicname){
 		HashSet<DoctorDTO> doctorsret = new HashSet<>();
 		String cleanText = clinicname.replaceAll("\\d+", "").replaceAll("(.)([A-Z])", "$1 $2");
