@@ -65,7 +65,7 @@ public class DoctorService {
 
 		return doctorsFromClinicToReturn;
 	}
-	
+
 	public ClinicAdmin getLoggedInClinicAdmin(String username) {
 		return (ClinicAdmin) userService.findByUsername(username);
 	}
@@ -74,11 +74,8 @@ public class DoctorService {
 		DoctorDTO doctorDto= modelMapper.map(doctor,DoctorDTO.class);
 		doctorDto.setExamType(modelMapper.map(doctor.getExamType(),ExamTypeDTO.class));
 
-		ArrayList<AppointmentDTO> appointmentDtos = linkAppointmentsWithDoctor(doctor);
-		ArrayList<HolidayDTO> holidayDtos = linkHolidayWithDoctor(doctor);
-
-		doctorDto.setAppointments(appointmentDtos);
-		doctorDto.setHolidays(holidayDtos);
+		doctorDto.setAppointments(linkAppointmentsWithDoctor(doctor));
+		doctorDto.setHolidays(linkHolidayWithDoctor(doctor));
 
 		return doctorDto;
 	}
