@@ -161,11 +161,15 @@ public class DoctorService {
 
 		if (!canDoctorBeRemoved(doctor)) return false;
 
-		Clinic clinic = doctor.getClinic();
-		clinic.getDoctors().remove(doctor);
+		removeDoctorFromClinic(doctor);
 		doctorRepository.delete(doctor);
 
 		return true;
+	}
+
+	private void removeDoctorFromClinic(Doctor doctor) {
+		Clinic clinic = doctor.getClinic();
+		clinic.getDoctors().remove(doctor);
 	}
 
 	private boolean canDoctorBeRemoved(Doctor doctor) {
