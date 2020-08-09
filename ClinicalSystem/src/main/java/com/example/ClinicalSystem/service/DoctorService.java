@@ -1,6 +1,7 @@
 package com.example.ClinicalSystem.service;
 
 import java.security.Principal;
+import java.sql.Array;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -61,16 +62,8 @@ public class DoctorService {
 			DoctorDTO doctorDto= modelMapper.map(doctor,DoctorDTO.class);
 			doctorDto.setExamType(modelMapper.map(doctor.getExamType(),ExamTypeDTO.class));
 
-			List<AppointmentDTO> appointmentDtos = new ArrayList<>();
+			List<AppointmentDTO> appointmentDtos = linkAppointmentsWithDoctor(doctor);
 			Set<HolidayDTO> holidayDtos = new HashSet<>();
-
-			for(Appointment appointment : doctor.getAppointments()){
-				AppointmentDTO appointmentDto = modelMapper.map(appointment,AppointmentDTO.class);
-				appointmentDto.setDate(appointment.getStart().toString().substring(0,10));
-				appointmentDto.setStartTime(appointment.getStartTime());
-				appointmentDto.setEndTime(appointment.getEndTime());
-				appointmentDtos.add(appointmentDto);
-			}
 
 			for (Holiday holiday : doctor.getHolidays()){
 				HolidayDTO holidayDto = modelMapper.map(holiday,HolidayDTO.class);
@@ -90,6 +83,16 @@ public class DoctorService {
 
 	public ClinicAdmin getLoggedInClinicAdmin(String username) {
 		return (ClinicAdmin) userService.findByUsername(username);
+	}
+
+	public ArrayList<AppointmentDTO> linkAppointmentsWithDoctor(Doctor doctor) {
+		ArrayList<AppointmentDTO> allDoctorsAppointmentsDto = new ArrayList<>();
+		for (Appointment appointment : doctor.getAppointments()) {
+			AppointmentDTO appointmentDto = modelMapper.map(appointment, AppointmentDTO.class);
+			allDoctorsAppointmentsDto.add(appointmentDto);
+		}
+
+		return allDoctorsAppointmentsDto;
 	}
 
 	public Doctor updateDoctor(Doctor doctor)
