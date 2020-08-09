@@ -98,12 +98,11 @@ public class DoctorService {
 	}
 
 	public Doctor save(DoctorDTO doctorDTO, Principal p) {
-		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
-		Clinic clinic = cAdmin.getClinic();
+		Clinic clinic = getClinicFromLoggedInClinicAdmin(p);
 
 		Doctor doctor = modelMapper.map(doctorDTO, Doctor.class);
-		ExamType  examType = examTypeService.findOne(doctorDTO.getExamType().getName());
-		doctor.setExamType(examType);
+		ExamType examTypeThatDoctorProvides = examTypeService.findOne(doctorDTO.getExamType().getName());
+		doctor.setExamType(examTypeThatDoctorProvides);
 
 		if(doctor.getStart().compareTo(doctor.getEnd()) > 0 || doctor.getStart().compareTo(doctor.getEnd()) == 0 ) {
 			return null;
@@ -124,7 +123,12 @@ public class DoctorService {
 		return doctorRepository.save(doctor);
 	}
 
-    @Transactional
+	private Clinic getClinicFromLoggedInClinicAdmin(Principal p) {
+		ClinicAdmin clinicAdmin = getLoggedInClinicAdmin(p.getName());
+		return clinicAdmin.getClinic();
+	}
+
+	@Transactional
     public boolean removeDoctor(DoctorDTO doctorDto) {
 		Doctor doctor = findOne(doctorDto.getEmail());
 
