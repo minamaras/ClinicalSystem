@@ -97,15 +97,15 @@ public class DoctorService {
 		doctorRepository.save(doctor);
 	}
 
-	public Doctor save(DoctorDTO doctorDTO, Principal p) {
+	public Doctor save(DoctorDTO doctorDto, Principal p) {
 		Clinic clinic = getClinicFromLoggedInClinicAdmin(p);
+		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
 
-		Doctor doctor = modelMapper.map(doctorDTO, Doctor.class);
-		ExamType examTypeThatDoctorProvides = examTypeService.findOne(doctorDTO.getExamType().getName());
+		ExamType examTypeThatDoctorProvides = examTypeService.findOne(doctorDto.getExamType().getName());
 		doctor.setExamType(examTypeThatDoctorProvides);
 
-		addDoctorToClinic(doctor, clinic);
 		setUpNewDoctor(doctor);
+		addDoctorToClinic(doctor, clinic);
 
 		return doctorRepository.save(doctor);
 	}
