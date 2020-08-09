@@ -294,8 +294,7 @@ public class DoctorService {
 
 	@Transactional
 	public List<Doctor> findAllDoctors() {
-		List<Doctor> doctors = doctorRepository.findAll();
-		return doctors;
+		return doctorRepository.findAll();
 	}
 
 	public DoctorDTO findOneByPrincipal(Principal p){
