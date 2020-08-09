@@ -168,7 +168,7 @@ public class OperationRequestService {
 
 
                 for (String doctorName : operationRequestDTO.getDoctorNames()) {
-                    Doctor doctor = doctorService.findOne(doctorName);
+                    Doctor doctor = doctorService.findDoctorByEmail(doctorName);
                     if ((operationRequest.getStart().compareTo(finalDate) == 0) && operationRequest.getStartTime().compareTo(finalStartTime) == 0) {
 
                         if (!operationRequest.getDoctors().isEmpty()) {
@@ -197,7 +197,7 @@ public class OperationRequestService {
 
 
         for (String name : operationRequestDTO.getDoctorNames()) {
-            Doctor doctor = doctorService.findOne(name);
+            Doctor doctor = doctorService.findDoctorByEmail(name);
 
             operation.getDoctors().add(doctor);
             emailService.sendOperationInfoDoctor(doctor, thisD, starts);

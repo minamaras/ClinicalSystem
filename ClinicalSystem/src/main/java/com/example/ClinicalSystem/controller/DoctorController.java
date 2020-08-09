@@ -67,7 +67,7 @@ public class DoctorController {
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<?> deleteDoctor(@RequestBody DoctorDTO doctorDto){
 		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
-		if(doctorService.findOne(doctor.getEmail()) != null) {
+		if(doctorService.findDoctorByEmail(doctor.getEmail()) != null) {
 			if (doctorService.removeDoctor(doctor))
 				return new ResponseEntity<>(HttpStatus.OK);
 		}
@@ -127,7 +127,7 @@ public class DoctorController {
 	public ResponseEntity<DoctorDTO> AboutDoctorEmail(@PathVariable String email) {
 
 
-		Doctor doctor = doctorService.findOne(email);
+		Doctor doctor = doctorService.findDoctorByEmail(email);
 		if(doctor != null) {
 
 			DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
@@ -182,11 +182,11 @@ public class DoctorController {
 	@PreAuthorize("hasAuthority('DOCTOR')")
 	public ResponseEntity<DoctorDTO> updateProfile(@RequestBody DoctorDTO doctorDTO) {
 
-		if(doctorService.findOne(doctorDTO.getEmail()) == null){
+		if(doctorService.findDoctorByEmail(doctorDTO.getEmail()) == null){
 			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}else {
 
-			Doctor doctor = doctorService.findOne(doctorDTO.getEmail());
+			Doctor doctor = doctorService.findDoctorByEmail(doctorDTO.getEmail());
 
 			if (doctorDTO.getName() != "") {
 

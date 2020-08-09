@@ -137,7 +137,7 @@ public class AppointmentService {
         //Appointment appointment = modelMapper.map(appointmentDTO, Appointment.class);
         Appointment appointment = new Appointment();
 
-        Doctor doctor = doctorService.findOne(appointmentDTO.getDoctorEmail());
+        Doctor doctor = doctorService.findDoctorByEmail(appointmentDTO.getDoctorEmail());
         ExamType examType = examTypeService.findOne(appointmentDTO.getExamTypeName());
         OR operationRoom = operationRoomService.findOne(appointmentDTO.getRoomNumber());
 
@@ -173,7 +173,7 @@ public class AppointmentService {
 
         AppointmentRequest apreq = modelMapper.map(appointmentRequestService.findById(appointmentRequestDTO.getId()),AppointmentRequest.class);
 
-        Doctor doctor = doctorService.findOne(appointmentRequestDTO.getDoctorEmail());
+        Doctor doctor = doctorService.findDoctorByEmail(appointmentRequestDTO.getDoctorEmail());
 
         Long id = Long.parseLong(roomId);
 
@@ -424,20 +424,20 @@ public class AppointmentService {
         appointment.setStatus(AppointmentStatus.SHEDULED);
         appointment.setClassification(AppointmentClassification.NORMAL);
 
-        appointment.setType(doctorService.findOne(appointmentRequestDTO.getDoctorEmail()).getExamType());
+        appointment.setType(doctorService.findDoctorByEmail(appointmentRequestDTO.getDoctorEmail()).getExamType());
         appointment.setOr(operationRoomService.findByIdModel(appointmentRequestDTO.getRoomId()));
-        appointment.setDoctor(doctorService.findOne(appointmentRequestDTO.getDoctorEmail()));
+        appointment.setDoctor(doctorService.findDoctorByEmail(appointmentRequestDTO.getDoctorEmail()));
         appointment.setPatient(patientService.findPatient(apreq.getPatient().getEmail()));
 
 
         Appointment saved = appointmentRepository.save(appointment);
 
         apreq.getPatient().getAppointments().add(appointment);
-        doctorService.findOne(appointmentRequestDTO.getDoctorEmail()).getAppointments().add(appointment);
+        doctorService.findDoctorByEmail(appointmentRequestDTO.getDoctorEmail()).getAppointments().add(appointment);
         operationRoomService.findByIdModel(appointmentRequestDTO.getRoomId()).getAppointments().add(appointment);
 
         //patientService.savePatient(apreq.getPatient());
-        doctorService.updateDoctor(doctorService.findOne(appointmentRequestDTO.getDoctorEmail()));
+        doctorService.updateDoctor(doctorService.findDoctorByEmail(appointmentRequestDTO.getDoctorEmail()));
         operationRoomService.saveModel(operationRoomService.findByIdModel(appointmentRequestDTO.getRoomId()));
 
         if(saved == null){

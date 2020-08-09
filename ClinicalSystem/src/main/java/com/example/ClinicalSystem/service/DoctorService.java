@@ -175,7 +175,7 @@ public class DoctorService {
 	}
 
 	//@Transactional(propagation = Propagation.)
-	public Doctor findOne(String email) {
+	public Doctor findDoctorByEmail(String email) {
 		return doctorRepository.findByEmail(email);
 	}
 

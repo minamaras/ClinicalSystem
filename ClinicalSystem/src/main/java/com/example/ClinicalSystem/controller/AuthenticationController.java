@@ -126,7 +126,7 @@ public class AuthenticationController {
 
         }else if ( user.getRole() == Role.DOCTOR){
 
-            Doctor d = doctorService.findOne(user.getEmail());
+            Doctor d = doctorService.findDoctorByEmail(user.getEmail());
             DoctorDTO doctorDTO = modelMapper.map(d, DoctorDTO.class);
             doctorDTO.setClinicname(d.getClinic().getName());
             doctorDTO.setClinicid(d.getClinic().getId());

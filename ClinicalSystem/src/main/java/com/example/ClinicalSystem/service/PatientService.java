@@ -117,7 +117,7 @@ public class PatientService {
 			Nurse nurse = nurseService.findByEmail(user.getEmail());
 			myClinic = nurse.getClinic();
 		} else if (user.getRole() == Role.DOCTOR){
-			Doctor doctor = doctorService.findOne(user.getEmail());
+			Doctor doctor = doctorService.findDoctorByEmail(user.getEmail());
 			myClinic = doctor.getClinic();
 		} else {
 			return null;
