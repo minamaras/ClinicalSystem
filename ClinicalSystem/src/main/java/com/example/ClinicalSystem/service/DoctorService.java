@@ -62,14 +62,8 @@ public class DoctorService {
 			DoctorDTO doctorDto= modelMapper.map(doctor,DoctorDTO.class);
 			doctorDto.setExamType(modelMapper.map(doctor.getExamType(),ExamTypeDTO.class));
 
-			List<AppointmentDTO> appointmentDtos = linkAppointmentsWithDoctor(doctor);
-			Set<HolidayDTO> holidayDtos = new HashSet<>();
-
-			for (Holiday holiday : doctor.getHolidays()){
-				HolidayDTO holidayDto = modelMapper.map(holiday,HolidayDTO.class);
-				holidayDto.setFromto(holiday.getStart().toString()+"-"+holiday.getEnd().toString());
-				holidayDtos.add(holidayDto);
-			}
+			ArrayList<AppointmentDTO> appointmentDtos = linkAppointmentsWithDoctor(doctor);
+			ArrayList<HolidayDTO> holidayDtos = linkHolidayWithDoctor(doctor);
 
 			doctorDto.setStart(doctor.getStart());
 			doctorDto.setEnd(doctor.getEnd());
@@ -93,6 +87,16 @@ public class DoctorService {
 		}
 
 		return allDoctorsAppointmentsDto;
+	}
+
+	public ArrayList<HolidayDTO> linkHolidayWithDoctor(Doctor doctor) {
+		ArrayList<HolidayDTO> doctorsHolidayDto = new ArrayList<>();
+		for (Holiday holiday : doctor.getHolidays()) {
+			HolidayDTO holidayDto= modelMapper.map(holiday, HolidayDTO.class);
+			doctorsHolidayDto.add(holidayDto);
+		}
+
+		return doctorsHolidayDto;
 	}
 
 	public Doctor updateDoctor(Doctor doctor)
@@ -181,7 +185,7 @@ public class DoctorService {
 			doctorDTO.setExamType(examTypeDTO);
 
 			List<AppointmentDTO> lista = new ArrayList<>();
-			Set<HolidayDTO> holidayDTOS = new HashSet<>();
+			List<HolidayDTO> holidayDTOS = new ArrayList<>();
 			List<String> patients = new ArrayList<>();
 
 			for(Appointment a : doctor.getAppointments()){
@@ -276,7 +280,7 @@ public class DoctorService {
 	public DoctorDTO findOneByPrincipal(Principal p){
 		Doctor doctor = (Doctor) userService.findByUsername(p.getName());
 		List<AppointmentDTO> lista = new ArrayList<>();
-		Set<HolidayDTO> holidayDTOS = new HashSet<>();
+		List<HolidayDTO> holidayDTOS = new ArrayList<>();
 		List<OperationCalendarDTO> operationsDTO = new ArrayList<>();
 
 		for(Appointment a : doctor.getAppointments()){

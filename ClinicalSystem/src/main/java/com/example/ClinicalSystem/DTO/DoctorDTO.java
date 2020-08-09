@@ -22,7 +22,7 @@ public class DoctorDTO {
     private Time end;
     private List<AppointmentDTO> appointments = new ArrayList<>();
     private boolean firstLogin;
-    private Set<HolidayDTO> holidays = new HashSet<>();
+    private List<HolidayDTO> holidays = new ArrayList<>();
     private List<String> patients = new ArrayList<>();
     private List<OperationCalendarDTO> operations = new ArrayList<>();
 
@@ -176,11 +176,11 @@ public class DoctorDTO {
         this.firstLogin = firstLogin;
     }
 
-    public Set<HolidayDTO> getHolidays() {
+    public List<HolidayDTO> getHolidays() {
         return holidays;
     }
 
-    public void setHolidays(Set<HolidayDTO> holidays) {
+    public void setHolidays(List<HolidayDTO> holidays) {
         this.holidays = holidays;
     }
 
