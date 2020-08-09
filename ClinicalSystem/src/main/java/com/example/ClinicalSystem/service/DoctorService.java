@@ -59,20 +59,24 @@ public class DoctorService {
 
 		Set<DoctorDTO> doctorsFromClinicToReturn = new HashSet<>();
 		for (Doctor doctor : currentClinicAdmin.getClinic().getDoctors()) {
-			DoctorDTO doctorDto= modelMapper.map(doctor,DoctorDTO.class);
-			doctorDto.setExamType(modelMapper.map(doctor.getExamType(),ExamTypeDTO.class));
-
-			ArrayList<AppointmentDTO> appointmentDtos = linkAppointmentsWithDoctor(doctor);
-			ArrayList<HolidayDTO> holidayDtos = linkHolidayWithDoctor(doctor);
-
-			doctorDto.setStart(doctor.getStart());
-			doctorDto.setEnd(doctor.getEnd());
-			doctorDto.setAppointments(appointmentDtos);
-			doctorDto.setHolidays(holidayDtos);
-			doctorsFromClinicToReturn.add(doctorDto);
+			DoctorDTO setUpDoctorDto = setUpDoctorDtoFromDoctor(doctor);
+			doctorsFromClinicToReturn.add(setUpDoctorDto);
 		}
 
 		return doctorsFromClinicToReturn;
+	}
+
+	public DoctorDTO setUpDoctorDtoFromDoctor(Doctor doctor) {
+		DoctorDTO doctorDto= modelMapper.map(doctor,DoctorDTO.class);
+		doctorDto.setExamType(modelMapper.map(doctor.getExamType(),ExamTypeDTO.class));
+
+		ArrayList<AppointmentDTO> appointmentDtos = linkAppointmentsWithDoctor(doctor);
+		ArrayList<HolidayDTO> holidayDtos = linkHolidayWithDoctor(doctor);
+
+		doctorDto.setAppointments(appointmentDtos);
+		doctorDto.setHolidays(holidayDtos);
+
+		return doctorDto;
 	}
 
 	public ClinicAdmin getLoggedInClinicAdmin(String username) {
