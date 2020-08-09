@@ -54,7 +54,7 @@ public class DoctorService {
 	private OperationRequestService operationRequestService;
 
 	public Set<DoctorDTO> findAllDoctorsFromClinic(Principal principal) {
-		ClinicAdmin currentClinicAdmin = (ClinicAdmin) userService.findByUsername(principal.getName());
+		ClinicAdmin currentClinicAdmin = getLoggedInClinicAdmin(principal.getName());
 		Clinic clinic = currentClinicAdmin.getClinic();
 
 		Set<DoctorDTO> doctorsFromClinicToReturn = new HashSet<>();
@@ -87,6 +87,10 @@ public class DoctorService {
 		}
 
 		return doctorsFromClinicToReturn;
+	}
+
+	public ClinicAdmin getLoggedInClinicAdmin(String username) {
+		return (ClinicAdmin) userService.findByUsername(username);
 	}
 
 	public Doctor updateDoctor(Doctor doctor)
