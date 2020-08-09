@@ -53,41 +53,40 @@ public class DoctorService {
   	@Autowired
 	private OperationRequestService operationRequestService;
 
-	public Set<DoctorDTO> findAllDoctorsFromClinic(Principal p) {
-		ClinicAdmin cAdmin = (ClinicAdmin) userService.findByUsername(p.getName());
-		Clinic clinic = cAdmin.getClinic();
-		Set<Doctor> doctors = clinic.getDoctors();
+	public Set<DoctorDTO> findAllDoctorsFromClinic(Principal principal) {
+		ClinicAdmin currentClinicAdmin = (ClinicAdmin) userService.findByUsername(principal.getName());
+		Clinic clinic = currentClinicAdmin.getClinic();
 
-		Set<DoctorDTO> doctorsDTO = new HashSet<>();
-		for (Doctor d : doctors) {
-			DoctorDTO doctorDTO = modelMapper.map(d,DoctorDTO.class);
-			doctorDTO.setExamType(modelMapper.map(d.getExamType(),ExamTypeDTO.class));
+		Set<DoctorDTO> doctorsFromClinicToReturn = new HashSet<>();
+		for (Doctor doctor : clinic.getDoctors()) {
+			DoctorDTO doctorDto= modelMapper.map(doctor,DoctorDTO.class);
+			doctorDto.setExamType(modelMapper.map(doctor.getExamType(),ExamTypeDTO.class));
 
-			List<AppointmentDTO> lista = new ArrayList<>();
-			Set<HolidayDTO> holidayDTOS = new HashSet<>();
+			List<AppointmentDTO> appointmentDtos = new ArrayList<>();
+			Set<HolidayDTO> holidayDtos = new HashSet<>();
 
-			for(Appointment a : d.getAppointments()){
-				AppointmentDTO appointmentDTO = modelMapper.map(a,AppointmentDTO.class);
-				appointmentDTO.setDate(a.getStart().toString().substring(0,10));
-				appointmentDTO.setStartTime(a.getStartTime());
-				appointmentDTO.setEndTime(a.getEndTime());
-				lista.add(appointmentDTO);
+			for(Appointment appointment : doctor.getAppointments()){
+				AppointmentDTO appointmentDto = modelMapper.map(appointment,AppointmentDTO.class);
+				appointmentDto.setDate(appointment.getStart().toString().substring(0,10));
+				appointmentDto.setStartTime(appointment.getStartTime());
+				appointmentDto.setEndTime(appointment.getEndTime());
+				appointmentDtos.add(appointmentDto);
 			}
 
-			for ( Holiday h : d.getHolidays()){
-				HolidayDTO holidayDTO = modelMapper.map(h,HolidayDTO.class);
-				holidayDTO.setFromto(h.getStart().toString()+"-"+h.getEnd().toString());
-				holidayDTOS.add(holidayDTO);
+			for (Holiday holiday : doctor.getHolidays()){
+				HolidayDTO holidayDto = modelMapper.map(holiday,HolidayDTO.class);
+				holidayDto.setFromto(holiday.getStart().toString()+"-"+holiday.getEnd().toString());
+				holidayDtos.add(holidayDto);
 			}
 
-			doctorDTO.setStart(d.getStart());
-			doctorDTO.setEnd(d.getEnd());
-			doctorDTO.setAppointments(lista);
-			doctorDTO.setHolidays(holidayDTOS);
-			doctorsDTO.add(doctorDTO);
+			doctorDto.setStart(doctor.getStart());
+			doctorDto.setEnd(doctor.getEnd());
+			doctorDto.setAppointments(appointmentDtos);
+			doctorDto.setHolidays(holidayDtos);
+			doctorsFromClinicToReturn.add(doctorDto);
 		}
 
-		return doctorsDTO;
+		return doctorsFromClinicToReturn;
 	}
 
 	public Doctor updateDoctor(Doctor doctor)
