@@ -110,11 +110,7 @@ public class DoctorService {
 
 		addDoctorToClinic(doctor, clinic);
 		encodePasswordForNewDoctor(doctor);
-
-		Authority authoritie = authorityService.findByname("DOCTOR");
-		List<Authority> authorities = new ArrayList<>();
-		authorities.add(authoritie);
-		doctor.setAuthorities(authorities);
+		assignAuthorityForDoctor(doctor);
 
 		return doctorRepository.save(doctor);
 	}
@@ -133,6 +129,14 @@ public class DoctorService {
 
 	private void encodePasswordForNewDoctor(Doctor doctor) {
 		doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
+	}
+
+	private void assignAuthorityForDoctor(Doctor doctor) {
+		List<Authority> authorities = new ArrayList<>();
+		Authority authority = authorityService.findByname(doctor.getRole().toString());
+
+		authorities.add(authority);
+		doctor.setAuthorities(authorities);
 	}
 
 	@Transactional
