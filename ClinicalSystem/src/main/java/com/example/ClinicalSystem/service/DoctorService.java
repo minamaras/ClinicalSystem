@@ -108,11 +108,7 @@ public class DoctorService {
 			return null;
 		}
 
-		if(clinic != null) {
-			doctor.setClinic(clinic);
-			clinic.getDoctors().add(doctor);
-		}
-
+		addDoctorToClinic(doctor, clinic);
 		doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
 
 		Authority authoritie = authorityService.findByname("DOCTOR");
@@ -121,6 +117,13 @@ public class DoctorService {
 		doctor.setAuthorities(authorities);
 
 		return doctorRepository.save(doctor);
+	}
+
+	private void addDoctorToClinic(Doctor doctor, Clinic clinic) {
+		if(clinic != null) {
+			doctor.setClinic(clinic);
+			clinic.getDoctors().add(doctor);
+		}
 	}
 
 	private Clinic getClinicFromLoggedInClinicAdmin(Principal p) {
