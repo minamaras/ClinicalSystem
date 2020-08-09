@@ -55,10 +55,9 @@ public class DoctorService {
 
 	public Set<DoctorDTO> findAllDoctorsFromClinic(Principal principal) {
 		ClinicAdmin currentClinicAdmin = getLoggedInClinicAdmin(principal.getName());
-		Clinic clinic = currentClinicAdmin.getClinic();
 
 		Set<DoctorDTO> doctorsFromClinicToReturn = new HashSet<>();
-		for (Doctor doctor : clinic.getDoctors()) {
+		for (Doctor doctor : currentClinicAdmin.getClinic().getDoctors()) {
 			DoctorDTO doctorDto= modelMapper.map(doctor,DoctorDTO.class);
 			doctorDto.setExamType(modelMapper.map(doctor.getExamType(),ExamTypeDTO.class));
 
