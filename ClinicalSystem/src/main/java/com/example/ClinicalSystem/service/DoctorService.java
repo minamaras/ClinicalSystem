@@ -105,11 +105,15 @@ public class DoctorService {
 		doctor.setExamType(examTypeThatDoctorProvides);
 
 		addDoctorToClinic(doctor, clinic);
+		setUpNewDoctor(doctor);
+
+		return doctorRepository.save(doctor);
+	}
+
+	private void setUpNewDoctor(Doctor doctor) {
 		checkDoctorWorkingHours(doctor);
 		encodePasswordForNewDoctor(doctor);
 		assignAuthorityForDoctor(doctor);
-
-		return doctorRepository.save(doctor);
 	}
 
 	private boolean checkDoctorWorkingHours(Doctor doctor) {
