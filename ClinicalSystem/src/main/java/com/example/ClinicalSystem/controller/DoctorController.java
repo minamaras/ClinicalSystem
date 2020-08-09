@@ -66,9 +66,9 @@ public class DoctorController {
 	@RequestMapping(method = RequestMethod.POST, value = "/deletedoctor")
 	@PreAuthorize("hasAuthority('CLINICADMIN')")
 	public ResponseEntity<?> deleteDoctor(@RequestBody DoctorDTO doctorDto){
-
-		if(doctorService.findOne(doctorDto.getEmail()) != null) {
-			if (doctorService.removeDoctor(doctorDto))
+		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
+		if(doctorService.findOne(doctor.getEmail()) != null) {
+			if (doctorService.removeDoctor(doctor))
 				return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
