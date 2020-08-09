@@ -156,9 +156,7 @@ public class DoctorService {
 	}
 
 	@Transactional
-    public boolean removeDoctor(DoctorDTO doctorDto) {
-		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
-
+    public boolean removeDoctor(Doctor doctor) {
 		if (!canDoctorBeRemoved(doctor)) return false;
 
 		removeDoctorFromClinic(doctor);
