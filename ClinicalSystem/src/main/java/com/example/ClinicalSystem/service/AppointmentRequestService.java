@@ -132,7 +132,7 @@ public class AppointmentRequestService {
                 appointmentRequest.setEndTime(endTime);
             }
 
-            Doctor doctor = doctorService.findOneById(appointmentRequestDTO.getDoctorid());
+            Doctor doctor = doctorService.findDoctorById(appointmentRequestDTO.getDoctorid());
             p.getAppointmentRequests().add(appointmentRequest);
 
             if (doctor != null) {
@@ -446,7 +446,7 @@ public class AppointmentRequestService {
 
     public boolean scheduleAnother(int doctorId, String examDate, String patientEmail, String startExam, String endExam) {
 
-        Doctor doctor = doctorService.findOneById(Long.valueOf(doctorId));
+        Doctor doctor = doctorService.findDoctorById(Long.valueOf(doctorId));
         Patient patient = patientService.findPatient(patientEmail);
 
         AppointmentRequest appointmentRequest = new AppointmentRequest();

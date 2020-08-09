@@ -82,7 +82,7 @@ public class OperationRequestService {
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public boolean scheduleOperation(int doctorId, String examDate, String patientEmail, String startExam, String endExam, OperationRequestDTO operationRequestDTO) {
-        Doctor doctor = doctorService.findOneById(Long.valueOf(doctorId));
+        Doctor doctor = doctorService.findDoctorById(Long.valueOf(doctorId));
         Patient patient = patientService.findPatient(patientEmail);
 
         OperationRequest operationRequest = new OperationRequest();

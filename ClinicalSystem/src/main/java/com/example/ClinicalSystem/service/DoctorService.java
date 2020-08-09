@@ -176,16 +176,11 @@ public class DoctorService {
 
 	//@Transactional(propagation = Propagation.)
 	public Doctor findOne(String email) {
-
 		return doctorRepository.findByEmail(email);
 	}
 
-	public Doctor findOneById(Long id) {
-		Optional<User> user = userService.findById(id);
-		User u = user.get();
-		Doctor doctor = doctorRepository.findByEmail(u.getEmail());
-
-		return doctor;
+	public Doctor findDoctorById(Long id) {
+		return doctorRepository.findByEmail(userService.findById(id).get().getEmail());
 	}
 
 

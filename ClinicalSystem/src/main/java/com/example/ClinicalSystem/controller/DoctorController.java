@@ -80,7 +80,7 @@ public class DoctorController {
 	public ResponseEntity<DoctorDTO> AboutDoctor(@PathVariable String id) {
 
 
-		Doctor doctor = doctorService.findOneById(Long.parseLong(id));
+		Doctor doctor = doctorService.findDoctorById(Long.parseLong(id));
 		if(doctor != null) {
 
 			DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
