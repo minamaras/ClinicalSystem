@@ -45,10 +45,8 @@ public class ExamTypeService {
         return examTypeRepository.findByName(examTypeName);
     }
 
-    public boolean saveType(ExamTypeDTO examTypeDTO) {
-        if((findExamTypeByItsName(examTypeDTO.getName()) != null) || examTypeDTO.getPrice() <= 0) {
-            return false;
-        }
+    public boolean saveExamType(ExamTypeDTO examTypeDTO) {
+        if (canNewExamTypeBeCreated(examTypeDTO)) return false;
 
         ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
 
@@ -56,9 +54,24 @@ public class ExamTypeService {
         return true;
     }
 
+    private boolean canNewExamTypeBeCreated(ExamTypeDTO examTypeDTO) {
+        if(isThereExamTypeWithTheSameName(examTypeDTO) || isExamTypePriceNumberGreaterThanZero(examTypeDTO)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isExamTypePriceNumberGreaterThanZero(ExamTypeDTO examTypeDTO) {
+        return examTypeDTO.getPrice() >= 0;
+    }
+
+    private boolean isThereExamTypeWithTheSameName(ExamTypeDTO examTypeDTO) {
+        return findExamTypeByItsName(examTypeDTO.getName()) != null;
+    }
+
     @Transactional
     public boolean deleteType(ExamTypeDTO examTypeDTO) {
-        if(findExamTypeByItsName(examTypeDTO.getName()) != null) {
+        if(isThereExamTypeWithTheSameName(examTypeDTO)) {
             ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
 
             if(examType.getExams().isEmpty()) {
