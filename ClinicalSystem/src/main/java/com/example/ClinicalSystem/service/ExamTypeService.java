@@ -75,7 +75,6 @@ public class ExamTypeService {
         if (doesExamTypeHaveAnyScheduledExams(examType)) return false;
 
         removeExamTypeFromAssociatedRooms(examType);
-
         examTypeRepository.deleteByName(examType.getName());
         return true;
     }
