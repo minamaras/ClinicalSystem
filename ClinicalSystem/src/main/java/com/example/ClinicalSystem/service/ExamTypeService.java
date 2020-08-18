@@ -58,14 +58,13 @@ public class ExamTypeService {
         return isThereExamTypeWithTheSameName(examTypeDTO) || isExamTypePriceNumberGreaterThanZero(examTypeDTO);
     }
 
-    private boolean isExamTypePriceNumberGreaterThanZero(ExamTypeDTO examTypeDTO) {
-        return examTypeDTO.getPrice() >= 0;
-    }
-
     private boolean isThereExamTypeWithTheSameName(ExamTypeDTO examTypeDTO) {
         return findExamTypeByItsName(examTypeDTO.getName()) != null;
     }
-
+    private boolean isExamTypePriceNumberGreaterThanZero(ExamTypeDTO examTypeDTO) {
+        return examTypeDTO.getPrice() >= 0;
+    }
+    
     @Transactional
     public boolean deleteType(ExamTypeDTO examTypeDTO) {
         if(isThereExamTypeWithTheSameName(examTypeDTO)) {
