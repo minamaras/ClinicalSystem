@@ -55,10 +55,7 @@ public class ExamTypeService {
     }
 
     private boolean canNewExamTypeBeCreated(ExamTypeDTO examTypeDTO) {
-        if(isThereExamTypeWithTheSameName(examTypeDTO) || isExamTypePriceNumberGreaterThanZero(examTypeDTO)) {
-            return true;
-        }
-        return false;
+        return isThereExamTypeWithTheSameName(examTypeDTO) || isExamTypePriceNumberGreaterThanZero(examTypeDTO);
     }
 
     private boolean isExamTypePriceNumberGreaterThanZero(ExamTypeDTO examTypeDTO) {
