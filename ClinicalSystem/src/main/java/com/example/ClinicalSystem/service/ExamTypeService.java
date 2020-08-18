@@ -48,8 +48,7 @@ public class ExamTypeService {
     public boolean saveExamType(ExamTypeDTO examTypeDTO) {
         if (canNewExamTypeBeCreated(examTypeDTO)) return false;
 
-        ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
-
+        ExamType examType = convertToExamTypeModelFromDto(examTypeDTO);
         examTypeRepository.save(examType);
         return true;
     }
@@ -70,7 +69,8 @@ public class ExamTypeService {
         if (!isThereExamTypeWithTheSameName(examTypeDTO)) {
             return  false;
         }
-        ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
+
+        ExamType examType = convertToExamTypeModelFromDto(examTypeDTO);
 
         if(examType.getExams().isEmpty()) {
             List<OR> rooms = operationRoomService.findAllRoomsModel();
@@ -84,6 +84,10 @@ public class ExamTypeService {
             return true;
         }
         return false;
+    }
+
+    private ExamType convertToExamTypeModelFromDto(ExamTypeDTO examTypeDTO) {
+        return modelMapper.map(examTypeDTO, ExamType.class);
     }
 
     public ExamType updateType(ExamType examType) {
