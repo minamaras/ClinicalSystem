@@ -69,7 +69,7 @@ public class ExamTypeController {
        if(examTypeDTO.getPrice() >= 0)
            examType.setPrice(examTypeDTO.getPrice());
 
-       examTypeService.updateType(examType);
+       examTypeService.updateExistingExamType(examType);
 
        return new ResponseEntity<>(modelMapper.map(examType, ExamTypeDTO.class), HttpStatus.OK);
     }

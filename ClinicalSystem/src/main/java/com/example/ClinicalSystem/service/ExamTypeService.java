@@ -57,6 +57,10 @@ public class ExamTypeService {
         return isThereExamTypeWithTheSameName(examTypeDTO) || isExamTypePriceNumberGreaterThanZero(examTypeDTO);
     }
 
+    private ExamType convertToExamTypeModelFromDto(ExamTypeDTO examTypeDTO) {
+        return modelMapper.map(examTypeDTO, ExamType.class);
+    }
+
     private boolean isThereExamTypeWithTheSameName(ExamTypeDTO examTypeDTO) {
         return findExamTypeByItsName(examTypeDTO.getName()) != null;
     }
@@ -79,6 +83,10 @@ public class ExamTypeService {
         return true;
     }
 
+    private boolean doesExamTypeHaveAnyScheduledExams(ExamType examType) {
+        return examType.getExams().isEmpty();
+    }
+
     private void removeExamTypeFromAssociatedRooms(ExamType examType) {
         List<OR> allRoomsInAClinic = operationRoomService.findAllRoomsModel();
 
@@ -92,15 +100,7 @@ public class ExamTypeService {
         return room.getExamType().getName().equals(examType.getName());
     }
 
-    private boolean doesExamTypeHaveAnyScheduledExams(ExamType examType) {
-        return examType.getExams().isEmpty();
-    }
-
-    private ExamType convertToExamTypeModelFromDto(ExamTypeDTO examTypeDTO) {
-        return modelMapper.map(examTypeDTO, ExamType.class);
-    }
-
-    public ExamType updateType(ExamType examType) {
+    public ExamType updateExistingExamType(ExamType examType) {
         return examTypeRepository.save(examType);
     }
 }
