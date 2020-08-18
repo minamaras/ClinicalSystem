@@ -29,7 +29,7 @@ public class ExamTypeController {
     @PreAuthorize("hasAnyAuthority('CLINICADMIN','PATIENT')")
     public ResponseEntity<List<ExamTypeDTO>> getAllTypes() {
 
-        List<ExamTypeDTO> examDtos = examTypeService.findAll();
+        List<ExamTypeDTO> examDtos = examTypeService.findAllExamTypes();
 
         return new ResponseEntity<>(examDtos, HttpStatus.OK);
     }

@@ -28,15 +28,15 @@ public class ExamTypeService {
     @Autowired
     private DoctorRepository doctorRepository;
 
-    public List<ExamTypeDTO> findAll() {
-        List<ExamType> exams = examTypeRepository.findAll();
+    public List<ExamTypeDTO> findAllExamTypes() {
+        List<ExamType> allExamTypes = examTypeRepository.findAll();
 
-        List<ExamTypeDTO> examTypeDTOS = new ArrayList<>();
-        for (ExamType e : exams) {
-            examTypeDTOS.add(new ExamTypeDTO(e));
+        List<ExamTypeDTO> allExamTypesDtos = new ArrayList<>();
+        for (ExamType examType : allExamTypes) {
+            allExamTypesDtos.add(new ExamTypeDTO(examType));
         }
 
-        return examTypeDTOS;
+        return allExamTypesDtos;
     }
 
     public ExamType findOne(String name) {
