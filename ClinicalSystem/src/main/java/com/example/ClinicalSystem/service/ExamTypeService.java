@@ -31,11 +31,13 @@ public class ExamTypeService {
     public List<ExamTypeDTO> findAllExamTypes() {
         List<ExamType> allExamTypes = examTypeRepository.findAll();
 
-        List<ExamTypeDTO> allExamTypesDtos = new ArrayList<>();
-        for (ExamType examType : allExamTypes) {
-            allExamTypesDtos.add(new ExamTypeDTO(examType));
-        }
+        List<ExamTypeDTO> allExamTypesDtos = convertToExamTypeDtoFromExamTypeModel(allExamTypes);
+        return allExamTypesDtos;
+    }
 
+    private List<ExamTypeDTO> convertToExamTypeDtoFromExamTypeModel(List<ExamType> allExamTypes) {
+        List<ExamTypeDTO> allExamTypesDtos = new ArrayList<>();
+        for (ExamType examType : allExamTypes) allExamTypesDtos.add(new ExamTypeDTO(examType));
         return allExamTypesDtos;
     }
 
