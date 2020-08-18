@@ -73,15 +73,20 @@ public class ExamTypeService {
         ExamType examType = convertToExamTypeModelFromDto(examTypeDTO);
 
         if (doesExamTypeHaveAnyScheduledExams(examType)) return false;
-        List<OR> rooms = operationRoomService.findAllRoomsModel();
 
-        for(OR r : rooms) {
-            if(r.getExamType().getName().equals(examType.getName()))
-                operationRoomService.removeOR(r);
-        }
+        removeExamTypeFromAssociatedRooms(examType);
 
         examTypeRepository.deleteByName(examType.getName());
         return true;
+    }
+
+    private void removeExamTypeFromAssociatedRooms(ExamType examType) {
+        List<OR> allRoomsInAClinic = operationRoomService.findAllRoomsModel();
+
+        for(OR room : allRoomsInAClinic) {
+            if(room.getExamType().getName().equals(examType.getName()))
+                operationRoomService.removeOR(room);
+        }
     }
 
     private boolean doesExamTypeHaveAnyScheduledExams(ExamType examType) {
