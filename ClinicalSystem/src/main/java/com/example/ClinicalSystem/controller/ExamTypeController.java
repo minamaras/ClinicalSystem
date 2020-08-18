@@ -38,7 +38,7 @@ public class ExamTypeController {
     @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<ExamTypeDTO> saveType(@RequestBody ExamTypeDTO examTypeDTO) {
 
-        if(examTypeService.saveType(examTypeDTO)) {
+        if(examTypeService.saveExamType(examTypeDTO)) {
             return new ResponseEntity<>(examTypeDTO, HttpStatus.CREATED);
         }
 
@@ -49,7 +49,7 @@ public class ExamTypeController {
     @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<Void> deleteType(@RequestBody ExamTypeDTO examTypeDTO) {
 
-        if(examTypeService.deleteType(examTypeDTO)) {
+        if(examTypeService.deleteExamType(examTypeDTO)) {
 
             return new ResponseEntity<>(HttpStatus.OK);
         }

@@ -64,26 +64,26 @@ public class ExamTypeService {
     private boolean isExamTypePriceNumberGreaterThanZero(ExamTypeDTO examTypeDTO) {
         return examTypeDTO.getPrice() >= 0;
     }
-    
+
     @Transactional
-    public boolean deleteType(ExamTypeDTO examTypeDTO) {
-        if(isThereExamTypeWithTheSameName(examTypeDTO)) {
-            ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
-
-            if(examType.getExams().isEmpty()) {
-                List<OR> rooms = operationRoomService.findAllRoomsModel();
-
-                for(OR r : rooms) {
-                    if(r.getExamType().getName().equals(examType.getName()))
-                        operationRoomService.removeOR(r);
-                }
-
-                examTypeRepository.deleteByName(examType.getName());
-                return true;
-            }
-            return false;
+    public boolean deleteExamType(ExamTypeDTO examTypeDTO) {
+        if (!isThereExamTypeWithTheSameName(examTypeDTO)) {
+            return  false;
         }
-        return  false;
+        ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
+
+        if(examType.getExams().isEmpty()) {
+            List<OR> rooms = operationRoomService.findAllRoomsModel();
+
+            for(OR r : rooms) {
+                if(r.getExamType().getName().equals(examType.getName()))
+                    operationRoomService.removeOR(r);
+            }
+
+            examTypeRepository.deleteByName(examType.getName());
+            return true;
+        }
+        return false;
     }
 
     public ExamType updateType(ExamType examType) {
