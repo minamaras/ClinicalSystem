@@ -122,7 +122,7 @@ public class AppointmentRequestService {
             appointmentRequest.setStart(finaldate);
 
             String decoded = URLDecoder.decode(appointmentRequestDTO.getExamTypeName(), "UTF-8");
-            ExamType examType = examTypeService.findOne(decoded);
+            ExamType examType = examTypeService.findExamTypeByItsName(decoded);
             if (examType != null) {
                 appointmentRequest.setType(examType);
                 java.sql.Time startTime = java.sql.Time.valueOf(appointmentRequest.getStartTime().toString());

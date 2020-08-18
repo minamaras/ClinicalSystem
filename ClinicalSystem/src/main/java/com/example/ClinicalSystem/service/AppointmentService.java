@@ -138,7 +138,7 @@ public class AppointmentService {
         Appointment appointment = new Appointment();
 
         Doctor doctor = doctorService.findDoctorByEmail(appointmentDTO.getDoctorEmail());
-        ExamType examType = examTypeService.findOne(appointmentDTO.getExamTypeName());
+        ExamType examType = examTypeService.findExamTypeByItsName(appointmentDTO.getExamTypeName());
         OR operationRoom = operationRoomService.findOne(appointmentDTO.getRoomNumber());
 
         appointment.setDoctor(doctor);
@@ -386,7 +386,7 @@ public class AppointmentService {
 
         //DoctorDTO doctorDTO = modelMapper.map(doctor, DoctorDTO.class);
         DoctorDTO doctorDTO = new DoctorDTO(doctor);
-        ExamType examType = examTypeService.findOne(doctor.getExamType().getName());
+        ExamType examType = examTypeService.findExamTypeByItsName(doctor.getExamType().getName());
         ExamTypeDTO examTypeDTO = new ExamTypeDTO(examType);
         doctorDTO.setExamType(examTypeDTO);
 

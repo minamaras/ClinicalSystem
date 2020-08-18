@@ -101,7 +101,7 @@ public class DoctorService {
 		Clinic clinic = getClinicFromLoggedInClinicAdmin(p);
 		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
 
-		ExamType examTypeThatDoctorProvides = examTypeService.findOne(doctorDto.getExamType().getName());
+		ExamType examTypeThatDoctorProvides = examTypeService.findExamTypeByItsName(doctorDto.getExamType().getName());
 		doctor.setExamType(examTypeThatDoctorProvides);
 
 		setUpNewDoctor(doctor);
@@ -119,7 +119,7 @@ public class DoctorService {
 
 	private void setExamTypeForDoctor(Doctor doctor) {
 		ExamType examTypeThatDoctorProvides = examTypeService
-				.findOne(modelMapper.map(doctor, DoctorDTO.class)
+				.findExamTypeByItsName(modelMapper.map(doctor, DoctorDTO.class)
 						.getExamType()
 						.getName());
 

@@ -61,10 +61,10 @@ public class ExamTypeController {
     @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<ExamTypeDTO> updateType(@RequestBody ExamTypeDTO examTypeDTO) {
 
-       if(examTypeService.findOne(examTypeDTO.getName()) == null)
+       if(examTypeService.findExamTypeByItsName(examTypeDTO.getName()) == null)
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-       ExamType examType = examTypeService.findOne(examTypeDTO.getName());
+       ExamType examType = examTypeService.findExamTypeByItsName(examTypeDTO.getName());
 
        if(examTypeDTO.getPrice() >= 0)
            examType.setPrice(examTypeDTO.getPrice());

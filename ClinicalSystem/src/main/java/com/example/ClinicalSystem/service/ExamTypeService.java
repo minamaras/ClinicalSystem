@@ -41,12 +41,12 @@ public class ExamTypeService {
         return allExamTypesDtos;
     }
 
-    public ExamType findOne(String name) {
+    public ExamType findExamTypeByItsName(String name) {
         return examTypeRepository.findByName(name);
     }
 
     public boolean saveType(ExamTypeDTO examTypeDTO) {
-        if((findOne(examTypeDTO.getName()) != null) || examTypeDTO.getPrice() <= 0) {
+        if((findExamTypeByItsName(examTypeDTO.getName()) != null) || examTypeDTO.getPrice() <= 0) {
             return false;
         }
 
@@ -58,7 +58,7 @@ public class ExamTypeService {
 
     @Transactional
     public boolean deleteType(ExamTypeDTO examTypeDTO) {
-        if(findOne(examTypeDTO.getName()) != null) {
+        if(findExamTypeByItsName(examTypeDTO.getName()) != null) {
             ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
 
             if(examType.getExams().isEmpty()) {

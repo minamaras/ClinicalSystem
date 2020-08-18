@@ -83,7 +83,7 @@ public class OperationRoomService {
             roomDto.setClinicid(clinic.getId());
         }
 
-        ExamType  examType = examTypeService.findOne(roomDto.getExamType().getName());
+        ExamType  examType = examTypeService.findExamTypeByItsName(roomDto.getExamType().getName());
         room.setExamType(examType);
         ExamTypeDTO examTypeDTO = modelMapper.map(examType, ExamTypeDTO.class);
         roomDto.setExamType(examTypeDTO);
