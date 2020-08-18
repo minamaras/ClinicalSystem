@@ -21,18 +21,14 @@ public class ExamTypeService {
 
     @Autowired
     private ExamTypeRepository examTypeRepository;
-
     @Autowired
     private ModelMapper modelMapper;
-
     @Autowired
     private OperationRoomService operationRoomService;
-
     @Autowired
     private DoctorRepository doctorRepository;
 
     public List<ExamTypeDTO> findAll() {
-
         List<ExamType> exams = examTypeRepository.findAll();
 
         List<ExamTypeDTO> examTypeDTOS = new ArrayList<>();
@@ -48,7 +44,6 @@ public class ExamTypeService {
     }
 
     public boolean saveType(ExamTypeDTO examTypeDTO) {
-
         if((findOne(examTypeDTO.getName()) != null) || examTypeDTO.getPrice() <= 0) {
             return false;
         }
@@ -56,21 +51,15 @@ public class ExamTypeService {
         ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
 
         examTypeRepository.save(examType);
-
-
         return true;
-
     }
 
     @Transactional
     public boolean deleteType(ExamTypeDTO examTypeDTO) {
-
         if(findOne(examTypeDTO.getName()) != null) {
-
             ExamType examType = modelMapper.map(examTypeDTO, ExamType.class);
 
             if(examType.getExams().isEmpty()) {
-
                 List<OR> rooms = operationRoomService.findAllRoomsModel();
 
                 for(OR r : rooms) {
@@ -81,17 +70,12 @@ public class ExamTypeService {
                 examTypeRepository.deleteByName(examType.getName());
                 return true;
             }
-
             return false;
         }
-
         return  false;
     }
 
     public ExamType updateType(ExamType examType) {
-
         return examTypeRepository.save(examType);
     }
 }
-
-

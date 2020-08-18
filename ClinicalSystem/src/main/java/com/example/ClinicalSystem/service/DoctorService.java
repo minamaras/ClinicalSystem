@@ -161,7 +161,6 @@ public class DoctorService {
 
 		removeDoctorFromClinic(doctor);
 		doctorRepository.delete(doctor);
-
 		return true;
 	}
 
