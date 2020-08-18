@@ -41,8 +41,8 @@ public class ExamTypeService {
         return allExamTypesDtos;
     }
 
-    public ExamType findExamTypeByItsName(String name) {
-        return examTypeRepository.findByName(name);
+    public ExamType findExamTypeByItsName(String examTypeName) {
+        return examTypeRepository.findByName(examTypeName);
     }
 
     public boolean saveType(ExamTypeDTO examTypeDTO) {
