@@ -33,15 +33,15 @@ public class ClinicAdminService {
 		List<ClinicAdmin> allClinicAdmins = clinicAdminRepository.findAll();
 
 		List<ClinicAdminDTO> clinicAdminsDto = new ArrayList<>();
-		for (ClinicAdmin clinicAdmin : allClinicAdmins) {
-			clinicAdminsDto.add(convertClinicAdminFromModelToDto(clinicAdmin));
-		}
-		
+
+		convertClinicAdminsFromModelToDto(allClinicAdmins, clinicAdminsDto);
 		return clinicAdminsDto;
 	}
 
-	private ClinicAdminDTO convertClinicAdminFromModelToDto(ClinicAdmin clinicAdmin) {
-		return modelMapper.map(clinicAdmin, ClinicAdminDTO.class);
+	private void convertClinicAdminsFromModelToDto(List<ClinicAdmin> allClinicAdmins, List<ClinicAdminDTO> clinicAdminsDto) {
+		for (ClinicAdmin clinicAdmin : allClinicAdmins) {
+			clinicAdminsDto.add(modelMapper.map(clinicAdmin,ClinicAdminDTO.class));
+		}
 	}
 
 	public List<ClinicAdminDTO> findAvailableAdmins() {
@@ -51,7 +51,7 @@ public class ClinicAdminService {
 
 		for (ClinicAdmin c : clinicAdmins) {
 			if(c.getClinic() == null) {
-				clinicAdminsDTO.add(convertClinicAdminFromModelToDto(c));
+				clinicAdminsDTO.add(modelMapper.map(c,ClinicAdminDTO.class));
 			}
 		}
 
