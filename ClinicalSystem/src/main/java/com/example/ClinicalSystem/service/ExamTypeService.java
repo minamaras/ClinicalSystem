@@ -65,10 +65,7 @@ public class ExamTypeService {
     private boolean isThereExamTypeWithTheSameName(ExamType examType) {
         return findExamTypeByItsName(examType.getName()) != null;
     }
-    private boolean isExamTypePriceNumberGreaterThanZero(ExamType examType) {
-        return examType.getPrice() >= 0;
-    }
-
+    
     @Transactional
     public boolean deleteExamType(ExamTypeDTO examTypeDTO) {
         ExamType examType = convertToExamTypeModelFromDto(examTypeDTO);
