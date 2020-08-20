@@ -70,8 +70,8 @@ public class AppointmentRequestServiceUnitTest {
         doctor1.setSpecialization("Zubar");
         Time stime1 = Time.valueOf("13:00:00");
         Time etime1 = Time.valueOf("20:00:00");
-        doctor1.setStart(stime1);
-        doctor1.setEnd(etime1);
+        doctor1.getWorkingHours().setStart(stime1);
+        doctor1.getWorkingHours().setEnd(etime1);
 
         Doctor doctor2 = new Doctor();
         doctor2.setName("Jelena");
@@ -81,8 +81,8 @@ public class AppointmentRequestServiceUnitTest {
         doctor2.setSpecialization("Stomatolog");
         Time stime2 = Time.valueOf("10:00:00");
         Time etime2 = Time.valueOf("20:00:00");
-        doctor2.setStart(stime2);
-        doctor2.setEnd(etime2);
+        doctor2.getWorkingHours().setStart(stime2);
+        doctor2.getWorkingHours().setEnd(etime2);
 
         Date examDate = Date.valueOf("2020-03-05");
         Time examStart = Time.valueOf("14:00:00");

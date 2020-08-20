@@ -259,8 +259,8 @@ public class ClinicService {
 								}
 
 								DateFormat format = new SimpleDateFormat("HH:mm:ss");
-								String starttime = format.format(d.getStart().getTime());
-								String endtime = format.format(d.getEnd().getTime());
+								String starttime = format.format(d.getWorkingHours().getStart().getTime());
+								String endtime = format.format(d.getWorkingHours().getEnd().getTime());
 
 								LocalTime Dtimestart = new LocalTime(starttime);
 								LocalTime Dtimeend = new LocalTime(endtime);
@@ -502,8 +502,8 @@ public class ClinicService {
 				for(Doctor d : c.getDoctors()) {
 					if (d.getExamType().getName().equals(filter.getExamtype())) {
 
-						LocalTime Dtimestart = new LocalTime(d.getStart());
-						LocalTime Dtimeend = new LocalTime(d.getEnd());
+						LocalTime Dtimestart = new LocalTime(d.getWorkingHours().getStart());
+						LocalTime Dtimeend = new LocalTime(d.getWorkingHours().getEnd());
 
 						if ((Dtimestart.isBefore(filter.getStartAppointmentFilter()) || Dtimestart.isEqual(filter.getStartAppointmentFilter())) && (Dtimeend.isAfter(filter.getStartAppointmentFilter()))) {
 							if(d.getAppointments().size() == 0){

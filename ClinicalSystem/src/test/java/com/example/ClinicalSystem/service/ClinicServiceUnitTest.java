@@ -86,8 +86,8 @@ public class ClinicServiceUnitTest {
         Long workEnd = Time.valueOf("20:00:00").getTime();
 
 
-        doctor2.setStart(new Time(workStart));
-        doctor2.setEnd(new Time(workEnd));
+        doctor2.getWorkingHours().setStart(new Time(workStart));
+        doctor2.getWorkingHours().setEnd(new Time(workEnd));
         Set<Holiday> holidays1 = new HashSet<>();
         doctor2.setHolidays(holidays1);
 
@@ -143,8 +143,8 @@ public class ClinicServiceUnitTest {
         Long workEnd1 = Time.valueOf("20:00:00").getTime();
 
 
-        doctor3.setStart(new Time(workStart1));
-        doctor3.setEnd(new Time(workEnd1));
+        doctor3.getWorkingHours().setStart(new Time(workStart1));
+        doctor3.getWorkingHours().setEnd(new Time(workEnd1));
         Set<Holiday> holidays2 = new HashSet<>();
         doctor3.setHolidays(holidays2);
 
@@ -227,8 +227,8 @@ public class ClinicServiceUnitTest {
         Long workEnd3 = Time.valueOf("20:00:00").getTime();
 
 
-        doctor4.setStart(new Time(workStart3));
-        doctor4.setEnd(new Time(workEnd3));
+        doctor4.getWorkingHours().setStart(new Time(workStart3));
+        doctor4.getWorkingHours().setEnd(new Time(workEnd3));
         Set<Holiday> holidays4 = new HashSet<>();
         doctor4.setHolidays(holidays4);
 

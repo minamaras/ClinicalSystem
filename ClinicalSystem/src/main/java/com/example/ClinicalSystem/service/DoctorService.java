@@ -126,11 +126,6 @@ public class DoctorService {
 		doctor.setExamType(examTypeThatDoctorProvides);
 	}
 
-	private boolean checkDoctorWorkingHours(Doctor doctor) {
-		return doctor.getStart().compareTo(doctor.getEnd()) > 0 ||
-				doctor.getStart().compareTo(doctor.getEnd()) == 0;
-	}
-
 	private void addDoctorToClinic(Doctor doctor, Clinic clinic) {
 		if(clinic != null) {
 			doctor.setClinic(clinic);
@@ -194,8 +189,8 @@ public class DoctorService {
 			DoctorDTO doctorDTO = new DoctorDTO();
 			doctorDTO.setName(doctor.getName());
 			doctorDTO.setLastname(doctor.getLastname());
-			doctorDTO.setStart(doctor.getStart());
-			doctorDTO.setEnd(doctor.getEnd());
+			doctorDTO.setStart(doctor.getWorkingHours().getStart());
+			doctorDTO.setEnd(doctor.getWorkingHours().getEnd());
 			doctorDTO.setId(doctor.getId());
 			doctorDTO.setEmail(doctor.getEmail());
 			doctorDTO.setSpecialization(doctor.getSpecialization());
@@ -393,8 +388,8 @@ public class DoctorService {
 			}
 
 			//provera za radno vreme
-			LocalTime startWork = doctor.getStart().toLocalTime();
-			LocalTime endWork = doctor.getEnd().toLocalTime();
+			LocalTime startWork = doctor.getWorkingHours().getStart().toLocalTime();
+			LocalTime endWork = doctor.getWorkingHours().getEnd().toLocalTime();
 
 			if((finalStartTime.compareTo(startWork) < 0) || (finalEndTime.compareTo(endWork) > 0)){
 				isAvailable = false;

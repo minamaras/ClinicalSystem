@@ -35,7 +35,7 @@ public class DoctorDTO {
     }
 
     public DoctorDTO(Doctor d) {
-        this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getStart(), d.getEnd(), d.isFirstLogin());
+        this(d.getId(), d.getName(), d.getLastname(), d.getEmail(), d.getPassword(), d.getRole(), d.getSpecialization(), d.getWorkingHours().getStart(), d.getWorkingHours().getEnd(), d.isFirstLogin());
     }
 
 
