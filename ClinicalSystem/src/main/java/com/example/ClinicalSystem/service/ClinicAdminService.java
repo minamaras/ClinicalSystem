@@ -29,15 +29,19 @@ public class ClinicAdminService {
 	@Autowired
 	private UserService userService;
 
-	public List<ClinicAdminDTO> findAll() {
-		List<ClinicAdmin> clinicAdmins = clinicAdminRepository.findAll();
+	public List<ClinicAdminDTO> findAllClinicAdmins() {
+		List<ClinicAdmin> allClinicAdmins = clinicAdminRepository.findAll();
 
-		List<ClinicAdminDTO> clinicAdminsDTO = new ArrayList<>();
-		for (ClinicAdmin c : clinicAdmins) {
-			clinicAdminsDTO.add(modelMapper.map(c,ClinicAdminDTO.class));
+		List<ClinicAdminDTO> clinicAdminsDto = new ArrayList<>();
+		for (ClinicAdmin clinicAdmin : allClinicAdmins) {
+			clinicAdminsDto.add(convertClinicAdminFromModelToDto(clinicAdmin));
 		}
 		
-		return clinicAdminsDTO;
+		return clinicAdminsDto;
+	}
+
+	private ClinicAdminDTO convertClinicAdminFromModelToDto(ClinicAdmin clinicAdmin) {
+		return modelMapper.map(clinicAdmin, ClinicAdminDTO.class);
 	}
 
 	public List<ClinicAdminDTO> findAvailableAdmins() {
@@ -47,7 +51,7 @@ public class ClinicAdminService {
 
 		for (ClinicAdmin c : clinicAdmins) {
 			if(c.getClinic() == null) {
-				clinicAdminsDTO.add(modelMapper.map(c,ClinicAdminDTO.class));
+				clinicAdminsDTO.add(convertClinicAdminFromModelToDto(c));
 			}
 		}
 

@@ -50,7 +50,7 @@ public class ClinicAdminController {
 	@PreAuthorize("hasAnyAuthority('CLINICADMIN','CLINICALCENTREADMIN')")
 	public ResponseEntity<List<ClinicAdminDTO>> getAllClinicAdmins() {
 
-		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.findAll();
+		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.findAllClinicAdmins();
 
 		return new ResponseEntity<>(clinicAdmins, HttpStatus.OK);
 	}
