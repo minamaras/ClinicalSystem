@@ -97,6 +97,10 @@ public class Doctor extends User {
 		}
 	}
 
+	public void removeFromClinic() {
+		this.clinic.getDoctors().remove(this);
+	}
+
 	public ClinicAdmin getClinicAdmin() {
 		return clinicAdmin;
 	}
