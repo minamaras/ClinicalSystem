@@ -10,7 +10,6 @@ import com.example.ClinicalSystem.repository.ExamTypeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.print.Doc;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
