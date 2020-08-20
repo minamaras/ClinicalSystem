@@ -145,15 +145,11 @@ public class DoctorService {
 
 	@Transactional
     public boolean removeDoctor(Doctor doctor) {
-		if (!canDoctorBeRemoved(doctor)) return false;
+		if (!doctor.canBeRemoved()) return false;
 
 		doctor.removeFromClinic();
 		doctorRepository.delete(doctor);
 		return true;
-	}
-
-	private boolean canDoctorBeRemoved(Doctor doctor) {
-		return doctor.getAppointments().size() > 0 ? false : true;
 	}
 
 	public Doctor findDoctorByEmail(String email) {

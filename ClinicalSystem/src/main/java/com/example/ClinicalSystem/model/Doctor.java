@@ -101,6 +101,10 @@ public class Doctor extends User {
 		this.clinic.getDoctors().remove(this);
 	}
 
+	public boolean canBeRemoved() {
+		return this.getAppointments().size() > 0 ? false : true;
+	}
+
 	public ClinicAdmin getClinicAdmin() {
 		return clinicAdmin;
 	}
