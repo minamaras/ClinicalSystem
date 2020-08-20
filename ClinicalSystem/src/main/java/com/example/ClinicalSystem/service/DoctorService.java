@@ -105,7 +105,7 @@ public class DoctorService {
 		doctor.setExamType(examTypeThatDoctorProvides);
 
 		setUpNewDoctor(doctor);
-		addDoctorToClinic(doctor, clinic);
+		doctor.addToClinic(clinic);
 
 		return doctorRepository.save(doctor);
 	}
@@ -124,13 +124,6 @@ public class DoctorService {
 						.getName());
 
 		doctor.setExamType(examTypeThatDoctorProvides);
-	}
-
-	private void addDoctorToClinic(Doctor doctor, Clinic clinic) {
-		if(clinic != null) {
-			doctor.setClinic(clinic);
-			clinic.getDoctors().add(doctor);
-		}
 	}
 
 	private Clinic getClinicFromLoggedInClinicAdmin(Principal p) {

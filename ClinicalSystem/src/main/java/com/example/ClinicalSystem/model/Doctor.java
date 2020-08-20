@@ -89,6 +89,13 @@ public class Doctor extends User {
 				this.getWorkingHours().getStart().compareTo(this.getWorkingHours().getEnd()) == 0;
 	}
 
+	public void addToClinic(Clinic clinic) {
+		if(clinic != null) {
+			this.setClinic(clinic);
+			clinic.getDoctors().add(this);
+		}
+	}
+
 	public ClinicAdmin getClinicAdmin() {
 		return clinicAdmin;
 	}
