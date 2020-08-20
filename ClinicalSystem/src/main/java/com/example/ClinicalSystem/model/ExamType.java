@@ -47,6 +47,10 @@ public class ExamType {
         return room.getExamType().getName().equals(this.getName());
     }
 
+    public boolean isExamTypePriceNumberGreaterThanZero() {
+        return this.getPrice() >= 0;
+    }
+
     public Long getId() {
         return id;
     }

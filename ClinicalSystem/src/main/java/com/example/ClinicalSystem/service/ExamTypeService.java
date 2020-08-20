@@ -46,35 +46,36 @@ public class ExamTypeService {
     }
 
     public boolean saveExamType(ExamTypeDTO examTypeDTO) {
-        if (canNewExamTypeBeCreated(examTypeDTO)) return false;
-
         ExamType examType = convertToExamTypeModelFromDto(examTypeDTO);
+
+        if (canNewExamTypeBeCreated(examType)) return false;
+
         examTypeRepository.save(examType);
         return true;
     }
 
-    private boolean canNewExamTypeBeCreated(ExamTypeDTO examTypeDTO) {
-        return isThereExamTypeWithTheSameName(examTypeDTO) || isExamTypePriceNumberGreaterThanZero(examTypeDTO);
+    private boolean canNewExamTypeBeCreated(ExamType examType) {
+        return isThereExamTypeWithTheSameName(examType) || examType.isExamTypePriceNumberGreaterThanZero();
     }
 
     private ExamType convertToExamTypeModelFromDto(ExamTypeDTO examTypeDTO) {
         return modelMapper.map(examTypeDTO, ExamType.class);
     }
 
-    private boolean isThereExamTypeWithTheSameName(ExamTypeDTO examTypeDTO) {
-        return findExamTypeByItsName(examTypeDTO.getName()) != null;
+    private boolean isThereExamTypeWithTheSameName(ExamType examType) {
+        return findExamTypeByItsName(examType.getName()) != null;
     }
-    private boolean isExamTypePriceNumberGreaterThanZero(ExamTypeDTO examTypeDTO) {
-        return examTypeDTO.getPrice() >= 0;
+    private boolean isExamTypePriceNumberGreaterThanZero(ExamType examType) {
+        return examType.getPrice() >= 0;
     }
 
     @Transactional
     public boolean deleteExamType(ExamTypeDTO examTypeDTO) {
-        if (!isThereExamTypeWithTheSameName(examTypeDTO)) {
+        ExamType examType = convertToExamTypeModelFromDto(examTypeDTO);
+
+        if (!isThereExamTypeWithTheSameName(examType)) {
             return  false;
         }
-
-        ExamType examType = convertToExamTypeModelFromDto(examTypeDTO);
 
         if (examType.doesExamTypeHaveAnyScheduledAppointments()) return false;
 
