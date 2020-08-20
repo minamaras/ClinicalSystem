@@ -87,13 +87,9 @@ public class ExamTypeService {
         List<OR> allRoomsInAClinic = operationRoomService.findAllRoomsModel();
 
         for(OR room : allRoomsInAClinic) {
-            if(roomIsAssociatedWithExamType(examType, room))
+            if(examType.examTypeIsAssociatedWithRoom(room))
                 operationRoomService.removeOR(room);
         }
-    }
-
-    private boolean roomIsAssociatedWithExamType(ExamType examType, OR room) {
-        return room.getExamType().getName().equals(examType.getName());
     }
 
     public ExamType updateExistingExamType(ExamType examType) {
