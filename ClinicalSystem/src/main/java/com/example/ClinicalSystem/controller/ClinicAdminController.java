@@ -59,7 +59,7 @@ public class ClinicAdminController {
 	@PreAuthorize("hasAnyAuthority('CLINICADMIN','CLINICALCENTREADMIN')")
 	public ResponseEntity<List<ClinicAdminDTO>> getAvailableAdmins() {
 
-		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.allCurrentlyAvailableAdmins();
+		List<ClinicAdminDTO> clinicAdmins = clinicAdminService.allAdminsWithNoAssignedClinic();
 
 		return new ResponseEntity<>(clinicAdmins, HttpStatus.OK);
 	}

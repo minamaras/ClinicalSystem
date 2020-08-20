@@ -44,18 +44,21 @@ public class ClinicAdminService {
 		}
 	}
 
-	public List<ClinicAdminDTO> allCurrentlyAvailableAdmins() {
+	public List<ClinicAdminDTO> allAdminsWithNoAssignedClinic() {
 		List<ClinicAdmin> clinicAdmins = allClinicAdmins();
-
 		List<ClinicAdminDTO> clinicAdminsDTO = new ArrayList<>();
 
-		for (ClinicAdmin c : clinicAdmins) {
-			if(c.getClinic() == null) {
-				clinicAdminsDTO.add(modelMapper.map(c,ClinicAdminDTO.class));
-			}
-		}
-
+		findClinicAdminsWithNoAssignedClinic(clinicAdmins, clinicAdminsDTO);
 		return clinicAdminsDTO;
+	}
+
+	private void findClinicAdminsWithNoAssignedClinic(List<ClinicAdmin> clinicAdmins, List<ClinicAdminDTO> clinicAdminsDTO) {
+		for (ClinicAdmin c : clinicAdmins) {
+			if (c.getClinic() != null) {
+				continue;
+			}
+			clinicAdminsDTO.add(modelMapper.map(c, ClinicAdminDTO.class));
+		}
 	}
 
 	private List<ClinicAdmin> allClinicAdmins() {
