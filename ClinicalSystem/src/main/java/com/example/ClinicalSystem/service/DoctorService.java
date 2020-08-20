@@ -112,7 +112,7 @@ public class DoctorService {
 
 	private void setUpNewDoctor(Doctor doctor) {
 		setExamTypeForDoctor(doctor);
-		checkDoctorWorkingHours(doctor);
+		doctor.checkDoctorWorkingHours();
 		encodePasswordForNewDoctor(doctor);
 		assignAuthorityForDoctor(doctor);
 	}
