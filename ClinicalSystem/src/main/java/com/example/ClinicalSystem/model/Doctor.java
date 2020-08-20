@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Entity
 public class Doctor extends User {
 
-
 	@Column(name = "specialization", nullable = false)
 	private String specialization;
 
@@ -24,7 +23,6 @@ public class Doctor extends User {
 	@ManyToMany
 	@JoinTable(name = "doctor_patient_ratings", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"))
 	private Set<Patient> patientsThatRated = new HashSet<Patient>();
-
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Clinic clinic;
@@ -43,7 +41,6 @@ public class Doctor extends User {
 	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<OperationRequest> operations = new HashSet<OperationRequest>();
 
@@ -53,30 +50,22 @@ public class Doctor extends User {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calendar calendar;
 
-	@Column(name="starttime")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	private Time start;
-
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-	@Column(name="endtime")
-	private Time end;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private WorkingHours workingHours;
 
 	@Column(name = "firstlogin", nullable = false)
 	private boolean firstLogin;
 
-
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Report> reports = new HashSet<Report>();
-
 
 	public Doctor() {
 		super();
 		this.setRole(Role.DOCTOR);
 		this.firstLogin = true;
-
 	}
 
-	public Doctor(String specialization, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, Time end, Time start, boolean firstLogin) {
+	public Doctor(String specialization, Set<Patient> patients, Clinic clinic, Calendar calendar, Set<MedicalRecord> medicalRecords, boolean firstLogin) {
 		super();
 		this.specialization = specialization;
 		this.patients = patients;
@@ -84,10 +73,7 @@ public class Doctor extends User {
 		this.calendar = calendar;
 		this.medicalRecords = medicalRecords;
 		this.setRole(Role.DOCTOR);
-		this.start = start;
-		this.end = end;
 		this.firstLogin = firstLogin;
-
 	}
 
 	public Doctor(String specialization, String name, String lastname, ExamType examType, String email) {
@@ -98,13 +84,10 @@ public class Doctor extends User {
 		this.examType = examType;
 	}
 
-	/*public Doctor(String specialization, Clinic clinic, Calendar calendar) {
-		super();
-		this.specialization = specialization;
-		this.clinic = clinic;
-		this.calendar = calendar;
-		this.setRole(Role.DOCTOR);
-	}*/
+	public boolean checkDoctorWorkingHours() {
+		return this.getWorkingHours().getStart().compareTo(this.getWorkingHours().getEnd()) > 0 ||
+				this.getWorkingHours().getStart().compareTo(this.getWorkingHours().getEnd()) == 0;
+	}
 
 	public ClinicAdmin getClinicAdmin() {
 		return clinicAdmin;
@@ -170,30 +153,11 @@ public class Doctor extends User {
 		this.calendar = calendar;
 	}
 
-
 	public ExamType getExamType() {
 		return examType;
-
 	}
-	public void setExamType(ExamType examType){
-			this.examType = examType;
-
-		}
-	public Time getStart() {
-		return start;
-	}
-
-	public void setStart(Time start) {
-		this.start = start;
-	}
-
-	public Time getEnd() {
-		return end;
-	}
-
-	public void setEnd(Time end) {
-		this.end = end;
-
+	public void setExamType(ExamType examType) {
+		this.examType = examType;
 	}
 
 	public boolean isFirstLogin() {
@@ -219,6 +183,7 @@ public class Doctor extends User {
 	public void setOperations(Set<OperationRequest> operations) {
 		this.operations = operations;
 	}
+
 	public Set<Patient> getPatientsThatRated() {
 		return patientsThatRated;
 	}
@@ -241,5 +206,13 @@ public class Doctor extends User {
 
 	public void setSingleratings(Set<Rating> singleratings) {
 		this.singleratings = singleratings;
+	}
+
+	public WorkingHours getWorkingHours() {
+		return workingHours;
+	}
+
+	public void setWorkingHours(WorkingHours workingHours) {
+		this.workingHours = workingHours;
 	}
 }
