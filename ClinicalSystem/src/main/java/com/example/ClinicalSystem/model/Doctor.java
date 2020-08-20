@@ -90,6 +90,7 @@ public class Doctor extends User {
 	}
 
 	public void addToClinic(Clinic clinic) {
+		this.clinic = clinic;
 		if(clinic != null) {
 			this.setClinic(clinic);
 			clinic.getDoctors().add(this);
