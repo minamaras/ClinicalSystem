@@ -30,7 +30,7 @@ public class ClinicAdminService {
 	private UserService userService;
 
 	public List<ClinicAdminDTO> findAllClinicAdmins() {
-		List<ClinicAdmin> allClinicAdmins = clinicAdminRepository.findAll();
+		List<ClinicAdmin> allClinicAdmins = allClinicAdmins();
 
 		List<ClinicAdminDTO> clinicAdminsDto = new ArrayList<>();
 
@@ -44,8 +44,8 @@ public class ClinicAdminService {
 		}
 	}
 
-	public List<ClinicAdminDTO> findAvailableAdmins() {
-		List<ClinicAdmin> clinicAdmins = clinicAdminRepository.findAll();
+	public List<ClinicAdminDTO> allCurrentlyAvailableAdmins() {
+		List<ClinicAdmin> clinicAdmins = allClinicAdmins();
 
 		List<ClinicAdminDTO> clinicAdminsDTO = new ArrayList<>();
 
@@ -56,6 +56,10 @@ public class ClinicAdminService {
 		}
 
 		return clinicAdminsDTO;
+	}
+
+	private List<ClinicAdmin> allClinicAdmins() {
+		return clinicAdminRepository.findAll();
 	}
 
 	public boolean save(ClinicAdminDTO clinicAdminDto, String clinicid) {
