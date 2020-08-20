@@ -25,8 +25,6 @@ public class ExamTypeService {
     private ModelMapper modelMapper;
     @Autowired
     private OperationRoomService operationRoomService;
-    @Autowired
-    private DoctorRepository doctorRepository;
 
     public List<ExamTypeDTO> findAllExamTypes() {
         List<ExamType> allExamTypes = examTypeRepository.findAll();
@@ -65,7 +63,7 @@ public class ExamTypeService {
     private boolean isThereExamTypeWithTheSameName(ExamType examType) {
         return findExamTypeByItsName(examType.getName()) != null;
     }
-    
+
     @Transactional
     public boolean deleteExamType(ExamTypeDTO examTypeDTO) {
         ExamType examType = convertToExamTypeModelFromDto(examTypeDTO);
