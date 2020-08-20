@@ -134,7 +134,7 @@ public class AppointmentServiceUnitTest {
 
         doNothing().when(emailService).sendEmailAboutAppointment(user,appointment);
 
-        boolean successful = appointmentService.saveAppointment(appointmentDTO);
+        boolean successful = appointmentService.saveNewAppointment(appointmentDTO);
 
         Assert.assertEquals(true, successful);
 

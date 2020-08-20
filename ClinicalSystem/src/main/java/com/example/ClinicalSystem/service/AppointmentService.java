@@ -45,7 +45,7 @@ public class AppointmentService {
     @Autowired
     private AppointmentRequestService appointmentRequestService;
 
-    public boolean saveAppointment(AppointmentDTO appointmentDTO) throws Exception{
+    public boolean saveNewAppointment(AppointmentDTO appointmentDTO) throws Exception{
 
         if(appointmentRepository.findById(appointmentDTO.getId()) == null){
             return  false;

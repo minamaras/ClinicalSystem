@@ -51,7 +51,7 @@ public class AppointmentController {
     @PreAuthorize("hasAuthority('PATIENT')")
     public ResponseEntity<?> saveAppointment(@RequestBody AppointmentDTO appointmentDTO) throws Exception {
 
-        if (appointmentService.saveAppointment(appointmentDTO)) {
+        if (appointmentService.saveNewAppointment(appointmentDTO)) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

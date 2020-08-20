@@ -16,22 +16,16 @@ import com.example.ClinicalSystem.repository.ClinicAdminRepository;
 @Service
 public class ClinicAdminService {
 
-
 	@Autowired
 	private ClinicAdminRepository clinicAdminRepository;
-	
 	@Autowired 
 	private ModelMapper modelMapper;
-
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-
 	@Autowired
 	private AuthorityService authorityService;
-
 	@Autowired
 	private ClinicService clinicService;
-
 	@Autowired
 	private UserService userService;
 
@@ -95,6 +89,5 @@ public class ClinicAdminService {
 	public ClinicAdmin updateClinicAdmin(ClinicAdmin admin) {
 		return clinicAdminRepository.save(admin);
 	}
-	
 
 }
