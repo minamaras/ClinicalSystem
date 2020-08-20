@@ -26,7 +26,6 @@ public class ExamType {
     @OneToMany
     private Set<OR> rooms = new HashSet<OR>();
 
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Appointment> exams = new HashSet<Appointment>();
 
@@ -40,6 +39,8 @@ public class ExamType {
         this.price = price;
         this.duration = duration;
     }
+
+    public boolean doesExamTypeHaveAnyScheduledAppointments() { return this.getExams().isEmpty();}
 
     public Long getId() {
         return id;

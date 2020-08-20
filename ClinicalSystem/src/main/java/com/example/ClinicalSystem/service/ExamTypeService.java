@@ -76,15 +76,11 @@ public class ExamTypeService {
 
         ExamType examType = convertToExamTypeModelFromDto(examTypeDTO);
 
-        if (doesExamTypeHaveAnyScheduledExams(examType)) return false;
+        if (examType.doesExamTypeHaveAnyScheduledAppointments()) return false;
 
         removeExamTypeFromAssociatedRooms(examType);
         examTypeRepository.deleteByName(examType.getName());
         return true;
-    }
-
-    private boolean doesExamTypeHaveAnyScheduledExams(ExamType examType) {
-        return examType.getExams().isEmpty();
     }
 
     private void removeExamTypeFromAssociatedRooms(ExamType examType) {
