@@ -68,11 +68,9 @@ public class DoctorService {
 	}
 
 	public ArrayList<AppointmentDTO> linkAppointmentsWithDoctor(Doctor doctor) {
-		ArrayList<AppointmentDTO> allDoctorsAppointmentsDto = new ArrayList<>();
-		for (Appointment appointment : doctor.getAppointments()) {
-			AppointmentDTO appointmentDto = modelMapper.map(appointment, AppointmentDTO.class);
-			allDoctorsAppointmentsDto.add(appointmentDto);
-		}
+		ArrayList<AppointmentDTO> allDoctorsAppointmentsDto = doctor.getAppointments()
+				.stream().map(appointment -> modelMapper.map(appointment, AppointmentDTO.class))
+				.collect(Collectors.toCollection(ArrayList::new));
 
 		return allDoctorsAppointmentsDto;
 	}
