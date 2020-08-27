@@ -85,8 +85,7 @@ public class Doctor extends User {
 	}
 
 	public boolean checkDoctorWorkingHours() {
-		return this.getWorkingHours().getStart().compareTo(this.getWorkingHours().getEnd()) > 0 ||
-				this.getWorkingHours().getStart().compareTo(this.getWorkingHours().getEnd()) == 0;
+		return this.getWorkingHours().isDoctorWorking();
 	}
 
 	public void addToClinic(Clinic clinic) {

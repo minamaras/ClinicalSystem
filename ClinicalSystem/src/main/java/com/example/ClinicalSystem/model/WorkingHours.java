@@ -26,6 +26,13 @@ public class WorkingHours {
     @Column(name="endtime")
     private Time end;
 
+    public WorkingHours() {
+    }
+
+    public boolean isDoctorWorking() {
+        return getStart().compareTo(getEnd()) > 0 || getStart().compareTo(getEnd()) == 0;
+    }
+
     public Long getId() {
         return id;
     }
