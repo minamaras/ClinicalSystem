@@ -48,9 +48,7 @@ public class DoctorService {
 	private OperationRequestService operationRequestService;
 
 	public Set<DoctorDTO> findAllDoctorsFromClinic(Principal principal) {
-		ClinicAdmin currentClinicAdmin = getLoggedInClinicAdmin(principal.getName());
-
-		Set<DoctorDTO> doctorsFromClinicToReturn = currentClinicAdmin.getClinic().getDoctors()
+		Set<DoctorDTO> doctorsFromClinicToReturn = getLoggedInClinicAdmin(principal.getName()).getClinic().getDoctors()
 				.stream().map(this::setUpDoctorDtoFromDoctor)
 				.collect(Collectors.toSet());
 
