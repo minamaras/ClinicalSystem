@@ -23,37 +23,18 @@ public class HolidayService {
 
     @Autowired
     private HolidayRepository holidayRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private NurseService nurseService;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private EmailService emailService;
 
-    @Autowired
-    private UserRepository userRepository;
-
 
     @Transactional
-    public List<HolidayDTO> findAll() {
+    public List<Holiday> findAll() {
         List<Holiday> holidays = holidayRepository.findAll();
 
-        List<HolidayDTO> holidaysDTO = new ArrayList<>();
-        for (Holiday h : holidays) {
-            if(h.getHolidayRequestStatus() == HolidayRequestStatus.INPROGRESS)
-            {
-                holidaysDTO.add(new HolidayDTO(h));
-            }
-
-        }
-
-        return holidaysDTO;
+        holidays.removeIf(h -> h.getHolidayRequestStatus() == HolidayRequestStatus.INPROGRESS);
+        return holidays;
     }
 
     public Holiday findOne(String email){
@@ -74,24 +55,14 @@ public class HolidayService {
             }
         }
         holiday.setUser(user);
-        //nurse.getHolidays().add(holiday);
-        //nurseService.updateNurse(nurse);
         holiday.setHolidayRequestStatus(HolidayRequestStatus.INPROGRESS);
         holidayRepository.save(holiday);
 
         return true;
     }
-    /*
-    public Holiday save(HolidayDTO holidayDTO){
-        Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
-        return holidayRepository.save(holiday);
-    }
-
-     */
 
     @Transactional
     public boolean decline(HolidayDTO holidayDTO){
-
         User user = userService.findByUsername(holidayDTO.getEmail());
         try {
             emailService.sendRejectedHolidayAsync(user);
@@ -122,7 +93,6 @@ public class HolidayService {
     }
 
     public boolean confirm(HolidayDTO holidayDTO) {
-
         User user = userService.findByUsername(holidayDTO.getEmail());
 
         if(user != null) {

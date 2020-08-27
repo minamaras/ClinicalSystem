@@ -57,6 +57,10 @@ public class Holiday {
         this.holidayRequestStatus = holidayRequestStatus;
     }
 
+    public boolean isOnHoliday() {
+        return getHolidayRequestStatus() == HolidayRequestStatus.INPROGRESS;
+    }
+
     public Long getId() {
         return id;
     }
