@@ -10,6 +10,7 @@ import java.util.List;
 import com.example.ClinicalSystem.DTO.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.example.ClinicalSystem.model.*;
 import org.modelmapper.ModelMapper;
@@ -49,11 +50,9 @@ public class DoctorService {
 	public Set<DoctorDTO> findAllDoctorsFromClinic(Principal principal) {
 		ClinicAdmin currentClinicAdmin = getLoggedInClinicAdmin(principal.getName());
 
-		Set<DoctorDTO> doctorsFromClinicToReturn = new HashSet<>();
-		for (Doctor doctor : currentClinicAdmin.getClinic().getDoctors()) {
-			DoctorDTO setUpDoctorDto = setUpDoctorDtoFromDoctor(doctor);
-			doctorsFromClinicToReturn.add(setUpDoctorDto);
-		}
+		Set<DoctorDTO> doctorsFromClinicToReturn = currentClinicAdmin.getClinic().getDoctors()
+				.stream().map(this::setUpDoctorDtoFromDoctor)
+				.collect(Collectors.toSet());
 
 		return doctorsFromClinicToReturn;
 	}
