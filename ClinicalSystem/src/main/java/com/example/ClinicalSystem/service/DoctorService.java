@@ -74,11 +74,9 @@ public class DoctorService {
 	}
 
 	public ArrayList<HolidayDTO> linkHolidayWithDoctor(Doctor doctor) {
-		ArrayList<HolidayDTO> doctorsHolidayDto = new ArrayList<>();
-		for (Holiday holiday : doctor.getHolidays()) {
-			HolidayDTO holidayDto= modelMapper.map(holiday, HolidayDTO.class);
-			doctorsHolidayDto.add(holidayDto);
-		}
+		ArrayList<HolidayDTO> doctorsHolidayDto = doctor.getHolidays()
+				.stream().map(holiday -> modelMapper.map(holiday, HolidayDTO.class))
+				.collect(Collectors.toCollection(ArrayList::new));
 
 		return doctorsHolidayDto;
 	}
