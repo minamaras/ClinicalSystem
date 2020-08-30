@@ -40,7 +40,7 @@ public class HolidayService {
         User user = userService.findByUsername(p.getName());
 
         for(Holiday h: user.getHolidays()){
-            if (holiday.checkHolidaySpanValidity(holiday)) return false;
+            if (holiday.checkHolidaySpanValidity(h)) return false;
         }
 
         holiday.setUser(user);
