@@ -87,14 +87,16 @@ public class HolidayService {
     }
 
     public boolean confirm(Holiday holiday) {
-        User user = userService.findByUsername(holiday.getEmail());
-        return user != null && tryToSaveToDatabase(holiday, user);
+        return tryToSaveNewHoliday(holiday, userService.findByUsername(holiday.getEmail())) &&
+                tryToSendConfirmationEmail(userService.findByUsername(holiday.getEmail()));
     }
 
-    private boolean tryToSaveToDatabase(Holiday holiday, User user) {
+    private boolean tryToSaveNewHoliday(Holiday holiday, User user) {
+        if (user == null) return false;
+
         setUpHoliday(holiday, user);
         saveHolidayInfoToDatabase(holiday, user);
-        return !tryToSendConfirmationEmail(user);
+        return true;
     }
 
     private void saveHolidayInfoToDatabase(Holiday holiday, User user) {
@@ -111,8 +113,8 @@ public class HolidayService {
         try {
             emailService.sendConfirmHolidayAsync(user);
         } catch (Exception e) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }
