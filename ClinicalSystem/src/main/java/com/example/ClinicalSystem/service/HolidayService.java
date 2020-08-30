@@ -88,10 +88,7 @@ public class HolidayService {
 
     public boolean confirm(Holiday holiday) {
         User user = userService.findByUsername(holiday.getEmail());
-
-        if (user == null) return  false;
-
-        return tryToSaveToDatabase(holiday, user);
+        return user != null && tryToSaveToDatabase(holiday, user);
     }
 
     private boolean tryToSaveToDatabase(Holiday holiday, User user) {
