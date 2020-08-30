@@ -46,13 +46,13 @@ public class HolidayService {
         }
 
         setUpHolidayRequestInfo(holiday, user);
-        holidayRepository.save(holiday);
         return false;
     }
 
     private void setUpHolidayRequestInfo(Holiday holiday, User user) {
         holiday.setUser(user);
         holiday.setHolidayRequestStatus(HolidayRequestStatus.INPROGRESS);
+        holidayRepository.save(holiday);
     }
 
     @Transactional
