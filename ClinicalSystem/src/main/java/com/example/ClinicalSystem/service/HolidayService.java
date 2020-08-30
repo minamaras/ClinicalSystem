@@ -91,6 +91,10 @@ public class HolidayService {
 
         if (user == null) return  false;
 
+        return tryToSaveToDatabase(holiday, user);
+    }
+
+    private boolean tryToSaveToDatabase(Holiday holiday, User user) {
         setUpHoliday(holiday, user);
         saveHolidayInfoToDatabase(holiday, user);
         return !tryToSendConfirmationEmail(user);
