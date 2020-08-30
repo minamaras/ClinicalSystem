@@ -47,11 +47,7 @@ public class HolidayController {
     public ResponseEntity<?> makeRequest(@RequestBody HolidayDTO holidayDTO, Principal p) {
         Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
 
-        if (holidayService.request(p, holiday)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return holidayService.request(p, holiday) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/confirm")
