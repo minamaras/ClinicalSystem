@@ -28,7 +28,6 @@ public class HolidayService {
     @Autowired
     private EmailService emailService;
 
-
     @Transactional
     public List<Holiday> findAll() {
         List<Holiday> holidays = holidayRepository.findAll();
