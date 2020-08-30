@@ -89,10 +89,8 @@ public class HolidayService {
     public boolean confirm(Holiday holiday) {
         User user = userService.findByUsername(holiday.getEmail());
 
-        if (user == null) {
-            return  false;
-        }
-        
+        if (user == null) return  false;
+
         holiday.setHolidayRequestStatus(HolidayRequestStatus.ACCEPTED);
         holiday.setUser(user);
 
@@ -106,6 +104,5 @@ public class HolidayService {
         }
 
         return  true;
-
     }
 }
