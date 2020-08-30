@@ -57,7 +57,7 @@ public class HolidayService {
 
     @Transactional
     public boolean decline(Holiday holiday){
-        return tryToSendRejectionEmail(userService.findByUsername(holiday.getEmail())) && changeStatusToRejected(holiday);
+        return holiday != null && tryToSendRejectionEmail(userService.findByUsername(holiday.getEmail())) && changeStatusToRejected(holiday);
     }
 
     private boolean tryToSendRejectionEmail(User user) {
@@ -70,10 +70,6 @@ public class HolidayService {
     }
 
     public boolean changeStatusToRejected(Holiday holiday) {
-        if (holiday == null) {
-            return false;
-        }
-
         holiday.setHolidayRequestStatus(HolidayRequestStatus.REJECTED);
         return true;
     }
