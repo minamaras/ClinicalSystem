@@ -64,12 +64,7 @@ public class HolidayService {
             return false;
         }
 
-        if(changeStatusToRejected(holidayDTO.getEmail())){
-            findAll();
-            return true;
-        } else {
-            return false;
-        }
+        return changeStatusToRejected(holidayDTO.getEmail());
     }
 
     public boolean changeStatusToRejected(String email) {
