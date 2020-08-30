@@ -57,17 +57,16 @@ public class HolidayService {
 
     @Transactional
     public boolean decline(HolidayDTO holidayDTO){
-        if (tryToSendRejectionEmail(userService.findByUsername(holidayDTO.getEmail()))) return false;
-        return changeStatusToRejected(holidayDTO.getEmail());
+        return tryToSendRejectionEmail(userService.findByUsername(holidayDTO.getEmail())) && changeStatusToRejected(holidayDTO.getEmail());
     }
 
     private boolean tryToSendRejectionEmail(User user) {
         try {
             emailService.sendRejectedHolidayAsync(user);
         } catch (Exception e) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public boolean changeStatusToRejected(String email) {
