@@ -89,21 +89,23 @@ public class HolidayService {
     public boolean confirm(Holiday holiday) {
         User user = userService.findByUsername(holiday.getEmail());
 
-        if(user != null) {
-            try {
-                emailService.sendConfirmHolidayAsync(user);
-            } catch (Exception e) {
-                return false;
-            }
+        if (user == null) {
+            return  false;
+        }
+        
+        holiday.setHolidayRequestStatus(HolidayRequestStatus.ACCEPTED);
+        holiday.setUser(user);
 
-            holiday.setHolidayRequestStatus(HolidayRequestStatus.ACCEPTED);
-            holiday.setUser(user);
+        holidayRepository.save(holiday);
+        userService.saveHoliday(user, holiday);
 
-            holidayRepository.save(holiday);
-            userService.saveHoliday(user, holiday);
-            return  true;
+        try {
+            emailService.sendConfirmHolidayAsync(user);
+        } catch (Exception e) {
+            return false;
         }
 
-        return  false;
+        return  true;
+
     }
 }
