@@ -39,13 +39,18 @@ public class HolidayService {
     public boolean request(Principal p, Holiday holiday){
         User user = userService.findByUsername(p.getName());
 
+        if (tryToSaveHolidayRequest(holiday, user)) return false;
+        return true;
+    }
+
+    private boolean tryToSaveHolidayRequest(Holiday holiday, User user) {
         for(Holiday h: user.getHolidays()){
-            if (holiday.checkHolidaySpanValidity(h)) return false;
+            if (holiday.checkHolidaySpanValidity(h)) return true;
         }
 
         setUpHolidayRequestInfo(holiday, user);
         holidayRepository.save(holiday);
-        return true;
+        return false;
     }
 
     private void setUpHolidayRequestInfo(Holiday holiday, User user) {
