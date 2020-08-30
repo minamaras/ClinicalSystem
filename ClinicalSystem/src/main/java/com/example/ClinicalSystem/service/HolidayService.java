@@ -41,9 +41,7 @@ public class HolidayService {
         User user = userService.findByUsername(p.getName());
 
         for(Holiday h: user.getHolidays()){
-            if(h.getStart().compareTo(holiday.getStart()) == 0) {
-                return false;
-            }
+            if (checkHolidaySpanValidity(holiday, h)) return false;
         }
 
         holiday.setUser(user);
@@ -51,6 +49,10 @@ public class HolidayService {
 
         holidayRepository.save(holiday);
         return true;
+    }
+
+    private boolean checkHolidaySpanValidity(Holiday holiday, Holiday h) {
+        return h.getStart().compareTo(holiday.getStart()) == 0;
     }
 
     @Transactional
