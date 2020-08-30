@@ -86,8 +86,8 @@ public class HolidayService {
         return true;
     }
 
-    public boolean confirm(HolidayDTO holidayDTO) {
-        User user = userService.findByUsername(holidayDTO.getEmail());
+    public boolean confirm(Holiday holiday) {
+        User user = userService.findByUsername(holiday.getEmail());
 
         if(user != null) {
             try {
@@ -96,16 +96,11 @@ public class HolidayService {
                 return false;
             }
 
-            holidayDTO.setHolidayRequestStatus(HolidayRequestStatus.ACCEPTED);
-            Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
-
+            holiday.setHolidayRequestStatus(HolidayRequestStatus.ACCEPTED);
             holiday.setUser(user);
 
             holidayRepository.save(holiday);
-
             userService.saveHoliday(user, holiday);
-
-            findAll();
             return  true;
         }
 
