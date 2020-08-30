@@ -91,18 +91,30 @@ public class HolidayService {
 
         if (user == null) return  false;
 
-        holiday.setHolidayRequestStatus(HolidayRequestStatus.ACCEPTED);
-        holiday.setUser(user);
+        setUpHoliday(holiday, user);
+        saveHolidayInfoToDatabase(holiday, user);
 
+        if (tryToSendConfirmationEmail(user)) return false;
+
+        return  true;
+    }
+
+    private void saveHolidayInfoToDatabase(Holiday holiday, User user) {
         holidayRepository.save(holiday);
         userService.saveHoliday(user, holiday);
+    }
 
+    private void setUpHoliday(Holiday holiday, User user) {
+        holiday.setHolidayRequestStatus(HolidayRequestStatus.ACCEPTED);
+        holiday.setUser(user);
+    }
+
+    private boolean tryToSendConfirmationEmail(User user) {
         try {
             emailService.sendConfirmHolidayAsync(user);
         } catch (Exception e) {
-            return false;
+            return true;
         }
-
-        return  true;
+        return false;
     }
 }
