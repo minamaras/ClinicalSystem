@@ -78,14 +78,12 @@ public class HolidayService {
     public boolean changeStatusToRejected(String email) {
         Holiday holiday = holidayRepository.findByEmail(email);
 
-        if(holiday != null){
-
-            holiday.setHolidayRequestStatus(HolidayRequestStatus.REJECTED);
-            HolidayDTO holidayDTO = modelMapper.map(holiday, HolidayDTO.class);
-            return true;
+        if (holiday == null) {
+            return false;
         }
 
-        return false;
+        holiday.setHolidayRequestStatus(HolidayRequestStatus.REJECTED);
+        return true;
 
     }
 
