@@ -35,7 +35,7 @@ public class HolidayController {
     public ResponseEntity<?> getAll() {
         List<Holiday> holidays = holidayService.findAll();
         List<HolidayDTO> holidayDTOS = new ArrayList<>();
-        
+
         for (Holiday holiday : holidays)
             holidayDTOS.add(modelMapper.map(holiday, HolidayDTO.class));
 
@@ -45,11 +45,9 @@ public class HolidayController {
     @RequestMapping(method = RequestMethod.POST, value = "/makerequest")
     @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
     public ResponseEntity<?> makeRequest(@RequestBody HolidayDTO holidayDTO, Principal p) {
-
-        boolean isApproved = holidayService.request(p, holidayDTO);
-
-
-        if(!isApproved) {
+        Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
+        
+        if(!holidayService.request(p, holiday)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(HttpStatus.OK);

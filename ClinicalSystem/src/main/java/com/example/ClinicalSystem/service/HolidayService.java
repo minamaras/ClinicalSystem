@@ -42,22 +42,19 @@ public class HolidayService {
     }
 
     @Transactional
-    public boolean request(Principal p, HolidayDTO holidayDTO){
+    public boolean request(Principal p, Holiday holiday){
         User user = userService.findByUsername(p.getName());
-        holidayDTO.setEmail(user.getEmail());
 
-        Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
-        Set<Holiday> holidays = user.getHolidays();
-
-        for(Holiday h: holidays){
+        for(Holiday h: user.getHolidays()){
             if(h.getStart().compareTo(holiday.getStart()) == 0) {
                 return false;
             }
         }
+
         holiday.setUser(user);
         holiday.setHolidayRequestStatus(HolidayRequestStatus.INPROGRESS);
-        holidayRepository.save(holiday);
 
+        holidayRepository.save(holiday);
         return true;
     }
 
