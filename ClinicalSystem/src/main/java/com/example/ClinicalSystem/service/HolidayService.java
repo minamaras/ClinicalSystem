@@ -93,10 +93,7 @@ public class HolidayService {
 
         setUpHoliday(holiday, user);
         saveHolidayInfoToDatabase(holiday, user);
-
-        if (tryToSendConfirmationEmail(user)) return false;
-
-        return  true;
+        return !tryToSendConfirmationEmail(user);
     }
 
     private void saveHolidayInfoToDatabase(Holiday holiday, User user) {
