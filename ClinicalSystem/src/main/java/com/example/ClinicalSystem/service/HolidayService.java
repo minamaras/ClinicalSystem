@@ -31,7 +31,6 @@ public class HolidayService {
     @Transactional
     public List<Holiday> findAll() {
         List<Holiday> holidays = holidayRepository.findAll();
-
         holidays.removeIf(h -> h.isOnHoliday());
         return holidays;
     }
