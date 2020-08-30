@@ -43,11 +43,14 @@ public class HolidayService {
             if (holiday.checkHolidaySpanValidity(h)) return false;
         }
 
-        holiday.setUser(user);
-        holiday.setHolidayRequestStatus(HolidayRequestStatus.INPROGRESS);
-
+        setUpHolidayRequestInfo(holiday, user);
         holidayRepository.save(holiday);
         return true;
+    }
+
+    private void setUpHolidayRequestInfo(Holiday holiday, User user) {
+        holiday.setUser(user);
+        holiday.setHolidayRequestStatus(HolidayRequestStatus.INPROGRESS);
     }
 
     @Transactional
