@@ -56,8 +56,8 @@ public class HolidayService {
     }
 
     @Transactional
-    public boolean decline(HolidayDTO holidayDTO){
-        return tryToSendRejectionEmail(userService.findByUsername(holidayDTO.getEmail())) && changeStatusToRejected(holidayDTO.getEmail());
+    public boolean decline(Holiday holiday){
+        return tryToSendRejectionEmail(userService.findByUsername(holiday.getEmail())) && changeStatusToRejected(holiday);
     }
 
     private boolean tryToSendRejectionEmail(User user) {
@@ -69,9 +69,7 @@ public class HolidayService {
         return true;
     }
 
-    public boolean changeStatusToRejected(String email) {
-        Holiday holiday = holidayRepository.findByEmail(email);
-
+    public boolean changeStatusToRejected(Holiday holiday) {
         if (holiday == null) {
             return false;
         }

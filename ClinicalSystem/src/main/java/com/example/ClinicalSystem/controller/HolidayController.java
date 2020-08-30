@@ -53,8 +53,8 @@ public class HolidayController {
     @RequestMapping(method = RequestMethod.POST, value = "/confirm")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<?> confirmRequest(@RequestBody HolidayDTO holidayDTO) {
-
-        boolean isConfirmed = holidayService.confirm(holidayDTO);
+        Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
+        boolean isConfirmed = holidayService.confirm(holiday);
 
         if(!isConfirmed) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -66,8 +66,8 @@ public class HolidayController {
     @RequestMapping(method = RequestMethod.POST, value = "/decline")
     @PreAuthorize("hasAuthority('CLINICADMIN')")
     public ResponseEntity<?> declineRequest(@RequestBody HolidayDTO holidayDTO) {
-
-        boolean isDeleted = holidayService.decline(holidayDTO);
+        Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
+        boolean isDeleted = holidayService.decline(holiday);
 
         if(!isDeleted) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
