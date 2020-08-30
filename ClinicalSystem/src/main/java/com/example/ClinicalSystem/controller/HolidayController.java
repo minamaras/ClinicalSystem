@@ -46,11 +46,11 @@ public class HolidayController {
     @PreAuthorize("hasAnyAuthority('NURSE','DOCTOR')")
     public ResponseEntity<?> makeRequest(@RequestBody HolidayDTO holidayDTO, Principal p) {
         Holiday holiday = modelMapper.map(holidayDTO, Holiday.class);
-        
-        if(!holidayService.request(p, holiday)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
+
+        if (holidayService.request(p, holiday)) {
             return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
