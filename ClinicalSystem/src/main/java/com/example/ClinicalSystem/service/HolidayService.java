@@ -84,7 +84,6 @@ public class HolidayService {
 
         holiday.setHolidayRequestStatus(HolidayRequestStatus.REJECTED);
         return true;
-
     }
 
     public boolean confirm(HolidayDTO holidayDTO) {
