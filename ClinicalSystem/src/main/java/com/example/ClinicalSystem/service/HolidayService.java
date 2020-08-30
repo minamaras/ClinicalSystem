@@ -32,7 +32,7 @@ public class HolidayService {
     public List<Holiday> findAll() {
         List<Holiday> holidays = holidayRepository.findAll();
 
-        holidays.removeIf(h -> h.getHolidayRequestStatus() == HolidayRequestStatus.INPROGRESS);
+        holidays.removeIf(h -> h.isOnHoliday());
         return holidays;
     }
 
