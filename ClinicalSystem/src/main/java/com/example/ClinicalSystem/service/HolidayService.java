@@ -37,10 +37,7 @@ public class HolidayService {
 
     @Transactional
     public boolean request(Principal p, Holiday holiday){
-        User user = userService.findByUsername(p.getName());
-
-        if (tryToSaveHolidayRequest(holiday, user)) return false;
-        return true;
+        return !tryToSaveHolidayRequest(holiday, userService.findByUsername(p.getName()));
     }
 
     private boolean tryToSaveHolidayRequest(Holiday holiday, User user) {
