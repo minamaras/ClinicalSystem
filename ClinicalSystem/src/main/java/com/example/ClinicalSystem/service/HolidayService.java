@@ -37,10 +37,6 @@ public class HolidayService {
         return holidays;
     }
 
-    public Holiday findOne(String email){
-        return holidayRepository.findByEmail(email);
-    }
-
     @Transactional
     public boolean request(Principal p, Holiday holiday){
         User user = userService.findByUsername(p.getName());
